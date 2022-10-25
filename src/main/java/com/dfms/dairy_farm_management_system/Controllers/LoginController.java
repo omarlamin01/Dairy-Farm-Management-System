@@ -5,8 +5,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
 
 public class LoginController {
+
+    @FXML
+    private Circle close_btn;
 
     @FXML
     private TextField email_input;
@@ -20,4 +25,8 @@ public class LoginController {
     @FXML
     private PasswordField password_input;
 
+    @FXML
+    void exitApplication(MouseEvent event) {
+        System.exit(0);
+    }
 }
