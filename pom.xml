@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.dfms.dairy_farm_management_system/com.dfms.dairy_farm_management_system.Controllers.HelloApplication
+                                com.dfms.dairy_farm_management_system/com.dfms.dairy_farm_management_system.HelloApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
