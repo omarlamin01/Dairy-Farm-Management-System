@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="481.0" prefWidth="758.0" stylesheets="@../../../style/style.css"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.dfms.dairy_farm_management_system.Controllers.LoginController">
+    <children>
+        <Pane layoutX="-5.0" prefHeight="481.0" prefWidth="367.0" style="-fx-background-color: #72ED12;">
+            <children>
+                <ImageView fitHeight="183.0" fitWidth="183.0" layoutX="92.0" layoutY="98.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../../../images/logo.png"/>
+                    </image>
+                </ImageView>
+                <Label layoutX="97.0" layoutY="254.0" text="GRASS LAND" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="28.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="141.0" layoutY="294.0" text="DAIRY" textFill="#1e293b">
+                    <font>
+                        <Font name="System Bold" size="28.0"/>
+                    </font>
+                </Label>
+                <ImageView fitHeight="138.0" fitWidth="375.0" layoutX="-4.0" layoutY="343.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../../../images/ui_image.png"/>
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
+        <Pane layoutX="492.0" layoutY="87.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              minHeight="-Infinity" minWidth="-Infinity" prefWidth="140.0">
+            <children>
+                <Label layoutX="14.0" layoutY="10.0" text="LOG " textFill="#1e293b">
+                    <font>
+                        <Font name="System Bold" size="28.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="77.0" layoutY="10.0" text="IN" textFill="#72ed12">
+                    <font>
+                        <Font name="System Bold" size="28.0"/>
+                    </font>
+                </Label>
+            </children>
+        </Pane>
+        <TextField fx:id="email_input" layoutX="375.0" layoutY="172.0" prefHeight="47.0" prefWidth="375.0"
+                   promptText="Email">
+            <styleClass>
+                <String fx:value="input"/>
+                <String fx:value="email_input"/>
+            </styleClass>
+        </TextField>
+        <PasswordField fx:id="password_input" layoutX="375.0" layoutY="227.0" prefHeight="47.0" prefWidth="375.0"
+                       promptText="Mot de pass">
+            <styleClass>
+                <String fx:value="input"/>
+                <String fx:value="password_input"/>
+            </styleClass>
+        </PasswordField>
+        <Button fx:id="login_btn" layoutX="375.0" layoutY="310.0" mnemonicParsing="false" prefHeight="47.0"
+                prefWidth="375.0" styleClass="btn" text="LOGIN"/>
+        <Label fx:id="forget_password" layoutX="375.0" layoutY="283.0" text="Mot de passe oublié ?" textFill="#1e293b">
+            <cursor>
+                <Cursor fx:constant="HAND"/>
+            </cursor>
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+        <Label layoutX="472.0" layoutY="137.0" text="Login pour entrer dans le système"/>
+        <Pane layoutX="362.0" prefHeight="40.0" prefWidth="395.0">
+            <children>
+                <Circle fx:id="close_btn" fill="#ff1f1f" layoutX="371.0" layoutY="20.0"
+                        onMousePressed="#exitApplication" radius="10.0" stroke="BLACK" strokeType="INSIDE"
+                        strokeWidth="0.0"/>
+                <Circle fill="#ffbe21" layoutX="342.0" layoutY="20.0" radius="10.0" stroke="BLACK" strokeType="INSIDE"
+                        strokeWidth="0.0"/>
+                <Circle fill="#97ff21" layoutX="314.0" layoutY="20.0" radius="10.0" stroke="BLACK" strokeType="INSIDE"
+                        strokeWidth="0.0"/>
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
