@@ -47,7 +47,6 @@
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-margin
 }
 
 .user_name{
@@ -61,6 +60,11 @@
     -fx-font-weight: bold;
     -fx-background-radius: 0;
     -fx-background-color: -nav-link-bottom-border-color, -dark-blue-color;
+    -fx-background-insets: 0, 0 0 1 0;
+}
+
+.active_nav_link{
+    -fx-background-color: -dark-blue-color, -dark-blue-color;
     -fx-background-insets: 0, 0 0 1 0;
 }
 

@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainLayoutController {
 
@@ -104,5 +105,30 @@ public class MainLayoutController {
             e.printStackTrace();
         }
         borderPane.setCenter(root);
+        addActiveClassToNavLink();
+    }
+
+    private void addActiveClassToNavLink() {
+        ArrayList<Button> navLinks = new ArrayList<>();
+        navLinks.add(animal_monitor_btn);
+        navLinks.add(dashboard_btn);
+        navLinks.add(employees_btn);
+        navLinks.add(manage_animal_btn);
+        navLinks.add(manage_clients_suppliers_btn);
+        navLinks.add(reports_btn);
+        navLinks.add(routine_monitor_btn);
+        navLinks.add(sales_btn);
+        navLinks.add(stock_btn);
+
+        //remove background color from all buttons
+        for (Button button : navLinks) {
+            button.getStyleClass().remove("active_nav_link");
+        }
+        //add background color to active button
+        for (Button button : navLinks) {
+            if (button.isFocused()) {
+                button.getStyleClass().add("active_nav_link");
+            }
+        }
     }
 }
