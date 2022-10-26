@@ -3,3 +3,5 @@
 /.idea/
 /target/
 target/classes/com/dfms/dairy_farm_management_system/splash_screen.fxml
+.idea/misc.xml
+Dairy Farm Management System.iml
