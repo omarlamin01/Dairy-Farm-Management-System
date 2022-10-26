@@ -19,6 +19,8 @@ public class MainLayoutController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String dashboard_view = "dashboard";
         loadView(dashboard_view);
+        dashboard_btn.setStyle("-fx-background-color: #FFC700, #72ED12;" +
+                "-fx-background-insets: 0, 0 0 0 4;");
     }
 
     @FXML
@@ -130,14 +132,14 @@ public class MainLayoutController implements Initializable {
         navLinks.add(sales_btn);
         navLinks.add(stock_btn);
 
-        //remove background color from all buttons
-        for (Button button : navLinks) {
-            button.getStyleClass().remove("active_nav_link");
-        }
         //add background color to active button
         for (Button button : navLinks) {
-            if (button.isPressed()) {
-                button.getStyleClass().add("active_nav_link");
+            if (button.isFocused()) {
+                button.setStyle("-fx-background-color: #FFC700, #72ED12;" +
+                        "-fx-background-insets: 0, 0 0 0 4;");
+            } else {
+                button.setStyle("-fx-background-color: #1B2434, #1E293B;" +
+                        "-fx-background-insets: 0, 0 0 1 0;");
             }
         }
     }
