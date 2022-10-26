@@ -1,0 +1,38 @@
+*{
+    -green-color: #72ED12;
+    -dark-blue-color: #1E293B;
+    -light-gray-color: #D9D9D9;
+}
+
+.btn {
+    -fx-background-color: -green-color;
+    -fx-text-fill: white;
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-width: 2px;
+}
+
+.input {
+    -fx-background-color: -light-gray-color;
+    -fx-text-fill: -dark-blue-color;
+    -fx-font-size: 1.5em;
+    -fx-padding: 10px 10px 10px 36px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-margin: 10px 0px;
+    -fx-background-position: left center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 34px 34px;
+    -fx-background-insets: 0px 0px 0px -4px;
+}
+
+.email_input {
+    -fx-background-image: url("../icons/email.png");
+}
+
+.password_input {
+    -fx-background-image: url("../icons/password.png");
+}

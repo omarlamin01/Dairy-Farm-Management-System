@@ -15,7 +15,6 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("splash_screen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setResizable(false);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Dairy Farm Management System");
         stage.setScene(scene);
