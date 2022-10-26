@@ -72,3 +72,7 @@
     -fx-background-color: -yellow-color, -green-color;
     -fx-background-insets: 0, 0 0 0 4;
 }
+
+.main_content{
+    -fx-padding: 20px;
+}

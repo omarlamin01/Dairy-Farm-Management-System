@@ -9,134 +9,104 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0"
-            prefWidth="856.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.dfms.dairy_farm_management_system.Controllers.MainLayoutController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="856.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.Controllers.MainLayoutController">
     <left>
-        <VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="224.0" styleClass="nav_bar"
-              BorderPane.alignment="CENTER">
+        <VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="224.0" styleClass="nav_bar" BorderPane.alignment="CENTER">
             <children>
                 <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../images/logo.png"/>
+                        <Image url="@../../../images/logo.png" />
                     </image>
                 </ImageView>
                 <Pane styleClass="welcome_user_label">
                     <children>
-                        <Label layoutX="45.0" layoutY="1.0" text="Bienvenu," textFill="WHITE"/>
-                        <Label layoutX="113.0" layoutY="1.0" styleClass="user_name" text="Abdellatif" textFill="WHITE"/>
+                        <Label layoutX="45.0" layoutY="1.0" text="Bienvenu," textFill="WHITE" />
+                        <Label layoutX="113.0" layoutY="1.0" styleClass="user_name" text="Abdellatif" textFill="WHITE" />
                     </children>
                     <VBox.margin>
-                        <Insets bottom="10.0"/>
+                        <Insets bottom="10.0" />
                     </VBox.margin>
                 </Pane>
-                <Button fx:id="dashboard_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false"
-                        onAction="#loadDashboard" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link"
-                        text="Tableau de bord">
+                <Button fx:id="dashboard_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onMousePressed="#loadDashboard" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Tableau de bord">
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
-                                   styleClass="nav_link">
+                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
-                                <Image url="@../../../icons/dashboard.png"/>
+                                <Image url="@../../../icons/dashboard.png" />
                             </image>
                         </ImageView>
                     </graphic>
                     <VBox.margin>
-                        <Insets/>
+                        <Insets />
                     </VBox.margin>
                 </Button>
-                <Button fx:id="employees_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false"
-                        onAction="#loadEmployees" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link"
-                        text="Employes">
+                <Button fx:id="employees_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadEmployees" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Employes">
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
-                                   styleClass="nav_link">
+                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
-                                <Image url="@../../../icons/employees.png"/>
+                                <Image url="@../../../icons/employees.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="routine_monitor_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0"
-                        mnemonicParsing="false" onAction="#loadRoutineMonitor" prefHeight="40.0" prefWidth="224.0"
-                        styleClass="nav_link" text="Moniteur de routine">
+                <Button fx:id="routine_monitor_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadRoutineMonitor" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Moniteur de routine">
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
-                                   styleClass="nav_link">
+                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
-                                <Image url="@../../../icons/feed.png"/>
+                                <Image url="@../../../icons/feed.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="animal_monitor_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false"
-                        onAction="#loadAnimalMonitor" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link"
-                        text="Animal moniteur">
+                <Button fx:id="animal_monitor_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadAnimalMonitor" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Animal moniteur">
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
-                                   styleClass="nav_link">
+                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
-                                <Image url="@../../../icons/monitor.png"/>
+                                <Image url="@../../../icons/monitor.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="manage_animal_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false"
-                        onAction="#loadManageAnimal" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link"
-                        text="Gerer les animaux">
+                <Button fx:id="manage_animal_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadManageAnimal" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Gerer les animaux">
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
-                                   styleClass="nav_link">
+                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
-                                <Image url="@../../../icons/animal.png"/>
+                                <Image url="@../../../icons/animal.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="manage_clients_suppliers_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0"
-                        mnemonicParsing="false" onAction="#loadClientsSuppliers" prefHeight="40.0" prefWidth="224.0"
-                        styleClass="nav_link" text="Clients-fournisseurs">
+                <Button fx:id="manage_clients_suppliers_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadClientsSuppliers" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Clients-fournisseurs">
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
-                                   styleClass="nav_link">
+                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
-                                <Image url="@../../../icons/supplier.png"/>
+                                <Image url="@../../../icons/supplier.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="sales_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false"
-                        onAction="#loadSales" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link"
-                        text="Les ventes">
+                <Button fx:id="sales_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadSales" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Les ventes">
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
-                                   styleClass="nav_link">
+                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
-                                <Image url="@../../../icons/sales.png"/>
+                                <Image url="@../../../icons/sales.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="stock_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false"
-                        onAction="#LoadStock" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Stock">
+                <Button fx:id="stock_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#LoadStock" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Stock">
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
-                                   styleClass="nav_link">
+                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
-                                <Image url="@../../../icons/stock.png"/>
+                                <Image url="@../../../icons/stock.png" />
                             </image>
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="reports_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false"
-                        onAction="#loadReports" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link"
-                        text="Rapports">
+                <Button fx:id="reports_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadReports" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Rapports">
                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true"
-                                   styleClass="nav_link">
+                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
-                                <Image url="@../../../icons/reports.png"/>
+                                <Image url="@../../../icons/reports.png" />
                             </image>
                         </ImageView>
                     </graphic>
