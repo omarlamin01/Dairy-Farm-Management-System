@@ -43,7 +43,6 @@ public class SplashController implements Initializable {
                         try {
                             // Switch to login
                             System.out.println("Switch to login");
-                            
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
