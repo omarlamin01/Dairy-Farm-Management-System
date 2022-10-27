@@ -23,6 +23,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         // stage.initStyle(StageStyle.UNDECORATED);
+        // stage.setMaximized(true);
         stage.setTitle("Dairy Farm Management System");
         stage.setScene(scene);
         stage.show();
