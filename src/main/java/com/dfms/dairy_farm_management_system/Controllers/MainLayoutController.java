@@ -33,6 +33,9 @@ public class MainLayoutController implements Initializable {
     private Button dashboard_btn;
 
     @FXML
+    private Button profile_btn;
+
+    @FXML
     private Button employees_btn;
 
     @FXML
@@ -80,6 +83,12 @@ public class MainLayoutController implements Initializable {
     }
 
     @FXML
+    public void loadProfile(MouseEvent mouseEvent) {
+        String profile_view = "profile";
+        loadView(profile_view);
+    }
+
+    @FXML
     void loadEmployees(ActionEvent event) {
         String employees_view = "employees";
         loadView(employees_view);
@@ -124,6 +133,7 @@ public class MainLayoutController implements Initializable {
         ArrayList<Button> navLinks = new ArrayList<>();
         navLinks.add(animal_monitor_btn);
         navLinks.add(dashboard_btn);
+        navLinks.add(profile_btn);
         navLinks.add(employees_btn);
         navLinks.add(manage_animal_btn);
         navLinks.add(manage_clients_suppliers_btn);
@@ -143,4 +153,5 @@ public class MainLayoutController implements Initializable {
             }
         }
     }
+
 }
