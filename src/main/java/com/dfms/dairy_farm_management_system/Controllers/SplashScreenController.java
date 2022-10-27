@@ -27,6 +27,8 @@ import java.util.ResourceBundle;
 
 public class SplashScreenController implements Initializable {
 
+    @FXML
+    private AnchorPane splash_screen;
     private FXMLLoader fxmlLoader;
     private Stage stage;
     private Scene scene;
@@ -50,7 +52,7 @@ public class SplashScreenController implements Initializable {
                         try {
                             // Switch to login
                             System.out.println("Switch to login");
-                            //  switchToLoginPage();
+                            switchToLoginPage();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -61,27 +63,14 @@ public class SplashScreenController implements Initializable {
     }
 
     private void switchToLoginPage() {
+        fxmlLoader = new FXMLLoader(Main.class.getResource("login_screen.fxml"));
+        stage = (Stage) splash_screen.getScene().getWindow();
         try {
-            fxmlLoader = new FXMLLoader(Main.class.getResource("login_screen.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            // get active stage
-            stage = (Stage) ((Node) fxmlLoader.getRoot()).getScene().getWindow();
-            stage.setTitle("Dairy Farm Management System");
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
+            scene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        fxmlLoader = new FXMLLoader(Main.class.getResource("login_screen.fxml"));
-//        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        try {
-//            scene = new Scene(fxmlLoader.load());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        stage.setScene(scene);
-//        stage.show();
+        stage.setScene(scene);
+        stage.show();
     }
-
 }

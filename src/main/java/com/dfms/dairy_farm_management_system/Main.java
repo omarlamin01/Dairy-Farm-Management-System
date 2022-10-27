@@ -20,10 +20,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("splash_screen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        // stage.initStyle(StageStyle.UNDECORATED);
-        // stage.setMaximized(true);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("Dairy Farm Management System");
         stage.setScene(scene);
         stage.show();
