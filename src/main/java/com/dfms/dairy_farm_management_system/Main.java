@@ -16,7 +16,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("splash_screen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
         stage.setTitle("Dairy Farm Management System");
         stage.setScene(scene);

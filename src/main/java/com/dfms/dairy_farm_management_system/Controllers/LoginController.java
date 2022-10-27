@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -41,14 +42,18 @@ public class LoginController {
     private void login(MouseEvent event) {
         //switch to main layout
         fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage = new Stage();
         try {
             scene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
             e.printStackTrace();
         }
         centerScreen(stage);
+        stage.setTitle("Dairy Farm Management System");
+        stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+        stage.setMaximized(true);
         stage.setScene(scene);
+        ((Node) event.getSource()).getScene().getWindow().hide();
         stage.show();
     }
 
