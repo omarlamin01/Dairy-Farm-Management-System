@@ -9,6 +9,8 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
+
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
@@ -18,6 +20,7 @@ public class Main extends Application {
         stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
         stage.setTitle("Dairy Farm Management System");
         stage.setScene(scene);
+        centerScreen(stage);
         stage.show();
     }
 

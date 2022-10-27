@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
+
 public class LoginController {
     private FXMLLoader fxmlLoader;
     private Stage stage;
@@ -45,6 +47,7 @@ public class LoginController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        centerScreen(stage);
         stage.setScene(scene);
         stage.show();
     }

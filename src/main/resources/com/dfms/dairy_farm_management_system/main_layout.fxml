@@ -13,10 +13,13 @@
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="224.0" styleClass="nav_bar" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="102.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../images/logo.png" />
                     </image>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
                 </ImageView>
                 <Pane styleClass="welcome_user_label">
                     <children>
