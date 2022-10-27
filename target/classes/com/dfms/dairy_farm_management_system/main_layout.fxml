@@ -39,6 +39,18 @@
                         <Insets />
                     </VBox.margin>
                 </Button>
+                <Button fx:id="profile_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onMousePressed="#loadProfile" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Profile">
+                    <graphic>
+                        <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
+                            <image>
+                                <Image url="@../../../icons/dashboard.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </Button>
                 <Button fx:id="employees_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadEmployees" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Employes">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
