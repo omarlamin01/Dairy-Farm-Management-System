@@ -1,5 +1,18 @@
 package com.dfms.dairy_farm_management_system.Controllers;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
 import com.dfms.dairy_farm_management_system.Main;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +48,9 @@ public class SplashScreenController implements Initializable {
                     @Override
                     public void run() {
                         try {
-                            switchToLoginPage();
+                            // Switch to login
+                            System.out.println("Switch to login");
+                            //  switchToLoginPage();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -46,6 +61,18 @@ public class SplashScreenController implements Initializable {
     }
 
     private void switchToLoginPage() {
+        try {
+            fxmlLoader = new FXMLLoader(Main.class.getResource("login_screen.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            // get active stage
+            stage = (Stage) ((Node) fxmlLoader.getRoot()).getScene().getWindow();
+            stage.setTitle("Dairy Farm Management System");
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        fxmlLoader = new FXMLLoader(Main.class.getResource("login_screen.fxml"));
 //        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 //        try {
@@ -56,4 +83,5 @@ public class SplashScreenController implements Initializable {
 //        stage.setScene(scene);
 //        stage.show();
     }
+
 }
