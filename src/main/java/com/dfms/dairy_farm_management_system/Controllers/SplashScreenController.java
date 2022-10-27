@@ -38,7 +38,7 @@ public class SplashScreenController implements Initializable {
         splash();
     }
 
-    protected void splash() {
+    private void splash() {
         new Thread() {
             public void run() {
                 try {
@@ -51,7 +51,6 @@ public class SplashScreenController implements Initializable {
                     public void run() {
                         try {
                             // Switch to login
-                            System.out.println("Switch to login");
                             switchToLoginPage();
                         } catch (Exception e) {
                             e.printStackTrace();
