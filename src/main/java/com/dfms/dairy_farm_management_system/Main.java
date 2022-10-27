@@ -9,22 +9,18 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
+
 public class Main extends Application {
-
-    public static Stage getStage() {
-        //get current stage
-
-
-        return new Stage();
-    }
-
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("splash_screen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        // stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
         stage.setTitle("Dairy Farm Management System");
         stage.setScene(scene);
+        centerScreen(stage);
         stage.show();
     }
 
