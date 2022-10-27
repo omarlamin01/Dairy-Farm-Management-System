@@ -2,48 +2,163 @@
 
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: transparent;">
-         <content>
-            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
-               <children>
-                  <Label text="Employees" textAlignment="CENTER">
-                     <font>
+<ScrollPane stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+    <content>
+        <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+            <children>
+                <Label styleClass="header" text="Profile" textAlignment="CENTER">
+                    <font>
                         <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <Label layoutY="52.0" text="Update personal info" textAlignment="CENTER">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="email_input" layoutX="28.0" layoutY="118.0" prefHeight="47.0" prefWidth="235.0" promptText="Email">
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </Label>
+            <Label styleClass="header" text="Modifier votre information personelle" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </Label>
+            <GridPane prefWidth="800.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" />
+              </rowConstraints>
+               <children>
+                  <TextField prefHeight="47.0" prefWidth="155.0" promptText="Nom">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" right="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="name_input" />
+                     </styleClass>
+                  </TextField>
+                  <TextField prefHeight="47.0" prefWidth="155.0" promptText="Prenom" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="name_input" />
+                     </styleClass>
+                  </TextField>
+                  <TextField prefHeight="47.0" prefWidth="155.0" promptText="CIN" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" right="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="verify_input" />
+                     </styleClass>
+                  </TextField>
+                  <TextField prefHeight="47.0" prefWidth="155.0" promptText="Telephone" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="phone_input" />
+                     </styleClass>
+                  </TextField>
+                  <TextField prefHeight="47.0" prefWidth="455.0" promptText="Address" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" right="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="location_input" />
+                     </styleClass>
+                  </TextField>
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Modifier" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="-8.0" right="10.0" />
+                     </GridPane.margin>
+                  </Button>
+               </children>
+            </GridPane>
+            <Label prefWidth="800.0" styleClass="header" text="Modifier les informations de connexion" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </Label>
+            <GridPane prefWidth="800.0">
+               <columnConstraints>
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" />
+               </rowConstraints>
+               <children>
+                  <TextField prefHeight="47.0" prefWidth="155.0" promptText="Nouveau mot de passe" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" right="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="password_input" />
+                     </styleClass>
+                  </TextField>
+                  <TextField prefHeight="47.0" prefWidth="155.0" promptText="Email">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" right="10.0" />
+                     </GridPane.margin>
                      <styleClass>
                         <String fx:value="input" />
                         <String fx:value="email_input" />
                      </styleClass>
                   </TextField>
+                  <TextField prefHeight="47.0" prefWidth="155.0" promptText="Mot de pass actuel" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="password_input" />
+                     </styleClass>
+                  </TextField>
+                  <TextField prefHeight="47.0" prefWidth="155.0" promptText="Confirmer le nouveau mot de passe" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" />
+                     </GridPane.margin>
+                     <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="password_input" />
+                     </styleClass>
+                  </TextField>
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Modifier" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="-8.0" right="10.0" />
+                     </GridPane.margin>
+                  </Button>
                </children>
-               <padding>
-                  <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
-               </padding>
-            </AnchorPane>
-         </content>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-         <padding>
-            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
-         </padding>
-      </ScrollPane>
-   </children>
-</VBox>
+            </GridPane>
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>

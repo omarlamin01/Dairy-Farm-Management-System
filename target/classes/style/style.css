@@ -1,4 +1,4 @@
-*{
+* {
     -green-color: #72ED12;
     -dark-green-color: #72D611;
     -dark-blue-color: #1E293B;
@@ -32,11 +32,10 @@
     -fx-padding: 10px 10px 10px 36px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
-    -fx-margin: 10px 0px;
     -fx-background-position: left center;
     -fx-background-repeat: no-repeat;
-    -fx-background-size: 34px 34px;
-    -fx-background-insets: 0px 0px 0px -4px;
+    -fx-background-size: 28px 28px;
+    -fx-background-insets: 0px 0px 0px -8px;
 }
 
 .email_input {
@@ -47,21 +46,37 @@
     -fx-background-image: url("../icons/password.png");
 }
 
-.nav_bar{
+.location_input {
+    -fx-background-image: url("../icons/location.png");
+}
+
+.name_input {
+    -fx-background-image: url("../icons/user_name.png");
+}
+
+.phone_input {
+    -fx-background-image: url("../icons/phone.png");
+}
+
+.verify_input {
+    -fx-background-image: url("../icons/verify.png");
+}
+
+.nav_bar {
     -fx-background-color: -dark-blue-color;
 }
 
-.welcome_user_label{
+.welcome_user_label {
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 
-.user_name{
+.user_name {
     -fx-text-fill: -yellow-color;
 }
 
-.nav_link{
+.nav_link {
     -fx-text-fill: white;
     -fx-padding: 10px 10px 10px 10px;
     -fx-font-size: 14px;
@@ -71,21 +86,21 @@
     -fx-background-insets: 0, 0 0 1 0;
 }
 
-.nav_link:hover{
+.nav_link:hover {
     -fx-background-color: -yellow-color, -green-color;
     -fx-background-insets: 0, 0 0 0 4;
     -fx-cursor: hand;
 }
 
-.main_content{
+.main_content {
     -fx-padding: 20px;
 }
 
-.header{
+.header {
     -fx-text-fill: -header-color;
 }
 
-.dashboard_item{
+.dashboard_item {
     -fx-background-color: -light-gray-color;
     -fx-border-radius: 10px;
     -fx-font-size: 1em;
@@ -94,7 +109,7 @@
     -fx-padding: 20px;
 }
 
-.dashboard_item_text{
+.dashboard_item_text {
     -fx-font-size: 1.5em;
     -fx-font-weight: bold;
 }
