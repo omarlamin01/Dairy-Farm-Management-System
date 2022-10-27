@@ -11,14 +11,17 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="856.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.Controllers.MainLayoutController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1096.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.Controllers.MainLayoutController">
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="224.0" styleClass="nav_bar" BorderPane.alignment="CENTER">
             <children>
-                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="102.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../../../images/logo.png" />
                     </image>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
                 </ImageView>
                 <Pane styleClass="welcome_user_label">
                     <children>
@@ -45,7 +48,7 @@
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
-                                <Image url="@../../../icons/dashboard.png" />
+                                <Image url="@../../../icons/profile.png" />
                             </image>
                         </ImageView>
                     </graphic>
