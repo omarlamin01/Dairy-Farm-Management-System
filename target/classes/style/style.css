@@ -162,7 +162,14 @@
 }
 
 .header {
-    -fx-text-fill: -header-color;
+    -fx-text-fill: #323232;
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+}
+
+.sub_header {
+    -fx-text-fill: #959494;
+    -fx-font-size: 1.2em;
 }
 
 .header_green {

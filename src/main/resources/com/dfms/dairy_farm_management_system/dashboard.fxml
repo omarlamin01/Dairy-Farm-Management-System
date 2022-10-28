@@ -21,7 +21,7 @@
     <content>
         <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
             <children>
-                <Label text="Dashboard" textAlignment="CENTER">
+                <Label styleClass="header" text="Dashboard" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -189,12 +189,12 @@
                         </Pane>
                     </children>
                 </HBox>
-                <Label text="Latest Sales" textAlignment="CENTER">
+                <Label styleClass="header" text="Latest Sales" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
                     <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets bottom="10.0" top="10.0" />
                     </VBox.margin>
                 </Label>
                 <HBox alignment="CENTER_LEFT" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" styleClass="dashboard_row">
