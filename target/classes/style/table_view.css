@@ -10,6 +10,8 @@
 
 .table-view {
     -fx-background-color: transparent;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
 }
 
 .table-view:focused {
@@ -22,6 +24,7 @@
 .table-view .column-header-background {
     -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
     -fx-pref-height: 44px;
+    -fx-background-radius: 10px 10px 0 0;
 }
 
 .table-view .column-header-background .label {

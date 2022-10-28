@@ -83,7 +83,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <TableView prefHeight="200.0" prefWidth="800.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
+                  <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
                     <columns>
                       <TableColumn prefWidth="67.66667175292969" text="ID" />
                       <TableColumn prefWidth="163.0" text="Product name" />
