@@ -28,11 +28,11 @@
                   <Insets bottom="10.0" />
                </VBox.margin>
                <children>
-                        <Label text="Bienvenu," textFill="WHITE" />
+                        <Label text="Welcome," textFill="WHITE" />
                         <Label styleClass="user_name" text="Abdellatif" textFill="WHITE" />
                </children>
             </HBox>
-                <Button fx:id="dashboard_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onMousePressed="#loadDashboard" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Tableau de bord">
+                <Button fx:id="dashboard_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onMousePressed="#loadDashboard" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Dashboard">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
@@ -56,7 +56,7 @@
                         <Insets />
                     </VBox.margin>
                 </Button>
-                <Button fx:id="employees_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadEmployees" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Employes">
+                <Button fx:id="employees_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadEmployees" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Employees">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
@@ -65,7 +65,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="routine_monitor_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadRoutineMonitor" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Moniteur de routine">
+                <Button fx:id="routine_monitor_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadRoutineMonitor" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Routine monitor">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
@@ -74,7 +74,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="animal_monitor_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadAnimalMonitor" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Animal moniteur">
+                <Button fx:id="animal_monitor_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadAnimalMonitor" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Animal monitor">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
@@ -83,7 +83,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="manage_animal_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadManageAnimal" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Gerer les animaux">
+                <Button fx:id="manage_animal_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadManageAnimal" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Manage animals">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
@@ -92,7 +92,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="manage_clients_suppliers_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadClientsSuppliers" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Clients-fournisseurs">
+                <Button fx:id="manage_clients_suppliers_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadClientsSuppliers" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Manage clients-suppliers">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
@@ -101,7 +101,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="sales_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadSales" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Les ventes">
+                <Button fx:id="sales_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadSales" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Sales">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
@@ -119,7 +119,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="reports_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadReports" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Rapports">
+                <Button fx:id="reports_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadReports" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Reports">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                             <image>
