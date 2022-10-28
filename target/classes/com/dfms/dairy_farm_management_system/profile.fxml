@@ -22,6 +22,12 @@
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets bottom="16.0" />
+               </VBox.margin>
             </Label>
                 <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
                     <children>
@@ -97,7 +103,7 @@
                                 <String fx:value="location_input" />
                             </styleClass>
                         </TextField>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Update" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="UPDATE" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
                             <GridPane.margin>
                                 <Insets left="-8.0" />
                             </GridPane.margin>
@@ -159,7 +165,7 @@
                                 <String fx:value="password_input" />
                             </styleClass>
                         </TextField>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Update" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="UPDATE" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                             <GridPane.margin>
                                 <Insets left="-8.0" />
                             </GridPane.margin>
