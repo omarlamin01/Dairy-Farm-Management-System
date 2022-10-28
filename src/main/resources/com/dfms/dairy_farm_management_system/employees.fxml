@@ -73,7 +73,7 @@
                                 <String fx:value="search_input" />
                             </styleClass>
                         </TextField>
-                        <Button fx:id="addNewProductBtn" maxHeight="-Infinity" mnemonicParsing="false" onMousePressed="#openAddEmployee" styleClass="btn" text="New Employee" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                        <Button fx:id="openAddNewEmployeeBtn" maxHeight="-Infinity" mnemonicParsing="false" onMousePressed="#openAddEmployee" styleClass="btn" text="New Employee" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                             <GridPane.margin>
                                 <Insets bottom="10.0" />
                             </GridPane.margin>
@@ -98,7 +98,7 @@
                                 <Insets top="10.0" />
                             </GridPane.margin>
                         </TableView>
-                  <ComboBox maxHeight="-Infinity" promptText="Export" styleClass="combo_box" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                  <ComboBox fx:id="exportComboBox" maxHeight="-Infinity" promptText="Export" styleClass="combo_box" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                      <GridPane.margin>
                         <Insets bottom="10.0" right="10.0" />
                      </GridPane.margin>

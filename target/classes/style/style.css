@@ -11,20 +11,19 @@
 .btn {
     -fx-background-color: -green-color;
     -fx-text-fill: white;
-    -fx-font-size: 1.5em;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 10px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
     -fx-border-width: 2px;
-    -fx-transition: 0.5s;
 }
 
 .combo_box {
-    -fx-background-color: -dark-blue-color;
+    -fx-background-color: white;
     -fx-text-fill: white;
     -fx-prompt-text-fill: white;
-    -fx-font-size: 1.5em;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 10px;
     -fx-border-radius: 10px;
