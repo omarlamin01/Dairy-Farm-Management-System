@@ -18,15 +18,12 @@
     <content>
         <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
             <children>
-            <Label text="Profile" textAlignment="CENTER">
+            <Label styleClass="header" text="Profile" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
                <VBox.margin>
-                  <Insets bottom="16.0" />
+                  <Insets bottom="10.0" />
                </VBox.margin>
             </Label>
                 <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
@@ -38,13 +35,16 @@
                         <Insets bottom="10.0" />
                     </VBox.margin>
                 </Pane>
-                <Label styleClass="header" text="Update personal info" textAlignment="CENTER">
+                <Label styleClass="sub_header" text="Update personal info" textAlignment="CENTER">
                     <font>
                         <Font size="18.0" />
                     </font>
                     <padding>
                         <Insets bottom="10.0" />
                     </padding>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
                 </Label>
                 <GridPane minHeight="-Infinity" minWidth="-Infinity">
                     <columnConstraints>
@@ -110,13 +110,16 @@
                         </Button>
                     </children>
                 </GridPane>
-                <Label prefWidth="800.0" styleClass="header" text="Update login info" textAlignment="CENTER">
+                <Label prefWidth="800.0" styleClass="sub_header" text="Update login info" textAlignment="CENTER">
                     <font>
                         <Font size="18.0" />
                     </font>
                     <padding>
                         <Insets bottom="10.0" top="10.0" />
                     </padding>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
                 </Label>
                 <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
                     <columnConstraints>

@@ -41,12 +41,12 @@
                         <Insets bottom="10.0" />
                     </VBox.margin>
                 </Pane>
-                <Label styleClass="header" text="Manage your employees here" textAlignment="CENTER">
+                <Label styleClass="sub_header" text="Manage your employees here" textAlignment="CENTER">
                     <font>
                         <Font size="18.0" />
                     </font>
                     <padding>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0" top="10.0" />
                     </padding>
                 </Label>
                 <GridPane hgap="24.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">

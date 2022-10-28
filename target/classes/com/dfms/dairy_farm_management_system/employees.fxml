@@ -20,7 +20,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.EmployeesController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.EmployeesController">
     <content>
         <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
             <children>
@@ -29,7 +29,7 @@
                         <Font name="System Bold" size="24.0" />
                     </font>
                     <VBox.margin>
-                        <Insets bottom="8.0" />
+                        <Insets bottom="10.0" />
                     </VBox.margin>
                 </Label>
                 <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
@@ -41,15 +41,15 @@
                         <Insets bottom="10.0" />
                     </VBox.margin>
                 </Pane>
-                <Label styleClass="header" text="Manage your employees here" textAlignment="CENTER">
+                <Label styleClass="sub_header" text="Manage your employees here" textAlignment="CENTER">
                     <font>
                         <Font size="18.0" />
                     </font>
                     <padding>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0" top="10.0" />
                     </padding>
                 </Label>
-                <GridPane hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                <GridPane hgap="24.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                     <columnConstraints>
                         <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
@@ -73,7 +73,7 @@
                                 <String fx:value="search_input" />
                             </styleClass>
                         </TextField>
-                        <Button fx:id="openAddNewEmployeeBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#openAddEmployee" styleClass="btn" text="New Employee" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                        <Button fx:id="openAddNewEmployeeBtn" mnemonicParsing="false" onMousePressed="#openAddEmployee" prefHeight="50.0" prefWidth="185.0" styleClass="btn" text="New Employee" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                             <GridPane.margin>
                                 <Insets bottom="10.0" />
                             </GridPane.margin>
