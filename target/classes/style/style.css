@@ -26,8 +26,9 @@
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 10px;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
+    -fx-padding: 10px 20px 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
     -fx-border-width: 2px;
     -fx-transition: 0.5s;
 }
@@ -37,13 +38,26 @@
     -fx-cursor: hand;
 }
 
+.combo-box {
+    -fx-background-radius: 5px;
+    -fx-background-position: left center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 28px 28px;
+    -fx-background-insets: 0px 0px 0px -8px;
+    -fx-background-image: url("../icons/Send_File.png");
+}
+
+.combo-box label {
+    -fx-text-fill: WHITE;
+}
+
 .input {
     -fx-background-color: -light-gray-color;
     -fx-text-fill: -dark-blue-color;
     -fx-font-size: 1.5em;
     -fx-padding: 10px 10px 10px 36px;
     -fx-border-radius: 5px;
-    -fx-background-radius: 10px;
+    -fx-background-radius: 5px;
     -fx-background-position: left center;
     -fx-background-repeat: no-repeat;
     -fx-background-size: 28px 28px;
@@ -52,17 +66,17 @@
 
 .search_bar {
     -fx-background-color: transparent;
-    -fx-text-fill: -dark-blue-color;
+    -fx-border-color: -green-color;
+    -fx-border-width: 0px 0px 2px 0px;
+    -fx-background-insets: 0, 0 0 4 0;
+    -fx-border-radius: 0 0 0 0;
     -fx-font-size: 1.5em;
     -fx-padding: 10px 10px 10px 36px;
-    -fx-border-radius: 10px;
-    -fx-border-width: 2px;
-    -fx-border-color: -dark-blue-color;
     -fx-background-radius: 10px;
-    -fx-background-position: 8px center;
+    -fx-background-position: left center;
     -fx-background-repeat: no-repeat;
     -fx-background-size: 28px 28px;
-    -fx-background-insets: 0px 0px 0px -8px;
+    -fx-background-image: url("../icons/Search.png");
 }
 
 .email_input {
@@ -87,26 +101,6 @@
 
 .verify_input {
     -fx-background-image: url("../icons/verify.png");
-}
-
-.search_input {
-    -fx-background-image: url("../icons/search.png");
-}
-
-.box_input {
-    -fx-background-image: url("../icons/box.png");
-}
-
-.quantity_input {
-    -fx-background-image: url("../icons/quantity.png");
-}
-
-.category_input {
-    -fx-background-image: url("../icons/category.png");
-}
-
-.unit_input {
-    -fx-background-image: url("../icons/unit.png");
 }
 
 .nav_bar {
@@ -145,10 +139,6 @@
 
 .header {
     -fx-text-fill: -header-color;
-}
-
-.header_green {
-    -fx-text-fill: -green-color;
 }
 
 .dashboard_item {
