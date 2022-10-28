@@ -6,7 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+<<<<<<< Updated upstream
 import javafx.scene.control.TableColumn;
+=======
+>>>>>>> Stashed changes
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -22,6 +25,7 @@ public class StockController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+<<<<<<< Updated upstream
         // add data to table
     }
 
@@ -43,11 +47,16 @@ public class StockController implements Initializable {
 
     @FXML
     private TableColumn<?, ?> productTypeCol;
+=======
+    }
+>>>>>>> Stashed changes
 
     @FXML
     private TableView<?> stockTable;
 
 
+    @FXML
+    private TableView stockTableView;
     @FXML
     void openAddProduct(MouseEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("popups/add_new_product.fxml"));
