@@ -20,6 +20,19 @@
     -fx-transition: 0.5s;
 }
 
+.combo_box {
+    -fx-background-color: -dark-blue-color;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: white;
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-width: 2px;
+    -fx-transition: 0.5s;
+}
+
 .btn:hover {
     -fx-background-color: -dark-green-color;
     -fx-cursor: hand;
