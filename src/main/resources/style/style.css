@@ -11,7 +11,19 @@
 .btn {
     -fx-background-color: -green-color;
     -fx-text-fill: white;
-    -fx-font-size: 1.5em;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-border-width: 2px;
+}
+
+.combo_box {
+    -fx-background-color: -yellow-color;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: white;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 10px;
     -fx-border-radius: 10px;
@@ -38,31 +50,19 @@
     -fx-background-insets: 0px 0px 0px -8px;
 }
 
-.search_input {
+.search_bar {
     -fx-background-color: transparent;
     -fx-text-fill: -dark-blue-color;
     -fx-font-size: 1.5em;
     -fx-padding: 10px 10px 10px 36px;
     -fx-border-radius: 10px;
+    -fx-border-width: 2px;
+    -fx-border-color: -dark-blue-color;
     -fx-background-radius: 10px;
-    -fx-background-position: left center;
+    -fx-background-position: 8px center;
     -fx-background-repeat: no-repeat;
     -fx-background-size: 28px 28px;
     -fx-background-insets: 0px 0px 0px -8px;
-    -fx-background-image: url("../icons/Search.png");
-}
-
-.search_bar {
-    -fx-background-color: transparent;
-    -fx-border-color: -green-color;
-    -fx-border-width: 0px 0px 2px 0px;
-    -fx-background-insets: 0, 0 0 4 0;
-    -fx-font-size: 1.5em;
-    -fx-padding: 10px 10px 10px 36px;
-    -fx-background-radius: 10px;
-    -fx-background-position: left center;
-    -fx-background-repeat: no-repeat;
-    -fx-background-size: 28px 28px;
 }
 
 .email_input {
@@ -91,6 +91,22 @@
 
 .search_input {
     -fx-background-image: url("../icons/search.png");
+}
+
+.box_input {
+    -fx-background-image: url("../icons/box.png");
+}
+
+.quantity_input {
+    -fx-background-image: url("../icons/quantity.png");
+}
+
+.category_input {
+    -fx-background-image: url("../icons/category.png");
+}
+
+.unit_input {
+    -fx-background-image: url("../icons/unit.png");
 }
 
 .nav_bar {
@@ -129,6 +145,10 @@
 
 .header {
     -fx-text-fill: -header-color;
+}
+
+.header_green {
+    -fx-text-fill: -green-color;
 }
 
 .dashboard_item {
