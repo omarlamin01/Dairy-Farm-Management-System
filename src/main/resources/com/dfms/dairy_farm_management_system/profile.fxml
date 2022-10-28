@@ -22,6 +22,12 @@
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets bottom="16.0" />
+               </VBox.margin>
             </Label>
                 <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
                     <children>
