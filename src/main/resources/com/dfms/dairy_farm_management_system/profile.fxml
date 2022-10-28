@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane style="-fx-background-color: transparent;" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <content>
         <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
             <children>
