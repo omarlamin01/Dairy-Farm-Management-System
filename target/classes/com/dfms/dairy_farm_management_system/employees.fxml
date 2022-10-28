@@ -1,17 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity"
-      styleClass="main_content" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18"
-      xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <Label text="Employees" textAlignment="CENTER">
-            <font>
-                <Font name="System Bold" size="24.0"/>
-            </font>
-        </Label>
-    </children>
-</VBox>
+
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+          <children>
+              <Label text="Employees" textAlignment="CENTER">
+                  <font>
+                      <Font name="System Bold" size="24.0" />
+                  </font>
+              </Label>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="250.0">
+               <children>
+                  <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="404.0" promptText="Search employee" styleClass="search_input" />
+                        <Line endX="300.0" layoutX="103.0" layoutY="47.0" startX="-100.0" stroke="#7dee25" strokeWidth="2.0" />
+                     </children>
+                  </Pane>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="16.0">
+                     <children>
+                        <ComboBox prefWidth="150.0" promptText="Export" style="-fx-background-color: #1E293B; -fx-border-color: transparent;" />
+                        <Button mnemonicParsing="false" style="-fx-background-color: #7EFF18;" text="Add" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+          </children>
+      </VBox>
+   </content>
+</ScrollPane>
