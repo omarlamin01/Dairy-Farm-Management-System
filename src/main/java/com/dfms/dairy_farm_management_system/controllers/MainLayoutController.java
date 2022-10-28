@@ -17,9 +17,9 @@ import java.util.ResourceBundle;
 public class MainLayoutController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String first_view = "employees";
+        String first_view = "dashboard";
         loadView(first_view);
-        employees_btn.setStyle("-fx-background-color: #FFC700, #72ED12;" +
+        dashboard_btn.setStyle("-fx-background-color: #FFC700, #72ED12;" +
                 "-fx-background-insets: 0, 0 0 0 4;");
     }
 

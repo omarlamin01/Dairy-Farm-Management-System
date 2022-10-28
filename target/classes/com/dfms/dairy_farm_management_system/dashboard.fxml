@@ -17,11 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<<<<<<< HEAD
 <ScrollPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.DashboardController">
-=======
-<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.DashboardController">
->>>>>>> master
     <content>
         <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
             <children>
@@ -198,11 +194,7 @@
                         <Font name="System Bold" size="24.0" />
                     </font>
                     <VBox.margin>
-<<<<<<< HEAD
-                        <Insets top="10.0" />
-=======
                         <Insets bottom="10.0" top="10.0" />
->>>>>>> master
                     </VBox.margin>
                 </Label>
                 <HBox alignment="CENTER_LEFT" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" styleClass="dashboard_row">

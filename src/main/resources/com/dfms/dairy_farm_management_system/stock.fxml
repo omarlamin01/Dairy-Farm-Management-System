@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.StockController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.StockController">
     <content>
         <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
             <children>
@@ -28,7 +28,7 @@
                         <Font name="System Bold" size="24.0" />
                     </font>
                     <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="8.0" />
                     </VBox.margin>
                 </Label>
                 <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
@@ -40,16 +40,13 @@
                         <Insets bottom="10.0" />
                     </VBox.margin>
                 </Pane>
-                <Label styleClass="sub_header" text="Manage your stock here" textAlignment="CENTER">
+                <Label styleClass="header" text="Manage your stock here" textAlignment="CENTER">
                     <font>
                         <Font size="18.0" />
                     </font>
                     <padding>
                         <Insets bottom="10.0" />
                     </padding>
-               <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </VBox.margin>
                 </Label>
                 <GridPane minHeight="-Infinity" minWidth="-Infinity">
                     <columnConstraints>
@@ -74,7 +71,7 @@
                         <String fx:value="search_input" />
                      </styleClass>
                   </TextField>
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="btn" text="Add new product" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddProduct" styleClass="btn" text="Add new product" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" />
                      </GridPane.margin>
@@ -86,14 +83,14 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <TableView fx:id="stockTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
+                  <TableView fx:id="stockTableView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
                     <columns>
-                      <TableColumn fx:id="productIDCol" prefWidth="67.66667175292969" text="ID" />
-                      <TableColumn fx:id="productNameCol" prefWidth="163.0" text="Product name" />
-                        <TableColumn fx:id="productTypeCol" prefWidth="116.0" text="Product type" />
-                        <TableColumn fx:id="addedDateCol" prefWidth="120.33334350585938" text="Added date" />
-                        <TableColumn fx:id="availabilityCol" prefWidth="144.0" text="Availability" />
-                        <TableColumn fx:id="actionsCol" prefWidth="190.66668701171875" text="Actions" />
+                      <TableColumn prefWidth="67.66667175292969" text="ID" />
+                      <TableColumn prefWidth="163.0" text="Product name" />
+                        <TableColumn prefWidth="116.0" text="Product type" />
+                        <TableColumn prefWidth="120.33334350585938" text="Added date" />
+                        <TableColumn prefWidth="144.0" text="Availability" />
+                        <TableColumn prefWidth="190.66668701171875" text="Actions" />
                     </columns>
                      <GridPane.margin>
                         <Insets top="10.0" />
