@@ -21,6 +21,7 @@
 
 .table-view .column-header-background {
     -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+    -fx-pref-height: 44px;
 }
 
 .table-view .column-header-background .label {
