@@ -9,11 +9,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="481.0" prefWidth="758.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.LoginController">
+<AnchorPane prefHeight="481.0" prefWidth="805.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.LoginController">
     <children>
         <Pane layoutX="-5.0" prefHeight="481.0" prefWidth="367.0" style="-fx-background-color: #72ED12;">
             <children>
@@ -39,34 +40,34 @@
                 </ImageView>
             </children>
         </Pane>
-        <Pane layoutX="492.0" layoutY="87.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="140.0">
-            <children>
-                <Label layoutX="14.0" layoutY="10.0" text="LOG " textFill="#1e293b">
+      <HBox alignment="CENTER" layoutX="530.0" layoutY="85.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+         <children>
+                <Label text="LOG " textFill="#1e293b">
                     <font>
                         <Font name="System Bold" size="28.0" />
                     </font>
                 </Label>
-                <Label layoutX="77.0" layoutY="10.0" text="IN" textFill="#72ed12">
+                <Label text="IN" textFill="#72ed12">
                     <font>
                         <Font name="System Bold" size="28.0" />
                     </font>
                 </Label>
-            </children>
-        </Pane>
-        <TextField fx:id="email_input" layoutX="375.0" layoutY="172.0" prefHeight="47.0" prefWidth="375.0" promptText="Email">
+         </children>
+      </HBox>
+        <TextField fx:id="email_input" layoutX="379.0" layoutY="165.0" prefHeight="47.0" prefWidth="414.0" promptText="Email">
          <styleClass>
             <String fx:value="input" />
             <String fx:value="email_input" />
          </styleClass>
         </TextField>
-        <PasswordField fx:id="password_input" layoutX="375.0" layoutY="227.0" prefHeight="47.0" prefWidth="375.0" promptText="Mot de pass">
+        <PasswordField fx:id="password_input" layoutX="379.0" layoutY="226.0" prefHeight="47.0" prefWidth="415.0" promptText="Password">
             <styleClass>
                 <String fx:value="input" />
                 <String fx:value="password_input" />
             </styleClass>
         </PasswordField>
-        <Button fx:id="login_btn" layoutX="375.0" layoutY="310.0" mnemonicParsing="false" onMouseClicked="#login" prefHeight="47.0" prefWidth="375.0" styleClass="btn" text="LOGIN" />
-        <Label fx:id="forget_password" layoutX="375.0" layoutY="283.0" text="Mot de passe oublié ?" textFill="#1e293b">
+        <Button fx:id="login_btn" layoutX="371.0" layoutY="310.0" mnemonicParsing="false" onMouseClicked="#login" prefHeight="47.0" prefWidth="423.0" styleClass="btn" text="LOGIN" />
+        <Label fx:id="forget_password" layoutX="372.0" layoutY="280.0" text="Forget password ?" textFill="#1e293b">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
@@ -74,22 +75,25 @@
                 <Font size="14.0" />
             </font>
         </Label>
-        <Label layoutX="472.0" layoutY="137.0" text="Login pour entrer dans le système" />
-        <Pane layoutX="362.0" prefHeight="40.0" prefWidth="395.0">
-            <children>
-                <Circle fx:id="close_btn" fill="#ff1f1f" layoutX="371.0" layoutY="20.0" onMousePressed="#exitApplication" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+        <Label layoutX="515.0" layoutY="129.0" text="Login to enter the system" />
+      <HBox alignment="CENTER" layoutX="715.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+         <children>
+                <Circle fill="#ffbe21" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
-               </cursor></Circle>
-                <Circle fill="#ffbe21" layoutX="342.0" layoutY="20.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+               </cursor>
+            </Circle>
+                <Circle fill="#97ff21" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
-               </cursor></Circle>
-                <Circle fill="#97ff21" layoutX="314.0" layoutY="20.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+               </cursor>
+            </Circle>
+                <Circle fx:id="close_btn" fill="#ff1f1f" onMousePressed="#exitApplication" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
                <cursor>
                   <Cursor fx:constant="HAND" />
-               </cursor></Circle>
-            </children>
-        </Pane>
+               </cursor>
+            </Circle>
+         </children>
+      </HBox>
     </children>
 </AnchorPane>

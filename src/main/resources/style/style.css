@@ -9,8 +9,9 @@
 }
 
 .splash_screen {
-    -fx-background-radius: 10px;
-    -fx-border-radius: 30;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-background-color: transparent;
 }
 
 .btn {
