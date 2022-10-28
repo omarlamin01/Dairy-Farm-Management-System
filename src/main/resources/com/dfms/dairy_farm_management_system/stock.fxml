@@ -76,7 +76,7 @@
                         <Insets bottom="10.0" left="10.0" />
                      </GridPane.margin>
                      <graphic>
-                        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../../icons/add.png" />
                            </image>
