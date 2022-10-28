@@ -77,9 +77,18 @@
         <Label layoutX="472.0" layoutY="137.0" text="Login pour entrer dans le système" />
         <Pane layoutX="362.0" prefHeight="40.0" prefWidth="395.0">
             <children>
-                <Circle fx:id="close_btn" fill="#ff1f1f" layoutX="371.0" layoutY="20.0" onMousePressed="#exitApplication" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                <Circle fill="#ffbe21" layoutX="342.0" layoutY="20.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                <Circle fill="#97ff21" layoutX="314.0" layoutY="20.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                <Circle fx:id="close_btn" fill="#ff1f1f" layoutX="371.0" layoutY="20.0" onMousePressed="#exitApplication" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Circle>
+                <Circle fill="#ffbe21" layoutX="342.0" layoutY="20.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Circle>
+                <Circle fill="#97ff21" layoutX="314.0" layoutY="20.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Circle>
             </children>
         </Pane>
     </children>

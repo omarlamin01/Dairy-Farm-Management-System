@@ -19,10 +19,6 @@ import java.io.IOException;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
 
 public class LoginController {
-    private FXMLLoader fxmlLoader;
-    private Stage stage;
-    private Scene scene;
-
     @FXML
     private Circle close_btn;
 
@@ -41,13 +37,15 @@ public class LoginController {
     @FXML
     private void login(MouseEvent event) {
         //switch to main layout
-        fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
-        stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
+        Stage stage = new Stage();
+        Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         centerScreen(stage);
         stage.setTitle("Dairy Farm Management System");
         stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));

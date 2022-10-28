@@ -8,10 +8,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="1096.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.MainLayoutController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="636.0" prefWidth="1096.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.MainLayoutController">
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="224.0" styleClass="nav_bar" BorderPane.alignment="CENTER">
             <children>
@@ -23,15 +23,15 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
                 </ImageView>
-                <Pane styleClass="welcome_user_label">
-                    <children>
-                        <Label layoutX="45.0" layoutY="1.0" text="Bienvenu," textFill="WHITE" />
-                        <Label layoutX="113.0" layoutY="1.0" styleClass="user_name" text="Abdellatif" textFill="WHITE" />
-                    </children>
-                    <VBox.margin>
-                        <Insets bottom="10.0" />
-                    </VBox.margin>
-                </Pane>
+            <HBox alignment="CENTER" spacing="5.0" styleClass="welcome_user_label">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+               <children>
+                        <Label text="Bienvenu," textFill="WHITE" />
+                        <Label styleClass="user_name" text="Abdellatif" textFill="WHITE" />
+               </children>
+            </HBox>
                 <Button fx:id="dashboard_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onMousePressed="#loadDashboard" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Tableau de bord">
                     <graphic>
                         <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
