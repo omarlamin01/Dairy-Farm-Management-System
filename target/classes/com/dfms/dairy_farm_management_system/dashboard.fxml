@@ -38,7 +38,7 @@
                         <Insets bottom="10.0" />
                     </VBox.margin>
                 </Pane>
-                <Label styleClass="header" text="Explore system statistics" textAlignment="CENTER">
+                <Label styleClass="sub_header" text="Explore system statistics" textAlignment="CENTER">
                     <font>
                         <Font size="18.0" />
                     </font>

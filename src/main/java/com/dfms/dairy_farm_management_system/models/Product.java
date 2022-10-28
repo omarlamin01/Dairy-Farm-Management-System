@@ -11,6 +11,14 @@ public class Product {
     public Product() {
     }
 
+    public Product(int id, String name, String type, String addedDate, boolean availability) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.addedDate = addedDate;
+        this.availability = availability;
+    }
+
     public Product(int id, String name, String type, int quantity, String addedDate, boolean availability) {
         this.id = id;
         this.name = name;
