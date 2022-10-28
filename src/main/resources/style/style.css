@@ -25,11 +25,16 @@
     -fx-prompt-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-padding: 10px;
+    -fx-padding: 10px 20px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
     -fx-border-width: 2px;
     -fx-transition: 0.5s;
+}
+
+.combo-box:hover {
+    -fx-background-color: #eeba00;
+    -fx-cursor: hand;
 }
 
 .btn:hover {
