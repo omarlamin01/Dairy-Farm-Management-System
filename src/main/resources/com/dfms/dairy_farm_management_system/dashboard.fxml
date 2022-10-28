@@ -20,14 +20,11 @@
     <content>
         <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
             <children>
-                <Label styleClass="header" text="Admin Dashboard" textAlignment="CENTER">
-                    <font>
-                        <Font name="System Bold" size="24.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets bottom="10.0" />
-                    </VBox.margin>
-                </Label>
+            <Label text="Dashboard" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
                 <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" styleClass="dashboard_row">
                     <children>
                         <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: orange;">
@@ -171,14 +168,11 @@
                         </Pane>
                     </children>
                 </HBox>
-                <Label styleClass="header" text="Latest Sales" textAlignment="CENTER">
-                    <font>
-                        <Font name="System Bold" size="24.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                </Label>
+            <Label text="Latest Sales" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
                 <HBox alignment="CENTER_LEFT" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" styleClass="dashboard_row">
                     <children>
                         <BarChart fx:id="barChart">
