@@ -1,4 +1,4 @@
-package com.dfms.dairy_farm_management_system.Controllers;
+package com.dfms.dairy_farm_management_system.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
