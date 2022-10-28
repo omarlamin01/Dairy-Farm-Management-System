@@ -64,14 +64,14 @@
                     <children>
                   <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Search">
                      <GridPane.margin>
-                        <Insets bottom="10.0" right="10.0" />
+                        <Insets bottom="10.0" />
                      </GridPane.margin>
                      <styleClass>
                         <String fx:value="search_bar" />
                         <String fx:value="search_input" />
                      </styleClass>
                   </TextField>
-                  <Button fx:id="addNewProductBtn" mnemonicParsing="false" onMousePressed="#openAddProduct" styleClass="btn" text="Add new product" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                  <Button fx:id="addNewProductBtn" mnemonicParsing="false" onMousePressed="#openAddProduct" styleClass="btn" text="New product" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" />
                      </GridPane.margin>
