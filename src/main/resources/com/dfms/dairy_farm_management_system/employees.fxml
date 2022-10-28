@@ -49,7 +49,7 @@
                         <Insets bottom="10.0" top="10.0" />
                     </padding>
                 </Label>
-                <GridPane hgap="24.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                <GridPane hgap="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                     <columnConstraints>
                         <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
