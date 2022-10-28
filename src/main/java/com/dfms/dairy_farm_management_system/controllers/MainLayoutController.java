@@ -19,7 +19,7 @@ public class MainLayoutController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String dashboard_view = "employees";
         loadView(dashboard_view);
-        dashboard_btn.setStyle("-fx-background-color: #FFC700, #72ED12;" +
+        employees_btn.setStyle("-fx-background-color: #FFC700, #72ED12;" +
                 "-fx-background-insets: 0, 0 0 0 4;");
     }
 
