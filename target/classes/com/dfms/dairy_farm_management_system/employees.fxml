@@ -20,106 +20,88 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.dfms.dairy_farm_management_system.controllers.EmployeesController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.EmployeesController">
     <content>
-        <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content"
-              stylesheets="@../../../style/style.css">
+        <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
             <children>
                 <Label styleClass="header" text="Employees" textAlignment="CENTER">
                     <font>
-                        <Font name="System Bold" size="24.0"/>
+                        <Font name="System Bold" size="24.0" />
                     </font>
                     <VBox.margin>
-                        <Insets bottom="8.0"/>
+                        <Insets bottom="8.0" />
                     </VBox.margin>
                 </Label>
-                <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                      nodeOrientation="LEFT_TO_RIGHT">
+                <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
                     <children>
-                        <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0"
-                                   stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle"
-                                   width="500.0"/>
-                        <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK"
-                                   strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0"/>
+                        <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
+                        <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
                     </children>
                     <VBox.margin>
-                        <Insets bottom="10.0"/>
+                        <Insets bottom="10.0" />
                     </VBox.margin>
                 </Pane>
                 <Label styleClass="header" text="Manage your employees here" textAlignment="CENTER">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                     <padding>
-                        <Insets bottom="10.0"/>
+                        <Insets bottom="10.0" />
                     </padding>
                 </Label>
                 <GridPane hgap="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                     <columnConstraints>
-                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308"/>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308"/>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0"/>
+                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES"/>
-                        <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES"/>
-                        <RowConstraints maxHeight="1.7976931348623157E308"/>
-                        <RowConstraints maxHeight="1.7976931348623157E308"/>
-                        <RowConstraints maxHeight="1.7976931348623157E308"/>
-                        <RowConstraints maxHeight="1.7976931348623157E308"/>
+                        <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" />
                     </rowConstraints>
                     <children>
                         <TextField maxHeight="-Infinity" maxWidth="1.7976931348623157E308" promptText="Search">
                             <GridPane.margin>
-                                <Insets bottom="10.0" right="10.0"/>
+                                <Insets bottom="10.0" right="10.0" />
                             </GridPane.margin>
                             <styleClass>
-                                <String fx:value="search_bar"/>
-                                <String fx:value="search_input"/>
+                                <String fx:value="search_bar" />
+                                <String fx:value="search_input" />
                             </styleClass>
                         </TextField>
 
-                        <Button fx:id="openAddNewEmployeeBtn" maxHeight="1.7976931348623157E308"
-                                maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                                onMousePressed="#openAddEmployee" styleClass="btn" text="New Employee"
-                                textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT"/>
-
-                        <Button fx:id="openAddNewEmployeeBtn" mnemonicParsing="false"
-                                onMousePressed="#openAddEmployee"
-                                prefHeight="50.0" prefWidth="185.0" styleClass="btn" text="New Employee"
-                                textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                        <Button fx:id="openAddNewEmployeeBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#openAddEmployee" styleClass="btn" text="New Employee" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
                             <GridPane.margin>
-                                <Insets bottom="10.0"/>
+                                <Insets bottom="10.0" />
                             </GridPane.margin>
                             <graphic>
-                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
-                                           preserveRatio="true">
+                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../icons/add.png"/>
+                                        <Image url="@../../../icons/add.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-                                   GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
+                        <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
                             <columns>
-                                <TableColumn prefWidth="67.66667175292969" text="ID"/>
-                                <TableColumn prefWidth="163.0" text="First name"/>
-                                <TableColumn prefWidth="116.0" text="Last name"/>
-                                <TableColumn prefWidth="120.33334350585938" text="Email"/>
-                                <TableColumn prefWidth="144.0" text="Salary"/>
-                                <TableColumn prefWidth="190.66668701171875" text="Actions"/>
+                                <TableColumn prefWidth="67.66667175292969" text="ID" />
+                                <TableColumn prefWidth="163.0" text="First name" />
+                                <TableColumn prefWidth="116.0" text="Last name" />
+                                <TableColumn prefWidth="120.33334350585938" text="Email" />
+                                <TableColumn prefWidth="144.0" text="Salary" />
+                                <TableColumn prefWidth="190.66668701171875" text="Actions" />
                             </columns>
                             <GridPane.margin>
-                                <Insets top="10.0"/>
+                                <Insets top="10.0" />
                             </GridPane.margin>
                         </TableView>
-                        <ComboBox fx:id="exportComboBox" promptText="Export" styleClass="combo_box"
-                                  GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                        <ComboBox fx:id="exportComboBox" promptText="Export" styleClass="combo_box" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                             <GridPane.margin>
-                                <Insets bottom="10.0"/>
+                                <Insets bottom="10.0" />
                             </GridPane.margin>
                         </ComboBox>
                     </children>
@@ -128,7 +110,7 @@
         </VBox>
     </content>
     <stylesheets>
-        <URL value="@../../../style/style.css"/>
-        <URL value="@../../../style/table_view.css"/>
+        <URL value="@../../../style/style.css" />
+        <URL value="@../../../style/table_view.css" />
     </stylesheets>
 </ScrollPane>
