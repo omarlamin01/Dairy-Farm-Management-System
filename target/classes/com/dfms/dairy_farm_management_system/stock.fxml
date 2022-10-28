@@ -71,7 +71,7 @@
                         <String fx:value="search_input" />
                      </styleClass>
                   </TextField>
-                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add new product" GridPane.columnIndex="1">
+                  <Button fx:id="addNewProductBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#openAddProduct" styleClass="btn" text="Add new product" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" />
                      </GridPane.margin>
