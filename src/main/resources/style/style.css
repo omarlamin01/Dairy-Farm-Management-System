@@ -79,6 +79,22 @@
     -fx-background-image: url("../icons/search.png");
 }
 
+.box_input {
+    -fx-background-image: url("../icons/box.png");
+}
+
+.quantity_input {
+    -fx-background-image: url("../icons/quantity.png");
+}
+
+.category_input {
+    -fx-background-image: url("../icons/category.png");
+}
+
+.unit_input {
+    -fx-background-image: url("../icons/unit.png");
+}
+
 .nav_bar {
     -fx-background-color: -dark-blue-color;
 }
@@ -115,6 +131,10 @@
 
 .header {
     -fx-text-fill: -header-color;
+}
+
+.header_green {
+    -fx-text-fill: -green-color;
 }
 
 .dashboard_item {
