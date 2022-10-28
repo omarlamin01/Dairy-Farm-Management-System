@@ -21,12 +21,12 @@
                       <Font name="System Bold" size="24.0" />
                   </font>
               </Label>
-            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="100.0">
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="250.0">
                <children>
                   <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                      <children>
-                        <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="504.0" promptText="Search employee" styleClass="search_input" />
-                        <Line endX="400.0" layoutX="103.0" layoutY="47.0" startX="-100.0" stroke="#7dee25" strokeWidth="2.0" />
+                        <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="404.0" promptText="Search employee" styleClass="search_input" />
+                        <Line endX="300.0" layoutX="103.0" layoutY="47.0" startX="-100.0" stroke="#7dee25" strokeWidth="2.0" />
                      </children>
                   </Pane>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="16.0">

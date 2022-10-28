@@ -10,3 +10,4 @@
 Dairy Farm Management System.iml
 *.class
 target/classes/com/dfms/dairy_farm_management_system/Controllers/MainLayoutController.class
+target/classes/com/dfms/dairy_farm_management_system/employees.fxml
