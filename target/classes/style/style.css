@@ -162,7 +162,7 @@
 }
 
 .header {
-    -fx-text-fill: -header-color;
+    -fx-text-fill: #323232;
 }
 
 .header_green {

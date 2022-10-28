@@ -18,15 +18,12 @@
     <content>
         <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
             <children>
-            <Label text="Profile" textAlignment="CENTER">
+            <Label styleClass="header" text="Profile" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
                <VBox.margin>
-                  <Insets bottom="16.0" />
+                  <Insets bottom="10.0" />
                </VBox.margin>
             </Label>
                 <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">

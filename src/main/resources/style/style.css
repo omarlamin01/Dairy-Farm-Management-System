@@ -162,7 +162,9 @@
 }
 
 .header {
-    -fx-text-fill: #000000;
+    -fx-text-fill: #323232;
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
 }
 
 .header_green {
