@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -45,8 +47,8 @@
                 </Label>
                 <GridPane minHeight="-Infinity" minWidth="-Infinity">
                     <columnConstraints>
-                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="438.3333435058594" minWidth="10.0" prefWidth="399.66668701171875" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="407.0" minWidth="10.0" prefWidth="400.33331298828125" />
+                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
                     </columnConstraints>
                     <rowConstraints>
                   <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
@@ -54,6 +56,7 @@
                         <RowConstraints maxHeight="1.7976931348623157E308" />
                         <RowConstraints maxHeight="1.7976931348623157E308" />
                         <RowConstraints maxHeight="1.7976931348623157E308" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" />
                     </rowConstraints>
                     <children>
                   <TextField promptText="Search">
@@ -70,6 +73,19 @@
                         <Insets bottom="10.0" left="10.0" />
                      </GridPane.margin>
                   </Button>
+                  <TableView prefHeight="200.0" prefWidth="800.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
+                    <columns>
+                      <TableColumn prefWidth="67.66667175292969" text="ID" />
+                      <TableColumn prefWidth="163.0" text="Product name" />
+                        <TableColumn prefWidth="116.0" text="Product type" />
+                        <TableColumn prefWidth="120.33334350585938" text="Added date" />
+                        <TableColumn prefWidth="144.0" text="Availability" />
+                        <TableColumn prefWidth="190.66668701171875" text="Actions" />
+                    </columns>
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </TableView>
                     </children>
                 </GridPane>
             </children>

@@ -60,7 +60,7 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     void LoadStock(ActionEvent event) {
-        String stock_view = "employees";
+        String stock_view = "stock";
         loadView(stock_view);
     }
 
