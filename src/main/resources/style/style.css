@@ -20,7 +20,7 @@
 }
 
 .combo_box {
-    -fx-background-color: white;
+    -fx-background-color: -yellow-color;
     -fx-text-fill: white;
     -fx-prompt-text-fill: white;
     -fx-font-size: 14px;

@@ -78,7 +78,7 @@
                                 <Insets bottom="10.0" />
                             </GridPane.margin>
                             <graphic>
-                                <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../icons/add.png" />
                                     </image>
@@ -100,7 +100,7 @@
                         </TableView>
                   <ComboBox fx:id="exportComboBox" maxHeight="-Infinity" promptText="Export" styleClass="combo_box" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
                      <GridPane.margin>
-                        <Insets bottom="10.0" right="10.0" />
+                        <Insets bottom="10.0" />
                      </GridPane.margin>
                   </ComboBox>
                     </children>
