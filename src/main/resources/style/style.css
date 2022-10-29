@@ -114,7 +114,12 @@
 .unit_input {
     -fx-background-image: url("../icons/unit.png");
 }
-
+.feed_input {
+    -fx-background-image: url("../icons/feed.png");
+}
+.notee_input {
+    -fx-background-image: url("../icons/notee.png");
+}
 .nav_bar {
     -fx-background-color: -dark-blue-color;
 }
@@ -209,6 +214,7 @@
 }
 
 .btn-search {
+     position:right;
     -fx-background-radius: 10px;
     -fx-background-color: transparent;
 }

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="623.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="409.0" prefWidth="618.0">
+         <children>
+            <VBox layoutX="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="112.0" prefWidth="616.0" styleClass="main_content" stylesheets="@../../../../style/style.css">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label styleClass="header" text="Add" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                        <Label styleClass="header_green" text="Routine" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
+                     <children>
+                        <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
+                        <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </Pane>
+                  <Label prefHeight="22.0" prefWidth="219.0" styleClass="sub_header" text="Add a routine for an animal" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
+            <TextField layoutX="249.0" layoutY="204.0" prefHeight="47.0" prefWidth="114.0" promptText="Quantity" stylesheets="@../../../../style/style.css">
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="quantity_input" />
+               </styleClass>
+            </TextField>
+            <TextField layoutX="436.0" layoutY="203.0" prefHeight="47.0" prefWidth="110.0" promptText="Time" stylesheets="@../../../../style/style.css">
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="unit_input" />
+               </styleClass>
+            </TextField>
+            <CheckBox layoutX="53.0" layoutY="197.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="107.0" styleClass="main_content" stylesheets="@../../../../style/style.css" text="name">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </CheckBox>
+            <Label layoutX="69.0" layoutY="175.0" text="Food type">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="436.0" layoutY="175.0" text="Feeding Time">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="245.0" layoutY="176.0" text="Food Quantity">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField layoutX="58.0" layoutY="272.0" prefHeight="47.0" prefWidth="504.0" promptText="Write a note ... " stylesheets="@../../../../style/style.css">
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="notee_input" />
+               </styleClass>
+            </TextField>
+            <TextField layoutX="60.0" layoutY="112.0" prefHeight="47.0" prefWidth="503.0" promptText=" name routine" stylesheets="@../../../../style/style.css">
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="feed_input" />
+               </styleClass>
+            </TextField>
+            <Button layoutX="48.0" layoutY="330.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="516.0" styleClass="btn" stylesheets="@../../../../style/style.css" text="Add " textAlignment="CENTER" />
+         </children></AnchorPane>
+  </content>
+</ScrollPane>
