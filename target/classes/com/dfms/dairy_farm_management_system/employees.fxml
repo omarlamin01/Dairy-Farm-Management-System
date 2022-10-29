@@ -42,6 +42,9 @@
                     <font>
                         <Font size="18.0" />
                     </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
                 </Label>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
@@ -94,8 +97,8 @@
             </children>
         </VBox>
     </content>
-    <stylesheets>
-        <URL value="@../../../style/style.css" />
-        <URL value="@../../../style/table_view.css" />
-    </stylesheets>
+   <stylesheets>
+      <URL value="@../../../style/style.css" />
+      <URL value="@../../../style/table_view.css" />
+   </stylesheets>
 </ScrollPane>
