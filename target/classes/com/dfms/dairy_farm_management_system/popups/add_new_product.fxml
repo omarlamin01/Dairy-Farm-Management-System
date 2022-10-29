@@ -45,7 +45,7 @@
                         <Insets bottom="10.0" />
                     </VBox.margin>
                 </Pane>
-                <Label styleClass="header" text="Add a product to the stock" textAlignment="CENTER">
+                <Label styleClass="sub_header" text="Add a product to the stock" textAlignment="CENTER">
                     <font>
                         <Font size="18.0" />
                     </font>
@@ -74,7 +74,7 @@
                         <String fx:value="box_input" />
                      </styleClass>
                      <GridPane.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0" left="8.0" />
                      </GridPane.margin>
                   </TextField>
                   <TextField promptText="Product quantity" stylesheets="@../../../../style/style.css" GridPane.rowIndex="1">
@@ -83,7 +83,7 @@
                         <String fx:value="quantity_input" />
                      </styleClass>
                      <GridPane.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0" left="8.0" />
                      </GridPane.margin>
                   </TextField>
                   <TextField promptText="Product type" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
@@ -92,7 +92,7 @@
                         <String fx:value="category_input" />
                      </styleClass>
                      <GridPane.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0" left="8.0" />
                      </GridPane.margin>
                   </TextField>
                   <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Mesure unit" stylesheets="@../../../../style/style.css" GridPane.rowIndex="3">
@@ -101,7 +101,7 @@
                         <String fx:value="unit_input" />
                      </styleClass>
                      <GridPane.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0" left="8.0" />
                      </GridPane.margin>
                   </TextField>
                   <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.rowIndex="4" />

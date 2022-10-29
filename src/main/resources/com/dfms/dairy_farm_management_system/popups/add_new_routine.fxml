@@ -46,7 +46,7 @@
                         <Insets bottom="10.0" />
                      </VBox.margin>
                   </Pane>
-                  <Label prefHeight="22.0" prefWidth="219.0" styleClass="header" text="Add a routine for an animal" textAlignment="CENTER">
+                  <Label prefHeight="22.0" prefWidth="219.0" styleClass="sub_header" text="Add a routine for an animal" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
