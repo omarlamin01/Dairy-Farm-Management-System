@@ -126,7 +126,12 @@
 .unit_input {
     -fx-background-image: url("../icons/unit.png");
 }
-
+.feed_input {
+    -fx-background-image: url("../icons/feed.png");
+}
+.notee_input {
+    -fx-background-image: url("../icons/notee.png");
+}
 .nav_bar {
     -fx-background-color: -dark-blue-color;
 }
@@ -182,3 +187,5 @@
     -fx-font-size: 1.5em;
     -fx-font-weight: bold;
 }
+
+

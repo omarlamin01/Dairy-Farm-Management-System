@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainLayoutController implements Initializable {
@@ -108,7 +109,7 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     void loadRoutineMonitor(ActionEvent event) {
-        String routine_monitor_view = "dashboard";
+        String routine_monitor_view = "routine_monitor";
         loadView(routine_monitor_view);
     }
 
@@ -121,7 +122,7 @@ public class MainLayoutController implements Initializable {
     private void loadView(String fxml) {
         String views_path = "/com/dfms/dairy_farm_management_system/";
         try {
-            root = FXMLLoader.load(getClass().getResource(views_path + fxml + ".fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(views_path + fxml + ".fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
