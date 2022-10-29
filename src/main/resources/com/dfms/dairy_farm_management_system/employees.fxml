@@ -42,9 +42,9 @@
                     <font>
                         <Font size="18.0" />
                     </font>
-                    <padding>
-                        <Insets bottom="10.0" top="10.0" />
-                    </padding>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
                 </Label>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>

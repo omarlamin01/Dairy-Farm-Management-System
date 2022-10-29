@@ -42,9 +42,6 @@
                     <font>
                         <Font size="18.0" />
                     </font>
-                    <padding>
-                        <Insets bottom="10.0" top="10.0" />
-                    </padding>
                 </Label>
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
@@ -53,6 +50,18 @@
                         <Insets left="10.0" />
                      </padding>
                         </TextField>
+                  <Button mnemonicParsing="false" styleClass="btn-search">
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../icons/search.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="-54.0" />
+                     </HBox.margin>
+                  </Button>
                         <ComboBox fx:id="combo" promptText="Export" styleClass="combo_box">
                      <HBox.margin>
                         <Insets left="130.0" />
@@ -68,6 +77,9 @@
                             </graphic>
                         </Button>
                </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
             </HBox>
                   <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                       <columns>

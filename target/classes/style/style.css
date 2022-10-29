@@ -205,8 +205,8 @@
 	-fx-background-color: #98FF98, white;
 }
 .btn-search{
--fx-background-radius: 5px;
-
+-fx-background-radius: 10px;
+-fx-background-color: transparent;
 }
 .btn-search:hover {
      -fx-background-color: #98FF98;
