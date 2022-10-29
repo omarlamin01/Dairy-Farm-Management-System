@@ -1,12 +1,10 @@
-package com.dfms.dairy_farm_management_system.Controllers;
+package com.dfms.dairy_farm_management_system.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {

@@ -1,4 +1,4 @@
-package com.dfms.dairy_farm_management_system.Controllers;
+package com.dfms.dairy_farm_management_system.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,9 +17,9 @@ import java.util.ResourceBundle;
 public class MainLayoutController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String dashboard_view = "profile";
-        loadView(dashboard_view);
-        profile_btn.setStyle("-fx-background-color: #FFC700, #72ED12;" +
+        String first_view = "dashboard";
+        loadView(first_view);
+        dashboard_btn.setStyle("-fx-background-color: #FFC700, #72ED12;" +
                 "-fx-background-insets: 0, 0 0 0 4;");
     }
 
@@ -60,7 +60,7 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     void LoadStock(ActionEvent event) {
-        String stock_view = "employees";
+        String stock_view = "stock";
         loadView(stock_view);
     }
 
@@ -153,5 +153,4 @@ public class MainLayoutController implements Initializable {
             }
         }
     }
-
 }
