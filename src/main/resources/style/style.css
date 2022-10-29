@@ -177,45 +177,51 @@
     -fx-font-size: 1.5em;
     -fx-font-weight: bold;
 }
-.transparent{
-    -fx-background-color : rgba(0,0,0,0);
+
+.transparent {
+    -fx-background-color: rgba(0, 0, 0, 0);
 }
 
-.button-add{
- -fx-background-color:-green-color;
- -fx-background-radius: 10;
+.button-add {
+    -fx-background-color: -green-color;
+    -fx-background-radius: 10;
 }
+
 .button-add:hover {
     -fx-background-color: -dark-green-color;
     -fx-cursor: hand;
 }
 
 .combo-box .text-field {
-    -fx-prompt-text-fill: rgba(255, 0, 0, 0.5) ;
+    -fx-prompt-text-fill: rgba(255, 0, 0, 0.5);
 }
 
 .combo-box .text-field:focused {
-    -fx-prompt-text-fill: transparent ;
+    -fx-prompt-text-fill: transparent;
 }
 
-.text-field-search{
--fx-background-radius: 10px;
+.text-field-search {
+    -fx-background-radius: 10px;
 }
+
 .text-field:focused {
-	-fx-background-color: #98FF98, white;
+    -fx-background-color: #98FF98, white;
 }
-.btn-search{
--fx-background-radius: 10px;
--fx-background-color: transparent;
+
+.btn-search {
+    -fx-background-radius: 10px;
+    -fx-background-color: transparent;
 }
+
 .btn-search:hover {
-     -fx-background-color: #98FF98;
+    -fx-background-color: #98FF98;
     -fx-cursor: hand;
 }
+
 .table-view {
     -fx-background-color: transparent;
     -fx-background-radius: 10px;
-        -fx-border-radius: 10px;
+    -fx-border-radius: 10px;
 }
 
 .table-view .column-header-background {
