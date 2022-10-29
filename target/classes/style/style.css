@@ -214,5 +214,11 @@
 }
 .table-view {
     -fx-background-color: transparent;
+    -fx-background-radius: 10px;
+        -fx-border-radius: 10px;
+}
 
+.table-view .column-header-background {
+    -fx-pref-height: 32px;
+    -fx-background-radius: 10px 10px 0 0;
 }
