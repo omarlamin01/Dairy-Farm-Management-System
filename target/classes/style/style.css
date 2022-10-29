@@ -113,3 +113,46 @@
     -fx-font-size: 1.5em;
     -fx-font-weight: bold;
 }
+.transparent{
+-fx-background-color : rgba(0,0,0,0);
+}
+
+.button-add{
+ -fx-background-color:-green-color;
+ -fx-background-radius: 10;
+}
+.button-add:hover {
+    -fx-background-color: -dark-green-color;
+    -fx-cursor: hand;
+}
+.combo-box{
+
+}
+.combo-box .text-field {
+    -fx-prompt-text-fill: rgba(255, 0, 0, 0.5) ;
+}
+.combo-box .text-field:focused {
+    -fx-prompt-text-fill: transparent ;
+}
+
+.text-field-search{
+-fx-background-radius: 10px;
+
+}
+.text-field:focused {
+	-fx-background-color: #98FF98, white;
+}
+.btn-search{
+-fx-background-radius: 5px;
+
+}
+.btn-search:hover {
+     -fx-background-color: #98FF98;
+    -fx-cursor: hand;
+}
+.table-view {
+    -fx-background-color: transparent;
+
+}
+
+
