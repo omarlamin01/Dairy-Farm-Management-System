@@ -19,72 +19,84 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController">
     <stylesheets>
-        <URL value="@../../../style/style.css" />
-        <URL value="@../../../style/tab_pane.css" />
+        <URL value="@../../../style/style.css"/>
+        <URL value="@../../../style/tab_pane.css"/>
     </stylesheets>
-    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content"
+          stylesheets="@../../../style/style.css">
         <Label styleClass="header" text="Animal Monitor" textAlignment="CENTER">
             <font>
-                <Font name="System Bold" size="24.0" />
+                <Font name="System Bold" size="24.0"/>
             </font>
             <VBox.margin>
-                <Insets bottom="10.0" />
+                <Insets bottom="10.0"/>
             </VBox.margin>
         </Label>
         <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
             <VBox.margin>
-                <Insets bottom="10.0" />
+                <Insets bottom="10.0"/>
             </VBox.margin>
-            <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
-            <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
+            <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0"/>
+            <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE"
+                       strokeWidth="0.0" styleClass="rectangle" width="14.0"/>
         </Pane>
         <Label styleClass="sub_header" text="Monitor your animals here" textAlignment="CENTER">
             <font>
-                <Font size="18.0" />
+                <Font size="18.0"/>
             </font>
             <VBox.margin>
-                <Insets bottom="10.0" />
+                <Insets bottom="10.0"/>
             </VBox.margin>
         </Label>
         <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
             <Tab text="Health Status">
-                <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+                <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content"
+                      stylesheets="@../../../style/style.css">
                     <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                         <font>
-                            <Font size="18.0" />
+                            <Font size="18.0"/>
                         </font>
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
                     </Label>
                     <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
-                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
+                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0"
+                                   prefWidth="360.0" promptText="Search for an animal..."
+                                   styleClass="text-field-search">
                             <padding>
-                                <Insets left="10.0" />
+                                <Insets left="10.0"/>
                             </padding>
                         </TextField>
                         <Button mnemonicParsing="false" styleClass="btn-search">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                    <Image url="@../../../icons/search.png" />
+                                    <Image url="@../../../icons/search.png"/>
                                 </ImageView>
                             </graphic>
                             <HBox.margin>
-                                <Insets left="-54.0" />
+                                <Insets left="-54.0"/>
                             </HBox.margin>
                         </Button>
-                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Filter" styleClass="combo_box" />
-                            <ComboBox promptText="Export" styleClass="combo_box" />
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New status" textAlignment="CENTER">
+                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                            <ComboBox promptText="Filter" styleClass="combo_box"/>
+                            <ComboBox promptText="Export" styleClass="combo_box"/>
+                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"
+                                    mnemonicParsing="false" styleClass="button-add" text="New status"
+                                    textAlignment="CENTER">
                                 <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                        <Image url="@../../../icons/add_user.png" />
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <Image url="@../../../icons/add_user.png"/>
                                     </ImageView>
                                 </graphic>
                             </Button>
@@ -92,51 +104,58 @@
                     </HBox>
                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
-                            <TableColumn prefWidth="125.33333587646484" text="Date" />
-                            <TableColumn prefWidth="105.66666412353516" text="Animal ID" />
-                            <TableColumn prefWidth="233.33334350585938" text="Note" />
-                            <TableColumn prefWidth="136.66668701171875" text="Health status" />
-                            <TableColumn prefWidth="155.33331298828125" text="Actions" />
+                            <TableColumn prefWidth="125.33333587646484" text="Date"/>
+                            <TableColumn prefWidth="105.66666412353516" text="Animal ID"/>
+                            <TableColumn prefWidth="233.33334350585938" text="Note"/>
+                            <TableColumn prefWidth="136.66668701171875" text="Health status"/>
+                            <TableColumn prefWidth="155.33331298828125" text="Actions"/>
                         </columns>
                     </TableView>
                 </VBox>
             </Tab>
             <Tab text="Cow Pregnancy">
-                <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+                <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content"
+                      stylesheets="@../../../style/style.css">
                     <Label styleClass="sub_header" text="Manage cows pregnancy here" textAlignment="CENTER">
                         <font>
-                            <Font size="18.0" />
+                            <Font size="18.0"/>
                         </font>
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
                     </Label>
                     <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
-                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
+                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0"
+                                   prefWidth="360.0" promptText="Search for an animal..."
+                                   styleClass="text-field-search">
                             <padding>
-                                <Insets left="10.0" />
+                                <Insets left="10.0"/>
                             </padding>
                         </TextField>
                         <Button mnemonicParsing="false" styleClass="btn-search">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                    <Image url="@../../../icons/search.png" />
+                                    <Image url="@../../../icons/search.png"/>
                                 </ImageView>
                             </graphic>
                             <HBox.margin>
-                                <Insets left="-54.0" />
+                                <Insets left="-54.0"/>
                             </HBox.margin>
                         </Button>
-                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Filter" styleClass="combo_box" />
-                            <ComboBox promptText="Export" styleClass="combo_box" />
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New pregnancy" textAlignment="CENTER">
+                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                            <ComboBox promptText="Filter" styleClass="combo_box"/>
+                            <ComboBox promptText="Export" styleClass="combo_box"/>
+                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"
+                                    mnemonicParsing="false" styleClass="button-add" text="New pregnancy"
+                                    textAlignment="CENTER">
                                 <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                        <Image url="@../../../icons/add_user.png" />
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <Image url="@../../../icons/add_user.png"/>
                                     </ImageView>
                                 </graphic>
                             </Button>
@@ -144,51 +163,58 @@
                     </HBox>
                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
-                            <TableColumn prefWidth="125.33333587646484" text="Date" />
-                            <TableColumn prefWidth="105.66666412353516" text="Animal ID" />
-                            <TableColumn prefWidth="233.33334350585938" text="Note" />
-                            <TableColumn prefWidth="136.66668701171875" text="Health status" />
-                            <TableColumn prefWidth="155.33331298828125" text="Actions" />
+                            <TableColumn prefWidth="125.33333587646484" text="Date"/>
+                            <TableColumn prefWidth="105.66666412353516" text="Animal ID"/>
+                            <TableColumn prefWidth="233.33334350585938" text="Note"/>
+                            <TableColumn prefWidth="136.66668701171875" text="Health status"/>
+                            <TableColumn prefWidth="155.33331298828125" text="Actions"/>
                         </columns>
                     </TableView>
                 </VBox>
             </Tab>
             <Tab text="Vaccine Monitor">
-                <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+                <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content"
+                      stylesheets="@../../../style/style.css">
                     <Label styleClass="sub_header" text="Manage animal vaccination here" textAlignment="CENTER">
                         <font>
-                            <Font size="18.0" />
+                            <Font size="18.0"/>
                         </font>
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
                     </Label>
                     <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
-                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
+                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0"
+                                   prefWidth="360.0" promptText="Search for an animal..."
+                                   styleClass="text-field-search">
                             <padding>
-                                <Insets left="10.0" />
+                                <Insets left="10.0"/>
                             </padding>
                         </TextField>
                         <Button mnemonicParsing="false" styleClass="btn-search">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                    <Image url="@../../../icons/search.png" />
+                                    <Image url="@../../../icons/search.png"/>
                                 </ImageView>
                             </graphic>
                             <HBox.margin>
-                                <Insets left="-54.0" />
+                                <Insets left="-54.0"/>
                             </HBox.margin>
                         </Button>
-                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Filter" styleClass="combo_box" />
-                            <ComboBox promptText="Export" styleClass="combo_box" />
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New vaccination" textAlignment="CENTER">
+                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                            <ComboBox promptText="Filter" styleClass="combo_box"/>
+                            <ComboBox promptText="Export" styleClass="combo_box"/>
+                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"
+                                    mnemonicParsing="false" styleClass="button-add" text="New vaccination"
+                                    textAlignment="CENTER">
                                 <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                        <Image url="@../../../icons/add_user.png" />
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
+                                               preserveRatio="true">
+                                        <Image url="@../../../icons/add_user.png"/>
                                     </ImageView>
                                 </graphic>
                             </Button>
@@ -196,11 +222,11 @@
                     </HBox>
                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
-                            <TableColumn prefWidth="125.33333587646484" text="Date" />
-                            <TableColumn prefWidth="105.66666412353516" text="Animal ID" />
-                            <TableColumn prefWidth="233.33334350585938" text="Note" />
-                            <TableColumn prefWidth="136.66668701171875" text="Health status" />
-                            <TableColumn prefWidth="155.33331298828125" text="Actions" />
+                            <TableColumn prefWidth="125.33333587646484" text="Date"/>
+                            <TableColumn prefWidth="105.66666412353516" text="Animal ID"/>
+                            <TableColumn prefWidth="233.33334350585938" text="Note"/>
+                            <TableColumn prefWidth="136.66668701171875" text="Health status"/>
+                            <TableColumn prefWidth="155.33331298828125" text="Actions"/>
                         </columns>
                     </TableView>
                 </VBox>
