@@ -67,7 +67,7 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     void loadAnimalMonitor(ActionEvent event) {
-        String animal_monitor_view = "dashboard";
+        String animal_monitor_view = "animal_monitor";
         loadView(animal_monitor_view);
     }
 
