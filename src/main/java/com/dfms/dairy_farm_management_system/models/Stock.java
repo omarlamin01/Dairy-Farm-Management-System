@@ -1,28 +1,39 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Stock {
-    private int id;
+public class Stock extends Model {
+    private int id_stock;
     private String name;
     private String type;
-    private int quantity;
-    private String addedDate;
-    private boolean availability;
 
-    public Stock(int id, String name, String type, int quantity, String addedDate, boolean availability) {
-        this.id = id;
+    private String unit;
+    private float quantity;
+    private String addedDate;
+
+
+    public Stock(int id, String name,String unit, String type, float quantity, String addedDate) {
+        this.id_stock = id;
         this.name = name;
         this.type = type;
         this.quantity = quantity;
         this.addedDate = addedDate;
-        this.availability = availability;
+        this.unit=unit;
+
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public int getId() {
-        return id;
+        return id_stock;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id_stock = id;
     }
 
     public String getName() {
@@ -41,11 +52,11 @@ public class Stock {
         this.type = type;
     }
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
@@ -57,11 +68,4 @@ public class Stock {
         this.addedDate = addedDate;
     }
 
-    public boolean isAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(boolean availability) {
-        this.availability = availability;
-    }
-}
+   }

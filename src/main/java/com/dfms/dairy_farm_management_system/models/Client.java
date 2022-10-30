@@ -1,47 +1,20 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Client {
-    private String firstName;
-    private String lastName;
-    private int phone ;
-    private String emai;
+public class Client extends Personne {
+    private int id_client;
 
-    public Client(String firstName, String lastName, int phone, String emai) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.emai = emai;
+    public Client(int id, String firstName, String lastName, char gender, String cin, String email, int phone, String adresse, int id1) {
+        super(id, firstName, lastName, gender, cin, email, phone, adresse);
+        this.id_client = id1;
     }
 
-    public String getFirstName() {
-        return firstName;
+    @Override
+    public int getId() {
+        return id_client;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getPhone() {
-        return phone;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
-    public String getEmai() {
-        return emai;
-    }
-
-    public void setEmai(String emai) {
-        this.emai = emai;
+    @Override
+    public void setId(int id) {
+        this.id_client = id;
     }
 }
