@@ -127,6 +127,10 @@
     -fx-background-image: url("../icons/calender.png");
 }
 
+.cow_input {
+    -fx-background-image: url("../icons/cow_input.png");
+}
+
 .nav_bar {
     -fx-background-color: -dark-blue-color;
 }
