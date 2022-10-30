@@ -49,7 +49,7 @@
         </Label>
         <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
             <Tab text="Employee Salary">
-                <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
                     <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                         <font>
                             <Font size="18.0" />
@@ -63,7 +63,7 @@
                      <Insets bottom="10.0" />
                   </VBox.margin>
                   <children>
-                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Get employee reports">
+                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get employee reports">
                         <VBox.margin>
                            <Insets bottom="10.0" />
                         </VBox.margin>
@@ -74,11 +74,14 @@
                               <String fx:value="input" />
                               <String fx:value="date_input" />
                            </styleClass>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
                         </TextField>
                         <TextField promptText="Employee ID">
                            <styleClass>
                               <String fx:value="input" />
-                              <String fx:value="date_input" />
+                              <String fx:value="verify_input" />
                            </styleClass>
                         </TextField>
                               <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">

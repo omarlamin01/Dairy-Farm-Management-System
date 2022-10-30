@@ -249,7 +249,7 @@
     -fx-font-size: 1em;
     -fx-text-fill: white;
     -fx-background-radius: 10px;
-    -fx-padding: 20px;
+    -fx-padding: 10px 20px 20px 20px;
     -fx-border-color: -header-color;
     -fx-border-width: 2px;
 }
