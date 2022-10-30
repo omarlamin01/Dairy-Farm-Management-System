@@ -241,3 +241,20 @@
     -fx-pref-height: 32px;
     -fx-background-radius: 10px 10px 0 0;
 }
+
+/* Report */
+.report_item {
+    -fx-background-color: transparent;
+    -fx-border-radius: 10px;
+    -fx-font-size: 1em;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 20px;
+    -fx-border-color: -header-color;
+    -fx-border-width: 2px;
+}
+
+.report_item .label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}

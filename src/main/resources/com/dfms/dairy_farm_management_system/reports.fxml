@@ -58,42 +58,41 @@
                             <Insets bottom="10.0" />
                         </VBox.margin>
                     </Label>
-                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <VBox styleClass="report_item">
+                  <VBox.margin>
+                     <Insets bottom="10.0" />
+                  </VBox.margin>
+                  <children>
+                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Get employee reports">
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                           <Insets bottom="10.0" />
                         </VBox.margin>
-                  <TextField promptText="Year">
-                     <styleClass>
-                        <String fx:value="input" />
-                        <String fx:value="date_input" />
-                     </styleClass>
-                  </TextField>
-                  <TextField promptText="Year">
-                     <styleClass>
-                        <String fx:value="input" />
-                        <String fx:value="date_input" />
-                     </styleClass>
-                  </TextField>
-                        <Button mnemonicParsing="false" styleClass="btn-search">
-                            <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                    <Image url="@../../../icons/search.png" />
-                                </ImageView>
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="-54.0" />
-                            </HBox.margin>
-                        </Button>
-                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New status" textAlignment="CENTER">
-                                <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                        <Image url="@../../../icons/add_user.png" />
-                                    </ImageView>
-                                </graphic>
-                            </Button>
-                        </HBox>
-                    </HBox>
+                     </Label>
+                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <TextField promptText="Year">
+                           <styleClass>
+                              <String fx:value="input" />
+                              <String fx:value="date_input" />
+                           </styleClass>
+                        </TextField>
+                        <TextField promptText="Employee ID">
+                           <styleClass>
+                              <String fx:value="input" />
+                              <String fx:value="date_input" />
+                           </styleClass>
+                        </TextField>
+                              <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                  <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                                      <graphic>
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                              <Image url="@../../../icons/search.png" />
+                                          </ImageView>
+                                      </graphic>
+                                  </Button>
+                              </HBox>
+                          </HBox>
+                  </children>
+               </VBox>
                 </VBox>
             </Tab>
             <Tab text="Production">
