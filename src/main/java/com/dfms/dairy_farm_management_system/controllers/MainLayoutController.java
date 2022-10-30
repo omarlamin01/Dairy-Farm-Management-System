@@ -73,7 +73,7 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     void loadClientsSuppliers(ActionEvent event) {
-        String clients_suppliers_view = "employees";
+        String clients_suppliers_view = "clients_suppliers";
         loadView(clients_suppliers_view);
     }
 
@@ -97,7 +97,7 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     void loadManageAnimal(ActionEvent event) {
-        String manage_animals = "dashboard";
+        String manage_animals = "manage_animal";
         loadView(manage_animals);
     }
 
@@ -115,7 +115,7 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     void loadSales(ActionEvent event) {
-        String sales_view = "employees";
+        String sales_view = "sales";
         loadView(sales_view);
     }
 
