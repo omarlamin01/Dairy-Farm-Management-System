@@ -144,11 +144,11 @@
     -fx-background-insets: 0, 0 0 1 0;
 }
 
-/*.nav_link:hover {*/
-/*    -fx-background-color: -yellow-color, -green-color;*/
-/*    -fx-background-insets: 0, 0 0 0 4;*/
-/*    -fx-cursor: hand;*/
-/*}*/
+.nav_link:hover {
+    /*-fx-background-color: -yellow-color, -green-color;*/
+    /*-fx-background-insets: 0, 0 0 0 4;*/
+    -fx-cursor: hand;
+}
 
 .main_content {
     -fx-padding: 20px;
