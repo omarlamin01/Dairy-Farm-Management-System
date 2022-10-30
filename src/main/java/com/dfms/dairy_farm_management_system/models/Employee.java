@@ -1,4 +1,4 @@
-package com.dfms.dairy_farm_management_system.Models;
+package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
