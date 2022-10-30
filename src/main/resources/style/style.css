@@ -123,6 +123,10 @@
     -fx-background-image: url("../icons/notee.png");
 }
 
+.date_input {
+    -fx-background-image: url("../icons/calender.png");
+}
+
 .nav_bar {
     -fx-background-color: -dark-blue-color;
 }

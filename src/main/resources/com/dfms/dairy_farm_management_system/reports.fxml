@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -61,11 +62,18 @@
                         <VBox.margin>
                             <Insets bottom="10.0" />
                         </VBox.margin>
-                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
-                            <padding>
-                                <Insets left="10.0" />
-                            </padding>
-                        </TextField>
+                  <TextField promptText="Year">
+                     <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="date_input" />
+                     </styleClass>
+                  </TextField>
+                  <TextField promptText="Year">
+                     <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="date_input" />
+                     </styleClass>
+                  </TextField>
                         <Button mnemonicParsing="false" styleClass="btn-search">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
@@ -77,8 +85,6 @@
                             </HBox.margin>
                         </Button>
                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Filter" styleClass="combo_box" />
-                            <ComboBox promptText="Export" styleClass="combo_box" />
                             <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New status" textAlignment="CENTER">
                                 <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -193,27 +199,26 @@
                            <Insets bottom="10.0" />
                         </VBox.margin>
                         <children>
-                           <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
-                              <padding>
-                                 <Insets left="10.0" />
-                              </padding>
+                           <TextField promptText="Year">
+                              <styleClass>
+                                 <String fx:value="input" />
+                                 <String fx:value="date_input" />
+                              </styleClass>
                            </TextField>
-                           <Button mnemonicParsing="false" styleClass="btn-search">
-                              <graphic>
-                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                       <Image url="@../../../icons/search.png" />
-                                    </image>
-                                 </ImageView>
-                              </graphic>
-                              <HBox.margin>
-                                 <Insets left="-54.0" />
-                              </HBox.margin>
-                           </Button>
                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                               <children>
-                                 <ComboBox promptText="Filter" styleClass="combo_box" />
-                                 <ComboBox promptText="Export" styleClass="combo_box" />
+                                 <Button mnemonicParsing="false" styleClass="btn-search">
+                                    <graphic>
+                                       <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@../../../icons/search.png" />
+                                          </image>
+                                       </ImageView>
+                                    </graphic>
+                                    <HBox.margin>
+                                       <Insets left="-54.0" />
+                                    </HBox.margin>
+                                 </Button>
                                  <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New vaccination" textAlignment="CENTER">
                                     <graphic>
                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
