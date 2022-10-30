@@ -2,85 +2,28 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Employee {
-    private String  firstName;
-    private String lastName;
-    private char gender;
-    private String cin;
-    private String email;
-    private int phone;
-    private String adresse;
+public class Employee extends Personne{
+    private int id_employee;
     private float salary;
     private Date recruitmentDate;
     private String contractType;
 
-    public Employee(String firstName, String lastName, char gender, String cin, String email, int phone, String adresse, float salary, Date recruitmentDate, String contractType) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.cin = cin;
-        this.email = email;
-        this.phone = phone;
-        this.adresse = adresse;
+    @Override
+    public void setId(int id) {
+        this. id_employee = id;
+    }
+
+    @Override
+    public int getId() {
+        return  id_employee;
+    }
+
+    public Employee(int id, String firstName, String lastName, char gender, String cin, String email, int phone, String adresse, int id1, float salary, Date recruitmentDate, String contractType) {
+        super(id, firstName, lastName, gender, cin, email, phone, adresse);
+        this. id_employee = id1;
         this.salary = salary;
         this.recruitmentDate = recruitmentDate;
         this.contractType = contractType;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public char getGender() {
-        return gender;
-    }
-
-    public void setGender(char gender) {
-        this.gender = gender;
-    }
-
-    public String getCin() {
-        return cin;
-    }
-
-    public void setCin(String cin) {
-        this.cin = cin;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getPhone() {
-        return phone;
-    }
-
-    public void setPhone(int phone) {
-        this.phone = phone;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
     }
 
     public float getSalary() {

@@ -1,11 +1,11 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Race {
-    private int id;
+public class Race extends Model{
+    private int id_race;
     private String name;
 
     public void setId(int id) {
-        this.id = id;
+        this.id_race = id;
     }
 
     public void setName(String name) {
@@ -13,7 +13,7 @@ public class Race {
     }
 
     public int getId() {
-        return id;
+        return id_race;
     }
 
     public String getName() {
@@ -21,7 +21,7 @@ public class Race {
     }
 
     public Race(int id, String name) {
-        this.id = id;
+        this.id_race = id;
         this.name = name;
     }
 }

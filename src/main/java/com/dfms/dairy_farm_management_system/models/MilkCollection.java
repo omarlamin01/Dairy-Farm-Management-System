@@ -2,18 +2,23 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class MilkCollection {
-    private int id;
-    private int id_animal;
+public class MilkCollection extends Model{
+    private int id_milkcollection;
+    private int id_cow;
     private float quantity;
     private Date collection_date;
-
+    public MilkCollection(int id, int id_cow, float quantity, Date collection_date) {
+        this.id_milkcollection = id;
+        this.id_cow = id_cow;
+        this.quantity = quantity;
+        this.collection_date = collection_date;
+    }
     public void setId(int id) {
-        this.id = id;
+        this.id_milkcollection = id;
     }
 
-    public void setId_animal(int id_animal) {
-        this.id_animal = id_animal;
+    public void setId_cow(int id_cow) {
+        this.id_cow = id_cow;
     }
 
     public void setQuantity(float quantity) {
@@ -25,11 +30,11 @@ public class MilkCollection {
     }
 
     public int getId() {
-        return id;
+        return id_milkcollection;
     }
 
-    public int getId_animal() {
-        return id_animal;
+    public int getId_cow() {
+        return id_cow;
     }
 
     public float getQuantity() {
@@ -40,10 +45,5 @@ public class MilkCollection {
         return collection_date;
     }
 
-    public MilkCollection(int id, int id_animal, float quantity, Date collection_date) {
-        this.id = id;
-        this.id_animal = id_animal;
-        this.quantity = quantity;
-        this.collection_date = collection_date;
-    }
+
 }
