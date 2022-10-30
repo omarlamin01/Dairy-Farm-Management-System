@@ -2,51 +2,51 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Purchase {
-    private int responsibleId;
-    private int clientId;
-    private int productId;
-    private float amount;
+public class Purchase extends Model{
+    private int id_purchase;
+    private int id_supplier;
+    private int id_stock;
+    private float price;
     private Date operationDate;
 
-    public Purchase(int responsibleId, int clientId, int productId, float amount, Date operationDate) {
-        this.responsibleId = responsibleId;
-        this.clientId = clientId;
-        this.productId = productId;
-        this.amount = amount;
+    public Purchase(int id_purchase, int id_supplier, int id_stock, float price, Date operationDate) {
+        this.id_purchase = id_purchase;
+        this.id_supplier = id_supplier;
+        this.id_stock = id_stock;
+        this.price = price;
         this.operationDate = operationDate;
     }
 
-    public int getResponsibleId() {
-        return responsibleId;
+    public int getId_purchase() {
+        return id_purchase;
     }
 
-    public void setResponsibleId(int responsibleId) {
-        this.responsibleId = responsibleId;
+    public void setId_purchase(int id_purchase) {
+        this.id_purchase = id_purchase;
     }
 
-    public int getClientId() {
-        return clientId;
+    public int getId_supplier() {
+        return id_supplier;
     }
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public void setId_supplier(int id_supplier) {
+        this.id_supplier = id_supplier;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getId_stock() {
+        return id_stock;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setId_stock(int id_stock) {
+        this.id_stock = id_stock;
     }
 
-    public float getAmount() {
-        return amount;
+    public float getPrice() {
+        return price;
     }
 
-    public void setAmount(float amount) {
-        this.amount = amount;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public Date getOperationDate() {

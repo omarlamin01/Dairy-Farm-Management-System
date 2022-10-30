@@ -2,51 +2,55 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Sales {
-    private int responsibleId;
-    private int clientId;
-    private int productId;
-    private float amount;
+public class Sales extends Model{
+
+    private int id_sales;
+
+
+    private int id_client;
+    private int id_milkcollection;
+    private int id_animal;
+    private float price;
     private Date operationDate;
 
-    public Sales(int responsibleId, int clientId, int productId, float amount, Date operationDate) {
-        this.responsibleId = responsibleId;
-        this.clientId = clientId;
-        this.productId = productId;
-        this.amount = amount;
-        this.operationDate = operationDate;
+    public int getId_sales() {
+        return id_sales;
     }
 
-    public int getResponsibleId() {
-        return responsibleId;
+    public void setId_sales(int id_sales) {
+        this.id_sales = id_sales;
     }
 
-    public void setResponsibleId(int responsibleId) {
-        this.responsibleId = responsibleId;
+    public int getId_client() {
+        return id_client;
     }
 
-    public int getClientId() {
-        return clientId;
+    public void setId_client(int id_client) {
+        this.id_client = id_client;
     }
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
+    public int getId_milkcollection() {
+        return id_milkcollection;
     }
 
-    public int getProductId() {
-        return productId;
+    public void setId_milkcollection(int id_milkcollection) {
+        this.id_milkcollection = id_milkcollection;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public int getId_animal() {
+        return id_animal;
     }
 
-    public float getAmount() {
-        return amount;
+    public void setId_animal(int id_animal) {
+        this.id_animal = id_animal;
     }
 
-    public void setAmount(float amount) {
-        this.amount = amount;
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public Date getOperationDate() {
@@ -54,6 +58,15 @@ public class Sales {
     }
 
     public void setOperationDate(Date operationDate) {
+        this.operationDate = operationDate;
+    }
+
+    public Sales(int id_sales, int id_client, int id_milkcollection, int id_animal, float price, Date operationDate) {
+        this.id_sales = id_sales;
+        this.id_client = id_client;
+        this.id_milkcollection = id_milkcollection;
+        this.id_animal = id_animal;
+        this.price = price;
         this.operationDate = operationDate;
     }
 }
