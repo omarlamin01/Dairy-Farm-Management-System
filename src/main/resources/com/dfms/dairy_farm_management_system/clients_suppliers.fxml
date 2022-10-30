@@ -71,7 +71,6 @@
                             </HBox.margin>
                         </Button>
                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Filter" styleClass="combo_box" />
                             <ComboBox promptText="Export" styleClass="combo_box" />
                             <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New client" textAlignment="CENTER">
                                 <graphic>
@@ -124,7 +123,6 @@
                             </HBox.margin>
                         </Button>
                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Filter" styleClass="combo_box" />
                             <ComboBox promptText="Export" styleClass="combo_box" />
                             <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New supplier" textAlignment="CENTER">
                                 <graphic>
