@@ -103,7 +103,7 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     void loadReports(ActionEvent event) {
-        String reports_view = "employees";
+        String reports_view = "reports";
         loadView(reports_view);
     }
 
