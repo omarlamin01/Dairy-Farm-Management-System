@@ -4,7 +4,6 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -58,49 +57,47 @@
                             <Insets bottom="10.0" />
                         </VBox.margin>
                     </Label>
-               <VBox styleClass="report_item">
-                  <VBox.margin>
-                     <Insets bottom="10.0" />
-                  </VBox.margin>
-                  <children>
-                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get employee reports">
+                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
                         <VBox.margin>
-                           <Insets bottom="10.0" />
+                            <Insets bottom="10.0" />
                         </VBox.margin>
-                     </Label>
-                          <HBox alignment="CENTER_LEFT" spacing="10.0">
-                        <TextField promptText="Year">
-                           <styleClass>
-                              <String fx:value="input" />
-                              <String fx:value="date_input" />
-                           </styleClass>
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                        </TextField>
-                        <TextField promptText="Employee ID">
-                           <styleClass>
-                              <String fx:value="input" />
-                              <String fx:value="verify_input" />
-                           </styleClass>
-                        </TextField>
-                              <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                                  <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
-                                      <graphic>
-                                          <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                              <Image url="@../../../icons/search.png" />
-                                          </ImageView>
-                                      </graphic>
-                                  </Button>
-                              </HBox>
-                          </HBox>
-                  </children>
-               </VBox>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get employee reports">
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <TextField promptText="Year">
+                                <styleClass>
+                                    <String fx:value="input" />
+                                    <String fx:value="date_input" />
+                                </styleClass>
+                                <HBox.margin>
+                                    <Insets right="10.0" />
+                                </HBox.margin>
+                            </TextField>
+                            <TextField promptText="Employee ID">
+                                <styleClass>
+                                    <String fx:value="input" />
+                                    <String fx:value="verify_input" />
+                                </styleClass>
+                            </TextField>
+                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                                    <graphic>
+                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                            <Image url="@../../../icons/search.png" />
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                            </HBox>
+                        </HBox>
+                    </VBox>
                 </VBox>
             </Tab>
             <Tab text="Production">
-                <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
-                    <Label styleClass="sub_header" text="Manage cows pregnancy here" textAlignment="CENTER">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+                    <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                         <font>
                             <Font size="18.0" />
                         </font>
@@ -108,42 +105,47 @@
                             <Insets bottom="10.0" />
                         </VBox.margin>
                     </Label>
-                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
                         <VBox.margin>
                             <Insets bottom="10.0" />
                         </VBox.margin>
-                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
-                            <padding>
-                                <Insets left="10.0" />
-                            </padding>
-                        </TextField>
-                        <Button mnemonicParsing="false" styleClass="btn-search">
-                            <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                    <Image url="@../../../icons/search.png" />
-                                </ImageView>
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="-54.0" />
-                            </HBox.margin>
-                        </Button>
-                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Filter" styleClass="combo_box" />
-                            <ComboBox promptText="Export" styleClass="combo_box" />
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New pregnancy" textAlignment="CENTER">
-                                <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                        <Image url="@../../../icons/add_user.png" />
-                                    </ImageView>
-                                </graphic>
-                            </Button>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get production reports">
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <TextField promptText="Year">
+                                <styleClass>
+                                    <String fx:value="input" />
+                                    <String fx:value="date_input" />
+                                </styleClass>
+                                <HBox.margin>
+                                    <Insets right="10.0" />
+                                </HBox.margin>
+                            </TextField>
+                            <TextField promptText="Employee ID">
+                                <styleClass>
+                                    <String fx:value="input" />
+                                    <String fx:value="verify_input" />
+                                </styleClass>
+                            </TextField>
+                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                                    <graphic>
+                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                            <Image url="@../../../icons/search.png" />
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                            </HBox>
                         </HBox>
-                    </HBox>
+                    </VBox>
                 </VBox>
             </Tab>
             <Tab text="Consommation">
-                <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
-                    <Label styleClass="sub_header" text="Manage animal vaccination here" textAlignment="CENTER">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+                    <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                         <font>
                             <Font size="18.0" />
                         </font>
@@ -151,93 +153,83 @@
                             <Insets bottom="10.0" />
                         </VBox.margin>
                     </Label>
-                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
                         <VBox.margin>
                             <Insets bottom="10.0" />
                         </VBox.margin>
-                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
-                            <padding>
-                                <Insets left="10.0" />
-                            </padding>
-                        </TextField>
-                        <Button mnemonicParsing="false" styleClass="btn-search">
-                            <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                    <Image url="@../../../icons/search.png" />
-                                </ImageView>
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="-54.0" />
-                            </HBox.margin>
-                        </Button>
-                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Filter" styleClass="combo_box" />
-                            <ComboBox promptText="Export" styleClass="combo_box" />
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New vaccination" textAlignment="CENTER">
-                                <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                        <Image url="@../../../icons/add_user.png" />
-                                    </ImageView>
-                                </graphic>
-                            </Button>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get consommation reports">
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <TextField promptText="Year">
+                                <styleClass>
+                                    <String fx:value="input" />
+                                    <String fx:value="date_input" />
+                                </styleClass>
+                                <HBox.margin>
+                                    <Insets right="10.0" />
+                                </HBox.margin>
+                            </TextField>
+                            <TextField promptText="Employee ID">
+                                <styleClass>
+                                    <String fx:value="input" />
+                                    <String fx:value="verify_input" />
+                                </styleClass>
+                            </TextField>
+                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                                    <graphic>
+                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                            <Image url="@../../../icons/search.png" />
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                            </HBox>
                         </HBox>
-                    </HBox>
+                    </VBox>
                 </VBox>
             </Tab>
-         <Tab text="Animal Statistics">
-            <content>
-               <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
-                  <children>
-                     <Label styleClass="sub_header" text="Manage animal vaccination here" textAlignment="CENTER">
+            <Tab text="Animal Statistics">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+                    <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                         <font>
-                           <Font size="18.0" />
+                            <Font size="18.0" />
                         </font>
                         <VBox.margin>
-                           <Insets bottom="10.0" />
+                            <Insets bottom="10.0" />
                         </VBox.margin>
-                     </Label>
-                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    </Label>
+                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
                         <VBox.margin>
-                           <Insets bottom="10.0" />
+                            <Insets bottom="10.0" />
                         </VBox.margin>
-                        <children>
-                           <TextField promptText="Year">
-                              <styleClass>
-                                 <String fx:value="input" />
-                                 <String fx:value="date_input" />
-                              </styleClass>
-                           </TextField>
-                           <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                              <children>
-                                 <Button mnemonicParsing="false" styleClass="btn-search">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get animal reports">
+                            <VBox.margin>
+                                <Insets bottom="10.0" />
+                            </VBox.margin>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="379.0" promptText="Animal ID">
+                        <styleClass>
+                           <String fx:value="input" />
+                           <String fx:value="cow_input" />
+                        </styleClass>
+                            </TextField>
+                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
                                     <graphic>
-                                       <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                          <image>
-                                             <Image url="@../../../icons/search.png" />
-                                          </image>
-                                       </ImageView>
+                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                            <Image url="@../../../icons/search.png" />
+                                        </ImageView>
                                     </graphic>
-                                    <HBox.margin>
-                                       <Insets left="-54.0" />
-                                    </HBox.margin>
-                                 </Button>
-                                 <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New vaccination" textAlignment="CENTER">
-                                    <graphic>
-                                       <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                          <image>
-                                             <Image url="@../../../icons/add_user.png" />
-                                          </image>
-                                       </ImageView>
-                                    </graphic>
-                                 </Button>
-                              </children>
-                           </HBox>
-                        </children>
-                     </HBox>
-                  </children>
-               </VBox>
-            </content>
-         </Tab>
+                                </Button>
+                            </HBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </Tab>
         </TabPane>
     </VBox>
 </ScrollPane>
