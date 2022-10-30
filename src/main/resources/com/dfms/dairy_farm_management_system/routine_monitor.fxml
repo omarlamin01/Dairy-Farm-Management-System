@@ -19,14 +19,14 @@
 
 <ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.dfms.dairy_farm_management_system.controllers.StockController">
+            fx:controller="com.dfms.dairy_farm_management_system.controllers.RoutineController">
     <stylesheets>
         <URL value="@../../../style/style.css"/>
         <URL value="@../../../style/table_view.css"/>
     </stylesheets>
     <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content"
           stylesheets="@../../../style/style.css">
-        <Label styleClass="header" text="Stock" textAlignment="CENTER">
+        <Label styleClass="header" text="Routines" textAlignment="CENTER">
             <font>
                 <Font name="System Bold" size="24.0"/>
             </font>
@@ -45,7 +45,7 @@
             <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK"
                        strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0"/>
         </Pane>
-        <Label styleClass="sub_header" text="Manage your stock here" textAlignment="CENTER">
+        <Label styleClass="sub_header" text="Manage routines here" textAlignment="CENTER">
             <font>
                 <Font size="18.0"/>
             </font>
@@ -58,7 +58,7 @@
                 <Insets bottom="10.0"/>
             </VBox.margin>
             <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0"
-                       prefWidth="385.0" promptText="Search for a product..."
+                       prefWidth="385.0" promptText="Search for a routine..."
                        styleClass="text-field-search">
                 <padding>
                     <Insets left="10.0"/>
@@ -77,9 +77,9 @@
             <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
                   maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                 <ComboBox fx:id="combo" promptText="Export" styleClass="combo_box"/>
-                <Button fx:id="openAddNewEmployeeBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity"
-                        maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddProduct"
-                        styleClass="button-add" text="New product" textAlignment="CENTER">
+                <Button fx:id="openAddNewRoutineBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity"
+                        maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddRoutine"
+                        styleClass="button-add" text="New routine" textAlignment="CENTER">
                     <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
                                    preserveRatio="true">
@@ -92,10 +92,9 @@
         <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
             <columns>
                 <TableColumn prefWidth="67.66667175292969" text="ID"/>
-                <TableColumn prefWidth="163.0" text="Product name"/>
-                <TableColumn prefWidth="116.0" text="Product type"/>
-                <TableColumn prefWidth="120.33334350585938" text="Added date"/>
-                <TableColumn prefWidth="144.0" text="Availability"/>
+                <TableColumn prefWidth="163.0" text="Routine name"/>
+                <TableColumn prefWidth="230.0" text="Note"/>
+                <TableColumn minWidth="0.0" prefWidth="151.0" text="Added Date"/>
                 <TableColumn prefWidth="190.66668701171875" text="Actions"/>
             </columns>
         </TableView>

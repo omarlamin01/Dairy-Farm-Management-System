@@ -18,11 +18,8 @@
     -fx-background-color: transparent;
 }
 
-/* Spaltenköpfe
-    Struktur column-header-background -> column-header */
-
 .table-view .column-header-background {
-    -fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+    -fx-background-color: linear-gradient(#868686 0%, #606060 100%);
     -fx-pref-height: 44px;
     -fx-background-radius: 10px 10px 0 0;
 }
