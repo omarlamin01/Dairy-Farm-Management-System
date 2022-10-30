@@ -145,8 +145,8 @@
 }
 
 .nav_link:hover {
-    -fx-background-color: -yellow-color, -green-color;
-    -fx-background-insets: 0, 0 0 0 4;
+    /*-fx-background-color: -yellow-color, -green-color;*/
+    /*-fx-background-insets: 0, 0 0 0 4;*/
     -fx-cursor: hand;
 }
 

@@ -131,17 +131,7 @@ public class MainLayoutController implements Initializable {
     }
 
     private void addActiveClassToNavLink() {
-        ArrayList<Button> navLinks = new ArrayList<>();
-        navLinks.add(animal_monitor_btn);
-        navLinks.add(dashboard_btn);
-        navLinks.add(profile_btn);
-        navLinks.add(employees_btn);
-        navLinks.add(manage_animal_btn);
-        navLinks.add(manage_clients_suppliers_btn);
-        navLinks.add(reports_btn);
-        navLinks.add(routine_monitor_btn);
-        navLinks.add(sales_btn);
-        navLinks.add(stock_btn);
+        ArrayList<Button> navLinks = navLinks();
 
         //add background color to active button
         for (Button button : navLinks) {
@@ -153,5 +143,36 @@ public class MainLayoutController implements Initializable {
                         "-fx-background-insets: 0, 0 0 1 0;");
             }
         }
+    }
+
+    @FXML
+    void navLinkMouseEntred(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        button.setStyle("-fx-background-color: #FFC700, #72ED12;" +
+                "-fx-background-insets: 0, 0 0 0 4;");
+    }
+
+    @FXML
+    void navLinkMouseExited(MouseEvent event) {
+        Button button = (Button) event.getSource();
+        if (!button.isFocused()) {
+            button.setStyle("-fx-background-color: #1B2434, #1E293B;" +
+                    "-fx-background-insets: 0, 0 0 1 0;");
+        }
+    }
+
+    private ArrayList<Button> navLinks() {
+        ArrayList<Button> navLinks = new ArrayList<>();
+        navLinks.add(animal_monitor_btn);
+        navLinks.add(dashboard_btn);
+        navLinks.add(profile_btn);
+        navLinks.add(employees_btn);
+        navLinks.add(manage_animal_btn);
+        navLinks.add(manage_clients_suppliers_btn);
+        navLinks.add(reports_btn);
+        navLinks.add(routine_monitor_btn);
+        navLinks.add(sales_btn);
+        navLinks.add(stock_btn);
+        return navLinks;
     }
 }
