@@ -12,5 +12,4 @@ Dairy Farm Management System.iml
 .classpath
 .project
 .settings/
-target/
-*.class
+*/target/**
