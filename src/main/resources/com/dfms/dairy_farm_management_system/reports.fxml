@@ -17,76 +17,86 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ReportsController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.dfms.dairy_farm_management_system.controllers.ReportsController">
     <stylesheets>
-        <URL value="@../../../style/style.css" />
-        <URL value="@../../../style/tab_pane.css" />
+        <URL value="@../../../style/style.css"/>
+        <URL value="@../../../style/tab_pane.css"/>
     </stylesheets>
-    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content"
+          stylesheets="@../../../style/style.css">
         <Label styleClass="header" text="Reports" textAlignment="CENTER">
             <font>
-                <Font name="System Bold" size="24.0" />
+                <Font name="System Bold" size="24.0"/>
             </font>
             <VBox.margin>
-                <Insets bottom="10.0" />
+                <Insets bottom="10.0"/>
             </VBox.margin>
         </Label>
         <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
             <VBox.margin>
-                <Insets bottom="10.0" />
+                <Insets bottom="10.0"/>
             </VBox.margin>
-            <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
-            <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
+            <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0"/>
+            <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE"
+                       strokeWidth="0.0" styleClass="rectangle" width="14.0"/>
         </Pane>
         <Label styleClass="sub_header" text="Check all system's reports here" textAlignment="CENTER">
             <font>
-                <Font size="18.0" />
+                <Font size="18.0"/>
             </font>
             <VBox.margin>
-                <Insets bottom="10.0" />
+                <Insets bottom="10.0"/>
             </VBox.margin>
         </Label>
         <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
             <Tab text="Employee Salary">
-                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content"
+                      stylesheets="@../../../style/style.css">
                     <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                         <font>
-                            <Font size="18.0" />
+                            <Font size="18.0"/>
                         </font>
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
                     </Label>
                     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get employee reports">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+                               text="Get employee reports">
                             <VBox.margin>
-                                <Insets bottom="10.0" />
+                                <Insets bottom="10.0"/>
                             </VBox.margin>
                         </Label>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                             <TextField promptText="Year">
                                 <styleClass>
-                                    <String fx:value="input" />
-                                    <String fx:value="date_input" />
+                                    <String fx:value="input"/>
+                                    <String fx:value="date_input"/>
                                 </styleClass>
                                 <HBox.margin>
-                                    <Insets right="10.0" />
+                                    <Insets right="10.0"/>
                                 </HBox.margin>
                             </TextField>
                             <TextField promptText="Employee ID">
                                 <styleClass>
-                                    <String fx:value="input" />
-                                    <String fx:value="verify_input" />
+                                    <String fx:value="input"/>
+                                    <String fx:value="verify_input"/>
                                 </styleClass>
                             </TextField>
-                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
+                                  maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"
+                                        mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
                                     <graphic>
-                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                            <Image url="@../../../icons/search.png" />
+                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <Image url="@../../../icons/search.png"/>
                                         </ImageView>
                                     </graphic>
                                 </Button>
@@ -96,45 +106,50 @@
                 </VBox>
             </Tab>
             <Tab text="Production">
-                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content"
+                      stylesheets="@../../../style/style.css">
                     <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                         <font>
-                            <Font size="18.0" />
+                            <Font size="18.0"/>
                         </font>
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
                     </Label>
                     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get production reports">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+                               text="Get production reports">
                             <VBox.margin>
-                                <Insets bottom="10.0" />
+                                <Insets bottom="10.0"/>
                             </VBox.margin>
                         </Label>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                             <TextField promptText="Year">
                                 <styleClass>
-                                    <String fx:value="input" />
-                                    <String fx:value="date_input" />
+                                    <String fx:value="input"/>
+                                    <String fx:value="date_input"/>
                                 </styleClass>
                                 <HBox.margin>
-                                    <Insets right="10.0" />
+                                    <Insets right="10.0"/>
                                 </HBox.margin>
                             </TextField>
                             <TextField promptText="Employee ID">
                                 <styleClass>
-                                    <String fx:value="input" />
-                                    <String fx:value="verify_input" />
+                                    <String fx:value="input"/>
+                                    <String fx:value="verify_input"/>
                                 </styleClass>
                             </TextField>
-                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
+                                  maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"
+                                        mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
                                     <graphic>
-                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                            <Image url="@../../../icons/search.png" />
+                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <Image url="@../../../icons/search.png"/>
                                         </ImageView>
                                     </graphic>
                                 </Button>
@@ -144,45 +159,50 @@
                 </VBox>
             </Tab>
             <Tab text="Consommation">
-                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content"
+                      stylesheets="@../../../style/style.css">
                     <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                         <font>
-                            <Font size="18.0" />
+                            <Font size="18.0"/>
                         </font>
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
                     </Label>
                     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get consommation reports">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+                               text="Get consommation reports">
                             <VBox.margin>
-                                <Insets bottom="10.0" />
+                                <Insets bottom="10.0"/>
                             </VBox.margin>
                         </Label>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                             <TextField promptText="Year">
                                 <styleClass>
-                                    <String fx:value="input" />
-                                    <String fx:value="date_input" />
+                                    <String fx:value="input"/>
+                                    <String fx:value="date_input"/>
                                 </styleClass>
                                 <HBox.margin>
-                                    <Insets right="10.0" />
+                                    <Insets right="10.0"/>
                                 </HBox.margin>
                             </TextField>
                             <TextField promptText="Employee ID">
                                 <styleClass>
-                                    <String fx:value="input" />
-                                    <String fx:value="verify_input" />
+                                    <String fx:value="input"/>
+                                    <String fx:value="verify_input"/>
                                 </styleClass>
                             </TextField>
-                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
+                                  maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"
+                                        mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
                                     <graphic>
-                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                            <Image url="@../../../icons/search.png" />
+                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <Image url="@../../../icons/search.png"/>
                                         </ImageView>
                                     </graphic>
                                 </Button>
@@ -192,36 +212,43 @@
                 </VBox>
             </Tab>
             <Tab text="Animal Statistics">
-                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content"
+                      stylesheets="@../../../style/style.css">
                     <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                         <font>
-                            <Font size="18.0" />
+                            <Font size="18.0"/>
                         </font>
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
                     </Label>
                     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
                         <VBox.margin>
-                            <Insets bottom="10.0" />
+                            <Insets bottom="10.0"/>
                         </VBox.margin>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get animal reports">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+                               text="Get animal reports">
                             <VBox.margin>
-                                <Insets bottom="10.0" />
+                                <Insets bottom="10.0"/>
                             </VBox.margin>
                         </Label>
-                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
-                            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="379.0" promptText="Animal ID">
-                        <styleClass>
-                           <String fx:value="input" />
-                           <String fx:value="cow_input" />
-                        </styleClass>
+                        <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308"
+                              maxWidth="1.7976931348623157E308" spacing="10.0">
+                            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                       prefHeight="47.0" prefWidth="379.0" promptText="Animal ID">
+                                <styleClass>
+                                    <String fx:value="input"/>
+                                    <String fx:value="cow_input"/>
+                                </styleClass>
                             </TextField>
-                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
+                                  maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"
+                                        mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
                                     <graphic>
-                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                            <Image url="@../../../icons/search.png" />
+                                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <Image url="@../../../icons/search.png"/>
                                         </ImageView>
                                     </graphic>
                                 </Button>
