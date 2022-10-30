@@ -1,12 +1,12 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Purchases {
+public class Supplier {
     private String firstName;
     private String lastName;
     private int phone ;
     private String email;
 
-    public Purchases(String firstName, String lastName, int phone, String email) {
+    public Supplier(String firstName, String lastName, int phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
