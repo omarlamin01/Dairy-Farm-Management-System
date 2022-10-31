@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,10 +18,10 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        String first_view = "main_layout";
+        String first_view = "splash_screen";
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(first_view + ".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-//        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
         stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
         stage.setTitle("Dairy Farm Management System");
         stage.setScene(scene);
@@ -37,6 +38,19 @@ public class Main extends Application {
         dbObject.put("email", "example@gmail.com");
 
         DBConfig.getDb().getCollection("dfms").insert(dbObject);
+
+        //get data
+        DBCursor cursor = DBConfig.getDb().getCollection("dfms").find();
+        while (cursor.hasNext()) {
+            //printing the whole document
+            System.out.println(cursor.next());
+            //convert document to object and access fields
+            DBObject obg = cursor.next();
+            System.out.println(obg.get("name"));
+            System.out.println(obg.get("version"));
+            System.out.println(obg.get("author"));
+            System.out.println(obg.get("email"));
+        }
     }
 
     public static void main(String[] args) {
