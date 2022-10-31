@@ -1,6 +1,7 @@
 package com.dfms.dairy_farm_management_system.connection;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import com.mongodb.*;
 
@@ -10,12 +11,10 @@ public class DBConfig {
     private static DBCollection collection;
 
     private static final String DBName = "dairy_farm_management_system";
-    private static final String collectionName = "dairy_farm_management_system";
 
     public static void connect() throws UnknownHostException {
         mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         db = mongoClient.getDB(DBName);
-        collection = db.getCollection(collectionName);
     }
 
     public static void disconnect() {
