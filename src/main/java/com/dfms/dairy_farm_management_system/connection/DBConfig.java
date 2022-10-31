@@ -10,7 +10,7 @@ public class DBConfig {
     private static DB db;
     private static DBCollection collection;
 
-    private static final String DBName = "dairy_farm_management_system";
+    private static final String DBName = "test";
 
     public static void connect() throws UnknownHostException {
         mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
