@@ -64,9 +64,9 @@ public class Main extends Application {
         while (cursor.hasNext()) {
             if (cursor.next() != null) {
                 //printing the whole document
-                System.out.println(cursor.next());
+                System.out.println(cursor.curr());
                 //convert document to object and access fields
-                DBObject obg = cursor.next();
+                DBObject obg = cursor.curr();
                 System.out.println(obg.get("name"));
             }
         }
@@ -80,7 +80,7 @@ public class Main extends Application {
         DBCursor cursor1 = DBConfig.getDb().getCollection("dfms").find(query);
         while (cursor1.hasNext()) {
             if (cursor1.next() != null) {
-                System.out.println(cursor1.next());
+                System.out.println(cursor1.curr());
             }
         }
 
@@ -109,7 +109,7 @@ public class Main extends Application {
         DBCursor cursor2 = DBConfig.getDb().getCollection("dfms").find(query2);
         while (cursor2.hasNext()) {
             if (cursor2.next() != null) {
-                System.out.println(cursor2.next());
+                System.out.println(cursor2.curr());
             }
         }
 
@@ -129,7 +129,7 @@ public class Main extends Application {
         DBCursor cursor3 = DBConfig.getDb().getCollection("dfms").find();
         while (cursor3.hasNext()) {
             if (cursor3.next() != null) {
-                System.out.println(cursor3.next());
+                System.out.println(cursor3.curr());
             }
         }
     }
