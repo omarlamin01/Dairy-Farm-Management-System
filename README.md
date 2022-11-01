@@ -21,16 +21,14 @@ Desktop application for managing dairy farms, built using java, javafx &amp; mon
 
 <h4>ABDELLATIF LAGHJAJ</h4>
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=abdellatif-laghjaj&count_private=true&show_icons=true&theme=tokyonight)](https://github.com/omarlamin01/Dairy-Farm-Management-System)
+![](https://github-readme-stats.vercel.app/api?username=abdellatif-laghjaj&theme=radical&hide_border=false&include_all_commits=false&count_private=true)
 
 <h4> OMAR LAMINE </h4>
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=omarlamin01&count_private=true&show_icons=true&theme=radical)](https://github.com/omarlamin01/Dairy-Farm-Management-System)
+![](https://github-readme-stats.vercel.app/api?username=omarlamin01&theme=radical&hide_border=false&include_all_commits=false&count_private=true)
 
 <h4> MARYMAE BOUCHHAR </h4>
-
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=MaryamBouchhar&count_private=true&show_icons=true&theme=tokyonight)](https://github.com/omarlamin01/Dairy-Farm-Management-System)
+![](https://github-readme-stats.vercel.app/api?username=MaryamBouchhar&theme=radical&hide_border=false&include_all_commits=false&count_private=true)
 
 <h4> NAIMA ADARDOUR </h4>
-
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=naima&count_private=true&show_icons=true&theme=radical)](https://github.com/omarlamin01/Dairy-Farm-Management-System)
+![](https://github-readme-stats.vercel.app/api?username=naima&theme=radical&hide_border=false&include_all_commits=false&count_private=true)
