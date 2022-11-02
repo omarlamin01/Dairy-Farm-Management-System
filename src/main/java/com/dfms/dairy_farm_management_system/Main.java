@@ -1,9 +1,6 @@
 package com.dfms.dairy_farm_management_system;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,17 +24,6 @@ public class Main extends Application {
         stage.setScene(scene);
         centerScreen(stage);
         stage.show();
-
-        //test mongo connection
-        DBConfig.connect();
-        DBConfig.getDb().getCollection("dfms");
-        DBObject dbObject = new BasicDBObject();
-        dbObject.put("name", "Dairy Farm Management System");
-        dbObject.put("version", "1.0.0");
-        dbObject.put("author", "Abdellatif Laghjaj");
-        dbObject.put("email", "example@gmail.com");
-
-        DBConfig.getDb().getCollection("dfms").insert(dbObject);
     }
 
     public static void main(String[] args) {
