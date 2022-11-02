@@ -1,20 +1,57 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Supplier extends Personne {
+public class Supplier  extends Model{
     private int id_supplier;
+    private String name;
+    private String type;
+    private String email;
+    private int phone;
 
-    public Supplier(int id, String firstName, String lastName, char gender, String cin, String email, int phone, String adresse, int id1) {
-        super(id, firstName, lastName, gender, cin, email, phone, adresse);
-        this.id_supplier = id1;
+    public Supplier(int id_supplier, String name, String type, String email, int phone) {
+        this.id_supplier = id_supplier;
+        this.name = name;
+        this.type = type;
+        this.email = email;
+        this.phone = phone;
     }
 
-    @Override
-    public int getId() {
+    public int getId_supplier() {
         return id_supplier;
     }
 
-    @Override
-    public void setId(int id) {
-        this.id_supplier = id;
+    public void setId_supplier(int id_supplier) {
+        this.id_supplier = id_supplier;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getPhone() {
+        return phone;
+    }
+
+    public void setPhone(int phone) {
+        this.phone = phone;
     }
 }
