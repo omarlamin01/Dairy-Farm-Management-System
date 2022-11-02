@@ -33,4 +33,4 @@ Desktop application for managing dairy farms, built using java, javafx &amp; mon
 
 <h4> NAIMA ADARDOUR </h4>
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=naima&count_private=true&show_icons=true&theme=radical)](https://github.com/omarlamin01/Dairy-Farm-Management-System)
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=naima-adardor&count_private=true&show_icons=true&theme=radical)](https://github.com/omarlamin01/Dairy-Farm-Management-System)
