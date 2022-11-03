@@ -140,23 +140,23 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Hire date" stylesheets="@../../../../style/style.css" GridPane.rowIndex="4">
+            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Gender" stylesheets="@../../../../style/style.css" GridPane.rowIndex="4">
                <styleClass>
                   <String fx:value="input" />
-                  <String fx:value="unit_input" />
+                  <String fx:value="gender_input" />
                </styleClass>
                <GridPane.margin>
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
             <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Role" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="unit_input" />
-               </styleClass>
                <GridPane.margin>
                   <Insets bottom="10.0" />
                </GridPane.margin>
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="role_input" />
+               </styleClass>
             </TextField>
          </children>
       </GridPane>
