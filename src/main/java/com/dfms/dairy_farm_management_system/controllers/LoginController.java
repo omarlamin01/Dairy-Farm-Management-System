@@ -49,7 +49,7 @@ public class LoginController {
         stage.setTitle("Dairy Farm Management System");
         stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
         stage.setScene(scene);
-        centerScreen(stage);
+        // centerScreen(stage);
         ((Node) event.getSource()).getScene().getWindow().hide();
         stage.show();
     }
