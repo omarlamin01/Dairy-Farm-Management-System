@@ -8,20 +8,20 @@ public class Client extends Model {
     private String email;
     private int phone;
 
-    public Supplier(int id_supplier, String name, String type, String email, int phone) {
-        this.id_supplier = id_supplier;
+    public Client(int id_client, String name, String type, String email, int phone) {
+        this.id_client = id_client;
         this.name = name;
         this.type = type;
         this.email = email;
         this.phone = phone;
     }
 
-    public int getId_supplier() {
-        return id_supplier;
+    public int getId_client() {
+        return id_client;
     }
 
-    public void setId_supplier(int id_supplier) {
-        this.id_supplier = id_supplier;
+    public void setId_client(int id_client) {
+        this.id_client = id_client;
     }
 
     public String getName() {
@@ -54,4 +54,5 @@ public class Client extends Model {
 
     public void setPhone(int phone) {
         this.phone = phone;
-    }}
+    }
+}

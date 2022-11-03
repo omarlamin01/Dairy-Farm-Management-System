@@ -10,6 +10,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Dairy Farm Management System" target="18" />
+      <module name="Dairy_Farm_Management_System" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
