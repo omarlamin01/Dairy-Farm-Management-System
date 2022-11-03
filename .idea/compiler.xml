@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Dairy_Farm_Management_System" />
+        <module name="Dairy Farm Management System" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
