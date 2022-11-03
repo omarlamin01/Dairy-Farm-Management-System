@@ -42,18 +42,18 @@ public class Employee extends Model {
         this.adresse = adresse;
     }
 
-    @Override
+
     public void setId(int id) {
         this. id_employee = id;
     }
 
-    @Override
+
     public int getId() {
         return  id_employee;
     }
 
     public Employee(int id, String firstName, String lastName, char gender, String cin, String email, int phone, String adresse, int id1, float salary, Date recruitmentDate, String contractType) {
-        super(id, firstName, lastName, gender, cin, email, phone, adresse);
+
         this. id_employee = id1;
         this.salary = salary;
         this.recruitmentDate = recruitmentDate;

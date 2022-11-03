@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Sales extends Model{
+public class Sale extends Model{
 
     private int id_sales;
 
@@ -61,7 +61,7 @@ public class Sales extends Model{
         this.operationDate = operationDate;
     }
 
-    public Sales(int id_sales, int id_client, int id_milkcollection, int id_animal, float price, Date operationDate) {
+    public Sale(int id_sales, int id_client, int id_milkcollection, int id_animal, float price, Date operationDate) {
         this.id_sales = id_sales;
         this.id_client = id_client;
         this.id_milkcollection = id_milkcollection;
