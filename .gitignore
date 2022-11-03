@@ -13,3 +13,7 @@ Dairy Farm Management System.iml
 .project
 .settings/
 */target/**
+.idea/misc.xml
+Dairy Farm Management System.iml
+*.iml
+*.class
