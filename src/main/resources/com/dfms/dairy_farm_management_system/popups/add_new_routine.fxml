@@ -13,8 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="409.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="409.0" prefWidth="618.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox layoutX="-2.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="112.0" prefWidth="616.0" styleClass="main_content" stylesheets="@../../../../style/style.css">
          <children>
@@ -48,56 +47,71 @@
                <font>
                   <Font size="18.0" />
                </font>
-               <padding>
-                  <Insets bottom="10.0" />
-               </padding>
             </Label>
          </children>
       </VBox>
-      <TextField layoutX="249.0" layoutY="204.0" prefHeight="47.0" prefWidth="114.0" promptText="Quantity" stylesheets="@../../../../style/style.css">
+      <VBox layoutX="22.0" layoutY="170.0" maxWidth="1.7976931348623157E308" prefWidth="180.0">
+         <children>
+            <Label text="Food type">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <CheckBox maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefWidth="176.0" styleClass="main_content" stylesheets="@../../../../style/style.css" text="name">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </CheckBox>
+         </children>
+      </VBox>
+      <VBox layoutX="182.0" layoutY="175.0" prefWidth="190.0">
+         <children>
+            <Label text="Food Quantity">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField prefHeight="47.0" prefWidth="0.0" promptText="Quantity" stylesheets="@../../../../style/style.css">
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="quantity_input" />
+               </styleClass>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </TextField>
+         </children>
+      </VBox>
+      <VBox layoutX="395.0" layoutY="175.0" prefWidth="190.0">
+         <children>
+            <Label text="Feeding Time">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
+            <TextField maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="0.0" promptText="Time" stylesheets="@../../../../style/style.css">
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="clock_input" />
+               </styleClass>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </TextField>
+         </children>
+      </VBox>
+      <TextField layoutX="25.0" layoutY="271.0" prefHeight="47.0" prefWidth="560.0" promptText="Write a note ... " stylesheets="@../../../../style/style.css">
          <styleClass>
             <String fx:value="input" />
-            <String fx:value="quantity_input" />
+            <String fx:value="note_input" />
          </styleClass>
       </TextField>
-      <TextField layoutX="436.0" layoutY="203.0" prefHeight="47.0" prefWidth="110.0" promptText="Time" stylesheets="@../../../../style/style.css">
+      <TextField layoutX="25.0" layoutY="112.0" prefWidth="560.0" promptText=" name routine" stylesheets="@../../../../style/style.css">
          <styleClass>
             <String fx:value="input" />
-            <String fx:value="unit_input" />
+            <String fx:value="routine_input" />
          </styleClass>
       </TextField>
-      <CheckBox layoutX="53.0" layoutY="197.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="107.0" styleClass="main_content" stylesheets="@../../../../style/style.css" text="name">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </CheckBox>
-      <Label layoutX="69.0" layoutY="175.0" text="Food type">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <Label layoutX="436.0" layoutY="175.0" text="Feeding Time">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <Label layoutX="245.0" layoutY="176.0" text="Food Quantity">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <TextField layoutX="58.0" layoutY="272.0" prefHeight="47.0" prefWidth="504.0" promptText="Write a note ... " stylesheets="@../../../../style/style.css">
-         <styleClass>
-            <String fx:value="input" />
-            <String fx:value="notee_input" />
-         </styleClass>
-      </TextField>
-      <TextField layoutX="60.0" layoutY="112.0" prefHeight="47.0" prefWidth="503.0" promptText=" name routine" stylesheets="@../../../../style/style.css">
-         <styleClass>
-            <String fx:value="input" />
-            <String fx:value="feed_input" />
-         </styleClass>
-      </TextField>
-      <Button layoutX="48.0" layoutY="330.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="516.0" styleClass="btn" stylesheets="@../../../../style/style.css" text="Add " textAlignment="CENTER" />
+      <Button layoutX="22.0" layoutY="329.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="566.0" styleClass="btn" stylesheets="@../../../../style/style.css" text="Add " textAlignment="CENTER" />
    </children>
 </AnchorPane>
