@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ManageAnimalController">
     <stylesheets>
         <URL value="@../../../style/style.css" />
         <URL value="@../../../style/table_view.css" />
@@ -72,7 +72,7 @@
                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                             <children>
                                 <ComboBox fx:id="combo" promptText="Export" styleClass="combo_box" />
-                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New animal" textAlignment="CENTER">
+                                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddNewAnimal" styleClass="button-add" text="New animal" textAlignment="CENTER">
                                     <graphic>
                                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
