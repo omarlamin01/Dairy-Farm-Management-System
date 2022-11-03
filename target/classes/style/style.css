@@ -37,6 +37,13 @@
     -fx-border-width: 2px;
     -fx-transition: 0.5s;
     -fx-cursor: hand;
+    -fx-background-radius: 5px;
+    -fx-background-position: left center;
+    -fx-padding-left: 20px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 22px 22px;
+    -fx-background-insets: 0px 0px 0px -8px;
+    -fx-background-image: url("../icons/export.png");
 }
 
 .btn:hover {

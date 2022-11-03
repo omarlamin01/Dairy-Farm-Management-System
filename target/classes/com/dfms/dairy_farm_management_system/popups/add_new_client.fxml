@@ -69,7 +69,7 @@
             <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Client name" stylesheets="@../../../../style/style.css">
                <styleClass>
                   <String fx:value="input" />
-                  <String fx:value="box_input" />
+                  <String fx:value="name_input" />
                </styleClass>
                <GridPane.margin>
                   <Insets bottom="10.0" left="8.0" />
@@ -77,14 +77,14 @@
             </TextField>
             <ComboBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Type" GridPane.rowIndex="1">
                <styleClass>
-                  <String fx:value="category_input" />
                   <String fx:value="input" />
+                  <String fx:value="category_input" />
                </styleClass>
             </ComboBox>
             <TextField promptText="Phone number" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
                <styleClass>
                   <String fx:value="input" />
-                  <String fx:value="category_input" />
+                  <String fx:value="phone_input" />
                </styleClass>
                <GridPane.margin>
                   <Insets bottom="10.0" left="8.0" />
@@ -93,7 +93,7 @@
             <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Email" stylesheets="@../../../../style/style.css" GridPane.rowIndex="3">
                <styleClass>
                   <String fx:value="input" />
-                  <String fx:value="unit_input" />
+                  <String fx:value="email_input" />
                </styleClass>
                <GridPane.margin>
                   <Insets bottom="10.0" left="8.0" />
