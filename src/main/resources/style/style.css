@@ -131,6 +131,10 @@
     -fx-background-image: url("../icons/cow_input.png");
 }
 
+.money_input {
+    -fx-background-image: url("../icons/money.png");
+}
+
 .nav_bar {
     -fx-background-color: -dark-blue-color;
 }
