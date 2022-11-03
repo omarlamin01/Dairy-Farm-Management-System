@@ -27,7 +27,7 @@
                   <Insets />
                </HBox.margin>
             </Label>
-                <Label styleClass="header_green" text="client" textAlignment="CENTER">
+                <Label styleClass="header_green" text="supplier" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -43,7 +43,7 @@
                   <Insets bottom="10.0" />
               </VBox.margin>
           </Pane>
-          <Label styleClass="sub_header" text="Add a new client" textAlignment="CENTER">
+          <Label styleClass="sub_header" text="Add a new supplier" textAlignment="CENTER">
               <font>
                   <Font size="18.0" />
               </font>
@@ -66,7 +66,7 @@
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Client name" stylesheets="@../../../../style/style.css">
+            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Supplier name" stylesheets="@../../../../style/style.css">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="name_input" />

@@ -101,6 +101,7 @@
 }
 
 .category_input {
+    -fx-background-insets: 0px 0px 0px -8px;
     -fx-background-image: url("../icons/category.png");
 }
 

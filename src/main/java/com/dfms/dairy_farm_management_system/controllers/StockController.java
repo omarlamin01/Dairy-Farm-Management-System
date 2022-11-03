@@ -19,9 +19,6 @@ public class StockController implements Initializable {
 
     }
 
-
-
-
     @FXML
     void openAddProduct(MouseEvent event) throws IOException {
         openNewWindow("Add Product", "add_new_product");
