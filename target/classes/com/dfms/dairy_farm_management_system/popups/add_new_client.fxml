@@ -3,6 +3,7 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -14,8 +15,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-  <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
@@ -27,7 +27,7 @@
                   <Insets />
                </HBox.margin>
             </Label>
-                <Label styleClass="header_green" text="Product" textAlignment="CENTER">
+                <Label styleClass="header_green" text="client" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -43,7 +43,7 @@
                   <Insets bottom="10.0" />
               </VBox.margin>
           </Pane>
-          <Label styleClass="sub_header" text="Add a product to the stock" textAlignment="CENTER">
+          <Label styleClass="sub_header" text="Add a new client" textAlignment="CENTER">
               <font>
                   <Font size="18.0" />
               </font>
@@ -66,7 +66,7 @@
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Product name" stylesheets="@../../../../style/style.css">
+            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Client name" stylesheets="@../../../../style/style.css">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="box_input" />
@@ -75,16 +75,13 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <TextField promptText="Product quantity" stylesheets="@../../../../style/style.css" GridPane.rowIndex="1">
+            <ComboBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Type" GridPane.rowIndex="1">
                <styleClass>
+                  <String fx:value="category_input" />
                   <String fx:value="input" />
-                  <String fx:value="quantity_input" />
                </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="8.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField promptText="Product type" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
+            </ComboBox>
+            <TextField promptText="Phone number" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="category_input" />
@@ -93,7 +90,7 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Mesure unit" stylesheets="@../../../../style/style.css" GridPane.rowIndex="3">
+            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Email" stylesheets="@../../../../style/style.css" GridPane.rowIndex="3">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="unit_input" />
