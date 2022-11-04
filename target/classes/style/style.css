@@ -92,6 +92,10 @@
     -fx-background-image: url("../icons/search.png");
 }
 
+.gender_input {
+    -fx-background-image: url("../icons/gender.png");
+}
+
 .box_input {
     -fx-background-image: url("../icons/box.png");
 }
@@ -123,6 +127,18 @@
 
 .cow_input {
     -fx-background-image: url("../icons/cow_input.png");
+}
+
+.money_input {
+    -fx-background-image: url("../icons/money.png");
+}
+
+.role_input {
+    -fx-background-image: url("../icons/role.png");
+}
+
+.weight_input {
+    -fx-background-image: url("../icons/weight.png");
 }
 
 .nav_bar {
@@ -238,6 +254,22 @@
 .table-view .column-header-background {
     -fx-pref-height: 32px;
     -fx-background-radius: 10px 10px 0 0;
+}
+
+/*Checkbox*/
+.check-box .box {
+    -fx-background-color: white;
+    -fx-font-size: 18px;
+    -fx-border-color: grey;
+    -fx-border-radius: 3px;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #28a3f4;
 }
 
 /* Report */
