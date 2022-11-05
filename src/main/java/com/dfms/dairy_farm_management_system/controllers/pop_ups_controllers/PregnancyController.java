@@ -1,4 +1,4 @@
-package com.dfms.dairy_farm_management_system.controllers;
+package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
