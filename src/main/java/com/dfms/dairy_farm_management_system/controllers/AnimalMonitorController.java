@@ -38,16 +38,6 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     Button newVaccintionButton;
 
-    //Health status monitor
-    @FXML
-    ComboBox<String> animalId;
-    @FXML
-    DatePicker monitorDate;
-    @FXML
-    ComboBox healthStatus;
-    @FXML
-    TextArea healthStatusNotes;
-
     //Pregnancy pop-up
     @FXML
     ComboBox<String> cowPregnancyID;
@@ -66,22 +56,16 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     TextArea vaccinNotes;
 
-    ObservableList<String> animals;
     ObservableList<String> cows;
     ObservableList<String> vaccins;
-    ObservableList<String> healthStatusOptions = FXCollections.observableArrayList("excellent", "good", "bad", "very bad");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //set lists first
-        setAnimals();
-        setCows();
-        setVaccins();
-        //set health status options
-        healthStatus.setItems(healthStatusOptions);
+        this.setCows();
+        this.setVaccins();
 
         //set health monitor's & vaccin's animals ids list
-        animalId.setItems(animals);
         animalVaccin.setItems(animals);
 
         //set cows list
@@ -89,11 +73,6 @@ public class AnimalMonitorController implements Initializable {
 
         //set vaccins list
         vaccinId.setItems(vaccins);
-    }
-
-    public void setAnimals() {
-        //get animals ids from database
-        this.animals = FXCollections.observableArrayList("cow-1", "bull-1", "cow-2", "cow-3", "Bull-1", "cow-calf-1");
     }
 
     public void setCows() {
@@ -119,17 +98,6 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     public void oppenAddVaccination(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add vaccination", "add_new_vaccination");
-    }
-
-    @FXML
-    public void addHealthStatus(MouseEvent mouseEvent) {
-        System.out.println("Health status { " +
-                "Animal id: \"" + animalId.getTypeSelector() + "\"," +
-                "Monitor date: \"" + monitorDate.getConverter() + "\"," +
-                "Status: \"" + healthStatus.getTypeSelector() + "\"," +
-                "Notes: \"" + healthStatusNotes.getText() + "\" " +
-                "},"
-        );
     }
 
     @FXML
