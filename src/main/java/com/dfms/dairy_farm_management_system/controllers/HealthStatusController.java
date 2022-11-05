@@ -44,9 +44,9 @@ public class HealthStatusController implements Initializable {
     @FXML
     public void addHealthStatus(MouseEvent mouseEvent) {
         System.out.println("Health status { " +
-                "Animal id: \"" + animalId.getTypeSelector() + "\"," +
-                "Monitor date: \"" + monitorDate.getConverter() + "\"," +
-                "Status: \"" + healthStatus.getTypeSelector() + "\"," +
+                "Animal id: \"" + animalId.getValue() + "\", " +
+                "Monitor date: \"" + monitorDate.getValue() + "\", " +
+                "Status: \"" + healthStatus.getValue() + "\", " +
                 "Notes: \"" + healthStatusNotes.getText() + "\" " +
                 "},"
         );
