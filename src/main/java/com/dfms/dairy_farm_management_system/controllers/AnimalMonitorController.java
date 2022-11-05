@@ -94,4 +94,14 @@ public class AnimalMonitorController implements Initializable {
                 "},"
         );
     }
+
+    @FXML
+    public void addPregnancy(MouseEvent mouseEvent) {
+        System.out.println("Pregnancy { " +
+                "Cow id: \"" + cowPregnancyID.getTypeSelector() + "\"," +
+                "Start date: \"" + pregnancyStartDate.getConverter() + "\"," +
+                "Notes: \"" + pregnancyNotes.getText() + "\" " +
+                "},"
+        );
+    }
 }
