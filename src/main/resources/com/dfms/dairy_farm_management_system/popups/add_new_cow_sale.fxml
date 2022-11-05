@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -27,7 +28,7 @@
                   <Insets />
                </HBox.margin>
             </Label>
-                <Label styleClass="header_green" text="supplier" textAlignment="CENTER">
+                <Label styleClass="header_green" text="cow sales" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -43,7 +44,7 @@
                   <Insets bottom="10.0" />
               </VBox.margin>
           </Pane>
-          <Label styleClass="sub_header" text="Add a new supplier" textAlignment="CENTER">
+          <Label styleClass="sub_header" text="Add new cow sales operation" textAlignment="CENTER">
               <font>
                   <Font size="18.0" />
               </font>
@@ -62,43 +63,39 @@
             <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
         </rowConstraints>
          <VBox.margin>
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Supplier name" stylesheets="@../../../../style/style.css">
+            <DatePicker maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Operation date" GridPane.rowIndex="2">
                <styleClass>
                   <String fx:value="input" />
-                  <String fx:value="name_input" />
+                  <String fx:value="date_input" />
+               </styleClass>
+            </DatePicker>
+            <TextField promptText="Price of sale" stylesheets="@../../../../style/style.css" GridPane.rowIndex="5">
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="money_input" />
                </styleClass>
                <GridPane.margin>
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <TextField promptText="Phone number" stylesheets="@../../../../style/style.css" GridPane.rowIndex="3">
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="phone_input" />
-               </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="8.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Email" stylesheets="@../../../../style/style.css" GridPane.rowIndex="4">
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="email_input" />
-               </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="8.0" />
-               </GridPane.margin>
-            </TextField>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.rowIndex="5" />
-            <ComboBox maxWidth="1.7976931348623157E308" promptText="Type" GridPane.rowIndex="2">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.rowIndex="7" />
+            <ComboBox maxWidth="1.7976931348623157E308" promptText="Client" GridPane.rowIndex="1">
                <styleClass>
                   <String fx:value="combo_box" />
-                  <String fx:value="category_input" />
+                  <String fx:value="name_input" />
+               </styleClass>
+            </ComboBox>
+            <ComboBox maxWidth="1.7976931348623157E308" promptText="Animal ID" GridPane.rowIndex="4">
+               <styleClass>
+                  <String fx:value="combo_box" />
+                  <String fx:value="cow_input" />
                </styleClass>
             </ComboBox>
          </children>
