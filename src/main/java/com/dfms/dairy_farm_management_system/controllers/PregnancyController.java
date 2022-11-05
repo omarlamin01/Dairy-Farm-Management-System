@@ -39,8 +39,8 @@ public class PregnancyController implements Initializable {
     @FXML
     public void addPregnancy(MouseEvent mouseEvent) {
         System.out.println("Pregnancy { " +
-                "Cow id: \"" + cowPregnancyID.getTypeSelector() + "\"," +
-                "Start date: \"" + pregnancyStartDate.getConverter() + "\"," +
+                "Cow id: \"" + cowPregnancyID.getValue() + "\", " +
+                "Start date: \"" + pregnancyStartDate.getValue() + "\", " +
                 "Notes: \"" + pregnancyNotes.getText() + "\" " +
                 "},"
         );
