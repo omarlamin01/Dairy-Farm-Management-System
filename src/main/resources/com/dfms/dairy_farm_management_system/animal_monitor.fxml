@@ -18,10 +18,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController">
     <stylesheets>
         <URL value="@../../../style/style.css" />
         <URL value="@../../../style/tab_pane.css" />
+      <URL value="@../../../style/table_view.css" />
     </stylesheets>
     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
         <Label styleClass="header" text="Animal Monitor" textAlignment="CENTER">
