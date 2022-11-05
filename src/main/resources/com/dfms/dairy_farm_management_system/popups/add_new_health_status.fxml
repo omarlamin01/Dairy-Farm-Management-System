@@ -102,7 +102,7 @@
                   <Insets bottom="8.0" />
                </opaqueInsets>
             </TextArea>
-            <Button fx:id="addHealthMonitorBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.rowIndex="12" />
+            <Button fx:id="addHealthMonitorBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addHealthStatus" styleClass="btn" text="Add" GridPane.rowIndex="12" />
          </children>
       </GridPane>
       </children>
