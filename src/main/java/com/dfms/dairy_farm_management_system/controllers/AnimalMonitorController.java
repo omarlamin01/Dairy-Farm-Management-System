@@ -46,6 +46,14 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     TextArea healthStatusNotes;
 
+    //Pregnancy pop-up
+    @FXML
+    ComboBox<String> cowPregnancyID;
+    @FXML
+    DatePicker pregnancyStartDate;
+    @FXML
+    TextArea pregnancyNotes;
+
     //Vaccin pop-up
     @FXML
     ComboBox<String> animalVaccin;
