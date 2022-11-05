@@ -13,9 +13,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-
-<ScrollPane style="-fx-background-color: transparent;" stylesheets="@../../../style/style.css"
-            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.layout.StackPane?>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane style="-fx-background-color: transparent;" stylesheets="@../../../style/style.css">
     <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
         <Label styleClass="header" text="Profile" textAlignment="CENTER">
             <font>
@@ -177,3 +177,4 @@
         </GridPane>
     </VBox>
 </ScrollPane>
+</StackPane>

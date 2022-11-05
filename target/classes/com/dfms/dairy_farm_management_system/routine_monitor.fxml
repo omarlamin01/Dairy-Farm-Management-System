@@ -16,10 +16,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.dfms.dairy_farm_management_system.controllers.RoutineController">
+<?import javafx.scene.layout.StackPane?>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="com.dfms.dairy_farm_management_system.controllers.RoutineController">
+<ScrollPane style="-fx-background-color: transparent;" >
     <stylesheets>
         <URL value="@../../../style/style.css"/>
         <URL value="@../../../style/table_view.css"/>
@@ -100,3 +99,4 @@
         </TableView>
     </VBox>
 </ScrollPane>
+</StackPane>
