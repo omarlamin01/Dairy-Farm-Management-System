@@ -50,9 +50,9 @@ public class VaccinationController implements Initializable {
     @FXML
     public void addVaccination(MouseEvent mouseEvent) {
         System.out.println("Vaccination { " +
-                "Animal id: \"" + animalVaccin.getPromptText() + "\"," +
-                "Vaccin id: \"" + vaccinId.getPromptText() + "\"," +
-                "Vaccination date: \"" + vaccinationDate.getPromptText() + "\"," +
+                "Animal id: \"" + animalVaccin.getValue() + "\", " +
+                "Vaccin id: \"" + vaccinId.getValue() + "\", " +
+                "Vaccination date: \"" + vaccinationDate.getValue() + "\", " +
                 "Notes: \"" + vaccinNotes.getText() + "\" " +
                 "},"
         );
