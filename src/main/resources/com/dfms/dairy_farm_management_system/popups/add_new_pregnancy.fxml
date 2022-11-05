@@ -75,19 +75,19 @@
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <ComboBox maxWidth="1.7976931348623157E308" promptText="Cow ID" GridPane.rowIndex="3">
+            <ComboBox fx:id="cowPregnancyID" maxWidth="1.7976931348623157E308" promptText="Cow ID" GridPane.rowIndex="3">
                <styleClass>
                   <String fx:value="combo_box" />
                   <String fx:value="cow_input" />
                </styleClass>
             </ComboBox>
-            <DatePicker maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Start date" GridPane.rowIndex="4">
+            <DatePicker fx:id="pregnancyStartDate" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Start date" GridPane.rowIndex="4">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="date_input" />
                </styleClass>
             </DatePicker>
-            <TextArea prefHeight="200.0" prefWidth="200.0" promptText="Notes..." GridPane.rowIndex="10">
+            <TextArea fx:id="pregnancyNotes" prefHeight="200.0" prefWidth="200.0" promptText="Notes..." GridPane.rowIndex="10">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="note_input" />
