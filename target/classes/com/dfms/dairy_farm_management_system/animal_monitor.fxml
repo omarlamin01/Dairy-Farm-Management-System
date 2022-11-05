@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController">
     <stylesheets>
         <URL value="@../../../style/style.css" />
         <URL value="@../../../style/tab_pane.css" />
@@ -140,7 +140,7 @@
                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
                             <TableColumn prefWidth="125.33333587646484" text="Date" />
-                            <TableColumn prefWidth="105.66666412353516" text="Animal ID" />
+                            <TableColumn prefWidth="105.66666412353516" text="Cow ID" />
                             <TableColumn prefWidth="233.33334350585938" text="Note" />
                             <TableColumn prefWidth="136.66668701171875" text="Health status" />
                             <TableColumn prefWidth="155.33331298828125" text="Actions" />
@@ -198,6 +198,67 @@
                     </TableView>
                 </VBox>
             </Tab>
+         <Tab text="Routing Monitor">
+            <content>
+               <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+                  <children>
+                     <Label styleClass="sub_header" text="Manage animal routine here" textAlignment="CENTER">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="10.0" />
+                        </VBox.margin>
+                     </Label>
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <VBox.margin>
+                           <Insets bottom="10.0" />
+                        </VBox.margin>
+                        <children>
+                           <TextField fx:id="routineSearch" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for a routine..." styleClass="text-field-search">
+                              <padding>
+                                 <Insets left="10.0" />
+                              </padding>
+                           </TextField>
+                           <Button fx:id="RoutineSearchButton" mnemonicParsing="false" onMousePressed="#vaccinationSearch" styleClass="btn-search">
+                              <graphic>
+                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../../icons/search.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                              <HBox.margin>
+                                 <Insets left="-54.0" />
+                              </HBox.margin>
+                           </Button>
+                           <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                              <children>
+                                 <Button fx:id="newRoutineButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#oppenAddRoutine" styleClass="button-add" text="New routine" textAlignment="CENTER">
+                                    <graphic>
+                                       <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@../../../icons/add_user.png" />
+                                          </image>
+                                       </ImageView>
+                                    </graphic>
+                                 </Button>
+                              </children>
+                           </HBox>
+                        </children>
+                     </HBox>
+                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="670.0">
+                        <columns>
+                           <TableColumn prefWidth="125.33333587646484" text="Routine name" />
+                           <TableColumn prefWidth="311.0" text="Note" />
+                           <TableColumn prefWidth="172.0" text="Added date" />
+                           <TableColumn prefWidth="149.0" text="Actions" />
+                        </columns>
+                     </TableView>
+                  </children>
+               </VBox>
+            </content>
+         </Tab>
         </TabPane>
     </VBox>
 </ScrollPane>

@@ -107,11 +107,7 @@ public class MainLayoutController implements Initializable {
         loadView(reports_view);
     }
 
-    @FXML
-    void loadRoutineMonitor(ActionEvent event) {
-        String routine_monitor_view = "routine_monitor";
-        loadView(routine_monitor_view);
-    }
+
 
     @FXML
     void loadSales(ActionEvent event) {
@@ -170,7 +166,6 @@ public class MainLayoutController implements Initializable {
         navLinks.add(manage_animal_btn);
         navLinks.add(manage_clients_suppliers_btn);
         navLinks.add(reports_btn);
-        navLinks.add(routine_monitor_btn);
         navLinks.add(sales_btn);
         navLinks.add(stock_btn);
         return navLinks;
