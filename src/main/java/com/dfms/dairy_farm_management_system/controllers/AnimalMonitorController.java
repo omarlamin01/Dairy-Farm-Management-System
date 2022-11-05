@@ -38,14 +38,6 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     Button newVaccintionButton;
 
-    //Pregnancy pop-up
-    @FXML
-    ComboBox<String> cowPregnancyID;
-    @FXML
-    DatePicker pregnancyStartDate;
-    @FXML
-    TextArea pregnancyNotes;
-
     //Vaccin pop-up
     @FXML
     ComboBox<String> animalVaccin;
@@ -56,29 +48,26 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     TextArea vaccinNotes;
 
-    ObservableList<String> cows;
+
     ObservableList<String> vaccins;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //set lists first
-        this.setCows();
-        this.setVaccins();
+
+
 
         //set health monitor's & vaccin's animals ids list
         animalVaccin.setItems(animals);
 
-        //set cows list
-        cowPregnancyID.setItems(cows);
+
+        this.setVaccins();
 
         //set vaccins list
         vaccinId.setItems(vaccins);
     }
 
-    public void setCows() {
-        //get cows ids from db
-        this.cows = FXCollections.observableArrayList("cow-1", "cow-2", "cow-3");
-    }
+
 
     public void setVaccins() {
         //get vaccins ids from db
@@ -100,15 +89,7 @@ public class AnimalMonitorController implements Initializable {
         openNewWindow("Add vaccination", "add_new_vaccination");
     }
 
-    @FXML
-    public void addPregnancy(MouseEvent mouseEvent) {
-        System.out.println("Pregnancy { " +
-                "Cow id: \"" + cowPregnancyID.getTypeSelector() + "\"," +
-                "Start date: \"" + pregnancyStartDate.getConverter() + "\"," +
-                "Notes: \"" + pregnancyNotes.getText() + "\" " +
-                "},"
-        );
-    }
+
 
     @FXML
     public void addVaccination(MouseEvent mouseEvent) {
