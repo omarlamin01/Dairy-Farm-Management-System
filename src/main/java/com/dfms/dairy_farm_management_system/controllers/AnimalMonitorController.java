@@ -104,4 +104,15 @@ public class AnimalMonitorController implements Initializable {
                 "},"
         );
     }
+
+    @FXML
+    public void addVaccination(MouseEvent mouseEvent) {
+        System.out.println("Vaccination { " +
+                "Animal id: \"" + animalVaccin.getPromptText() + "\"," +
+                "Vaccin id: \"" + vaccinId.getPromptText() + "\"," +
+                "Vaccination date: \"" + vaccinationDate.getPromptText() + "\"," +
+                "Notes: \"" + vaccinNotes.getText() + "\" " +
+                "},"
+        );
+    }
 }
