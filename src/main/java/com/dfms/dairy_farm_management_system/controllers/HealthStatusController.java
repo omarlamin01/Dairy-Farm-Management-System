@@ -34,8 +34,6 @@ public class HealthStatusController implements Initializable {
 
         //set health monitor's & vaccin's animals ids list
         animalId.setItems(animals);
-
-
     }
 
     public void setAnimals() {
