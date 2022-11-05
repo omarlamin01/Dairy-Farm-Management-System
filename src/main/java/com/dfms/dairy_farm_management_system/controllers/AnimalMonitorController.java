@@ -36,6 +36,16 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     Button newVaccintionButton;
 
+    //Health status monitor
+    @FXML
+    ComboBox<String> animalstatusId;
+    @FXML
+    DatePicker monitorDate;
+    @FXML
+    ComboBox healthStatus;
+    @FXML
+    TextArea healthStatusNotes;
+
     //Vaccin pop-up
     @FXML
     ComboBox<String> animalVaccin;
