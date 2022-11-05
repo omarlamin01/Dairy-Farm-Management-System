@@ -227,6 +227,67 @@
                     </TableView>
                 </VBox>
             </Tab>
+         <Tab text="Routing Monitor">
+            <content>
+               <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+                  <children>
+                     <Label styleClass="sub_header" text="Manage animal routine here" textAlignment="CENTER">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="10.0" />
+                        </VBox.margin>
+                     </Label>
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <VBox.margin>
+                           <Insets bottom="10.0" />
+                        </VBox.margin>
+                        <children>
+                           <TextField fx:id="routineSearch" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for a routine..." styleClass="text-field-search">
+                              <padding>
+                                 <Insets left="10.0" />
+                              </padding>
+                           </TextField>
+                           <Button fx:id="RoutineSearchButton" mnemonicParsing="false" onMousePressed="#vaccinationSearch" styleClass="btn-search">
+                              <graphic>
+                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../../icons/search.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                              <HBox.margin>
+                                 <Insets left="-54.0" />
+                              </HBox.margin>
+                           </Button>
+                           <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                              <children>
+                                 <Button fx:id="newRoutineButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#oppenAddRoutine" styleClass="button-add" text="New routine" textAlignment="CENTER">
+                                    <graphic>
+                                       <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@../../../icons/add_user.png" />
+                                          </image>
+                                       </ImageView>
+                                    </graphic>
+                                 </Button>
+                              </children>
+                           </HBox>
+                        </children>
+                     </HBox>
+                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="670.0">
+                        <columns>
+                           <TableColumn prefWidth="125.33333587646484" text="Routine name" />
+                           <TableColumn prefWidth="311.0" text="Note" />
+                           <TableColumn prefWidth="172.0" text="Added date" />
+                           <TableColumn prefWidth="149.0" text="Actions" />
+                        </columns>
+                     </TableView>
+                  </children>
+               </VBox>
+            </content>
+         </Tab>
         </TabPane>
     </VBox>
 </ScrollPane>

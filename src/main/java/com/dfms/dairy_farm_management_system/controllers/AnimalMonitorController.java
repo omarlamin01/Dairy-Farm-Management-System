@@ -39,6 +39,40 @@ public class AnimalMonitorController implements Initializable {
     Button vaccinSearchButton;
     @FXML
     Button newVaccintionButton;
+    //Routine monitor tab
+    @FXML
+    private Button RoutineSearchButton;
+    @FXML
+    private Button newRoutineButton;
+    @FXML
+    private TextField routineSearch;
+    //Health status monitor
+    @FXML
+    ComboBox<String> animalstatusId;
+    @FXML
+    DatePicker monitorDate;
+    @FXML
+    ComboBox healthStatus;
+    @FXML
+    TextArea healthStatusNotes;
+
+    //Pregnancy pop-up
+    @FXML
+    ComboBox<String> cowPregnancyID;
+    @FXML
+    DatePicker pregnancyStartDate;
+    @FXML
+    TextArea pregnancyNotes;
+
+    //Vaccin pop-up
+    @FXML
+    ComboBox<String> animalVaccin;
+    @FXML
+    ComboBox<String> vaccinId;
+    @FXML
+    DatePicker vaccinationDate;
+    @FXML
+    TextArea vaccinNotes;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,6 +89,10 @@ public class AnimalMonitorController implements Initializable {
         openNewWindow("Add pregnancy", "add_new_pregnancy");
     }
 
+    @FXML
+    void oppenAddRoutine(MouseEvent event) throws IOException {
+        openNewWindow("Add routine", "add_new_routine");
+    }
     @FXML
     public void oppenAddVaccination(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add vaccination", "add_new_vaccination");
