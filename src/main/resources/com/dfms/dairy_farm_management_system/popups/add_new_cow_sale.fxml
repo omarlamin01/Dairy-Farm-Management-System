@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
@@ -70,11 +70,14 @@
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <DatePicker maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Operation date" GridPane.rowIndex="2">
+            <DatePicker maxWidth="1.7976931348623157E308" promptText="Operation date" GridPane.rowIndex="2">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="date_input" />
                </styleClass>
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
             </DatePicker>
             <TextField promptText="Price of sale" stylesheets="@../../../../style/style.css" GridPane.rowIndex="5">
                <styleClass>
@@ -91,12 +94,18 @@
                   <String fx:value="combo_box" />
                   <String fx:value="name_input" />
                </styleClass>
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
             </ComboBox>
             <ComboBox maxWidth="1.7976931348623157E308" promptText="Animal ID" GridPane.rowIndex="4">
                <styleClass>
                   <String fx:value="combo_box" />
                   <String fx:value="cow_input" />
                </styleClass>
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
             </ComboBox>
          </children>
       </GridPane>
