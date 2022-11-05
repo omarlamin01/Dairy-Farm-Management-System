@@ -87,10 +87,10 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     public void addHealthStatus(MouseEvent mouseEvent) {
         System.out.println("Health status { " +
-                "Animal id: \"" + animalstatusId.getAccessibleText() + "\"," +
-                "Monitor date: \"" + monitorDate.getAccessibleText() + "\"," +
-                "Status: \"" + healthStatus.getAccessibleText() + "\"," +
-                "Notes: \"" + healthStatusNotes.getAccessibleText() + "\" " +
+                "Animal id: \"" + animalstatusId.getTypeSelector() + "\"," +
+                "Monitor date: \"" + monitorDate.getConverter() + "\"," +
+                "Status: \"" + healthStatus.getTypeSelector() + "\"," +
+                "Notes: \"" + healthStatusNotes.getText() + "\" " +
                 "},"
         );
     }
