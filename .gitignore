@@ -13,3 +13,4 @@ Dairy Farm Management System.iml
 .project
 .settings/
 */target/**
+target/classes/com/dfms/dairy_farm_management_system/animal_monitor.fxml
