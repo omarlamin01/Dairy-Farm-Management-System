@@ -139,10 +139,10 @@
                     </HBox>
                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
-                            <TableColumn prefWidth="125.33333587646484" text="Date" />
-                            <TableColumn prefWidth="105.66666412353516" text="Cow ID" />
-                            <TableColumn prefWidth="233.33334350585938" text="Note" />
-                            <TableColumn prefWidth="136.66668701171875" text="Health status" />
+                            <TableColumn prefWidth="125.33333587646484" text="Cow ID" />
+                            <TableColumn prefWidth="159.0" text="Start Date" />
+                            <TableColumn prefWidth="154.0" text="End Date" />
+                            <TableColumn prefWidth="164.0" text="Pregnancy Type" />
                             <TableColumn prefWidth="155.33331298828125" text="Actions" />
                         </columns>
                     </TableView>
@@ -189,10 +189,10 @@
                     </HBox>
                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
-                            <TableColumn prefWidth="125.33333587646484" text="Date" />
-                            <TableColumn prefWidth="105.66666412353516" text="Animal ID" />
+                            <TableColumn prefWidth="125.33333587646484" text="Name" />
+                            <TableColumn prefWidth="105.66666412353516" text="Dose" />
                             <TableColumn prefWidth="233.33334350585938" text="Note" />
-                            <TableColumn prefWidth="136.66668701171875" text="Health status" />
+                            <TableColumn prefWidth="136.66668701171875" text="Date" />
                             <TableColumn prefWidth="155.33331298828125" text="Actions" />
                         </columns>
                     </TableView>
