@@ -4,8 +4,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -15,11 +16,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController">
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
-            <Label styleClass="header" text="Add" textAlignment="CENTER">
+            <Label styleClass="header" text="Health" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -27,7 +28,7 @@
                   <Insets />
                </HBox.margin>
             </Label>
-                <Label styleClass="header_green" text="supplier" textAlignment="CENTER">
+                <Label styleClass="header_green" text="status" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -43,7 +44,7 @@
                   <Insets bottom="10.0" />
               </VBox.margin>
           </Pane>
-          <Label styleClass="sub_header" text="Add a new supplier" textAlignment="CENTER">
+          <Label styleClass="sub_header" text="Add health info about your animal" textAlignment="CENTER">
               <font>
                   <Font size="18.0" />
               </font>
@@ -51,7 +52,7 @@
                   <Insets bottom="10.0" />
               </padding>
           </Label>
-      <GridPane prefWidth="660.0">
+      <GridPane prefWidth="660.0" vgap="5.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -62,45 +63,46 @@
             <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
         </rowConstraints>
          <VBox.margin>
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Supplier name" stylesheets="@../../../../style/style.css">
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="name_input" />
-               </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="8.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField promptText="Phone number" stylesheets="@../../../../style/style.css" GridPane.rowIndex="3">
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="phone_input" />
-               </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="8.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Email" stylesheets="@../../../../style/style.css" GridPane.rowIndex="4">
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="email_input" />
-               </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="8.0" />
-               </GridPane.margin>
-            </TextField>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.rowIndex="5" />
-            <ComboBox maxWidth="1.7976931348623157E308" promptText="Type" GridPane.rowIndex="2">
+            <ComboBox fx:id="animalstatusId" maxWidth="1.7976931348623157E308" promptText="Animal ID" GridPane.rowIndex="3">
                <styleClass>
                   <String fx:value="combo_box" />
-                  <String fx:value="category_input" />
+                  <String fx:value="cow_input" />
                </styleClass>
             </ComboBox>
+            <DatePicker fx:id="monitorDate" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Monitor date" GridPane.rowIndex="4">
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="date_input" />
+               </styleClass>
+            </DatePicker>
+            <ComboBox fx:id="healthStatus" maxWidth="1.7976931348623157E308" promptText="Status" GridPane.rowIndex="8">
+               <styleClass>
+                  <String fx:value="combo_box" />
+                  <String fx:value="weight_input" />
+               </styleClass>
+            </ComboBox>
+            <TextArea fx:id="healthStatusNotes" prefHeight="200.0" prefWidth="200.0" promptText="Notes..." GridPane.rowIndex="10">
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="note_input" />
+               </styleClass>
+               <opaqueInsets>
+                  <Insets bottom="8.0" />
+               </opaqueInsets>
+            </TextArea>
+            <Button fx:id="addHealthMonitorBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addHealthStatus" styleClass="btn" text="Add" GridPane.rowIndex="12" />
          </children>
       </GridPane>
       </children>

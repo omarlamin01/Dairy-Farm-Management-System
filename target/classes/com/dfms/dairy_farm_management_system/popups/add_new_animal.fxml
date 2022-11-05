@@ -16,110 +16,110 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
-      <children>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <children>
-            <Label styleClass="header" text="Add" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Label>
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <children>
+                <Label styleClass="header" text="Add" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </Label>
                 <Label styleClass="header_green" text="Animal" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
                 </Label>
-         </children>
-      </HBox>
-          <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
-              <children>
-                  <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
-                  <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
-              </children>
-              <VBox.margin>
-                  <Insets bottom="10.0" />
-              </VBox.margin>
-          </Pane>
-          <Label styleClass="sub_header" text="Add a new aniaml to the system" textAlignment="CENTER">
-              <font>
-                  <Font size="18.0" />
-              </font>
-              <padding>
-                  <Insets bottom="10.0" />
-              </padding>
-          </Label>
-      <GridPane hgap="12.0" prefWidth="660.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <VBox.margin>
-            <Insets top="10.0" />
-         </VBox.margin>
-         <children>
-            <TextField promptText="Birth date" stylesheets="@../../../../style/style.css" GridPane.rowIndex="1">
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="date_input" />
-               </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="8.0" />
-               </GridPane.margin>
-            </TextField>
-            <TextField promptText="Weight (Kg)" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="weight_input" />
-               </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="8.0" />
-               </GridPane.margin>
-            </TextField>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
-            <ComboBox maxWidth="1.7976931348623157E308" promptText="Type">
-               <styleClass>
-                  <String fx:value="combo_box" />
-                  <String fx:value="category_input" />
-               </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <TextField promptText="Purchase date" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="date_input" />
-               </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" />
-               </GridPane.margin>
-            </TextField>
-            <ComboBox maxWidth="1.7976931348623157E308" promptText="Type" GridPane.columnIndex="1">
-               <styleClass>
-                  <String fx:value="combo_box" />
-                  <String fx:value="category_input" />
-               </styleClass>
-            </ComboBox>
-            <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <children>
-                  <CheckBox mnemonicParsing="false" text="Is pregnant" />
-               </children>
-               <GridPane.margin>
-                  <Insets bottom="10.0" />
-               </GridPane.margin>
-            </HBox>
-         </children>
-      </GridPane>
-      </children>
-  </VBox>
+            </children>
+        </HBox>
+        <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
+            <children>
+                <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
+                <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
+            </children>
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+        </Pane>
+        <Label styleClass="sub_header" text="Add a new aniaml to the system" textAlignment="CENTER">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <padding>
+                <Insets bottom="10.0" />
+            </padding>
+        </Label>
+        <GridPane hgap="12.0" prefWidth="660.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+            <children>
+                <TextField promptText="Birth date" stylesheets="@../../../../style/style.css" GridPane.rowIndex="1">
+                    <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="date_input" />
+                    </styleClass>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" left="8.0" />
+                    </GridPane.margin>
+                </TextField>
+                <TextField promptText="Weight (Kg)" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
+                    <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="weight_input" />
+                    </styleClass>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" left="8.0" />
+                    </GridPane.margin>
+                </TextField>
+                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
+                <ComboBox maxWidth="1.7976931348623157E308" promptText="Type">
+                    <styleClass>
+                        <String fx:value="combo_box" />
+                        <String fx:value="category_input" />
+                    </styleClass>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </ComboBox>
+                <TextField promptText="Purchase date" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="date_input" />
+                    </styleClass>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </TextField>
+                <ComboBox maxWidth="1.7976931348623157E308" promptText="Race" GridPane.columnIndex="1">
+                    <styleClass>
+                        <String fx:value="combo_box" />
+                        <String fx:value="category_input" />
+                    </styleClass>
+                </ComboBox>
+                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <children>
+                        <CheckBox mnemonicParsing="false" text="Is pregnant" />
+                    </children>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </HBox>
+            </children>
+        </GridPane>
+    </children>
+</VBox>

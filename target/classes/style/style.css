@@ -117,8 +117,8 @@
     -fx-background-image: url("../icons/feed.png");
 }
 
-.notee_input {
-    -fx-background-image: url("../icons/notee.png");
+.note_input {
+    -fx-background-image: url("../icons/note.png");
 }
 
 .date_input {
@@ -139,6 +139,14 @@
 
 .weight_input {
     -fx-background-image: url("../icons/weight.png");
+}
+
+.routine_input {
+    -fx-background-image: url("../icons/routine.png");
+}
+
+.clock_input {
+    -fx-background-image: url("../icons/clock.png");
 }
 
 .nav_bar {

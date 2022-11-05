@@ -3,7 +3,6 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -19,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController">
     <stylesheets>
         <URL value="@../../../style/style.css" />
         <URL value="@../../../style/tab_pane.css" />
@@ -63,12 +62,12 @@
                         <VBox.margin>
                             <Insets bottom="10.0" />
                         </VBox.margin>
-                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
+                        <TextField fx:id="healthStatusSearch" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
                             <padding>
                                 <Insets left="10.0" />
                             </padding>
                         </TextField>
-                        <Button mnemonicParsing="false" styleClass="btn-search">
+                        <Button fx:id="healthSearchButton" mnemonicParsing="false" onMousePressed="#healthStatusSearch" styleClass="btn-search">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <Image url="@../../../icons/search.png" />
@@ -79,9 +78,7 @@
                             </HBox.margin>
                         </Button>
                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Filter" styleClass="combo_box" />
-                            <ComboBox promptText="Export" styleClass="combo_box" />
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New status" textAlignment="CENTER">
+                            <Button fx:id="newStatusButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#oppenAddHealthStatus" styleClass="button-add" text="New status" textAlignment="CENTER">
                                 <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <Image url="@../../../icons/add_user.png" />
@@ -115,12 +112,12 @@
                         <VBox.margin>
                             <Insets bottom="10.0" />
                         </VBox.margin>
-                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
+                        <TextField fx:id="pregnancySearch" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
                             <padding>
                                 <Insets left="10.0" />
                             </padding>
                         </TextField>
-                        <Button mnemonicParsing="false" styleClass="btn-search">
+                        <Button fx:id="pregnancySearchButton" mnemonicParsing="false" onMousePressed="#pregnancySearch" styleClass="btn-search">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <Image url="@../../../icons/search.png" />
@@ -131,9 +128,7 @@
                             </HBox.margin>
                         </Button>
                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Filter" styleClass="combo_box" />
-                            <ComboBox promptText="Export" styleClass="combo_box" />
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New pregnancy" textAlignment="CENTER">
+                            <Button fx:id="newPregnancyButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#oppenAddPregnancy" styleClass="button-add" text="New pregnancy" textAlignment="CENTER">
                                 <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <Image url="@../../../icons/add_user.png" />
@@ -167,12 +162,12 @@
                         <VBox.margin>
                             <Insets bottom="10.0" />
                         </VBox.margin>
-                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
+                        <TextField fx:id="vaccinSearch" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
                             <padding>
                                 <Insets left="10.0" />
                             </padding>
                         </TextField>
-                        <Button mnemonicParsing="false" styleClass="btn-search">
+                        <Button fx:id="vaccinSearchButton" mnemonicParsing="false" onMousePressed="#vaccinationSearch" styleClass="btn-search">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <Image url="@../../../icons/search.png" />
@@ -183,9 +178,7 @@
                             </HBox.margin>
                         </Button>
                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Filter" styleClass="combo_box" />
-                            <ComboBox promptText="Export" styleClass="combo_box" />
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New vaccination" textAlignment="CENTER">
+                            <Button fx:id="newVaccintionButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#oppenAddVaccination" styleClass="button-add" text="New vaccination" textAlignment="CENTER">
                                 <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <Image url="@../../../icons/add_user.png" />
