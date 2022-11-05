@@ -83,4 +83,15 @@ public class AnimalMonitorController implements Initializable {
     public void oppenAddVaccination(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add vaccination", "add_new_vaccination");
     }
+
+    @FXML
+    public void addHealthStatus(MouseEvent mouseEvent) {
+        System.out.println("Health status { " +
+                "Animal id: \"" + animalstatusId.getAccessibleText() + "\"," +
+                "Monitor date: \"" + monitorDate.getAccessibleText() + "\"," +
+                "Status: \"" + healthStatus.getAccessibleText() + "\"," +
+                "Notes: \"" + healthStatusNotes.getAccessibleText() + "\" " +
+                "},"
+        );
+    }
 }
