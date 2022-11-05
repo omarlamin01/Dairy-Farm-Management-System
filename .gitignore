@@ -13,3 +13,10 @@ Dairy Farm Management System.iml
 .project
 .settings/
 */target/**
+target/classes/com/dfms/dairy_farm_management_system/popups/add_new_cow_sale.fxml
+target/classes/com/dfms/dairy_farm_management_system/popups/add_new_pregnancy.fxml
+target/classes/com/dfms/dairy_farm_management_system/popups/add_new_health_status.fxml
+target/classes/com/dfms/dairy_farm_management_system/popups/add_new_vaccination.fxml
+target/classes/icons/clock.png
+target/classes/icons/note.png
+target/classes/icons/routine.png
