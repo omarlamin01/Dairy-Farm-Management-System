@@ -4,12 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.scene.control.*;
 import javafx.scene.input.*;
+
 import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
 
 public class AnimalMonitorController implements Initializable {
@@ -38,40 +40,9 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     Button newVaccintionButton;
 
-    //Vaccin pop-up
-    @FXML
-    ComboBox<String> animalVaccin;
-    @FXML
-    ComboBox<String> vaccinId;
-    @FXML
-    DatePicker vaccinationDate;
-    @FXML
-    TextArea vaccinNotes;
-
-
-    ObservableList<String> vaccins;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //set lists first
 
-
-
-        //set health monitor's & vaccin's animals ids list
-        animalVaccin.setItems(animals);
-
-
-        this.setVaccins();
-
-        //set vaccins list
-        vaccinId.setItems(vaccins);
-    }
-
-
-
-    public void setVaccins() {
-        //get vaccins ids from db
-        this.vaccins = FXCollections.observableArrayList("vac-1", "vac-2", "vac-3", "vac-4", "vac-5");
     }
 
     @FXML
@@ -87,19 +58,6 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     public void oppenAddVaccination(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add vaccination", "add_new_vaccination");
-    }
-
-
-
-    @FXML
-    public void addVaccination(MouseEvent mouseEvent) {
-        System.out.println("Vaccination { " +
-                "Animal id: \"" + animalVaccin.getPromptText() + "\"," +
-                "Vaccin id: \"" + vaccinId.getPromptText() + "\"," +
-                "Vaccination date: \"" + vaccinationDate.getPromptText() + "\"," +
-                "Notes: \"" + vaccinNotes.getText() + "\" " +
-                "},"
-        );
     }
 
     @FXML
