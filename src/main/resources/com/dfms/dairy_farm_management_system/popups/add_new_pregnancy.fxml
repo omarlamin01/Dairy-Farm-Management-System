@@ -96,7 +96,7 @@
                   <Insets bottom="8.0" />
                </opaqueInsets>
             </TextArea>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" prefWidth="675.0" styleClass="btn" text="Add" GridPane.rowIndex="12" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addHealthStatus" prefHeight="40.0" prefWidth="675.0" styleClass="btn" text="Add" GridPane.rowIndex="12" />
          </children>
       </GridPane>
       </children>
