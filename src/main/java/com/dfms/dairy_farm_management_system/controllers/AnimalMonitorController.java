@@ -27,6 +27,6 @@ public class AnimalMonitorController implements Initializable {
 
     @FXML
     public void oppenAddVaccination(MouseEvent mouseEvent) throws IOException {
-        openNewWindow("Add vaccination", "add_new_health_status");
+        openNewWindow("Add vaccination", "add_new_vaccination");
     }
 }
