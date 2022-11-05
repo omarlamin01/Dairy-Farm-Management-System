@@ -115,4 +115,19 @@ public class AnimalMonitorController implements Initializable {
                 "},"
         );
     }
+
+    @FXML
+    public void healthStatusSearch(MouseEvent mouseEvent) {
+        System.out.println("healthStatusSearch");
+    }
+
+    @FXML
+    public void pregnancySearch(MouseEvent mouseEvent) {
+        System.out.println("pregnancySearch");
+    }
+
+    @FXML
+    public void vaccinationSearch(MouseEvent mouseEvent) {
+        System.out.println("vaccinationSearch");
+    }
 }

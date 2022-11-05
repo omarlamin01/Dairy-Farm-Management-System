@@ -67,7 +67,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </TextField>
-                        <Button mnemonicParsing="false" styleClass="btn-search" fx:id="healthSearchButton">
+                        <Button fx:id="healthSearchButton" mnemonicParsing="false" onMousePressed="#healthStatusSearch" styleClass="btn-search">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <Image url="@../../../icons/search.png" />
@@ -117,7 +117,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </TextField>
-                        <Button mnemonicParsing="false" styleClass="btn-search" fx:id="pregnancySearchButton">
+                        <Button fx:id="pregnancySearchButton" mnemonicParsing="false" onMousePressed="#pregnancySearch" styleClass="btn-search">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <Image url="@../../../icons/search.png" />
@@ -167,7 +167,7 @@
                                 <Insets left="10.0" />
                             </padding>
                         </TextField>
-                        <Button mnemonicParsing="false" styleClass="btn-search" fx:id="vaccinSearchButton">
+                        <Button fx:id="vaccinSearchButton" mnemonicParsing="false" onMousePressed="#vaccinationSearch" styleClass="btn-search">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <Image url="@../../../icons/search.png" />
