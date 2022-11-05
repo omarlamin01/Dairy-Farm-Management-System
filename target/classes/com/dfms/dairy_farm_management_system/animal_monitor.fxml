@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController">
     <stylesheets>
         <URL value="@../../../style/style.css" />
         <URL value="@../../../style/tab_pane.css" />
@@ -81,7 +81,7 @@
                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                             <ComboBox promptText="Filter" styleClass="combo_box" />
                             <ComboBox promptText="Export" styleClass="combo_box" />
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New status" textAlignment="CENTER">
+                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#oppenAddHealthStatus" styleClass="button-add" text="New status" textAlignment="CENTER">
                                 <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <Image url="@../../../icons/add_user.png" />
