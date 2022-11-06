@@ -133,7 +133,11 @@
                             </children>
                         </Pane>
                         <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addRoutine" prefHeight="50.0" prefWidth="566.0" styleClass="btn" stylesheets="@../../../../style/style.css" text="Add " textAlignment="CENTER" GridPane.rowIndex="3" />
-                        <TextArea fx:id="routineNotes" promptText="Notes..." styleClass="input" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2" />
+                        <TextArea fx:id="routineNotes" prefHeight="140.0" promptText="Notes..." stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
+                     <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="note_input" />
+                     </styleClass></TextArea>
                     </children>
                 </GridPane>
             </children>
