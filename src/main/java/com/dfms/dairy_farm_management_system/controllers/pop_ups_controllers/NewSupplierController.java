@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 public class NewSupplierController implements Initializable {
     @FXML
     TextField supplierName;
+    //!!!!!!!!!! should be a number
     @FXML
     TextField phoneNumberInput;
     @FXML
@@ -34,9 +35,10 @@ public class NewSupplierController implements Initializable {
     }
 
     @FXML
-    public void addNewClient(MouseEvent mouseEvent) {
+    public void addNewSupplier(MouseEvent mouseEvent) {
         Supplier supplier = new Supplier();
         supplier.setName(this.supplierName.getText());
+        //!!!! warn: phone number should be convertible to Int
         supplier.setPhone(Integer.parseInt(this.phoneNumberInput.getText()));
         supplier.setEmail(this.emailInput.getText());
         supplier.setType(this.typeCombo.getValue());
