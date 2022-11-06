@@ -1,6 +1,7 @@
 package com.dfms.dairy_farm_management_system.helpers;
 
 import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.PregnancyController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.beans.value.ObservableValue;
@@ -42,6 +43,20 @@ public class Helper {
     public static void openNewWindow(String title, String view) throws IOException {
         String url = "popups/" + view + ".fxml";
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+        switch (view) {
+            case "add_new_pregnancy":
+                fxmlLoader.setController(new com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.PregnancyController());
+                break;
+            case "add_new_routine":
+                fxmlLoader.setController(new com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.RoutineController());
+                break;
+            case "add_new_vaccination":
+                fxmlLoader.setController(new com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.VaccinationController());
+                break;
+            case "add_new_health_status":
+                fxmlLoader.setController(new com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.HealthStatusController());
+                break;
+        }
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
         // stage.initStyle(StageStyle.TRANSPARENT);

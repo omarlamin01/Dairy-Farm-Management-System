@@ -6,6 +6,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -23,7 +25,7 @@
         <URL value="@../../../style/style.css" />
         <URL value="@../../../style/table_view.css" />
     </stylesheets>
-    <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+    <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content">
         <Label styleClass="header" text="Sales" textAlignment="CENTER">
             <font>
                 <Font name="System Bold" size="24.0" />
@@ -43,50 +45,113 @@
             <font>
                 <Font size="18.0" />
             </font>
-            <VBox.margin>
-                <Insets bottom="10.0" />
-            </VBox.margin>
         </Label>
-        <HBox alignment="CENTER_LEFT" spacing="10.0">
-            <VBox.margin>
-                <Insets bottom="10.0" />
-            </VBox.margin>
-            <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for operation..." styleClass="text-field-search">
-                <padding>
-                    <Insets left="10.0" />
-                </padding>
-            </TextField>
-            <Button mnemonicParsing="false" styleClass="btn-search">
-                <graphic>
-                    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../../../icons/search.png" />
-                    </ImageView>
-                </graphic>
-                <HBox.margin>
-                    <Insets left="-54.0" />
-                </HBox.margin>
-            </Button>
-            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                <ComboBox fx:id="combo" promptText="Export" styleClass="combo_box" />
-                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" text="New operation" textAlignment="CENTER" onMousePressed="#openAddNewCowSale">
-                    <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                            <Image url="@../../../icons/add_user.png" />
-                        </ImageView>
-                    </graphic>
-                </Button>
-            </HBox>
-        </HBox>
-        <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-            <columns>
-                <TableColumn prefWidth="67.66667175292969" text="ID" />
-                <TableColumn prefWidth="163.0" text="Animal id" />
-                <TableColumn prefWidth="116.0" text="Price" />
-                <TableColumn prefWidth="120.33334350585938" text="Client" />
-                <TableColumn prefWidth="144.0" text="Operation date" />
-                <TableColumn prefWidth="190.66668701171875" text="Actions" />
-            </columns>
-        </TableView>
+      <TabPane>
+         <tabs>
+            <Tab text="Cow Sales">
+               <content>
+                  <VBox styleClass="main_content">
+                     <children>
+                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                              <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for operation..." styleClass="text-field-search">
+                                  <padding>
+                                      <Insets left="10.0" />
+                                  </padding>
+                              </TextField>
+                              <Button mnemonicParsing="false" styleClass="btn-search">
+                                  <graphic>
+                                      <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                          <Image url="@../../../icons/search.png" />
+                                      </ImageView>
+                                  </graphic>
+                                  <HBox.margin>
+                                      <Insets left="-54.0" />
+                                  </HBox.margin>
+                              </Button>
+                              <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                  <ComboBox fx:id="combo" promptText="Export" styleClass="combo_box" />
+                                  <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddNewCowSale" styleClass="button-add" text="New operation" textAlignment="CENTER">
+                                      <graphic>
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                              <Image url="@../../../icons/add_user.png" />
+                                          </ImageView>
+                                      </graphic>
+                                  </Button>
+                              </HBox>
+                          </HBox>
+                          <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                              <columns>
+                                  <TableColumn prefWidth="67.66667175292969" text="ID" />
+                                  <TableColumn prefWidth="163.0" text="Animal id" />
+                                  <TableColumn prefWidth="116.0" text="Price" />
+                                  <TableColumn prefWidth="120.33334350585938" text="Client" />
+                                  <TableColumn prefWidth="144.0" text="Operation date" />
+                                  <TableColumn prefWidth="190.66668701171875" text="Actions" />
+                              </columns>
+                          </TableView>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+            <Tab text="Milk Sales">
+               <content>
+                  <VBox styleClass="main_content">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                           <children>
+                              <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for operation..." styleClass="text-field-search">
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
+                              </TextField>
+                              <Button mnemonicParsing="false" styleClass="btn-search">
+                                 <graphic>
+                                    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../icons/search.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets left="-54.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <ComboBox fx:id="combo1" promptText="Export" styleClass="combo_box" />
+                                    <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddNewCowSale" styleClass="button-add" text="New operation" textAlignment="CENTER">
+                                       <graphic>
+                                          <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../icons/add_user.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                           <columns>
+                              <TableColumn prefWidth="67.66667175292969" text="ID" />
+                              <TableColumn prefWidth="163.0" text="Animal id" />
+                              <TableColumn prefWidth="116.0" text="Price" />
+                              <TableColumn prefWidth="120.33334350585938" text="Client" />
+                              <TableColumn prefWidth="144.0" text="Operation date" />
+                              <TableColumn prefWidth="190.66668701171875" text="Actions" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <stylesheets>
+         <URL value="@../../../style/style.css" />
+         <URL value="@../../../style/tab_pane.css" />
+      </stylesheets>
     </VBox>
 </ScrollPane>
 </StackPane>
