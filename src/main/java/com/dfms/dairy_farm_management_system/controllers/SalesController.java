@@ -27,4 +27,9 @@ public class SalesController implements Initializable {
     public void openAddNewCowSale(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add New Sale", "add_new_cow_sale");
     }
+
+    @FXML
+    public void openAddNewMilkSale(MouseEvent mouseEvent) throws IOException {
+        openNewWindow("Add New Sale", "add_new_milk_sale");
+    }
 }

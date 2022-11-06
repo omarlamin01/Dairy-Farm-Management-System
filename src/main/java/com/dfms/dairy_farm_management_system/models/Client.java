@@ -16,6 +16,8 @@ public class Client extends Model {
         this.phone = phone;
     }
 
+    public Client() {}
+
     public int getId_client() {
         return id_client;
     }
