@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,5 +56,21 @@ public class newEmployeeController implements Initializable {
         this.rolesList = FXCollections.observableArrayList("Admin", "HR", "Sales agent", "Production manager", "Veterinare");
 
         this.roleCombo.setItems(this.rolesList);
+    }
+
+    @FXML
+    public void addEmployee(MouseEvent mouseEvent) {
+        System.out.println("Employee: { " +
+                "First name: \"" + this.firstNameInput.getText() + "\", " +
+                "Last name: \"" + this.lastNameInput.getText() + "\", " +
+                "Email: \"" + this.emailInput.getText() + "\", " +
+                "Phone: \"" + this.phoneNumberInput.getText() + "\", " +
+                "Adress: \"" + this.adressInput.getText() + "\", " +
+                "Salary: \"" + this.salaryInput.getText() + "\", " +
+                "Hire date: \"" + this.hireDate.getValue() + "\", " +
+                "Contract type: \"" + this.contractCombo.getValue() + "\", " +
+                "Gender: \"" + this.genderCombo.getValue() + "\", " +
+                "Role: \"" + this.roleCombo.getValue() + "\"" +
+                " }");
     }
 }
