@@ -29,3 +29,4 @@ target/classes/module-info.class
 target/classes/com/dfms/dairy_farm_management_system/popups/add_new_routine.fxml
 target/classes/com/dfms/dairy_farm_management_system/dashboard.fxml
 target/classes/com/dfms/dairy_farm_management_system/popups/add_new_routine.fxml
+target/classes/com/dfms/dairy_farm_management_system/Main.class
