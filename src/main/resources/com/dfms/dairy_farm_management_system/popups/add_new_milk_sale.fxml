@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.MilkSalesController">
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
@@ -72,7 +72,7 @@
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <DatePicker maxWidth="1.7976931348623157E308" promptText="Operation date" GridPane.rowIndex="3">
+            <DatePicker fx:id="operationDate" maxWidth="1.7976931348623157E308" promptText="Operation date" GridPane.rowIndex="3">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="date_input" />
@@ -81,7 +81,7 @@
                   <Insets />
                </GridPane.margin>
             </DatePicker>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Price of sale" stylesheets="@../../../../style/style.css" GridPane.rowIndex="6">
+            <TextField fx:id="priceOfSale" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Price of sale" stylesheets="@../../../../style/style.css" GridPane.rowIndex="6">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="money_input" />
@@ -90,7 +90,7 @@
                   <Insets />
                </GridPane.margin>
             </TextField>
-            <TextField layoutX="18.0" layoutY="138.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Quantity" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
+            <TextField fx:id="quantityInput" layoutX="18.0" layoutY="138.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Quantity" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="quantity_input" />
@@ -99,8 +99,8 @@
                   <Insets bottom="8.0" />
                </GridPane.margin>
             </TextField>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.rowIndex="8" />
-            <ComboBox maxWidth="1.7976931348623157E308" promptText="Client" GridPane.rowIndex="1">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addMilkSale" styleClass="btn" text="Add" GridPane.rowIndex="8" />
+            <ComboBox fx:id="clientsCombo" maxWidth="1.7976931348623157E308" promptText="Client" GridPane.rowIndex="1">
                <styleClass>
                   <String fx:value="combo_box" />
                   <String fx:value="name_input" />
