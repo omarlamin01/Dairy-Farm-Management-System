@@ -16,7 +16,7 @@ public class Supplier  extends Model{
     }
 
     public Supplier() {
-        
+
     }
 
     public int getId_supplier() {
