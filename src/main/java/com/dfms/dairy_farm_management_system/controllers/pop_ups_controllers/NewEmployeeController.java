@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class newEmployeeController implements Initializable {
+public class NewEmployeeController implements Initializable {
     @FXML
     TextField lastNameInput;
     @FXML
