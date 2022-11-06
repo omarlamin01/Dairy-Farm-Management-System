@@ -8,6 +8,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
+
+    public DashboardController() {
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         PieChart.Data slice1 = new PieChart.Data("Desktop", 213);
