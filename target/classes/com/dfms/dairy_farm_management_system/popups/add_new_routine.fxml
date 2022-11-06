@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.RoutineController">
+<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <content>
         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
             <children>
@@ -132,7 +132,7 @@
                                 </HBox>
                             </children>
                         </Pane>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addRoutine" prefHeight="50.0" prefWidth="566.0" styleClass="btn" stylesheets="@../../../../style/style.css" text="Add " textAlignment="CENTER" GridPane.rowIndex="3" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="50.0" prefWidth="566.0" styleClass="btn" stylesheets="@../../../../style/style.css" text="Add " textAlignment="CENTER" GridPane.rowIndex="3" />
                         <TextArea fx:id="routineNotes" promptText="Notes..." styleClass="input" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2" />
                     </children>
                 </GridPane>
