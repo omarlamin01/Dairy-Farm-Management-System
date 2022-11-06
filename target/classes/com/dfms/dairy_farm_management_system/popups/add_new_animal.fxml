@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewAnimalController">
     <children>
         <HBox alignment="CENTER_LEFT" spacing="10.0">
             <children>
@@ -70,7 +70,7 @@
                 <Insets top="10.0" />
             </VBox.margin>
             <children>
-                <TextField promptText="Weight (Kg)" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
+                <TextField fx:id="weightInput" promptText="Weight (Kg)" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
                     <styleClass>
                         <String fx:value="input" />
                         <String fx:value="weight_input" />
@@ -79,8 +79,8 @@
                         <Insets bottom="10.0" left="8.0" />
                     </GridPane.margin>
                 </TextField>
-                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
-                <ComboBox maxWidth="1.7976931348623157E308" promptText="Type">
+                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addAnimal" styleClass="btn" text="Add" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
+                <ComboBox fx:id="typeCombo" maxWidth="1.7976931348623157E308" promptText="Type">
                     <styleClass>
                         <String fx:value="combo_box" />
                         <String fx:value="category_input" />
@@ -89,7 +89,7 @@
                         <Insets bottom="10.0" />
                     </GridPane.margin>
                 </ComboBox>
-                <ComboBox maxWidth="1.7976931348623157E308" promptText="Race" GridPane.columnIndex="1">
+                <ComboBox fx:id="raceCombo" maxWidth="1.7976931348623157E308" promptText="Race" GridPane.columnIndex="1">
                     <styleClass>
                         <String fx:value="combo_box" />
                         <String fx:value="category_input" />
@@ -100,13 +100,13 @@
                 </ComboBox>
                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <children>
-                        <CheckBox mnemonicParsing="false" text="Is pregnant" />
+                        <CheckBox fx:id="isPregnant" mnemonicParsing="false" text="Is pregnant" />
                     </children>
                     <GridPane.margin>
                         <Insets bottom="10.0" />
                     </GridPane.margin>
                 </HBox>
-            <DatePicker maxWidth="1.7976931348623157E308" promptText="Birth date" GridPane.rowIndex="1">
+            <DatePicker fx:id="birthDate" maxWidth="1.7976931348623157E308" promptText="Birth date" GridPane.rowIndex="1">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="date_input" />
@@ -115,7 +115,7 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </DatePicker>
-            <DatePicker promptText="Purchase date" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <DatePicker fx:id="purchaseDate" promptText="Purchase date" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="date_input" />
