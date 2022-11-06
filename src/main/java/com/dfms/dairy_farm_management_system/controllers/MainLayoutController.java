@@ -119,14 +119,6 @@ public class MainLayoutController implements Initializable {
         String views_path = "/com/dfms/dairy_farm_management_system/";
         try {
             FXMLLoader loader = new FXMLLoader();
-            switch (fxml){
-                case "dashbord":
-                    loader.setController(new com.dfms.dairy_farm_management_system.controllers.DashboardController());
-                    break;
-                case "animal_monitor":
-                    loader.setController(new com.dfms.dairy_farm_management_system.controllers.AnimalMonitorController());
-                    break;
-            }
             loader.setLocation(getClass().getResource(views_path + fxml + ".fxml"));
             root = loader.load();
         } catch (IOException e) {
