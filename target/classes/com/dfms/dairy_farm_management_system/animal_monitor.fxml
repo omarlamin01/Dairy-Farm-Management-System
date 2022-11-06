@@ -199,7 +199,7 @@
                     </TableView>
                 </VBox>
             </Tab>
-            <Tab text="Routing Monitor">
+            <Tab text="Routine Monitor">
                 <content>
                     <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
                         <children>
@@ -221,7 +221,7 @@
                                             <Insets left="10.0" />
                                         </padding>
                                     </TextField>
-                                    <Button fx:id="RoutineSearchButton" mnemonicParsing="false" onMousePressed="#vaccinationSearch" styleClass="btn-search">
+                                    <Button fx:id="RoutineSearchButton" mnemonicParsing="false" onMousePressed="#routineSearch" styleClass="btn-search">
                                         <graphic>
                                             <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                                 <image>

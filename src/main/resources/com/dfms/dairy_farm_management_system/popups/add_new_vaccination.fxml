@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.VaccinationController">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <HBox alignment="CENTER_LEFT" spacing="10.0">
             <children>
@@ -102,7 +102,7 @@
                         <Insets bottom="8.0" />
                     </opaqueInsets>
                 </TextArea>
-                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addVaccination" prefHeight="40.0" prefWidth="675.0" styleClass="btn" text="Add" GridPane.rowIndex="12" />
+                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" prefWidth="675.0" styleClass="btn" text="Add" GridPane.rowIndex="12" />
             </children>
         </GridPane>
     </children>
