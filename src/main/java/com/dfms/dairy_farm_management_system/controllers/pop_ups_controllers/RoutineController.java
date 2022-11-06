@@ -56,7 +56,6 @@ public class RoutineController implements Initializable {
                     label1.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
                     TextField quantity = new TextField();
                     quantity.setPromptText("Quantity");
-                    quantity.getStylesheets().add("@../../../../style/style.css");
                     quantity.getStyleClass().add("input");
                     quantity.getStyleClass().add("quantity_input");
                 foodQuantity.setMargin(quantity, new Insets(10, 0, 0, 0));
@@ -69,7 +68,6 @@ public class RoutineController implements Initializable {
                     ObservableList<String> periods = FXCollections.observableArrayList("Morning", "Evening");
                     ComboBox<String> period = new ComboBox<String>(periods);
                     period.setPromptText("Period");
-                    period.getStylesheets().add("@../../../../style/style.css");
                     period.getStyleClass().add("input");
                     period.getStyleClass().add("clock_input");
                 feedingTime.setMargin(period, new Insets(10, 0, 0, 0));
