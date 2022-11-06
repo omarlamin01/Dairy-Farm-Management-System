@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -15,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
@@ -104,15 +106,6 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Hire date" stylesheets="@../../../../style/style.css" GridPane.rowIndex="3">
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="date_input" />
-               </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="8.0" />
-               </GridPane.margin>
-            </TextField>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
             <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Phone number" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <styleClass>
@@ -159,7 +152,20 @@
                   <String fx:value="role_input" />
                </styleClass>
             </ComboBox>
+            <DatePicker maxWidth="1.7976931348623157E308" promptText="Hire date" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="8.0" />
+               </GridPane.margin>
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="date_input" />
+               </styleClass>
+            </DatePicker>
          </children>
       </GridPane>
       </children>
+   <stylesheets>
+      <URL value="@../../../../style/style.css" />
+      <URL value="@../../../../style/date_picker.css" />
+   </stylesheets>
   </VBox>

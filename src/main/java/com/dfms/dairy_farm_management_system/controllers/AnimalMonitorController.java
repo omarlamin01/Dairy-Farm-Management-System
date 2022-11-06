@@ -1,13 +1,17 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.scene.control.*;
 import javafx.scene.input.*;
+
 import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
 
 public class AnimalMonitorController implements Initializable {
@@ -35,7 +39,13 @@ public class AnimalMonitorController implements Initializable {
     Button vaccinSearchButton;
     @FXML
     Button newVaccintionButton;
-
+    //Routine monitor tab
+    @FXML
+    private Button RoutineSearchButton;
+    @FXML
+    private Button newRoutineButton;
+    @FXML
+    private TextField routineSearch;
     //Health status monitor
     @FXML
     ComboBox<String> animalstatusId;
@@ -80,40 +90,12 @@ public class AnimalMonitorController implements Initializable {
     }
 
     @FXML
+    void oppenAddRoutine(MouseEvent event) throws IOException {
+        openNewWindow("Add routine", "add_new_routine");
+    }
+    @FXML
     public void oppenAddVaccination(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add vaccination", "add_new_vaccination");
-    }
-
-    @FXML
-    public void addHealthStatus(MouseEvent mouseEvent) {
-        System.out.println("Health status { " +
-                "Animal id: \"" + animalstatusId.getTypeSelector() + "\"," +
-                "Monitor date: \"" + monitorDate.getConverter() + "\"," +
-                "Status: \"" + healthStatus.getTypeSelector() + "\"," +
-                "Notes: \"" + healthStatusNotes.getText() + "\" " +
-                "},"
-        );
-    }
-
-    @FXML
-    public void addPregnancy(MouseEvent mouseEvent) {
-        System.out.println("Pregnancy { " +
-                "Cow id: \"" + cowPregnancyID.getTypeSelector() + "\"," +
-                "Start date: \"" + pregnancyStartDate.getConverter() + "\"," +
-                "Notes: \"" + pregnancyNotes.getText() + "\" " +
-                "},"
-        );
-    }
-
-    @FXML
-    public void addVaccination(MouseEvent mouseEvent) {
-        System.out.println("Vaccination { " +
-                "Animal id: \"" + animalVaccin.getPromptText() + "\"," +
-                "Vaccin id: \"" + vaccinId.getPromptText() + "\"," +
-                "Vaccination date: \"" + vaccinationDate.getPromptText() + "\"," +
-                "Notes: \"" + vaccinNotes.getText() + "\" " +
-                "},"
-        );
     }
 
     @FXML
