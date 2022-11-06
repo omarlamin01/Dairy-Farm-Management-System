@@ -15,6 +15,10 @@ public class Supplier  extends Model{
         this.phone = phone;
     }
 
+    public Supplier() {
+        
+    }
+
     public int getId_supplier() {
         return id_supplier;
     }
