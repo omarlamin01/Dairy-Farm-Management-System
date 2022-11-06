@@ -15,12 +15,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.StackPane?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.SalesController">
-<ScrollPane style="-fx-background-color: transparent;"  >
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.SalesController">
+<ScrollPane style="-fx-background-color: transparent;">
     <stylesheets>
         <URL value="@../../../style/style.css" />
         <URL value="@../../../style/table_view.css" />
@@ -48,7 +49,7 @@
         </Label>
       <TabPane>
          <tabs>
-            <Tab text="Cow Sales">
+            <Tab closable="false" text="Cow Sales">
                <content>
                   <VBox styleClass="main_content">
                      <children>
@@ -93,7 +94,7 @@
                   </VBox>
                </content>
             </Tab>
-            <Tab text="Milk Sales">
+            <Tab closable="false" text="Milk Sales">
                <content>
                   <VBox styleClass="main_content">
                      <children>
@@ -135,7 +136,7 @@
                         <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                            <columns>
                               <TableColumn prefWidth="67.66667175292969" text="ID" />
-                              <TableColumn prefWidth="163.0" text="Animal id" />
+                              <TableColumn prefWidth="163.0" text="Quantity" />
                               <TableColumn prefWidth="116.0" text="Price" />
                               <TableColumn prefWidth="120.33334350585938" text="Client" />
                               <TableColumn prefWidth="144.0" text="Operation date" />
