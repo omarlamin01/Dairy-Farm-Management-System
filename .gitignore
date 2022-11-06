@@ -30,3 +30,8 @@ target/classes/com/dfms/dairy_farm_management_system/popups/add_new_routine.fxml
 target/classes/com/dfms/dairy_farm_management_system/dashboard.fxml
 target/classes/com/dfms/dairy_farm_management_system/popups/add_new_routine.fxml
 target/classes/com/dfms/dairy_farm_management_system/Main.class
+target/classes/com/dfms/dairy_farm_management_system/Main.class
+target/classes/com/dfms/dairy_farm_management_system/animal_monitor.fxml
+target/classes/com/dfms/dairy_farm_management_system/popups/add_new_animal.fxml
+target/classes/com/dfms/dairy_farm_management_system/sales.fxml
+target/classes/com/dfms/dairy_farm_management_system/animal_monitor.fxml
