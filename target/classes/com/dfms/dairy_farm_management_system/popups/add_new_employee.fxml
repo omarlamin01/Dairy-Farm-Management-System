@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.newEmployeeController">
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
@@ -70,7 +70,7 @@
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Last name" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1">
+            <TextField fx:id="lastNameInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Last name" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="name_input" />
@@ -79,7 +79,7 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="First name" stylesheets="@../../../../style/style.css">
+            <TextField fx:id="firstNameInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="First name" stylesheets="@../../../../style/style.css">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="name_input" />
@@ -88,16 +88,16 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <TextField promptText="Adress" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
+            <TextField fx:id="adressInput" promptText="Adress" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
                <styleClass>
                   <String fx:value="input" />
-                  <String fx:value="category_input" />
+                  <String fx:value="location_input" />
                </styleClass>
                <GridPane.margin>
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <TextField promptText="Email" stylesheets="@../../../../style/style.css" GridPane.rowIndex="1">
+            <TextField fx:id="emailInput" promptText="Email" stylesheets="@../../../../style/style.css" GridPane.rowIndex="1">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="email_input" />
@@ -107,7 +107,7 @@
                </GridPane.margin>
             </TextField>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Phone number" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="phoneNumberInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Phone number" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="phone_input" />
@@ -116,7 +116,7 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Salary" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <TextField fx:id="salaryInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Salary" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="10.0" />
                </GridPane.margin>
@@ -125,16 +125,7 @@
                   <String fx:value="money_input" />
                </styleClass>
             </TextField>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Contrat type" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="box_input" />
-               </styleClass>
-               <GridPane.margin>
-                  <Insets bottom="10.0" />
-               </GridPane.margin>
-            </TextField>
-            <ComboBox maxWidth="1.7976931348623157E308" promptText="Gender" GridPane.rowIndex="4">
+            <ComboBox fx:id="genderCombo" maxWidth="1.7976931348623157E308" promptText="Gender" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="10.0" />
                </GridPane.margin>
@@ -143,7 +134,7 @@
                   <String fx:value="gender_input" />
                </styleClass>
             </ComboBox>
-            <ComboBox maxWidth="1.7976931348623157E308" promptText="Role" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <ComboBox fx:id="roleCombo" maxWidth="1.7976931348623157E308" promptText="Role" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="10.0" />
                </GridPane.margin>
@@ -152,7 +143,7 @@
                   <String fx:value="role_input" />
                </styleClass>
             </ComboBox>
-            <DatePicker maxWidth="1.7976931348623157E308" promptText="Hire date" GridPane.rowIndex="3">
+            <DatePicker fx:id="hireDate" maxWidth="1.7976931348623157E308" promptText="Hire date" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
@@ -161,6 +152,12 @@
                   <String fx:value="date_input" />
                </styleClass>
             </DatePicker>
+            <ComboBox fx:id="contractCombo" maxWidth="1.7976931348623157E308" promptText="Contract type" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <styleClass>
+                  <String fx:value="combo_box" />
+                  <String fx:value="category_input" />
+               </styleClass>
+            </ComboBox>
          </children>
       </GridPane>
       </children>
