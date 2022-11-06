@@ -4,10 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -72,5 +74,7 @@ public class newEmployeeController implements Initializable {
                 "Gender: \"" + this.genderCombo.getValue() + "\", " +
                 "Role: \"" + this.roleCombo.getValue() + "\"" +
                 " }");
+
+        ((Stage)(((Button)mouseEvent.getSource()).getScene().getWindow())).close();
     }
 }
