@@ -47,7 +47,7 @@ public class RoutineController implements Initializable {
                     label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
                     CheckBox checkBox = new CheckBox(food);
                     checkBox.getStyleClass().add("main_content");
-                foodType.setMargin(checkBox, new Insets(10, 0, 0, 0));
+                VBox.setMargin(checkBox, new Insets(10, 0, 0, 0));
                 foodType.getChildren().add(label);
                 foodType.getChildren().add(checkBox);
             hBox.getChildren().add(foodType);
@@ -58,7 +58,7 @@ public class RoutineController implements Initializable {
                     quantity.setPromptText("Quantity");
                     quantity.getStyleClass().add("input");
                     quantity.getStyleClass().add("quantity_input");
-                foodQuantity.setMargin(quantity, new Insets(10, 0, 0, 0));
+                VBox.setMargin(quantity, new Insets(10, 0, 0, 0));
                 foodQuantity.getChildren().add(label1);
                 foodQuantity.getChildren().add(quantity);
             hBox.getChildren().add(foodQuantity);
@@ -70,7 +70,7 @@ public class RoutineController implements Initializable {
                     period.setPromptText("Period");
                     period.getStyleClass().add("input");
                     period.getStyleClass().add("clock_input");
-                feedingTime.setMargin(period, new Insets(10, 0, 0, 0));
+                VBox.setMargin(period, new Insets(10, 0, 0, 8));
                 feedingTime.getChildren().add(label2);
                 feedingTime.getChildren().add(period);
             hBox.getChildren().add(feedingTime);
