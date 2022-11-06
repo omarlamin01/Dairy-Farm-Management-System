@@ -16,6 +16,9 @@ import java.util.ResourceBundle;
 
 public class RoutineController implements Initializable {
 
+    public RoutineController() {
+    }
+
     @FXML
     TextField routineName;
     @FXML
