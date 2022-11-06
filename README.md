@@ -25,7 +25,7 @@ Desktop application for managing dairy farms, built using java, javafx &amp; mon
 
 <h4> OMAR LAMINE </h4>
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=omarlamin01&count_private=true&show_icons=true&theme=radical)](https://github.com/omarlamin01/Dairy-Farm-Management-System)
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=omarlamin01&count_private=true&show_icons=true&theme=vue-dark)](https://github.com/omarlamin01/Dairy-Farm-Management-System)
 
 <h4> MARYAM BOUCHHAR </h4>
 
