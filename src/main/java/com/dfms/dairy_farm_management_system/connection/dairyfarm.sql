@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `animal` (
   `id_animal` int NOT NULL,
-  `birthDate` date NOT NULL,
+  `birth_date` date NOT NULL,
   `purchaseDate` date DEFAULT NULL,
   `id_routine` int NOT NULL,
   `id_race` int NOT NULL,
@@ -134,11 +134,11 @@ CREATE TABLE `milkcollection` (
 --
 
 CREATE TABLE `milksale` (
+  `id` int NOT NULL DEFAULT '0',
   `id_client` int NOT NULL,
   `quantity` int DEFAULT NULL,
   `price` float NOT NULL,
-  `operationDate` date DEFAULT NULL,
-  `id` int NOT NULL DEFAULT '0'
+  `operationDate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
