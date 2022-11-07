@@ -14,8 +14,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.validateDecimalInput;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.validateNumericInput;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class NewEmployeeController implements Initializable {
     @FXML
@@ -46,7 +45,7 @@ public class NewEmployeeController implements Initializable {
         this.setGenderComboItems();
         this.setContractComboItems();
         this.setRoleComboItems();
-        validateNumericInput(phoneNumberInput);
+        validatePhoneInput(phoneNumberInput);
         validateDecimalInput(salaryInput);
     }
 
