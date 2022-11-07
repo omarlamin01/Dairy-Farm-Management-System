@@ -17,12 +17,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.StockController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.MilkCollectionController">
     <stylesheets>
         <URL value="@../../../style/style.css" />
         <URL value="@../../../style/table_view.css" />
     </stylesheets>
-    <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="872.0" styleClass="main_content" stylesheets="@../../../style/style.css">
         <Label styleClass="header" text="Milk Collection" textAlignment="CENTER">
             <font>
                 <Font name="System Bold" size="24.0" />
@@ -67,7 +67,7 @@
             </Button>
             <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                 <ComboBox fx:id="combo" promptText="Export" styleClass="combo_box" />
-                <Button fx:id="openAddNewEmployeeBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddProduct" styleClass="button-add" text="New collection" textAlignment="CENTER">
+                <Button fx:id="openAddNewMilkCollectionBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddNewMilkCollection" styleClass="button-add" text="New collection" textAlignment="CENTER">
                     <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                             <Image url="@../../../icons/add_user.png" />
@@ -81,8 +81,9 @@
                 <TableColumn prefWidth="118.0" text="Cow Id" />
                 <TableColumn prefWidth="144.0" text="Milk quantity" />
                 <TableColumn prefWidth="129.0" text="Period" />
-                <TableColumn prefWidth="162.0" text="Added date" />
-                <TableColumn prefWidth="106.0" text="Actions" />
+                <TableColumn prefWidth="238.0" text="Added date" />
+                <TableColumn prefWidth="204.0" text="Actions" />
+            <TableColumn minWidth="0.0" prefWidth="0.0" />
             </columns>
         </TableView>
     </VBox>
