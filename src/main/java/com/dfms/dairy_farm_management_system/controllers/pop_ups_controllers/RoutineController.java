@@ -16,6 +16,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class RoutineController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setFoods();
+    }
 
     public RoutineController() {
     }
@@ -28,11 +32,6 @@ public class RoutineController implements Initializable {
     VBox foodList;
 
     String[] foods;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setFoods();
-    }
 
     public void setFoods() {
         //get foods from db

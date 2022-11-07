@@ -25,7 +25,6 @@ public class NewSupplierController implements Initializable {
 
     @FXML
     TextField supplierName;
-    //!!!!!!!!!! should be a number
     @FXML
     TextField phoneNumberInput;
     @FXML
