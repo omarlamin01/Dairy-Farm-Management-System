@@ -150,7 +150,9 @@
 .clock_input {
     -fx-background-image: url("../icons/clock.png");
 }
-
+.milk_input {
+    -fx-background-image: url("../icons/milk.png");
+}
 .nav_bar {
     -fx-background-color: -dark-blue-color;
 }
