@@ -42,12 +42,12 @@ CREATE TABLE `animal` (
 -- Structure de la table `animalsale`
 --
 
-CREATE TABLE `animalsale` (
-  `id_client` int NOT NULL,
-  `id_animal` int DEFAULT NULL,
+CREATE TABLE `animal_sale` (
+  `id` int NOT NULL,
+  `client_id` int NOT NULL,
+  `animal_id` int DEFAULT NULL,
   `price` float NOT NULL,
-  `operationDate` date DEFAULT NULL,
-  `id` int NOT NULL
+  `sale_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -289,10 +289,10 @@ ALTER TABLE `animal`
 --
 -- Index pour la table `animalsale`
 --
-ALTER TABLE `animalsale`
+ALTER TABLE `animal_sale`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_animalsale_id_animal` (`id_animal`),
-  ADD KEY `fk_animalsale_id_client` (`id_client`);
+  ADD KEY `fk_animalsale_id_animal` (`animal_id`),
+  ADD KEY `fk_animalsale_id_client` (`client_id`);
 
 --
 -- Index pour la table `client`
@@ -415,7 +415,7 @@ ALTER TABLE `animal`
 --
 -- AUTO_INCREMENT pour la table `animalsale`
 --
-ALTER TABLE `animalsale`
+ALTER TABLE `animal_sale`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
@@ -522,9 +522,9 @@ ALTER TABLE `animal`
 --
 -- Contraintes pour la table `animalsale`
 --
-ALTER TABLE `animalsale`
-  ADD CONSTRAINT `fk_animalsale_id_animal` FOREIGN KEY (`id_animal`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_animalsale_id_client` FOREIGN KEY (`id_client`) REFERENCES `client` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `animal_sale`
+  ADD CONSTRAINT `fk_animalsale_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_animalsale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `consuming`
