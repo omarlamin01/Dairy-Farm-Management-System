@@ -9,11 +9,13 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.validatePhoneInput;
+
 public class ProfileController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        validatePhoneInput(phone_input);
     }
 
     @FXML
