@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `animal` (
-  `id_animal` int NOT NULL,
+  `id` int NOT NULL,
   `birth_date` date NOT NULL,
   `purchaseDate` date DEFAULT NULL,
   `id_routine` int NOT NULL,
@@ -282,7 +282,7 @@ CREATE TABLE `vaccin` (
 -- Index pour la table `animal`
 --
 ALTER TABLE `animal`
-  ADD PRIMARY KEY (`id_animal`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `fk_animal_id_r` (`id_race`),
   ADD KEY `fk_animal_id_routine` (`id_routine`);
 
@@ -410,7 +410,7 @@ ALTER TABLE `vaccin`
 -- AUTO_INCREMENT pour la table `animal`
 --
 ALTER TABLE `animal`
-  MODIFY `id_animal` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `animalsale`
@@ -523,7 +523,7 @@ ALTER TABLE `animal`
 -- Contraintes pour la table `animalsale`
 --
 ALTER TABLE `animalsale`
-  ADD CONSTRAINT `fk_animalsale_id_animal` FOREIGN KEY (`id_animal`) REFERENCES `animal` (`id_animal`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_animalsale_id_animal` FOREIGN KEY (`id_animal`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_animalsale_id_client` FOREIGN KEY (`id_client`) REFERENCES `client` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -536,14 +536,14 @@ ALTER TABLE `consuming`
 -- Contraintes pour la table `healthstatus`
 --
 ALTER TABLE `healthstatus`
-  ADD CONSTRAINT `fk_healthsatus_id_animal` FOREIGN KEY (`id_animal`) REFERENCES `animal` (`id_animal`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_healthsatus_id_animal` FOREIGN KEY (`id_animal`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_healthsatus_id_vaccin` FOREIGN KEY (`id_vaccin`) REFERENCES `vaccin` (`id_vaccin`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `milkcollection`
 --
 ALTER TABLE `milkcollection`
-  ADD CONSTRAINT `fk_milkcollection_id_cow` FOREIGN KEY (`id_cow`) REFERENCES `animal` (`id_animal`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_milkcollection_id_cow` FOREIGN KEY (`id_cow`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `milksale`
@@ -555,7 +555,7 @@ ALTER TABLE `milksale`
 -- Contraintes pour la table `pregnancy`
 --
 ALTER TABLE `pregnancy`
-  ADD CONSTRAINT `fk_pregnancy_id_cow` FOREIGN KEY (`id_cow`) REFERENCES `animal` (`id_animal`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_pregnancy_id_cow` FOREIGN KEY (`id_cow`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `purchase`
