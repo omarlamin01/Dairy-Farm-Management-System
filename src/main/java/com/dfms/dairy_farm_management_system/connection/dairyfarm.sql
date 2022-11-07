@@ -226,9 +226,11 @@ CREATE TABLE `routine` (
 
 CREATE TABLE `routine_has_feeds` (
   `id` int NOT NULL,
-  `id_stock` int NOT NULL,
+  `stock_id` int NOT NULL,
+  `routine_id` int NOT NULL,
   `feeding_time` date NOT NULL,
-  `id_routine` int NOT NULL
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -384,8 +386,8 @@ ALTER TABLE `routine`
 --
 ALTER TABLE `routine_has_feeds`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_routine_has_feeds_id_routine` (`id_routine`),
-  ADD KEY `fk_routine_has_feeds_id_stock` (`id_stock`);
+  ADD KEY `fk_routine_has_feeds_id_routine` (`routine_id`),
+  ADD KEY `fk_routine_has_feeds_id_stock` (`stock_id`);
 
 --
 -- Index pour la table `stock`
@@ -579,8 +581,8 @@ ALTER TABLE `purchase`
 -- Contraintes pour la table `routine_has_feeds`
 --
 ALTER TABLE `routine_has_feeds`
-  ADD CONSTRAINT `fk_routine_has_feeds_id_routine` FOREIGN KEY (`id_routine`) REFERENCES `routine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_routine_has_feeds_id_stock` FOREIGN KEY (`id_stock`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_routine_has_feeds_id_routine` FOREIGN KEY (`routine_id`) REFERENCES `routine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_routine_has_feeds_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `user`
