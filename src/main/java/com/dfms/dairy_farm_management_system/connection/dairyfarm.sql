@@ -256,7 +256,7 @@ CREATE TABLE `stock` (
 --
 
 CREATE TABLE `supplier` (
-  `id_supplier` int NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(50) NOT NULL,
   `type` enum('person','company') DEFAULT NULL,
   `phone` int NOT NULL,
@@ -401,7 +401,7 @@ ALTER TABLE `stock`
 -- Index pour la table `supplier`
 --
 ALTER TABLE `supplier`
-  ADD PRIMARY KEY (`id_supplier`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `user`
@@ -509,7 +509,7 @@ ALTER TABLE `stock`
 -- AUTO_INCREMENT pour la table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id_supplier` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `user`
@@ -577,7 +577,7 @@ ALTER TABLE `pregnancy`
 --
 ALTER TABLE `purchase`
   ADD CONSTRAINT `fk_purchase_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_purchase_id_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_purchase_id_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `routine_has_feeds`
