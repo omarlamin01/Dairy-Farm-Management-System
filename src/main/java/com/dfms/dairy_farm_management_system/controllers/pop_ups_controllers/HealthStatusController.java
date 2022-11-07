@@ -15,6 +15,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class HealthStatusController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setAnimals();
+
+        //set health status options
+        healthStatus.setItems(healthStatusOptions);
+
+        //set health monitor & vaccine animals ids list
+        animalId.setItems(animals);
+    }
+
     @FXML
     ComboBox<String> animalId;
     @FXML
@@ -26,17 +37,6 @@ public class HealthStatusController implements Initializable {
 
     ObservableList<String> healthStatusOptions = FXCollections.observableArrayList("excellent", "good", "bad", "very bad");
     ObservableList<String> animals;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setAnimals();
-
-        //set health status options
-        healthStatus.setItems(healthStatusOptions);
-
-        //set health monitor's & vaccin's animals ids list
-        animalId.setItems(animals);
-    }
 
     public void setAnimals() {
         //get animals ids from database
@@ -53,6 +53,6 @@ public class HealthStatusController implements Initializable {
                 "},"
         );
 
-        ((Stage)(((Button)mouseEvent.getSource()).getScene().getWindow())).close();
+        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
     }
 }
