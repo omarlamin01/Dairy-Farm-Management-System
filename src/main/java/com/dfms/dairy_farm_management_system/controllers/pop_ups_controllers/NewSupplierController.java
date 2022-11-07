@@ -14,21 +14,23 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.validatePhoneInput;
+
 public class NewSupplierController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setTypeComboItems();
+        validatePhoneInput(phoneNumberInput);
+    }
+
     @FXML
     TextField supplierName;
-    //!!!!!!!!!! should be a number
     @FXML
     TextField phoneNumberInput;
     @FXML
     ComboBox<String> typeCombo;
     @FXML
     TextField emailInput;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setTypeComboItems();
-    }
 
     public void setTypeComboItems() {
         this.typeCombo.setItems(FXCollections.observableArrayList("Company", "Person"));
@@ -44,6 +46,6 @@ public class NewSupplierController implements Initializable {
         supplier.setType(this.typeCombo.getValue());
         System.out.println(supplier.toString());
 
-        ((Stage)(((Button)mouseEvent.getSource()).getScene().getWindow())).close();
+        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
     }
 }

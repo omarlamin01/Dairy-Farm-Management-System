@@ -1,6 +1,5 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
-import com.dfms.dairy_farm_management_system.helpers.Helper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,8 +14,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.validateDecimalNumbers;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.validateOnlyNumbers;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class NewEmployeeController implements Initializable {
     @FXML
@@ -48,8 +46,8 @@ public class NewEmployeeController implements Initializable {
         this.setGenderComboItems();
         this.setContractComboItems();
         this.setRoleComboItems();
-        validateOnlyNumbers(phoneNumberInput);
-        validateDecimalNumbers(salaryInput);
+        validatePhoneInput(phoneNumberInput);
+        validateDecimalInput(salaryInput);
     }
 
     public void setGenderComboItems() {

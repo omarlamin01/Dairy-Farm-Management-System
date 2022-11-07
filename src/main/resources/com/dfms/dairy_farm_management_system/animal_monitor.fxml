@@ -79,7 +79,7 @@
                             </HBox.margin>
                         </Button>
                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <Button fx:id="newStatusButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#oppenAddHealthStatus" styleClass="button-add" text="New status" textAlignment="CENTER">
+                            <Button fx:id="newStatusButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddHealthStatus" styleClass="button-add" text="New status" textAlignment="CENTER">
                                 <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <Image url="@../../../icons/add_user.png" />
@@ -129,7 +129,7 @@
                             </HBox.margin>
                         </Button>
                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <Button fx:id="newPregnancyButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#oppenAddPregnancy" styleClass="button-add" text="New pregnancy" textAlignment="CENTER">
+                            <Button fx:id="newPregnancyButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddPregnancy" styleClass="button-add" text="New pregnancy" textAlignment="CENTER">
                                 <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <Image url="@../../../icons/add_user.png" />
@@ -163,12 +163,12 @@
                         <VBox.margin>
                             <Insets bottom="10.0" />
                         </VBox.margin>
-                        <TextField fx:id="vaccinSearch" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
+                        <TextField fx:id="vaccineSearch" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
                             <padding>
                                 <Insets left="10.0" />
                             </padding>
                         </TextField>
-                        <Button fx:id="vaccinSearchButton" mnemonicParsing="false" onMousePressed="#vaccinationSearch" styleClass="btn-search">
+                        <Button fx:id="vaccineSearchButton" mnemonicParsing="false" onMousePressed="#vaccinationSearch" styleClass="btn-search">
                             <graphic>
                                 <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                     <Image url="@../../../icons/search.png" />
@@ -179,7 +179,7 @@
                             </HBox.margin>
                         </Button>
                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <Button fx:id="newVaccintionButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#oppenAddVaccination" styleClass="button-add" text="New vaccination" textAlignment="CENTER">
+                            <Button fx:id="newVaccinationButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddVaccination" styleClass="button-add" text="New vaccination" textAlignment="CENTER">
                                 <graphic>
                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                         <Image url="@../../../icons/add_user.png" />
@@ -235,7 +235,7 @@
                                     </Button>
                                     <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                                         <children>
-                                            <Button fx:id="newRoutineButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#oppenAddRoutine" styleClass="button-add" text="New routine" textAlignment="CENTER">
+                                            <Button fx:id="newRoutineButton" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddRoutine" styleClass="button-add" text="New routine" textAlignment="CENTER">
                                                 <graphic>
                                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                                         <image>
