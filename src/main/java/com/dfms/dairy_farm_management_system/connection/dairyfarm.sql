@@ -169,11 +169,13 @@ CREATE TABLE `pregnancy` (
 --
 
 CREATE TABLE `purchase` (
-  `id_purchase` int NOT NULL,
-  `id_supplier` int NOT NULL,
-  `id_stock` int NOT NULL,
+  `id` int NOT NULL,
+  `supplier_id` int NOT NULL,
+  `stock_id` int NOT NULL,
   `price` float NOT NULL,
-  `purchaseDate` date DEFAULT NULL
+  `purchase_date` date DEFAULT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -352,9 +354,9 @@ ALTER TABLE `pregnancy`
 -- Index pour la table `purchase`
 --
 ALTER TABLE `purchase`
-  ADD PRIMARY KEY (`id_purchase`),
-  ADD KEY `fk_purchase_id_stock` (`id_stock`),
-  ADD KEY `fk_purchase_id_supplier` (`id_supplier`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_purchase_id_stock` (`stock_id`),
+  ADD KEY `fk_purchase_id_supplier` (`supplier_id`);
 
 --
 -- Index pour la table `race`
@@ -464,7 +466,7 @@ ALTER TABLE `pregnancy`
 -- AUTO_INCREMENT pour la table `purchase`
 --
 ALTER TABLE `purchase`
-  MODIFY `id_purchase` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `race`
@@ -567,8 +569,8 @@ ALTER TABLE `pregnancy`
 -- Contraintes pour la table `purchase`
 --
 ALTER TABLE `purchase`
-  ADD CONSTRAINT `fk_purchase_id_stock` FOREIGN KEY (`id_stock`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_purchase_id_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_purchase_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_purchase_id_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `routine_has_feeds`
