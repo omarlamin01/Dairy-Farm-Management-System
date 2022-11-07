@@ -14,158 +14,170 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
- <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
-     <Label styleClass="header" text="Profile" textAlignment="CENTER">
-         <font>
-             <Font name="System Bold" size="24.0" />
-         </font>
-         <VBox.margin>
-             <Insets bottom="10.0" />
-         </VBox.margin>
-     </Label>
-     <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
-         <VBox.margin>
-             <Insets bottom="10.0" />
-         </VBox.margin>
-         <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
-         <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
-     </Pane>
-     <Label styleClass="sub_header" text="Update personal info" textAlignment="CENTER">
-         <font>
-             <Font size="18.0" />
-         </font>
-         <padding>
-             <Insets bottom="10.0" />
-         </padding>
-         <VBox.margin>
-             <Insets bottom="10.0" top="10.0" />
-         </VBox.margin>
-     </Label>
-     <GridPane minHeight="-Infinity" minWidth="-Infinity">
-         <columnConstraints>
-             <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="438.3333435058594" minWidth="10.0" prefWidth="399.66668701171875" />
-             <ColumnConstraints hgrow="SOMETIMES" maxWidth="407.0" minWidth="10.0" prefWidth="400.33331298828125" />
-         </columnConstraints>
-         <rowConstraints>
-             <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
-             <RowConstraints maxHeight="1.7976931348623157E308" />
-             <RowConstraints maxHeight="1.7976931348623157E308" />
-             <RowConstraints maxHeight="1.7976931348623157E308" />
-         </rowConstraints>
-         <TextField fx:id="first_name_input" promptText="First name">
-             <GridPane.margin>
-                 <Insets bottom="10.0" right="10.0" />
-             </GridPane.margin>
-             <styleClass>
-                 <String fx:value="input" />
-                 <String fx:value="name_input" />
-             </styleClass>
-         </TextField>
-         <TextField fx:id="last_name_input" promptText="Last name" GridPane.columnIndex="1">
-             <GridPane.margin>
-                 <Insets bottom="10.0" left="10.0" />
-             </GridPane.margin>
-             <styleClass>
-                 <String fx:value="input" />
-                 <String fx:value="name_input" />
-             </styleClass>
-         </TextField>
-         <TextField fx:id="cin_input" promptText="CIN" GridPane.rowIndex="1">
-             <GridPane.margin>
-                 <Insets bottom="10.0" right="10.0" />
-             </GridPane.margin>
-             <styleClass>
-                 <String fx:value="input" />
-                 <String fx:value="verify_input" />
-             </styleClass>
-         </TextField>
-         <TextField fx:id="phone_input" promptText="Phone" GridPane.columnIndex="1" GridPane.rowIndex="1">
-             <GridPane.margin>
-                 <Insets bottom="10.0" left="10.0" />
-             </GridPane.margin>
-             <styleClass>
-                 <String fx:value="input" />
-                 <String fx:value="phone_input" />
-             </styleClass>
-         </TextField>
-         <TextField fx:id="address_input" promptText="Address" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
-             <GridPane.margin>
-                 <Insets bottom="10.0" />
-             </GridPane.margin>
-             <styleClass>
-                 <String fx:value="input" />
-                 <String fx:value="location_input" />
-             </styleClass>
-         </TextField>
-         <Button fx:id="update_personal_info_btn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#updatePersonalInfo" styleClass="btn" text="UPDATE" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
-             <GridPane.margin>
-                 <Insets left="-8.0" />
-             </GridPane.margin>
-         </Button>
-     </GridPane>
-     <Label prefWidth="800.0" styleClass="sub_header" text="Update login info" textAlignment="CENTER">
-         <font>
-             <Font size="18.0" />
-         </font>
-         <padding>
-             <Insets bottom="10.0" top="10.0" />
-         </padding>
-         <VBox.margin>
-             <Insets bottom="10.0" top="10.0" />
-         </VBox.margin>
-     </Label>
-     <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
-         <columnConstraints>
-             <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-             <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
-             <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
-             <RowConstraints maxHeight="1.7976931348623157E308" />
-         </rowConstraints>
-         <TextField fx:id="new_password_input" promptText="New password" GridPane.rowIndex="1">
-             <GridPane.margin>
-                 <Insets bottom="10.0" right="10.0" />
-             </GridPane.margin>
-             <styleClass>
-                 <String fx:value="input" />
-                 <String fx:value="password_input" />
-             </styleClass>
-         </TextField>
-         <TextField fx:id="email_input" promptText="Email">
-             <GridPane.margin>
-                 <Insets bottom="10.0" right="10.0" />
-             </GridPane.margin>
-             <styleClass>
-                 <String fx:value="input" />
-                 <String fx:value="email_input" />
-             </styleClass>
-         </TextField>
-         <TextField fx:id="current_password_input" promptText="Current password" GridPane.columnIndex="1">
-             <GridPane.margin>
-                 <Insets bottom="10.0" left="10.0" />
-             </GridPane.margin>
-             <styleClass>
-                 <String fx:value="input" />
-                 <String fx:value="password_input" />
-             </styleClass>
-         </TextField>
-         <TextField fx:id="confirm_new_password_input" promptText="Confirm new password" GridPane.columnIndex="1" GridPane.rowIndex="1">
-             <GridPane.margin>
-                 <Insets bottom="10.0" left="10.0" />
-             </GridPane.margin>
-             <styleClass>
-                 <String fx:value="input" />
-                 <String fx:value="password_input" />
-             </styleClass>
-         </TextField>
-         <Button fx:id="update_login_info_btn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#updateLoginInfo" styleClass="btn" text="UPDATE" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
-             <GridPane.margin>
-                 <Insets left="-8.0" />
-             </GridPane.margin>
-         </Button>
-     </GridPane>
- </VBox>
+<ScrollPane style="-fx-background-color: transparent;" stylesheets="@../../../style/style.css"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.dfms.dairy_farm_management_system.controllers.ProfileController">
+    <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+        <Label styleClass="header" text="Profile" textAlignment="CENTER">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+            <VBox.margin>
+                <Insets bottom="10.0"/>
+            </VBox.margin>
+        </Label>
+        <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
+            <VBox.margin>
+                <Insets bottom="10.0"/>
+            </VBox.margin>
+            <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0"/>
+            <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE"
+                       strokeWidth="0.0" styleClass="rectangle" width="14.0"/>
+        </Pane>
+        <Label styleClass="sub_header" text="Update personal info" textAlignment="CENTER">
+            <font>
+                <Font size="18.0"/>
+            </font>
+            <padding>
+                <Insets bottom="10.0"/>
+            </padding>
+            <VBox.margin>
+                <Insets bottom="10.0" top="10.0"/>
+            </VBox.margin>
+        </Label>
+        <GridPane minHeight="-Infinity" minWidth="-Infinity">
+            <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="438.3333435058594" minWidth="10.0"
+                                   prefWidth="399.66668701171875"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="407.0" minWidth="10.0" prefWidth="400.33331298828125"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308"/>
+                <RowConstraints maxHeight="1.7976931348623157E308"/>
+                <RowConstraints maxHeight="1.7976931348623157E308"/>
+            </rowConstraints>
+            <TextField fx:id="first_name_input" promptText="First name">
+                <GridPane.margin>
+                    <Insets bottom="10.0" right="10.0"/>
+                </GridPane.margin>
+                <styleClass>
+                    <String fx:value="input"/>
+                    <String fx:value="name_input"/>
+                </styleClass>
+            </TextField>
+            <TextField fx:id="last_name_input" promptText="Last name" GridPane.columnIndex="1">
+                <GridPane.margin>
+                    <Insets bottom="10.0" left="10.0"/>
+                </GridPane.margin>
+                <styleClass>
+                    <String fx:value="input"/>
+                    <String fx:value="name_input"/>
+                </styleClass>
+            </TextField>
+            <TextField fx:id="cin_input" promptText="CIN" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets bottom="10.0" right="10.0"/>
+                </GridPane.margin>
+                <styleClass>
+                    <String fx:value="input"/>
+                    <String fx:value="verify_input"/>
+                </styleClass>
+            </TextField>
+            <TextField fx:id="phone_input" promptText="Phone" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets bottom="10.0" left="10.0"/>
+                </GridPane.margin>
+                <styleClass>
+                    <String fx:value="input"/>
+                    <String fx:value="phone_input"/>
+                </styleClass>
+            </TextField>
+            <TextField fx:id="address_input" promptText="Address" GridPane.columnSpan="2147483647"
+                       GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets bottom="10.0"/>
+                </GridPane.margin>
+                <styleClass>
+                    <String fx:value="input"/>
+                    <String fx:value="location_input"/>
+                </styleClass>
+            </TextField>
+            <Button fx:id="update_personal_info_btn" maxHeight="1.7976931348623157E308"
+                    maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#updatePersonalInfo"
+                    styleClass="btn" text="UPDATE" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+                <GridPane.margin>
+                    <Insets left="-8.0"/>
+                </GridPane.margin>
+            </Button>
+        </GridPane>
+        <Label prefWidth="800.0" styleClass="sub_header" text="Update login info" textAlignment="CENTER">
+            <font>
+                <Font size="18.0"/>
+            </font>
+            <padding>
+                <Insets bottom="10.0" top="10.0"/>
+            </padding>
+            <VBox.margin>
+                <Insets bottom="10.0" top="10.0"/>
+            </VBox.margin>
+        </Label>
+        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+                  minWidth="-Infinity">
+            <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308"/>
+            </rowConstraints>
+            <TextField fx:id="new_password_input" promptText="New password" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets bottom="10.0" right="10.0"/>
+                </GridPane.margin>
+                <styleClass>
+                    <String fx:value="input"/>
+                    <String fx:value="password_input"/>
+                </styleClass>
+            </TextField>
+            <TextField fx:id="email_input" promptText="Email">
+                <GridPane.margin>
+                    <Insets bottom="10.0" right="10.0"/>
+                </GridPane.margin>
+                <styleClass>
+                    <String fx:value="input"/>
+                    <String fx:value="email_input"/>
+                </styleClass>
+            </TextField>
+            <TextField fx:id="current_password_input" promptText="Current password" GridPane.columnIndex="1">
+                <GridPane.margin>
+                    <Insets bottom="10.0" left="10.0"/>
+                </GridPane.margin>
+                <styleClass>
+                    <String fx:value="input"/>
+                    <String fx:value="password_input"/>
+                </styleClass>
+            </TextField>
+            <TextField fx:id="confirm_new_password_input" promptText="Confirm new password" GridPane.columnIndex="1"
+                       GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets bottom="10.0" left="10.0"/>
+                </GridPane.margin>
+                <styleClass>
+                    <String fx:value="input"/>
+                    <String fx:value="password_input"/>
+                </styleClass>
+            </TextField>
+            <Button fx:id="update_login_info_btn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                    mnemonicParsing="false" onMousePressed="#updateLoginInfo" styleClass="btn" text="UPDATE"
+                    GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets left="-8.0"/>
+                </GridPane.margin>
+            </Button>
+        </GridPane>
+    </VBox>
 </ScrollPane>
