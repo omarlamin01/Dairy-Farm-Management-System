@@ -20,6 +20,10 @@ public class Stock extends Model {
 
     }
 
+    public Stock() {
+
+    }
+
     public String getUnit() {
         return unit;
     }
@@ -68,4 +72,15 @@ public class Stock extends Model {
         this.addedDate = addedDate;
     }
 
-   }
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "id_stock=" + id_stock +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", unit='" + unit + '\'' +
+                ", quantity=" + quantity +
+                ", addedDate='" + addedDate + '\'' +
+                '}';
+    }
+}
