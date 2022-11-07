@@ -71,10 +71,11 @@ CREATE TABLE `client` (
 --
 
 CREATE TABLE `consuming` (
-  `id_consuming` int NOT NULL,
-  `id_stock` int NOT NULL,
+  `id` int NOT NULL,
+  `stock_id` int NOT NULL,
   `quantity` float NOT NULL,
-  `Date` date DEFAULT NULL
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  'updated_at' date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -304,8 +305,8 @@ ALTER TABLE `client`
 -- Index pour la table `consuming`
 --
 ALTER TABLE `consuming`
-  ADD PRIMARY KEY (`id_consuming`),
-  ADD KEY `fk_consuming_id_stock` (`id_stock`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_consuming_id_stock` (`stock_id`);
 
 --
 -- Index pour la table `employee`
@@ -428,7 +429,7 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT pour la table `consuming`
 --
 ALTER TABLE `consuming`
-  MODIFY `id_consuming` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `employee`
@@ -530,7 +531,7 @@ ALTER TABLE `animal_sale`
 -- Contraintes pour la table `consuming`
 --
 ALTER TABLE `consuming`
-  ADD CONSTRAINT `fk_consuming_id_stock` FOREIGN KEY (`id_stock`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_consuming_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `healthstatus`
