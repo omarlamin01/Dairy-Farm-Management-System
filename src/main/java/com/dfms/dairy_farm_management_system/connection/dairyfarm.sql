@@ -2,10 +2,10 @@
 -- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le : lun. 07 nov. 2022 à 11:37
--- Version du serveur : 8.0.28
--- Version de PHP : 8.1.2
+-- Host : localhost
+-- Generated at : lun. 07 nov. 2022 à 11:37
+-- Server version : 8.0.28
+-- PHP version : 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `dairyfarm`
+-- Database : `dairyfarm`
 --
 
 -- --------------------------------------------------------
@@ -41,7 +41,7 @@ CREATE TABLE `animal` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `animalsale`
+-- Structure de la table `animal_sale`
 --
 
 CREATE TABLE `animal_sale` (
@@ -109,7 +109,7 @@ CREATE TABLE `employee` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `healthstatus`
+-- Structure de la table `health_status`
 --
 
 CREATE TABLE `health_status` (
@@ -127,7 +127,7 @@ CREATE TABLE `health_status` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `milkcollection`
+-- Structure de la table `milk_collection`
 --
 
 CREATE TABLE `milk_collection` (
@@ -142,7 +142,7 @@ CREATE TABLE `milk_collection` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `milksale`
+-- Structure de la table `milk_sale`
 --
 
 CREATE TABLE `milk_sale` (
@@ -293,7 +293,7 @@ CREATE TABLE `user` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `vaccin`
+-- Structure de la table `vaccine`
 --
 
 CREATE TABLE `vaccine` (
@@ -306,7 +306,7 @@ CREATE TABLE `vaccine` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Index pour les tables déchargées
+-- Index pour les tables surcharged
 --
 
 --
@@ -318,7 +318,7 @@ ALTER TABLE `animal`
   ADD KEY `fk_animal_id_routine` (`routine_id`);
 
 --
--- Index pour la table `animalsale`
+-- Index pour la table `animal_sale`
 --
 ALTER TABLE `animal_sale`
   ADD PRIMARY KEY (`id`),
@@ -345,7 +345,7 @@ ALTER TABLE `employee`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `healthstatus`
+-- Index pour la table `health_status`
 --
 ALTER TABLE `health_status`
   ADD PRIMARY KEY (`id`),
@@ -353,14 +353,14 @@ ALTER TABLE `health_status`
   ADD KEY `fk_health_status_id_vaccine` (`vaccine_id`);
 
 --
--- Index pour la table `milkcollection`
+-- Index pour la table `milk_collection`
 --
 ALTER TABLE `milk_collection`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_milk_collection_id_cow` (`cow_id`);
 
 --
--- Index pour la table `milksale`
+-- Index pour la table `milk_sale`
 --
 ALTER TABLE `milk_sale`
   ADD PRIMARY KEY (`id`),
@@ -428,13 +428,13 @@ ALTER TABLE `user`
   ADD KEY `fk_user_id_employee` (`employee_id`);
 
 --
--- Index pour la table `vaccin`
+-- Index pour la table `vaccine`
 --
 ALTER TABLE `vaccine`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT pour les tables surcharged
 --
 
 --
@@ -444,7 +444,7 @@ ALTER TABLE `animal`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `animalsale`
+-- AUTO_INCREMENT pour la table `animal_sale`
 --
 ALTER TABLE `animal_sale`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
@@ -468,13 +468,13 @@ ALTER TABLE `employee`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `healthstatus`
+-- AUTO_INCREMENT pour la table `health_status`
 --
 ALTER TABLE `health_status`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `milkcollection`
+-- AUTO_INCREMENT pour la table `milk_collection`
 --
 ALTER TABLE `milk_collection`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
@@ -534,76 +534,76 @@ ALTER TABLE `user`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `vaccin`
+-- AUTO_INCREMENT pour la table `vaccine`
 --
 ALTER TABLE `vaccine`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints pour les tables surcharged
 --
 
 --
--- Contraintes pour la table `animal`
+-- Constraints pour la table `animal`
 --
 ALTER TABLE `animal`
   ADD CONSTRAINT `fk_animal_id_r` FOREIGN KEY (`race_id`) REFERENCES `race` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_animal_id_routine` FOREIGN KEY (`routine_id`) REFERENCES `routine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `animalsale`
+-- Constraints pour la table `animal_sale`
 --
 ALTER TABLE `animal_sale`
   ADD CONSTRAINT `fk_animal_sale_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_animal_sale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `consuming`
+-- Constraints pour la table `consuming`
 --
 ALTER TABLE `consuming`
   ADD CONSTRAINT `fk_consuming_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `healthstatus`
+-- Constraints pour la table `health_status`
 --
 ALTER TABLE `health_status`
   ADD CONSTRAINT `fk_health_status_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_health_status_id_vaccine` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `milkcollection`
+-- Constraints pour la table `milk_collection`
 --
 ALTER TABLE `milk_collection`
   ADD CONSTRAINT `fk_milk_collection_id_cow` FOREIGN KEY (`cow_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `milksale`
+-- Constraints pour la table `milk_sale`
 --
 ALTER TABLE `milk_sale`
   ADD CONSTRAINT `fk_milk_sale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `pregnancy`
+-- Constraints pour la table `pregnancy`
 --
 ALTER TABLE `pregnancy`
   ADD CONSTRAINT `fk_pregnancy_id_cow` FOREIGN KEY (`cow_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `purchase`
+-- Constraints pour la table `purchase`
 --
 ALTER TABLE `purchase`
   ADD CONSTRAINT `fk_purchase_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_purchase_id_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `routine_has_feeds`
+-- Constraints pour la table `routine_has_feeds`
 --
 ALTER TABLE `routine_has_feeds`
   ADD CONSTRAINT `fk_routine_has_feeds_id_routine` FOREIGN KEY (`routine_id`) REFERENCES `routine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_routine_has_feeds_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `user`
+-- Constraints pour la table `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `fk_user_id_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
