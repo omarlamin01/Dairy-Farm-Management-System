@@ -57,7 +57,7 @@ CREATE TABLE `animal_sale` (
 --
 
 CREATE TABLE `client` (
-  `id_client` int NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(50) NOT NULL,
   `type` enum('person','company') DEFAULT NULL,
   `phone` int NOT NULL,
@@ -298,7 +298,7 @@ ALTER TABLE `animal_sale`
 -- Index pour la table `client`
 --
 ALTER TABLE `client`
-  ADD PRIMARY KEY (`id_client`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `consuming`
@@ -422,7 +422,7 @@ ALTER TABLE `animal_sale`
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id_client` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `consuming`
@@ -524,7 +524,7 @@ ALTER TABLE `animal`
 --
 ALTER TABLE `animal_sale`
   ADD CONSTRAINT `fk_animalsale_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_animalsale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_animalsale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `consuming`
@@ -549,7 +549,7 @@ ALTER TABLE `milkcollection`
 -- Contraintes pour la table `milksale`
 --
 ALTER TABLE `milksale`
-  ADD CONSTRAINT `fk_milksale_id_client` FOREIGN KEY (`id_client`) REFERENCES `client` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_milksale_id_client` FOREIGN KEY (`id_client`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `pregnancy`
