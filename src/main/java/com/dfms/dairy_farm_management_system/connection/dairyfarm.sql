@@ -85,17 +85,17 @@ CREATE TABLE `consuming` (
 --
 
 CREATE TABLE `employee` (
-  `id_employee` int NOT NULL,
-  `firstName` varchar(20) NOT NULL,
-  `lastName` varchar(20) NOT NULL,
+  `id` int NOT NULL,
+  `first_name` varchar(20) NOT NULL,
+  `last_name` varchar(20) NOT NULL,
   `gender` enum('F','M') NOT NULL,
   `cin` varchar(20) NOT NULL,
   `email` varchar(20) NOT NULL,
   `phone` int NOT NULL,
-  `adresse` varchar(30) NOT NULL,
+  `address` varchar(30) NOT NULL,
   `salary` float NOT NULL,
-  `recruitmentDate` date NOT NULL,
-  `contractType` enum('CDI','CDD','CTT') NOT NULL
+  `recruitment_date` date NOT NULL,
+  `contract_type` enum('CDI','CDD','CTT') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -312,7 +312,7 @@ ALTER TABLE `consuming`
 -- Index pour la table `employee`
 --
 ALTER TABLE `employee`
-  ADD PRIMARY KEY (`id_employee`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `healthstatus`
@@ -435,7 +435,7 @@ ALTER TABLE `consuming`
 -- AUTO_INCREMENT pour la table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id_employee` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `healthstatus`
@@ -576,7 +576,7 @@ ALTER TABLE `routine_has_feeds`
 -- Contraintes pour la table `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `fk_user_id_employee` FOREIGN KEY (`id_employee`) REFERENCES `employee` (`id_employee`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_id_employee` FOREIGN KEY (`id_employee`) REFERENCES `employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_user_id_role` FOREIGN KEY (`id_role`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
