@@ -286,11 +286,13 @@ CREATE TABLE `user` (
 -- Structure de la table `vaccin`
 --
 
-CREATE TABLE `vaccin` (
-  `id_vaccin` int NOT NULL,
+CREATE TABLE `vaccine` (
+  `id` int NOT NULL,
   `name` varchar(20) NOT NULL,
   `dose` float NOT NULL,
-  `note` varchar(50) DEFAULT NULL
+  `note` varchar(50) DEFAULT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -418,8 +420,8 @@ ALTER TABLE `user`
 --
 -- Index pour la table `vaccin`
 --
-ALTER TABLE `vaccin`
-  ADD PRIMARY KEY (`id_vaccin`);
+ALTER TABLE `vaccine`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -524,8 +526,8 @@ ALTER TABLE `user`
 --
 -- AUTO_INCREMENT pour la table `vaccin`
 --
-ALTER TABLE `vaccin`
-  MODIFY `id_vaccin` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vaccine`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour les tables déchargées
@@ -556,7 +558,7 @@ ALTER TABLE `consuming`
 --
 ALTER TABLE `health_status`
   ADD CONSTRAINT `fk_healthsatus_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_healthsatus_id_vaccin` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccin` (`id_vaccin`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_healthsatus_id_vaccin` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `milkcollection`
