@@ -1,5 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -57,6 +58,9 @@ public class MainLayoutController implements Initializable {
     @FXML
     private Button stock_btn;
 
+    @FXML
+    private Button logout_btn;
+
     private Parent root = null;
 
     @FXML
@@ -106,7 +110,6 @@ public class MainLayoutController implements Initializable {
         String reports_view = "reports";
         loadView(reports_view);
     }
-
 
 
     @FXML
@@ -171,5 +174,17 @@ public class MainLayoutController implements Initializable {
         navLinks.add(sales_btn);
         navLinks.add(stock_btn);
         return navLinks;
+    }
+
+    @FXML
+    private void logout(MouseEvent event) {
+        String login_view = "login_screen";
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource(login_view + ".fxml"));
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
