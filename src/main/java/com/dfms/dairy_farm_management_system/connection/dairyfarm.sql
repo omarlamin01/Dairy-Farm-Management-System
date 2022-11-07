@@ -211,10 +211,11 @@ CREATE TABLE `role` (
 --
 
 CREATE TABLE `routine` (
-  `id_routine` int NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(50) NOT NULL,
   `note` varchar(50) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -376,7 +377,7 @@ ALTER TABLE `role`
 -- Index pour la table `routine`
 --
 ALTER TABLE `routine`
-  ADD PRIMARY KEY (`id_routine`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `routine_has_feeds`
@@ -486,7 +487,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT pour la table `routine`
 --
 ALTER TABLE `routine`
-  MODIFY `id_routine` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `routine_has_feeds`
@@ -527,7 +528,7 @@ ALTER TABLE `vaccin`
 --
 ALTER TABLE `animal`
   ADD CONSTRAINT `fk_animal_id_r` FOREIGN KEY (`race_id`) REFERENCES `race` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_animal_id_routine` FOREIGN KEY (`routine_id`) REFERENCES `routine` (`id_routine`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_animal_id_routine` FOREIGN KEY (`routine_id`) REFERENCES `routine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `animalsale`
@@ -578,7 +579,7 @@ ALTER TABLE `purchase`
 -- Contraintes pour la table `routine_has_feeds`
 --
 ALTER TABLE `routine_has_feeds`
-  ADD CONSTRAINT `fk_routine_has_feeds_id_routine` FOREIGN KEY (`id_routine`) REFERENCES `routine` (`id_routine`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_routine_has_feeds_id_routine` FOREIGN KEY (`id_routine`) REFERENCES `routine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_routine_has_feeds_id_stock` FOREIGN KEY (`id_stock`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
