@@ -23,9 +23,7 @@ public class Main extends Application {
         stage.setTitle("Dairy Farm Management System");
         stage.setScene(scene);
         centerScreen(stage);
-
         stage.show();
-
     }
 
     public static void main(String[] args) {

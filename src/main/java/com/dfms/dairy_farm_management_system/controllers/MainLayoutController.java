@@ -5,16 +5,26 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
+
+import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
 
 public class MainLayoutController implements Initializable {
     @Override
@@ -177,14 +187,33 @@ public class MainLayoutController implements Initializable {
     }
 
     @FXML
-    private void logout(MouseEvent event) {
+    private void logout(MouseEvent event) throws IOException {
         String login_view = "login_screen";
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource(login_view + ".fxml"));
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
+        //show alert dialog
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Logout");
+        alert.setHeaderText("Are you sure you want to logout?");
+        alert.setContentText("Click ok to logout");
+
+        //logout if user clicks ok
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            logoutSystem(login_view, event);
         }
+    }
+
+    //logout method
+    private void logoutSystem(String view, MouseEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(view + ".fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+        stage.setTitle("Dairy Farm Management System");
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setScene(scene);
+        centerScreen(stage);
+        stage.show();
+        ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 }
