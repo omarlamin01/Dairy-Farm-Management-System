@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -52,5 +53,33 @@ public class Helper {
         stage.setScene(scene);
         centerScreen(stage);
         stage.show();
+    }
+
+    //validate inputs
+    public static void validateOnlyNumbers(TextField textField) {
+        // force the field to be numeric only
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    textField.setText(newValue.replaceAll("\\D", ""));
+                }
+            }
+        });
+    }
+
+    public static void validateDecimalNumbers(TextField textField) {
+        // force the field to be numeric only
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                //accept only numbers and only one dot
+                if (!newValue.matches("\\d*\\.?\\d*")) {
+                    textField.setText(newValue.replaceAll("[^\\d.]", ""));
+                }
+            }
+        });
     }
 }
