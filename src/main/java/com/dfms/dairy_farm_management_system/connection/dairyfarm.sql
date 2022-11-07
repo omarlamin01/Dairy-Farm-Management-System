@@ -120,12 +120,13 @@ CREATE TABLE `health_status` (
 -- Structure de la table `milkcollection`
 --
 
-CREATE TABLE `milkcollection` (
-  `id_milkcollection` int NOT NULL,
-  `id_cow` int NOT NULL,
+CREATE TABLE `milk_collection` (
+  `id` int NOT NULL,
+  `cow_id` int NOT NULL,
   `quantity` float NOT NULL,
-  `collectionDate` date NOT NULL,
-  `period` enum('morning','evening') NOT NULL
+  `period` enum('morning','evening') NOT NULL,
+  'created_at' date NOT NULL DEFAULT current_timestamp(),
+  'updated_at' date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -325,9 +326,9 @@ ALTER TABLE `health_status`
 --
 -- Index pour la table `milkcollection`
 --
-ALTER TABLE `milkcollection`
-  ADD PRIMARY KEY (`id_milkcollection`),
-  ADD KEY `fk_milkcollection_id_cow` (`id_cow`);
+ALTER TABLE `milk_collection`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_milkcollection_id_cow` (`cow_id`);
 
 --
 -- Index pour la table `milksale`
@@ -446,8 +447,8 @@ ALTER TABLE `health_status`
 --
 -- AUTO_INCREMENT pour la table `milkcollection`
 --
-ALTER TABLE `milkcollection`
-  MODIFY `id_milkcollection` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `milk_collection`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `pregnancy`
@@ -543,8 +544,8 @@ ALTER TABLE `health_status`
 --
 -- Contraintes pour la table `milkcollection`
 --
-ALTER TABLE `milkcollection`
-  ADD CONSTRAINT `fk_milkcollection_id_cow` FOREIGN KEY (`id_cow`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `milk_collection`
+  ADD CONSTRAINT `fk_milkcollection_id_cow` FOREIGN KEY (`cow_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `milksale`
