@@ -18,154 +18,138 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.layout.StackPane?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="com.dfms.dairy_farm_management_system.controllers.ClientsSuppliersController">
-<ScrollPane style="-fx-background-color: transparent;">
-    <stylesheets>
-        <URL value="@../../../style/style.css"/>
-        <URL value="@../../../style/tab_pane.css"/>
-    </stylesheets>
-    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content">
-        <Label styleClass="header" text="Clients &amp; Suppliers" textAlignment="CENTER">
-            <font>
-                <Font name="System Bold" size="24.0"/>
-            </font>
-            <VBox.margin>
-                <Insets bottom="10.0"/>
-            </VBox.margin>
-        </Label>
-        <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
-            <VBox.margin>
-                <Insets bottom="10.0"/>
-            </VBox.margin>
-            <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK"
-                       strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0"/>
-            <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE"
-                       strokeWidth="0.0" styleClass="rectangle" width="14.0"/>
-        </Pane>
-        <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
-            <Tab text="Clients">
-                <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content"
-                      stylesheets="@../../../style/style.css">
-                    <Label styleClass="sub_header" text="Manage your clients here" textAlignment="CENTER">
-                        <font>
-                            <Font size="18.0"/>
-                        </font>
-                        <VBox.margin>
-                            <Insets bottom="10.0"/>
-                        </VBox.margin>
-                    </Label>
-                    <HBox alignment="CENTER_LEFT" spacing="10.0">
-                        <VBox.margin>
-                            <Insets bottom="10.0"/>
-                        </VBox.margin>
-                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0"
-                                   prefWidth="360.0" promptText="Search for client..." styleClass="text-field-search">
-                            <padding>
-                                <Insets left="10.0"/>
-                            </padding>
-                        </TextField>
-                        <Button mnemonicParsing="false" styleClass="btn-search">
-                            <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                    <Image url="@../../../icons/search.png"/>
-                                </ImageView>
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="-54.0"/>
-                            </HBox.margin>
-                        </Button>
-                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
-                              maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox fx:id="combo" promptText="Export" styleClass="combo_box"/>
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"
-                                    mnemonicParsing="false" styleClass="button-add" text="New client"
-                                    textAlignment="CENTER" onMousePressed="#openAddClient">
-                                <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
-                                               preserveRatio="true">
-                                        <Image url="@../../../icons/add_user.png"/>
-                                    </ImageView>
-                                </graphic>
-                            </Button>
-                        </HBox>
-                    </HBox>
-                    <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                        <columns>
-                            <TableColumn prefWidth="60.0" text="ID"/>
-                            <TableColumn prefWidth="150.0" text="Name"/>
-                            <TableColumn prefWidth="150.0" text="Type"/>
-                            <TableColumn prefWidth="150.0" text="Email"/>
-                            <TableColumn prefWidth="150.0" text="Phone"/>
-                            <TableColumn prefWidth="155.33331298828125" text="Actions"/>
-                        </columns>
-                    </TableView>
-                </VBox>
-            </Tab>
-            <Tab text="Suppliers">
-                <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content"
-                      stylesheets="@../../../style/style.css">
-                    <Label styleClass="sub_header" text="Manage your suppliers here" textAlignment="CENTER">
-                        <font>
-                            <Font size="18.0"/>
-                        </font>
-                        <VBox.margin>
-                            <Insets bottom="10.0"/>
-                        </VBox.margin>
-                    </Label>
-                    <HBox alignment="CENTER_LEFT" spacing="10.0">
-                        <VBox.margin>
-                            <Insets bottom="10.0"/>
-                        </VBox.margin>
-                        <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0"
-                                   prefWidth="360.0" promptText="Search for suppliers..."
-                                   styleClass="text-field-search">
-                            <padding>
-                                <Insets left="10.0"/>
-                            </padding>
-                        </TextField>
-                        <Button mnemonicParsing="false" styleClass="btn-search">
-                            <graphic>
-                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                    <Image url="@../../../icons/search.png"/>
-                                </ImageView>
-                            </graphic>
-                            <HBox.margin>
-                                <Insets left="-54.0"/>
-                            </HBox.margin>
-                        </Button>
-                        <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308"
-                              maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                            <ComboBox promptText="Export" styleClass="combo_box"/>
-                            <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity"
-                                    mnemonicParsing="false" styleClass="button-add" text="New supplier"
-                                    textAlignment="CENTER" onMousePressed="#openAddSupplier">
-                                <graphic>
-                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true"
-                                               preserveRatio="true">
-                                        <Image url="@../../../icons/add_user.png"/>
-                                    </ImageView>
-                                </graphic>
-                            </Button>
-                        </HBox>
-                    </HBox>
-                    <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                        <columns>
-                            <TableColumn prefWidth="60.0" text="ID"/>
-                            <TableColumn prefWidth="150.0" text="Name"/>
-                            <TableColumn prefWidth="150.0" text="Type"/>
-                            <TableColumn prefWidth="150.0" text="Email"/>
-                            <TableColumn prefWidth="150.0" text="Phone"/>
-                            <TableColumn prefWidth="155.33331298828125" text="Actions"/>
-                        </columns>
-                    </TableView>
-                </VBox>
-            </Tab>
-        </TabPane>
-        <stylesheets>
-            <URL value="@../../../style/style.css"/>
-            <URL value="@../../../style/table_view.css"/>
-        </stylesheets>
-    </VBox>
+
+
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ClientsSuppliersController">
+ <stylesheets>
+     <URL value="@../../../style/style.css" />
+     <URL value="@../../../style/tab_pane.css" />
+ </stylesheets>
+ <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content">
+     <Label styleClass="header" text="Clients &amp; Suppliers" textAlignment="CENTER">
+         <font>
+             <Font name="System Bold" size="24.0" />
+         </font>
+         <VBox.margin>
+             <Insets bottom="10.0" />
+         </VBox.margin>
+     </Label>
+     <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
+         <VBox.margin>
+             <Insets bottom="10.0" />
+         </VBox.margin>
+         <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
+         <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
+     </Pane>
+     <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
+         <Tab text="Clients">
+             <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+                 <Label styleClass="sub_header" text="Manage your clients here" textAlignment="CENTER">
+                     <font>
+                         <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                         <Insets bottom="10.0" />
+                     </VBox.margin>
+                 </Label>
+                 <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <VBox.margin>
+                         <Insets bottom="10.0" />
+                     </VBox.margin>
+                     <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for client..." styleClass="text-field-search">
+                         <padding>
+                             <Insets left="10.0" />
+                         </padding>
+                     </TextField>
+                     <Button mnemonicParsing="false" styleClass="btn-search">
+                         <graphic>
+                             <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@../../../icons/search.png" />
+                             </ImageView>
+                         </graphic>
+                         <HBox.margin>
+                             <Insets left="-54.0" />
+                         </HBox.margin>
+                     </Button>
+                     <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                         <ComboBox fx:id="combo" promptText="Export" styleClass="combo_box" />
+                         <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddClient" styleClass="button-add" text="New client" textAlignment="CENTER">
+                             <graphic>
+                                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                     <Image url="@../../../icons/add_user.png" />
+                                 </ImageView>
+                             </graphic>
+                         </Button>
+                     </HBox>
+                 </HBox>
+                 <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <columns>
+                         <TableColumn prefWidth="60.0" text="ID" />
+                         <TableColumn prefWidth="150.0" text="Name" />
+                         <TableColumn prefWidth="150.0" text="Type" />
+                         <TableColumn prefWidth="150.0" text="Email" />
+                         <TableColumn prefWidth="150.0" text="Phone" />
+                         <TableColumn prefWidth="155.33331298828125" text="Actions" />
+                     </columns>
+                 </TableView>
+             </VBox>
+         </Tab>
+         <Tab text="Suppliers">
+             <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+                 <Label styleClass="sub_header" text="Manage your suppliers here" textAlignment="CENTER">
+                     <font>
+                         <Font size="18.0" />
+                     </font>
+                     <VBox.margin>
+                         <Insets bottom="10.0" />
+                     </VBox.margin>
+                 </Label>
+                 <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <VBox.margin>
+                         <Insets bottom="10.0" />
+                     </VBox.margin>
+                     <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for suppliers..." styleClass="text-field-search">
+                         <padding>
+                             <Insets left="10.0" />
+                         </padding>
+                     </TextField>
+                     <Button mnemonicParsing="false" styleClass="btn-search">
+                         <graphic>
+                             <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@../../../icons/search.png" />
+                             </ImageView>
+                         </graphic>
+                         <HBox.margin>
+                             <Insets left="-54.0" />
+                         </HBox.margin>
+                     </Button>
+                     <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                         <ComboBox promptText="Export" styleClass="combo_box" />
+                         <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddSupplier" styleClass="button-add" text="New supplier" textAlignment="CENTER">
+                             <graphic>
+                                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                     <Image url="@../../../icons/add_user.png" />
+                                 </ImageView>
+                             </graphic>
+                         </Button>
+                     </HBox>
+                 </HBox>
+                 <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <columns>
+                         <TableColumn prefWidth="60.0" text="ID" />
+                         <TableColumn prefWidth="150.0" text="Name" />
+                         <TableColumn prefWidth="150.0" text="Type" />
+                         <TableColumn prefWidth="150.0" text="Email" />
+                         <TableColumn prefWidth="150.0" text="Phone" />
+                         <TableColumn prefWidth="155.33331298828125" text="Actions" />
+                     </columns>
+                 </TableView>
+             </VBox>
+         </Tab>
+     </TabPane>
+     <stylesheets>
+         <URL value="@../../../style/style.css" />
+         <URL value="@../../../style/table_view.css" />
+     </stylesheets>
+ </VBox>
 </ScrollPane>
-</StackPane>

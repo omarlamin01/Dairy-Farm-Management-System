@@ -56,24 +56,6 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     TextArea healthStatusNotes;
 
-    //Pregnancy pop-up
-    @FXML
-    ComboBox<String> cowPregnancyID;
-    @FXML
-    DatePicker pregnancyStartDate;
-    @FXML
-    TextArea pregnancyNotes;
-
-    //Vaccin pop-up
-    @FXML
-    ComboBox<String> animalVaccin;
-    @FXML
-    ComboBox<String> vaccinId;
-    @FXML
-    DatePicker vaccinationDate;
-    @FXML
-    TextArea vaccinNotes;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -111,5 +93,10 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     public void vaccinationSearch(MouseEvent mouseEvent) {
         System.out.println("vaccinationSearch");
+    }
+
+    @FXML
+    public void routineSearch(MouseEvent mouseEvent) {
+        System.out.println("routineSearch");
     }
 }

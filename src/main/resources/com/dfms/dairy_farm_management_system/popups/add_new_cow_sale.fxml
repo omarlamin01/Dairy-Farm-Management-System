@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.CowSalesController">
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
@@ -71,7 +71,7 @@
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <DatePicker maxWidth="1.7976931348623157E308" promptText="Operation date" GridPane.rowIndex="2">
+            <DatePicker fx:id="operationDate" maxWidth="1.7976931348623157E308" promptText="Operation date" GridPane.rowIndex="2">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="date_input" />
@@ -80,7 +80,7 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </DatePicker>
-            <TextField promptText="Price of sale" stylesheets="@../../../../style/style.css" GridPane.rowIndex="5">
+            <TextField fx:id="priceOfSale" promptText="Price of sale" stylesheets="@../../../../style/style.css" GridPane.rowIndex="5">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="money_input" />
@@ -89,8 +89,8 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.rowIndex="7" />
-            <ComboBox maxWidth="1.7976931348623157E308" promptText="Client" GridPane.rowIndex="1">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addCowSale" styleClass="btn" text="Add" GridPane.rowIndex="7" />
+            <ComboBox fx:id="clientsCombo" maxWidth="1.7976931348623157E308" promptText="Client" GridPane.rowIndex="1">
                <styleClass>
                   <String fx:value="combo_box" />
                   <String fx:value="name_input" />
@@ -99,7 +99,7 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </ComboBox>
-            <ComboBox maxWidth="1.7976931348623157E308" promptText="Animal ID" GridPane.rowIndex="4">
+            <ComboBox fx:id="animalsCombo" maxWidth="1.7976931348623157E308" promptText="Animal ID" GridPane.rowIndex="4">
                <styleClass>
                   <String fx:value="combo_box" />
                   <String fx:value="cow_input" />

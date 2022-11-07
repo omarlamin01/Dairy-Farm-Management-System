@@ -1,6 +1,7 @@
 package com.dfms.dairy_farm_management_system.helpers;
 
 import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.PregnancyController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.beans.value.ObservableValue;
