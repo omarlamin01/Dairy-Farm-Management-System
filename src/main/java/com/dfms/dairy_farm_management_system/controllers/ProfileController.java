@@ -1,10 +1,21 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
-public class ProfileController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ProfileController implements Initializable {
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
     @FXML
     private TextField address_input;
 
@@ -37,4 +48,14 @@ public class ProfileController {
 
     @FXML
     private Button update_personal_info_btn;
+
+    @FXML
+    void updateLoginInfo(MouseEvent event) {
+
+    }
+
+    @FXML
+    void updatePersonalInfo(MouseEvent event) {
+
+    }
 }

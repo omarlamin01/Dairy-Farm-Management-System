@@ -98,7 +98,7 @@
                  <String fx:value="location_input" />
              </styleClass>
          </TextField>
-         <Button fx:id="update_personal_info_btn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="UPDATE" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
+         <Button fx:id="update_personal_info_btn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#updatePersonalInfo" styleClass="btn" text="UPDATE" GridPane.columnSpan="2147483647" GridPane.rowIndex="3">
              <GridPane.margin>
                  <Insets left="-8.0" />
              </GridPane.margin>
@@ -161,7 +161,7 @@
                  <String fx:value="password_input" />
              </styleClass>
          </TextField>
-         <Button fx:id="update_login_info_btn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="UPDATE" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
+         <Button fx:id="update_login_info_btn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#updateLoginInfo" styleClass="btn" text="UPDATE" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
              <GridPane.margin>
                  <Insets left="-8.0" />
              </GridPane.margin>
