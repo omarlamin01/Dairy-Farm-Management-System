@@ -67,6 +67,10 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     private Button stock_btn;
+    @FXML
+    private Button MilkClollection_btn;
+    @FXML
+    private Button logout;
 
     @FXML
     private Button logout_btn;
@@ -127,7 +131,11 @@ public class MainLayoutController implements Initializable {
         String sales_view = "sales";
         loadView(sales_view);
     }
-
+    @FXML
+    void loadMilkCollection(ActionEvent event) {
+        String milkcollection_view = "milk_collection";
+        loadView(milkcollection_view);
+    }
     private void loadView(String fxml) {
         String views_path = "/com/dfms/dairy_farm_management_system/";
         try {
@@ -183,6 +191,8 @@ public class MainLayoutController implements Initializable {
         navLinks.add(reports_btn);
         navLinks.add(sales_btn);
         navLinks.add(stock_btn);
+        navLinks.add(MilkClollection_btn);
+        navLinks.add(logout);
         return navLinks;
     }
 
