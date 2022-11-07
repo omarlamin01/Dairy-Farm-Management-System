@@ -21,6 +21,10 @@ public class Animal  extends Model{
         this.id_race = id_race;
     }
 
+    public Animal() {
+
+    }
+
     public void setId(int id) {
         this.id_animal = id;
     }

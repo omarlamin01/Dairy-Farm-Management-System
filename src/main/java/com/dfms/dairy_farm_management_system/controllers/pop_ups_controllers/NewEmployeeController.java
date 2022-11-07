@@ -39,7 +39,8 @@ public class NewEmployeeController implements Initializable {
     ComboBox<String> contractCombo;
 
     ObservableList<String> rolesList;
-
+    @FXML
+    private TextField cininput;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setGenderComboItems();
@@ -72,6 +73,7 @@ public class NewEmployeeController implements Initializable {
                 "Email: \"" + this.emailInput.getText() + "\", " +
                 "Phone: \"" + this.phoneNumberInput.getText() + "\", " +
                 "Adress: \"" + this.adressInput.getText() + "\", " +
+                "CIN: \"" + this.cininput.getText() + "\", " +
                 "Salary: \"" + this.salaryInput.getText() + "\", " +
                 "Hire date: \"" + this.hireDate.getValue() + "\", " +
                 "Contract type: \"" + this.contractCombo.getValue() + "\", " +
