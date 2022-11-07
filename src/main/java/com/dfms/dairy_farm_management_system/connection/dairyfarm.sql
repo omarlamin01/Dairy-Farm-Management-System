@@ -240,11 +240,13 @@ CREATE TABLE `routine_has_feeds` (
 --
 
 CREATE TABLE `stock` (
-  `id_stock` int NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(30) NOT NULL,
-  `type` enum('Machine','Vaccin','feed','Drug') DEFAULT NULL,
+  `type` enum('Machine','Vaccine','feed','Drug') DEFAULT NULL,
   `unit` varchar(10) DEFAULT NULL,
-  `addedDate` date DEFAULT NULL
+  `added_date` date DEFAULT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -393,7 +395,7 @@ ALTER TABLE `routine_has_feeds`
 -- Index pour la table `stock`
 --
 ALTER TABLE `stock`
-  ADD PRIMARY KEY (`id_stock`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `supplier`
@@ -501,7 +503,7 @@ ALTER TABLE `routine_has_feeds`
 -- AUTO_INCREMENT pour la table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id_stock` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `supplier`
@@ -543,7 +545,7 @@ ALTER TABLE `animal_sale`
 -- Contraintes pour la table `consuming`
 --
 ALTER TABLE `consuming`
-  ADD CONSTRAINT `fk_consuming_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_consuming_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `healthstatus`
@@ -574,7 +576,7 @@ ALTER TABLE `pregnancy`
 -- Contraintes pour la table `purchase`
 --
 ALTER TABLE `purchase`
-  ADD CONSTRAINT `fk_purchase_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_purchase_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_purchase_id_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -582,7 +584,7 @@ ALTER TABLE `purchase`
 --
 ALTER TABLE `routine_has_feeds`
   ADD CONSTRAINT `fk_routine_has_feeds_id_routine` FOREIGN KEY (`routine_id`) REFERENCES `routine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_routine_has_feeds_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_routine_has_feeds_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `user`
