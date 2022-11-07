@@ -14,7 +14,16 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.validateDecimalInput;
+
 public class CowSalesController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setAnimalsList();
+        this.setClientsList();
+        validateDecimalInput(priceOfSale);
+    }
+
     @FXML
     ComboBox<String> clientsCombo;
     @FXML
@@ -26,12 +35,6 @@ public class CowSalesController implements Initializable {
 
     ObservableList<String> clientsList;
     ObservableList<String> animalsList;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setAnimalsList();
-        this.setClientsList();
-    }
 
     public void setClientsList() {
         this.clientsList = FXCollections.observableArrayList("client-1", "client-2", "client-3", "client-4", "client-5");
@@ -45,13 +48,8 @@ public class CowSalesController implements Initializable {
 
     @FXML
     public void addCowSale(MouseEvent mouseEvent) {
-        System.out.println("Sale: {" +
-                " Client: \"" + this.clientsCombo.getValue() + "\"," +
-                " Animal ID: \"" + this.animalsCombo.getValue() + "\"," +
-                " Operation date: \"" + this.operationDate.getValue() + "\"," +
-                " Price of sale: \"" + this.priceOfSale.getText() + "\" " +
-                "}");
+        System.out.println("Sale: {" + " Client: \"" + this.clientsCombo.getValue() + "\"," + " Animal ID: \"" + this.animalsCombo.getValue() + "\"," + " Operation date: \"" + this.operationDate.getValue() + "\"," + " Price of sale: \"" + this.priceOfSale.getText() + "\" " + "}");
 
-        ((Stage)(((Button)mouseEvent.getSource()).getScene().getWindow())).close();
+        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
     }
 }
