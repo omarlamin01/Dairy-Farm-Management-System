@@ -260,7 +260,9 @@ CREATE TABLE `supplier` (
   `name` varchar(50) NOT NULL,
   `type` enum('person','company') DEFAULT NULL,
   `phone` int NOT NULL,
-  `email` int NOT NULL
+  `email` int NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -270,10 +272,12 @@ CREATE TABLE `supplier` (
 --
 
 CREATE TABLE `user` (
-  `id_user` int NOT NULL,
+  `id` int NOT NULL,
+  `role_id` int NOT NULL,
+  `employee_id` int NOT NULL,
   `password` varchar(20) NOT NULL,
-  `id_role` int NOT NULL,
-  `id_employee` int NOT NULL
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -407,9 +411,9 @@ ALTER TABLE `supplier`
 -- Index pour la table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id_user`),
-  ADD KEY `fk_user_id_role` (`id_role`),
-  ADD KEY `fk_user_id_employee` (`id_employee`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user_id_role` (`role_id`),
+  ADD KEY `fk_user_id_employee` (`employee_id`);
 
 --
 -- Index pour la table `vaccin`
@@ -515,7 +519,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `vaccin`
@@ -590,8 +594,8 @@ ALTER TABLE `routine_has_feeds`
 -- Contraintes pour la table `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `fk_user_id_employee` FOREIGN KEY (`id_employee`) REFERENCES `employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_user_id_role` FOREIGN KEY (`id_role`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_user_id_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_id_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
