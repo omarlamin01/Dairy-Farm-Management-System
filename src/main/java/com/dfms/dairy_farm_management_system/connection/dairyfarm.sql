@@ -33,7 +33,9 @@ CREATE TABLE `animal` (
   `purchase_date` date DEFAULT NULL,
   `routine_id` int NOT NULL,
   `race_id` int NOT NULL,
-  `type` enum('cow','bull','calf') NOT NULL
+  `type` enum('cow','bull','calf') NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -47,7 +49,9 @@ CREATE TABLE `animal_sale` (
   `client_id` int NOT NULL,
   `animal_id` int DEFAULT NULL,
   `price` float NOT NULL,
-  `sale_date` date DEFAULT NULL
+  `sale_date` date DEFAULT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -61,7 +65,9 @@ CREATE TABLE `client` (
   `name` varchar(50) NOT NULL,
   `type` enum('person','company') DEFAULT NULL,
   `phone` int NOT NULL,
-  `email` int NOT NULL
+  `email` int NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -95,7 +101,9 @@ CREATE TABLE `employee` (
   `address` varchar(30) NOT NULL,
   `salary` float NOT NULL,
   `recruitment_date` date NOT NULL,
-  `contract_type` enum('CDI','CDD','CTT') NOT NULL
+  `contract_type` enum('CDI','CDD','CTT') NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -111,7 +119,9 @@ CREATE TABLE `health_status` (
   `weight` float DEFAULT NULL,
   `breading` float DEFAULT NULL,
   `age` float DEFAULT NULL,
-  `date_control` date NOT NULL
+  `control_date` date NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -312,8 +322,8 @@ ALTER TABLE `animal`
 --
 ALTER TABLE `animal_sale`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_animalsale_id_animal` (`animal_id`),
-  ADD KEY `fk_animalsale_id_client` (`client_id`);
+  ADD KEY fk_animal_sale_id_animal (`animal_id`),
+  ADD KEY `fk_animal_sale_id_client` (`client_id`);
 
 --
 -- Index pour la table `client`
@@ -339,22 +349,22 @@ ALTER TABLE `employee`
 --
 ALTER TABLE `health_status`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_healthsatus_id_animal` (`animal_id`),
-  ADD KEY `fk_healthsatus_id_vaccin` (`vaccine_id`);
+  ADD KEY `fk_health_status_id_animal` (`animal_id`),
+  ADD KEY `fk_health_status_id_vaccine` (`vaccine_id`);
 
 --
 -- Index pour la table `milkcollection`
 --
 ALTER TABLE `milk_collection`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_milkcollection_id_cow` (`cow_id`);
+  ADD KEY `fk_milk_collection_id_cow` (`cow_id`);
 
 --
 -- Index pour la table `milksale`
 --
 ALTER TABLE `milk_sale`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_milksale_id_client` (`client_id`);
+  ADD KEY `fk_milk_sale_id_client` (`client_id`);
 
 --
 -- Index pour la table `pregnancy`
@@ -544,8 +554,8 @@ ALTER TABLE `animal`
 -- Contraintes pour la table `animalsale`
 --
 ALTER TABLE `animal_sale`
-  ADD CONSTRAINT `fk_animalsale_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_animalsale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_animal_sale_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_animal_sale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `consuming`
@@ -557,20 +567,20 @@ ALTER TABLE `consuming`
 -- Contraintes pour la table `healthstatus`
 --
 ALTER TABLE `health_status`
-  ADD CONSTRAINT `fk_healthsatus_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_healthsatus_id_vaccin` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_health_status_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_health_status_id_vaccine` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `milkcollection`
 --
 ALTER TABLE `milk_collection`
-  ADD CONSTRAINT `fk_milkcollection_id_cow` FOREIGN KEY (`cow_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_milk_collection_id_cow` FOREIGN KEY (`cow_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `milksale`
 --
 ALTER TABLE `milk_sale`
-  ADD CONSTRAINT `fk_milksale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_milk_sale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `pregnancy`
