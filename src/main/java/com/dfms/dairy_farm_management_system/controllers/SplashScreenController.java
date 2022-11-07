@@ -16,17 +16,16 @@ import java.util.ResourceBundle;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
 
 public class SplashScreenController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        splash();
+    }
 
     @FXML
     private AnchorPane splash_screen;
     private FXMLLoader fxmlLoader;
     private Stage stage;
     private Scene scene;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        splash();
-    }
 
     private void splash() {
         new Thread() {
