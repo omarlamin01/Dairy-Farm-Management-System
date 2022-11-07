@@ -30,9 +30,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `animal` (
   `id` int NOT NULL,
   `birth_date` date NOT NULL,
-  `purchaseDate` date DEFAULT NULL,
-  `id_routine` int NOT NULL,
-  `id_race` int NOT NULL,
+  `purchase_date` date DEFAULT NULL,
+  `routine_id` int NOT NULL,
+  `race_id` int NOT NULL,
   `type` enum('cow','bull','calf') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -283,8 +283,8 @@ CREATE TABLE `vaccin` (
 --
 ALTER TABLE `animal`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_animal_id_r` (`id_race`),
-  ADD KEY `fk_animal_id_routine` (`id_routine`);
+  ADD KEY `fk_animal_id_r` (`race_id`),
+  ADD KEY `fk_animal_id_routine` (`routine_id`);
 
 --
 -- Index pour la table `animalsale`
@@ -516,8 +516,8 @@ ALTER TABLE `vaccin`
 -- Contraintes pour la table `animal`
 --
 ALTER TABLE `animal`
-  ADD CONSTRAINT `fk_animal_id_r` FOREIGN KEY (`id_race`) REFERENCES `race` (`id_race`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_animal_id_routine` FOREIGN KEY (`id_routine`) REFERENCES `routine` (`id_routine`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_animal_id_r` FOREIGN KEY (`race_id`) REFERENCES `race` (`id_race`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_animal_id_routine` FOREIGN KEY (`routine_id`) REFERENCES `routine` (`id_routine`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `animalsale`
