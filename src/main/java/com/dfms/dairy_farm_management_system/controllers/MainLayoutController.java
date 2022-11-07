@@ -1,19 +1,30 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
+
+import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
 
 public class MainLayoutController implements Initializable {
     @Override
@@ -60,6 +71,9 @@ public class MainLayoutController implements Initializable {
     private Button MilkClollection_btn;
     @FXML
     private Button logout;
+
+    @FXML
+    private Button logout_btn;
 
     private Parent root = null;
 
@@ -110,7 +124,6 @@ public class MainLayoutController implements Initializable {
         String reports_view = "reports";
         loadView(reports_view);
     }
-
 
 
     @FXML
@@ -181,5 +194,36 @@ public class MainLayoutController implements Initializable {
         navLinks.add(MilkClollection_btn);
         navLinks.add(logout);
         return navLinks;
+    }
+
+    @FXML
+    private void logout(MouseEvent event) throws IOException {
+        String login_view = "login_screen";
+        //show alert dialog
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Logout");
+        alert.setHeaderText("Are you sure you want to logout?");
+        alert.setContentText("Click ok to logout");
+
+        //logout if user clicks ok
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            logoutSystem(login_view, event);
+        }
+    }
+
+    //logout method
+    private void logoutSystem(String view, MouseEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(view + ".fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+        stage.setTitle("Dairy Farm Management System");
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.setScene(scene);
+        centerScreen(stage);
+        stage.show();
+        ((Node) (event.getSource())).getScene().getWindow().hide();
     }
 }
