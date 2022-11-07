@@ -75,7 +75,7 @@ CREATE TABLE `consuming` (
   `stock_id` int NOT NULL,
   `quantity` float NOT NULL,
   `created_at` date NOT NULL DEFAULT current_timestamp(),
-  'updated_at' date NOT NULL DEFAULT current_timestamp()
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -125,8 +125,8 @@ CREATE TABLE `milk_collection` (
   `cow_id` int NOT NULL,
   `quantity` float NOT NULL,
   `period` enum('morning','evening') NOT NULL,
-  'created_at' date NOT NULL DEFAULT current_timestamp(),
-  'updated_at' date NOT NULL DEFAULT current_timestamp()
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -135,12 +135,14 @@ CREATE TABLE `milk_collection` (
 -- Structure de la table `milksale`
 --
 
-CREATE TABLE `milksale` (
+CREATE TABLE `milk_sale` (
   `id` int NOT NULL DEFAULT '0',
-  `id_client` int NOT NULL,
+  `client_id` int NOT NULL,
   `quantity` int DEFAULT NULL,
   `price` float NOT NULL,
-  `operationDate` date DEFAULT NULL
+  `sale_date` date DEFAULT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -333,9 +335,9 @@ ALTER TABLE `milk_collection`
 --
 -- Index pour la table `milksale`
 --
-ALTER TABLE `milksale`
+ALTER TABLE `milk_sale`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_milksale_id_client` (`id_client`);
+  ADD KEY `fk_milksale_id_client` (`client_id`);
 
 --
 -- Index pour la table `pregnancy`
@@ -550,8 +552,8 @@ ALTER TABLE `milk_collection`
 --
 -- Contraintes pour la table `milksale`
 --
-ALTER TABLE `milksale`
-  ADD CONSTRAINT `fk_milksale_id_client` FOREIGN KEY (`id_client`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `milk_sale`
+  ADD CONSTRAINT `fk_milksale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `pregnancy`
