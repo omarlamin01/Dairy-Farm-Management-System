@@ -15,6 +15,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PregnancyController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setCows();
+
+        //set cows list
+        cowPregnancyID.setItems(cows);
+    }
 
     @FXML
     ComboBox<String> cowPregnancyID;
@@ -24,14 +31,6 @@ public class PregnancyController implements Initializable {
     TextArea pregnancyNotes;
 
     ObservableList<String> cows;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setCows();
-
-        //set cows list
-        cowPregnancyID.setItems(cows);
-    }
 
     public void setCows() {
         //get cows ids from db
@@ -47,6 +46,6 @@ public class PregnancyController implements Initializable {
                 "},"
         );
 
-        ((Stage)(((Button)mouseEvent.getSource()).getScene().getWindow())).close();
+        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
     }
 }

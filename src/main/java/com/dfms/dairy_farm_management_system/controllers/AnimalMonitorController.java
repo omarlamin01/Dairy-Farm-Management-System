@@ -1,7 +1,5 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -15,6 +13,11 @@ import javafx.scene.input.*;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
 
 public class AnimalMonitorController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+
 
     //Health status tab
     @FXML
@@ -32,13 +35,13 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     Button newPregnancyButton;
 
-    //Vaccin tab
+    //Vaccine tab
     @FXML
-    TextField vaccinSearch;
+    TextField vaccineSearch;
     @FXML
-    Button vaccinSearchButton;
+    Button vaccineSearchButton;
     @FXML
-    Button newVaccintionButton;
+    Button newVaccinationButton;
     //Routine monitor tab
     @FXML
     private Button RoutineSearchButton;
@@ -46,37 +49,37 @@ public class AnimalMonitorController implements Initializable {
     private Button newRoutineButton;
     @FXML
     private TextField routineSearch;
+
     //Health status monitor
     @FXML
-    ComboBox<String> animalstatusId;
+    ComboBox<String> animalStatusId;
+
     @FXML
     DatePicker monitorDate;
+
     @FXML
     ComboBox healthStatus;
+
     @FXML
     TextArea healthStatusNotes;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
     @FXML
-    public void oppenAddHealthStatus(MouseEvent mouseEvent) throws IOException {
+    public void openAddHealthStatus(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add health status", "add_new_health_status");
     }
 
     @FXML
-    public void oppenAddPregnancy(MouseEvent mouseEvent) throws IOException {
+    public void openAddPregnancy(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add pregnancy", "add_new_pregnancy");
     }
 
     @FXML
-    void oppenAddRoutine(MouseEvent event) throws IOException {
+    void openAddRoutine(MouseEvent event) throws IOException {
         openNewWindow("Add routine", "add_new_routine");
     }
+
     @FXML
-    public void oppenAddVaccination(MouseEvent mouseEvent) throws IOException {
+    public void openAddVaccination(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add vaccination", "add_new_vaccination");
     }
 

@@ -14,14 +14,14 @@ import java.util.ResourceBundle;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
 
 public class ClientsSuppliersController implements Initializable {
-    @FXML
-    private ComboBox<String> combo;
-    ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         combo.setItems(list);
     }
+
+    @FXML
+    private ComboBox<String> combo;
+    ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
 
     @FXML
     void openAddClient(MouseEvent event) throws IOException {

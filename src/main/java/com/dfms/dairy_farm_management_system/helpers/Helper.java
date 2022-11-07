@@ -1,7 +1,6 @@
 package com.dfms.dairy_farm_management_system.helpers;
 
 import com.dfms.dairy_farm_management_system.Main;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.PregnancyController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.beans.value.ObservableValue;
@@ -55,8 +54,8 @@ public class Helper {
         stage.show();
     }
 
-    //validate inputs
-    public static void validateOnlyNumbers(TextField textField) {
+    //validate inputs to accept only numbers
+    public static void validateNumericInput(TextField textField) {
         // force the field to be numeric only
         textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -69,7 +68,8 @@ public class Helper {
         });
     }
 
-    public static void validateDecimalNumbers(TextField textField) {
+    //validate inputs to accept only decimal numbers and one dot
+    public static void validateDecimalInput(TextField textField) {
         // force the field to be numeric only
         textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -78,6 +78,21 @@ public class Helper {
                 //accept only numbers and only one dot
                 if (!newValue.matches("\\d*\\.?\\d*")) {
                     textField.setText(newValue.replaceAll("[^\\d.]", ""));
+                }
+            }
+        });
+    }
+
+    //validate inputs to accept only + and numbers
+    public static void validatePhoneInput(TextField textField) {
+        // force the field to be numeric only
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                //accept only phone numbers format
+                if (!newValue.matches("\\+?\\d*")) {
+                    textField.setText(newValue.replaceAll("[^\\d+]", ""));
                 }
             }
         });

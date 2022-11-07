@@ -14,7 +14,17 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.validateDecimalInput;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.validateNumericInput;
+
 public class MilkSalesController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setClientsList();
+        validateNumericInput(quantityInput);
+        validateDecimalInput(priceOfSale);
+    }
+
     @FXML
     ComboBox<String> clientsCombo;
     @FXML
@@ -25,11 +35,6 @@ public class MilkSalesController implements Initializable {
     TextField priceOfSale;
 
     ObservableList<String> clientsList;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setClientsList();
-    }
 
     public void setClientsList() {
         this.clientsList = FXCollections.observableArrayList("client-1", "client-2", "client-3", "client-4", "client-5");
@@ -45,6 +50,6 @@ public class MilkSalesController implements Initializable {
                 " Price of sale: \"" + this.priceOfSale.getText() + "\" " +
                 "}");
 
-        ((Stage)(((Button)mouseEvent.getSource()).getScene().getWindow())).close();
+        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
     }
 }
