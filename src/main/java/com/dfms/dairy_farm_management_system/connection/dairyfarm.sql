@@ -104,10 +104,10 @@ CREATE TABLE `employee` (
 -- Structure de la table `healthstatus`
 --
 
-CREATE TABLE `healthstatus` (
-  `id_healthstatus` int NOT NULL,
-  `id_animal` int DEFAULT NULL,
-  `id_vaccin` int NOT NULL,
+CREATE TABLE `health_status` (
+  `id` int NOT NULL,
+  `animal_id` int DEFAULT NULL,
+  `vaccine_id` int NOT NULL,
   `weight` float DEFAULT NULL,
   `breading` float DEFAULT NULL,
   `age` float DEFAULT NULL,
@@ -317,10 +317,10 @@ ALTER TABLE `employee`
 --
 -- Index pour la table `healthstatus`
 --
-ALTER TABLE `healthstatus`
-  ADD PRIMARY KEY (`id_healthstatus`),
-  ADD KEY `fk_healthsatus_id_animal` (`id_animal`),
-  ADD KEY `fk_healthsatus_id_vaccin` (`id_vaccin`);
+ALTER TABLE `health_status`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_healthsatus_id_animal` (`animal_id`),
+  ADD KEY `fk_healthsatus_id_vaccin` (`vaccine_id`);
 
 --
 -- Index pour la table `milkcollection`
@@ -440,8 +440,8 @@ ALTER TABLE `employee`
 --
 -- AUTO_INCREMENT pour la table `healthstatus`
 --
-ALTER TABLE `healthstatus`
-  MODIFY `id_healthstatus` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `health_status`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `milkcollection`
@@ -536,9 +536,9 @@ ALTER TABLE `consuming`
 --
 -- Contraintes pour la table `healthstatus`
 --
-ALTER TABLE `healthstatus`
-  ADD CONSTRAINT `fk_healthsatus_id_animal` FOREIGN KEY (`id_animal`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_healthsatus_id_vaccin` FOREIGN KEY (`id_vaccin`) REFERENCES `vaccin` (`id_vaccin`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `health_status`
+  ADD CONSTRAINT `fk_healthsatus_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_healthsatus_id_vaccin` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccin` (`id_vaccin`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `milkcollection`
