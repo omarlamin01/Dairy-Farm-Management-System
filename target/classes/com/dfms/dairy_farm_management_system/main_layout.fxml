@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="636.0" prefWidth="1096.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.MainLayoutController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="636.0" prefWidth="1096.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.MainLayoutController">
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="224.0" styleClass="nav_bar" BorderPane.alignment="CENTER">
             <ImageView fitHeight="102.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
@@ -96,11 +95,11 @@
                     </ImageView>
                 </graphic>
             </Button>
-         <Button fx:id="dashboard_btn1" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" onMousePressed="#loadDashboard" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Logout">
+         <Button fx:id="logout_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" onMousePressed="#logout" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Logout">
             <graphic>
                <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                   <image>
-                     <Image url="@../../../icons/dashboard.png" />
+                     <Image url="@../../../icons/logout.png" />
                   </image>
                </ImageView>
             </graphic>
