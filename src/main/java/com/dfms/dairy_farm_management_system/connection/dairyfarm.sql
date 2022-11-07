@@ -152,12 +152,14 @@ CREATE TABLE `milk_sale` (
 --
 
 CREATE TABLE `pregnancy` (
-  `id_pregnancy` int NOT NULL,
-  `id_cow` int DEFAULT NULL,
-  `startDate` date DEFAULT NULL,
-  `deliveryDate` date DEFAULT NULL,
-  `pregnancyType` enum('Natural Service','By Collecting Semons') DEFAULT NULL,
-  `pregnancyStatus` enum('pending','finished','failed') NOT NULL
+  `id` int NOT NULL,
+  `cow_id` int DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `delivery_date` date DEFAULT NULL,
+  `pregnancy_type` enum('Natural Service','By Collecting Semen') DEFAULT NULL,
+  `pregnancy_status` enum('pending','finished','failed') NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -343,8 +345,8 @@ ALTER TABLE `milk_sale`
 -- Index pour la table `pregnancy`
 --
 ALTER TABLE `pregnancy`
-  ADD PRIMARY KEY (`id_pregnancy`),
-  ADD KEY `fk_pregnancy_id_cow` (`id_cow`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pregnancy_id_cow` (`cow_id`);
 
 --
 -- Index pour la table `purchase`
@@ -456,7 +458,7 @@ ALTER TABLE `milk_collection`
 -- AUTO_INCREMENT pour la table `pregnancy`
 --
 ALTER TABLE `pregnancy`
-  MODIFY `id_pregnancy` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `purchase`
@@ -559,7 +561,7 @@ ALTER TABLE `milk_sale`
 -- Contraintes pour la table `pregnancy`
 --
 ALTER TABLE `pregnancy`
-  ADD CONSTRAINT `fk_pregnancy_id_cow` FOREIGN KEY (`id_cow`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_pregnancy_id_cow` FOREIGN KEY (`cow_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `purchase`
