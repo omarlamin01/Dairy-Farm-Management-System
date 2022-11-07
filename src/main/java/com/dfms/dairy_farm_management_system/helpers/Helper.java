@@ -82,4 +82,19 @@ public class Helper {
             }
         });
     }
+
+    //validate inputs to accept only + and numbers
+    public static void validatePhoneInput(TextField textField) {
+        // force the field to be numeric only
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                //accept only phone numbers format
+                if (!newValue.matches("\\+?\\d*")) {
+                    textField.setText(newValue.replaceAll("[^\\d+]", ""));
+                }
+            }
+        });
+    }
 }
