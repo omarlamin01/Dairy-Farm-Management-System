@@ -14,8 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-  <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewProductController">
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
@@ -66,7 +65,7 @@
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Product name" stylesheets="@../../../../style/style.css">
+            <TextField fx:id="productName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Product name" stylesheets="@../../../../style/style.css">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="box_input" />
@@ -75,7 +74,7 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <TextField promptText="Product quantity" stylesheets="@../../../../style/style.css" GridPane.rowIndex="1">
+            <TextField fx:id="productQuantity" promptText="Product quantity" stylesheets="@../../../../style/style.css" GridPane.rowIndex="1">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="quantity_input" />
@@ -84,7 +83,7 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <TextField promptText="Product type" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
+            <TextField fx:id="productType" promptText="Product type" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="category_input" />
@@ -93,7 +92,7 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Mesure unit" stylesheets="@../../../../style/style.css" GridPane.rowIndex="3">
+            <TextField fx:id="productMeasureUnit" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Measure unit" stylesheets="@../../../../style/style.css" GridPane.rowIndex="3">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="unit_input" />
@@ -102,7 +101,7 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.rowIndex="4" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addProduct" styleClass="btn" text="Add" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       </children>

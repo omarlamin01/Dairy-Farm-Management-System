@@ -2,10 +2,10 @@
 -- version 5.1.3
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le : lun. 07 nov. 2022 à 11:37
--- Version du serveur : 8.0.28
--- Version de PHP : 8.1.2
+-- Host : localhost
+-- Generated at : lun. 07 nov. 2022 à 11:37
+-- Server version : 8.0.28
+-- PHP version : 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `dairyfarm`
+-- Database : `dairyfarm`
 --
 
 -- --------------------------------------------------------
@@ -28,27 +28,31 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `animal` (
-  `id_animal` int NOT NULL,
-  `birthDate` date NOT NULL,
-  `purchaseDate` date DEFAULT NULL,
-  `id_routine` int NOT NULL,
-  `id_race` int NOT NULL,
-  `type` enum('cow','bull','calf') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int NOT NULL,
+  `birth_date` date NOT NULL,
+  `purchase_date` date DEFAULT NULL,
+  `routine_id` int NOT NULL,
+  `race_id` int NOT NULL,
+  `type` enum('cow','bull','calf') NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `animalsale`
+-- Structure de la table `animal_sale`
 --
 
-CREATE TABLE `animalsale` (
-  `id_client` int NOT NULL,
-  `id_animal` int DEFAULT NULL,
+CREATE TABLE `animal_sale` (
+  `id` int NOT NULL,
+  `client_id` int NOT NULL,
+  `animal_id` int DEFAULT NULL,
   `price` float NOT NULL,
-  `operationDate` date DEFAULT NULL,
-  `id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `sale_date` date DEFAULT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -57,12 +61,14 @@ CREATE TABLE `animalsale` (
 --
 
 CREATE TABLE `client` (
-  `id_client` int NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(50) NOT NULL,
   `type` enum('person','company') DEFAULT NULL,
   `phone` int NOT NULL,
-  `email` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `email` int NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -71,11 +77,12 @@ CREATE TABLE `client` (
 --
 
 CREATE TABLE `consuming` (
-  `id_consuming` int NOT NULL,
-  `id_stock` int NOT NULL,
+  `id` int NOT NULL,
+  `stock_id` int NOT NULL,
   `quantity` float NOT NULL,
-  `Date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -84,62 +91,69 @@ CREATE TABLE `consuming` (
 --
 
 CREATE TABLE `employee` (
-  `id_employee` int NOT NULL,
-  `firstName` varchar(20) NOT NULL,
-  `lastName` varchar(20) NOT NULL,
+  `id` int NOT NULL,
+  `first_name` varchar(20) NOT NULL,
+  `last_name` varchar(20) NOT NULL,
   `gender` enum('F','M') NOT NULL,
   `cin` varchar(20) NOT NULL,
   `email` varchar(20) NOT NULL,
   `phone` int NOT NULL,
-  `adresse` varchar(30) NOT NULL,
+  `address` varchar(30) NOT NULL,
   `salary` float NOT NULL,
-  `recruitmentDate` date NOT NULL,
-  `contractType` enum('CDI','CDD','CTT') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `recruitment_date` date NOT NULL,
+  `contract_type` enum('CDI','CDD','CTT') NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `healthstatus`
+-- Structure de la table `health_status`
 --
 
-CREATE TABLE `healthstatus` (
-  `id_healthstatus` int NOT NULL,
-  `id_animal` int DEFAULT NULL,
-  `id_vaccin` int NOT NULL,
+CREATE TABLE `health_status` (
+  `id` int NOT NULL,
+  `animal_id` int DEFAULT NULL,
+  `vaccine_id` int NOT NULL,
   `weight` float DEFAULT NULL,
   `breading` float DEFAULT NULL,
   `age` float DEFAULT NULL,
-  `date_control` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `control_date` date NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `milkcollection`
+-- Structure de la table `milk_collection`
 --
 
-CREATE TABLE `milkcollection` (
-  `id_milkcollection` int NOT NULL,
-  `id_cow` int NOT NULL,
+CREATE TABLE `milk_collection` (
+  `id` int NOT NULL,
+  `cow_id` int NOT NULL,
   `quantity` float NOT NULL,
-  `collectionDate` date NOT NULL,
-  `period` enum('morning','evening') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `period` enum('morning','evening') NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `milksale`
+-- Structure de la table `milk_sale`
 --
 
-CREATE TABLE `milksale` (
-  `id_client` int NOT NULL,
+CREATE TABLE `milk_sale` (
+  `id` int NOT NULL DEFAULT '0',
+  `client_id` int NOT NULL,
   `quantity` int DEFAULT NULL,
   `price` float NOT NULL,
-  `operationDate` date DEFAULT NULL,
-  `id` int NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `sale_date` date DEFAULT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -148,13 +162,15 @@ CREATE TABLE `milksale` (
 --
 
 CREATE TABLE `pregnancy` (
-  `id_pregnancy` int NOT NULL,
-  `id_cow` int DEFAULT NULL,
-  `startDate` date DEFAULT NULL,
-  `deliveryDate` date DEFAULT NULL,
-  `pregnancyType` enum('Natural Service','By Collecting Semons') DEFAULT NULL,
-  `pregnancyStatus` enum('pending','finished','failed') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int NOT NULL,
+  `cow_id` int DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `delivery_date` date DEFAULT NULL,
+  `pregnancy_type` enum('Natural Service','By Collecting Semen') DEFAULT NULL,
+  `pregnancy_status` enum('pending','finished','failed') NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -163,12 +179,14 @@ CREATE TABLE `pregnancy` (
 --
 
 CREATE TABLE `purchase` (
-  `id_purchase` int NOT NULL,
-  `id_supplier` int NOT NULL,
-  `id_stock` int NOT NULL,
+  `id` int NOT NULL,
+  `supplier_id` int NOT NULL,
+  `stock_id` int NOT NULL,
   `price` float NOT NULL,
-  `purchaseDate` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `purchase_date` date DEFAULT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -177,9 +195,11 @@ CREATE TABLE `purchase` (
 --
 
 CREATE TABLE `race` (
-  `id_race` int NOT NULL,
-  `nameRace` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int NOT NULL,
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -192,7 +212,7 @@ CREATE TABLE `role` (
   `name` varchar(20) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -201,11 +221,12 @@ CREATE TABLE `role` (
 --
 
 CREATE TABLE `routine` (
-  `id_routine` int NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(50) NOT NULL,
   `note` varchar(50) DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -215,10 +236,12 @@ CREATE TABLE `routine` (
 
 CREATE TABLE `routine_has_feeds` (
   `id` int NOT NULL,
-  `id_stock` int NOT NULL,
+  `stock_id` int NOT NULL,
+  `routine_id` int NOT NULL,
   `feeding_time` date NOT NULL,
-  `id_routine` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -227,12 +250,14 @@ CREATE TABLE `routine_has_feeds` (
 --
 
 CREATE TABLE `stock` (
-  `id_stock` int NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(30) NOT NULL,
-  `type` enum('Machine','Vaccin','feed','Drug') DEFAULT NULL,
+  `type` enum('Machine','Vaccine','feed','Drug') DEFAULT NULL,
   `unit` varchar(10) DEFAULT NULL,
-  `addedDate` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `added_date` date DEFAULT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -241,12 +266,14 @@ CREATE TABLE `stock` (
 --
 
 CREATE TABLE `supplier` (
-  `id_supplier` int NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(50) NOT NULL,
   `type` enum('person','company') DEFAULT NULL,
   `phone` int NOT NULL,
-  `email` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `email` int NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -255,106 +282,110 @@ CREATE TABLE `supplier` (
 --
 
 CREATE TABLE `user` (
-  `id_user` int NOT NULL,
+  `id` int NOT NULL,
+  `role_id` int NOT NULL,
+  `employee_id` int NOT NULL,
   `password` varchar(20) NOT NULL,
-  `id_role` int NOT NULL,
-  `id_employee` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `vaccin`
+-- Structure de la table `vaccine`
 --
 
-CREATE TABLE `vaccin` (
-  `id_vaccin` int NOT NULL,
+CREATE TABLE `vaccine` (
+  `id` int NOT NULL,
   `name` varchar(20) NOT NULL,
   `dose` float NOT NULL,
-  `note` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `note` varchar(50) DEFAULT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `updated_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Index pour les tables déchargées
+-- Index pour les tables surcharged
 --
 
 --
 -- Index pour la table `animal`
 --
 ALTER TABLE `animal`
-  ADD PRIMARY KEY (`id_animal`),
-  ADD KEY `fk_animal_id_r` (`id_race`),
-  ADD KEY `fk_animal_id_routine` (`id_routine`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_animal_id_r` (`race_id`),
+  ADD KEY `fk_animal_id_routine` (`routine_id`);
 
 --
--- Index pour la table `animalsale`
+-- Index pour la table `animal_sale`
 --
-ALTER TABLE `animalsale`
+ALTER TABLE `animal_sale`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_animalsale_id_animal` (`id_animal`),
-  ADD KEY `fk_animalsale_id_client` (`id_client`);
+  ADD KEY fk_animal_sale_id_animal (`animal_id`),
+  ADD KEY `fk_animal_sale_id_client` (`client_id`);
 
 --
 -- Index pour la table `client`
 --
 ALTER TABLE `client`
-  ADD PRIMARY KEY (`id_client`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `consuming`
 --
 ALTER TABLE `consuming`
-  ADD PRIMARY KEY (`id_consuming`),
-  ADD KEY `fk_consuming_id_stock` (`id_stock`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_consuming_id_stock` (`stock_id`);
 
 --
 -- Index pour la table `employee`
 --
 ALTER TABLE `employee`
-  ADD PRIMARY KEY (`id_employee`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `healthstatus`
+-- Index pour la table `health_status`
 --
-ALTER TABLE `healthstatus`
-  ADD PRIMARY KEY (`id_healthstatus`),
-  ADD KEY `fk_healthsatus_id_animal` (`id_animal`),
-  ADD KEY `fk_healthsatus_id_vaccin` (`id_vaccin`);
-
---
--- Index pour la table `milkcollection`
---
-ALTER TABLE `milkcollection`
-  ADD PRIMARY KEY (`id_milkcollection`),
-  ADD KEY `fk_milkcollection_id_cow` (`id_cow`);
-
---
--- Index pour la table `milksale`
---
-ALTER TABLE `milksale`
+ALTER TABLE `health_status`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_milksale_id_client` (`id_client`);
+  ADD KEY `fk_health_status_id_animal` (`animal_id`),
+  ADD KEY `fk_health_status_id_vaccine` (`vaccine_id`);
+
+--
+-- Index pour la table `milk_collection`
+--
+ALTER TABLE `milk_collection`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_milk_collection_id_cow` (`cow_id`);
+
+--
+-- Index pour la table `milk_sale`
+--
+ALTER TABLE `milk_sale`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_milk_sale_id_client` (`client_id`);
 
 --
 -- Index pour la table `pregnancy`
 --
 ALTER TABLE `pregnancy`
-  ADD PRIMARY KEY (`id_pregnancy`),
-  ADD KEY `fk_pregnancy_id_cow` (`id_cow`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pregnancy_id_cow` (`cow_id`);
 
 --
 -- Index pour la table `purchase`
 --
 ALTER TABLE `purchase`
-  ADD PRIMARY KEY (`id_purchase`),
-  ADD KEY `fk_purchase_id_stock` (`id_stock`),
-  ADD KEY `fk_purchase_id_supplier` (`id_supplier`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_purchase_id_stock` (`stock_id`),
+  ADD KEY `fk_purchase_id_supplier` (`supplier_id`);
 
 --
 -- Index pour la table `race`
 --
 ALTER TABLE `race`
-  ADD PRIMARY KEY (`id_race`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `role`
@@ -366,105 +397,105 @@ ALTER TABLE `role`
 -- Index pour la table `routine`
 --
 ALTER TABLE `routine`
-  ADD PRIMARY KEY (`id_routine`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `routine_has_feeds`
 --
 ALTER TABLE `routine_has_feeds`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_routine_has_feeds_id_routine` (`id_routine`),
-  ADD KEY `fk_routine_has_feeds_id_stock` (`id_stock`);
+  ADD KEY `fk_routine_has_feeds_id_routine` (`routine_id`),
+  ADD KEY `fk_routine_has_feeds_id_stock` (`stock_id`);
 
 --
 -- Index pour la table `stock`
 --
 ALTER TABLE `stock`
-  ADD PRIMARY KEY (`id_stock`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `supplier`
 --
 ALTER TABLE `supplier`
-  ADD PRIMARY KEY (`id_supplier`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Index pour la table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`id_user`),
-  ADD KEY `fk_user_id_role` (`id_role`),
-  ADD KEY `fk_user_id_employee` (`id_employee`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user_id_role` (`role_id`),
+  ADD KEY `fk_user_id_employee` (`employee_id`);
 
 --
--- Index pour la table `vaccin`
+-- Index pour la table `vaccine`
 --
-ALTER TABLE `vaccin`
-  ADD PRIMARY KEY (`id_vaccin`);
+ALTER TABLE `vaccine`
+  ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT pour les tables surcharged
 --
 
 --
 -- AUTO_INCREMENT pour la table `animal`
 --
 ALTER TABLE `animal`
-  MODIFY `id_animal` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `animalsale`
+-- AUTO_INCREMENT pour la table `animal_sale`
 --
-ALTER TABLE `animalsale`
+ALTER TABLE `animal_sale`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id_client` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `consuming`
 --
 ALTER TABLE `consuming`
-  MODIFY `id_consuming` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id_employee` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `healthstatus`
+-- AUTO_INCREMENT pour la table `health_status`
 --
-ALTER TABLE `healthstatus`
-  MODIFY `id_healthstatus` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `health_status`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `milkcollection`
+-- AUTO_INCREMENT pour la table `milk_collection`
 --
-ALTER TABLE `milkcollection`
-  MODIFY `id_milkcollection` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `milk_collection`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `pregnancy`
 --
 ALTER TABLE `pregnancy`
-  MODIFY `id_pregnancy` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `purchase`
 --
 ALTER TABLE `purchase`
-  MODIFY `id_purchase` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `race`
 --
 ALTER TABLE `race`
-  MODIFY `id_race` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `role`
@@ -476,7 +507,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT pour la table `routine`
 --
 ALTER TABLE `routine`
-  MODIFY `id_routine` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `routine_has_feeds`
@@ -488,95 +519,95 @@ ALTER TABLE `routine_has_feeds`
 -- AUTO_INCREMENT pour la table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id_stock` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id_supplier` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `vaccin`
+-- AUTO_INCREMENT pour la table `vaccine`
 --
-ALTER TABLE `vaccin`
-  MODIFY `id_vaccin` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `vaccine`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints pour les tables surcharged
 --
 
 --
--- Contraintes pour la table `animal`
+-- Constraints pour la table `animal`
 --
 ALTER TABLE `animal`
-  ADD CONSTRAINT `fk_animal_id_r` FOREIGN KEY (`id_race`) REFERENCES `race` (`id_race`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_animal_id_routine` FOREIGN KEY (`id_routine`) REFERENCES `routine` (`id_routine`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_animal_id_r` FOREIGN KEY (`race_id`) REFERENCES `race` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_animal_id_routine` FOREIGN KEY (`routine_id`) REFERENCES `routine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `animalsale`
+-- Constraints pour la table `animal_sale`
 --
-ALTER TABLE `animalsale`
-  ADD CONSTRAINT `fk_animalsale_id_animal` FOREIGN KEY (`id_animal`) REFERENCES `animal` (`id_animal`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_animalsale_id_client` FOREIGN KEY (`id_client`) REFERENCES `client` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `animal_sale`
+  ADD CONSTRAINT `fk_animal_sale_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_animal_sale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `consuming`
+-- Constraints pour la table `consuming`
 --
 ALTER TABLE `consuming`
-  ADD CONSTRAINT `fk_consuming_id_stock` FOREIGN KEY (`id_stock`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_consuming_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `healthstatus`
+-- Constraints pour la table `health_status`
 --
-ALTER TABLE `healthstatus`
-  ADD CONSTRAINT `fk_healthsatus_id_animal` FOREIGN KEY (`id_animal`) REFERENCES `animal` (`id_animal`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_healthsatus_id_vaccin` FOREIGN KEY (`id_vaccin`) REFERENCES `vaccin` (`id_vaccin`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `health_status`
+  ADD CONSTRAINT `fk_health_status_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_health_status_id_vaccine` FOREIGN KEY (`vaccine_id`) REFERENCES `vaccine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `milkcollection`
+-- Constraints pour la table `milk_collection`
 --
-ALTER TABLE `milkcollection`
-  ADD CONSTRAINT `fk_milkcollection_id_cow` FOREIGN KEY (`id_cow`) REFERENCES `animal` (`id_animal`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `milk_collection`
+  ADD CONSTRAINT `fk_milk_collection_id_cow` FOREIGN KEY (`cow_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `milksale`
+-- Constraints pour la table `milk_sale`
 --
-ALTER TABLE `milksale`
-  ADD CONSTRAINT `fk_milksale_id_client` FOREIGN KEY (`id_client`) REFERENCES `client` (`id_client`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `milk_sale`
+  ADD CONSTRAINT `fk_milk_sale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `pregnancy`
+-- Constraints pour la table `pregnancy`
 --
 ALTER TABLE `pregnancy`
-  ADD CONSTRAINT `fk_pregnancy_id_cow` FOREIGN KEY (`id_cow`) REFERENCES `animal` (`id_animal`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_pregnancy_id_cow` FOREIGN KEY (`cow_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `purchase`
+-- Constraints pour la table `purchase`
 --
 ALTER TABLE `purchase`
-  ADD CONSTRAINT `fk_purchase_id_stock` FOREIGN KEY (`id_stock`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_purchase_id_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_purchase_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_purchase_id_supplier` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `routine_has_feeds`
+-- Constraints pour la table `routine_has_feeds`
 --
 ALTER TABLE `routine_has_feeds`
-  ADD CONSTRAINT `fk_routine_has_feeds_id_routine` FOREIGN KEY (`id_routine`) REFERENCES `routine` (`id_routine`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_routine_has_feeds_id_stock` FOREIGN KEY (`id_stock`) REFERENCES `stock` (`id_stock`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_routine_has_feeds_id_routine` FOREIGN KEY (`routine_id`) REFERENCES `routine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_routine_has_feeds_id_stock` FOREIGN KEY (`stock_id`) REFERENCES `stock` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `user`
+-- Constraints pour la table `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `fk_user_id_employee` FOREIGN KEY (`id_employee`) REFERENCES `employee` (`id_employee`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_user_id_role` FOREIGN KEY (`id_role`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_user_id_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_user_id_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

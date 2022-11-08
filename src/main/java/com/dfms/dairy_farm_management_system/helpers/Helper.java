@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.function.DoubleConsumer;
@@ -93,6 +94,55 @@ public class Helper {
                 //accept only phone numbers format
                 if (!newValue.matches("\\+?\\d*")) {
                     textField.setText(newValue.replaceAll("[^\\d+]", ""));
+                }
+            }
+        });
+    }
+
+    //check if the input is empty
+    public static void validateInputs(TextField... textFields) {
+        for (TextField textField : textFields) {
+            textField.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                    String newValue) {
+                    if (newValue.isEmpty()) {
+                        textField.setStyle("-fx-border-color: red");
+                    } else {
+                        textField.setStyle("-fx-border-color: transparent");
+                    }
+                }
+            });
+        }
+    }
+
+    //validate email input
+    public static void validateEmailInput(TextField textField) {
+        // email should be a valid email otherwise error
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+                    textField.setStyle("-fx-border-color: red");
+                } else {
+                    textField.setStyle("-fx-border-color: transparent");
+                }
+            }
+        });
+    }
+
+    //validate password input
+    public static void validatePasswordInput(TextField textField) {
+        //password must be at least 8 characters long
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (newValue.length() < 8) {
+                    textField.setStyle("-fx-border-color: red");
+                } else {
+                    textField.setStyle("-fx-border-color: transparent");
                 }
             }
         });
