@@ -2,11 +2,11 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Animal  extends Model{
+public class Animal extends Model{
    private int id_animal;
 
    private Date birth_date;
-   private  Date purchase_date;
+   private Date purchase_date;
 
 
    private int id_routine;

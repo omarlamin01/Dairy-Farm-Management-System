@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class User extends Employee {
+public class User extends Employee{
     private int id_user;
     private String password;
     private int roleId;

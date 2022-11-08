@@ -1,6 +1,6 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Supplier  extends Model{
+public class Supplier extends Model{
     private int id_supplier;
     private String name;
     private String type;
