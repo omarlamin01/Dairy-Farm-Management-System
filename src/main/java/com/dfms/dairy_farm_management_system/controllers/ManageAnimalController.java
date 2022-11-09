@@ -130,7 +130,32 @@ public class ManageAnimalController implements Initializable {
                         setAlignment(Pos.CENTER);
                         setText(null);
                     }
-                }};
+                }
+                public void deleteItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    //that cell created only on non-empty rows
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+
+                    } else {
+
+                        Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                        final Button btnDelete = new Button();
+                        btnDelete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:28px;");
+                        ImageView iv = new ImageView();
+                        iv.setImage(imgDelete);
+                        iv.setPreserveRatio(true);
+                        iv.setSmooth(true);
+                        iv.setCache(true);
+                        btnDelete.setGraphic(iv);
+
+                        setGraphic(btnDelete);
+                        setAlignment(Pos.CENTER);
+                        setText(null);
+                    }
+                }
+            };
                  return cell;
             };
 
