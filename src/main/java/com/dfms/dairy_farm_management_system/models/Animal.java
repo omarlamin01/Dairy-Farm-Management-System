@@ -9,18 +9,18 @@ public class Animal{
    private Date purchase_date;
    private Date created_at;
    private Date updated_at;
-   private int id_routine;
-   private int id_race;
+   private String routine;
+   private String race;
 
-    public Animal(int id_animal, String type, Date birth_date, Date purchase_date, Date created_at, Date updated_at, int id_routine, int id_race) {
+    public Animal(int id_animal, String type, Date birth_date, Date purchase_date, Date created_at, Date updated_at, String routine, String race) {
         this.id_animal = id_animal;
         this.type = type;
         this.birth_date = birth_date;
         this.purchase_date = purchase_date;
         this.created_at = created_at;
         this.updated_at = updated_at;
-        this.id_routine = id_routine;
-        this.id_race = id_race;
+        this.routine = routine;
+        this.race = race;
     }
 
     public Animal() {
@@ -75,19 +75,19 @@ public class Animal{
         this.updated_at = updated_at;
     }
 
-    public int getId_routine() {
-        return id_routine;
+    public String getRoutine() {
+        return routine;
     }
 
-    public void setId_routine(int id_routine) {
-        this.id_routine = id_routine;
+    public void setRoutine(String routine) {
+        this.routine = routine;
     }
 
-    public int getId_race() {
-        return id_race;
+    public String getRace() {
+        return race;
     }
 
-    public void setId_race(int id_race) {
-        this.id_race = id_race;
+    public void setRace(String race) {
+        this.race = race;
     }
 }

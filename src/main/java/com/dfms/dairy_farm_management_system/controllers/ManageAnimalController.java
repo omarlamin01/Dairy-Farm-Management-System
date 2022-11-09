@@ -74,15 +74,18 @@ public class ManageAnimalController implements Initializable {
     public ObservableList<Animal> getAnimal() throws SQLException, ClassNotFoundException {
         ObservableList<Animal> list = FXCollections.observableArrayList();
 
-        String select = "SELECT * from Animal";
+        String select_query = "SELECT a.id,a.type,a.birth_date, r.name,ro.name from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=  ro.id ";
 
-            st = DBConfig.connect().prepareStatement(select);
+            st = DBConfig.getConnection().prepareStatement(select_query);
             rs = st.executeQuery();
             while (rs.next()) {
                 Animal animal = new Animal();
                 animal.setId_animal(rs.getInt("id"));
                 animal.setType(rs.getString("type"));
                 animal.setBirth_date(rs.getDate("birth_date"));
+                animal.setRace(rs.getString("name"));
+                animal.setRoutine(rs.getString("name"));
+
                 list.add(animal);
             }
         return list;
@@ -90,9 +93,11 @@ public class ManageAnimalController implements Initializable {
 
     public void afficher() throws SQLException, ClassNotFoundException {
         ObservableList<Animal> list = getAnimal();
-        colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
+        colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id_animal"));
         coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
         colbirth.setCellValueFactory(new PropertyValueFactory<Animal, Date>("birth_date"));
+        colrace.setCellValueFactory(new PropertyValueFactory<Animal, String>("race"));
+        colroutine.setCellValueFactory(new PropertyValueFactory<Animal, String>("routine"));
 
       animals.setItems(list);
 

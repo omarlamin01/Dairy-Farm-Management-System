@@ -34,7 +34,7 @@
 }
 
 .table-view .table-cell {
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
 .table-row-cell {
