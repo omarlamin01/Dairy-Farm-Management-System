@@ -12,7 +12,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<<<<<<< Updated upstream
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="1096.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.MainLayoutController">
+=======
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="636.0" prefWidth="1096.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.MainLayoutController">
+>>>>>>> Stashed changes
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="224.0" styleClass="nav_bar" BorderPane.alignment="CENTER">
             <ImageView fitHeight="102.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
@@ -97,6 +101,7 @@
                     </ImageView>
                 </graphic>
             </Button>
+<<<<<<< Updated upstream
          <Button fx:id="MilkClollection_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadMilkCollection" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Milk collection">
             <graphic>
                <ImageView fitHeight="30.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
@@ -115,6 +120,13 @@
                <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                   <image>
                      <Image url="@../../../icons/logout.png" />
+=======
+         <Button fx:id="dashboard_btn1" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" onMousePressed="#loadDashboard" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Logout">
+            <graphic>
+               <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
+                  <image>
+                     <Image url="@../../../icons/dashboard.png" />
+>>>>>>> Stashed changes
                   </image>
                </ImageView>
             </graphic>
