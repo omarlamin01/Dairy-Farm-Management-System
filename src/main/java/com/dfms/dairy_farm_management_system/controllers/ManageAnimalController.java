@@ -6,11 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,6 +49,8 @@ public class ManageAnimalController implements Initializable {
 
     @FXML
     private TableColumn<Animal,String> colroutine;
+    @FXML
+    private TableColumn<Animal,String> colactions;
     @FXML
     private ComboBox<String> combo;
 
@@ -99,6 +103,63 @@ public class ManageAnimalController implements Initializable {
         colrace.setCellValueFactory(new PropertyValueFactory<Animal, String>("race"));
         colroutine.setCellValueFactory(new PropertyValueFactory<Animal, String>("routine"));
 
+        Callback<TableColumn<Animal, String>, TableCell<Animal, String>> cellFoctory = (TableColumn<Animal, String> param) -> {
+            // make cell containing buttons
+            final TableCell<Animal, String> cell = new TableCell<Animal, String>() {
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    //that cell created only on non-empty rows
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+
+                    } else {
+
+                        Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                        final Button btnEdit = new Button();
+                        btnEdit.setStyle("-fx-background-color: transparent;");
+                        ImageView iv = new ImageView();
+                        iv.setImage(imgEdit);
+                        iv.setPreserveRatio(true);
+                        iv.setSmooth(true);
+                        iv.setCache(true);
+                        btnEdit.setGraphic(iv);
+
+                        setGraphic(btnEdit);
+                        setAlignment(Pos.CENTER);
+                        setText(null);
+                    }
+                }
+                public void deleteItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    //that cell created only on non-empty rows
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+
+                    } else {
+
+                        Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                        final Button btnDelete = new Button();
+                        btnDelete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:28px;");
+                        ImageView iv = new ImageView();
+                        iv.setImage(imgDelete);
+                        iv.setPreserveRatio(true);
+                        iv.setSmooth(true);
+                        iv.setCache(true);
+                        btnDelete.setGraphic(iv);
+
+                        setGraphic(btnDelete);
+                        setAlignment(Pos.CENTER);
+                        setText(null);
+                    }
+                }
+            };
+                 return cell;
+            };
+
+      colactions.setCellFactory(cellFoctory);
       animals.setItems(list);
 
     }
