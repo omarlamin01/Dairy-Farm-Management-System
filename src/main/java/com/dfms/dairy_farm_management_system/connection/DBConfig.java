@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.sql.*;
 
 public class DBConfig {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/dfms";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/dairyfarm";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
     private static Connection conn = null;
