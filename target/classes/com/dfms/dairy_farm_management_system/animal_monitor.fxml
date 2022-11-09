@@ -90,10 +90,10 @@
                     </HBox>
                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
-                            <TableColumn prefWidth="125.33333587646484" text="Date" />
-                            <TableColumn prefWidth="105.66666412353516" text="Animal ID" />
-                            <TableColumn prefWidth="233.33334350585938" text="Note" />
-                            <TableColumn prefWidth="136.66668701171875" text="Health status" />
+                            <TableColumn prefWidth="125.33333587646484" text="Animal ID" />
+                            <TableColumn prefWidth="186.0" />
+                            <TableColumn prefWidth="154.0" text="Note" />
+                            <TableColumn prefWidth="136.66668701171875" text="Added date" />
                             <TableColumn prefWidth="155.33331298828125" text="Actions" />
                         </columns>
                     </TableView>

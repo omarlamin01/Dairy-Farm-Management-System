@@ -2,22 +2,16 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Cow extends Animal
+public class Cow
 {
    private int id_cow;
 
-    public Cow(int id, Date birth_date, Date purchase_date, int id_regime, int id_race, int id1) {
-        super(id, birth_date, purchase_date, id_regime, id_race);
-        this.id_cow= id1;
+    public Cow(int id_animal, String type, Date birth_date, Date purchase_date, Date created_at, Date updated_at, int id_routine, int id_race, int id_cow) {
+
+        this.id_cow = id_cow;
     }
 
-    @Override
-    public int getId() {
-        return id_cow;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id_cow= id;
+    public Cow(int id_cow) {
+        this.id_cow = id_cow;
     }
 }
