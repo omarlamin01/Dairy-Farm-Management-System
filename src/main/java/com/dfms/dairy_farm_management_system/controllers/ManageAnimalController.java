@@ -34,7 +34,7 @@ public class ManageAnimalController implements Initializable {
     private TableView<Animal> animals;
 
     @FXML
-    private TableColumn<Animal,Integer> colid;
+    private TableColumn<Animal,String> colid;
 
     @FXML
     private TableColumn<Animal,String> coltype;
@@ -49,14 +49,20 @@ public class ManageAnimalController implements Initializable {
     private TableColumn<Animal,String> colroutine;
     @FXML
     private ComboBox<String> combo;
-    Connection con = null;
 
-
+    PreparedStatement st = null;
+    ResultSet rs = null;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         combo.setItems(list);
-        affiche();
+        try {
+            afficher();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -65,32 +71,28 @@ public class ManageAnimalController implements Initializable {
         openNewWindow("Add New Animal", "add_new_animal");
     }
 
-    public ObservableList<Animal> getAnimal() {
+    public ObservableList<Animal> getAnimal() throws SQLException, ClassNotFoundException {
         ObservableList<Animal> list = FXCollections.observableArrayList();
 
         String select = "SELECT * from Animal";
-        con = DBConfig.getConnection();
-        try {
 
-            while ( DBConfig.executeQuery(select).next()) {
+            st = DBConfig.connect().prepareStatement(select);
+            rs = st.executeQuery();
+            while (rs.next()) {
                 Animal animal = new Animal();
-                animal.setId_animal( DBConfig.executeQuery(select).getInt("ID"));
-                animal.setType( DBConfig.executeQuery(select).getString("Type"));
-                animal.setBirth_date( DBConfig.executeQuery(select).getDate("Birth Date"));
+                animal.setId_animal(rs.getInt("id"));
+                animal.setType(rs.getString("type"));
+                animal.setBirth_date(rs.getDate("birth_date"));
                 list.add(animal);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(ManageAnimalController.class.getName())
-                    .log(Level.SEVERE, null, ex);
-        }
         return list;
-
     }
-    public void affiche() {
+
+    public void afficher() throws SQLException, ClassNotFoundException {
         ObservableList<Animal> list = getAnimal();
-        colid.setCellValueFactory(new PropertyValueFactory<Animal, Integer>("ID"));
-        coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("Type"));
-        colbirth.setCellValueFactory(new PropertyValueFactory<Animal, Date>("Birth Date"));
+        colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
+        coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
+        colbirth.setCellValueFactory(new PropertyValueFactory<Animal, Date>("birth_date"));
 
       animals.setItems(list);
 

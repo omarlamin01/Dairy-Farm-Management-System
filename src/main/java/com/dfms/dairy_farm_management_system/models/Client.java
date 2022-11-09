@@ -1,6 +1,6 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Client extends Model {
+public class Client {
     private int id_client;
 
     private String name;
