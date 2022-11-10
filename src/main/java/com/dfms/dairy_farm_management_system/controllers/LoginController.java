@@ -64,7 +64,7 @@ public class LoginController implements Initializable {
     public boolean validateLogin(String email, String password) throws SQLException {
         //check if user exists limit 1
         st = con.createStatement();
-        String query = "SELECT e.email, u.password FROM employee e INNER JOIN user u ON e.id = u.employee_id WHERE e.email = '" + email + "' AND u.password = '" + password + "' LIMIT 1";
+        String query = "SELECT email, password FROM user WHERE email = '" + email + "' AND password = '" + password + "' LIMIT 1";
         st.executeQuery(query);
         return st.getResultSet().next();
     }
