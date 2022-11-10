@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.util.converter.LocalDateStringConverter;
 
 import java.net.URL;
 import java.util.Date;
@@ -60,7 +59,7 @@ public class ProfileController implements Initializable {
         last_name_input.setText(currentUser.getLastName());
         cin_input.setText(currentUser.getCin());
         phone_input.setText(String.valueOf(currentUser.getPhone()));
-        address_input.setText(currentUser.getAdresse());
+        address_input.setText(currentUser.getAddress());
         email_input.setText(currentUser.getEmail());
     }
 
@@ -88,7 +87,7 @@ public class ProfileController implements Initializable {
         currentUser.setLastName(last_name_input.getText());
         currentUser.setCin(cin_input.getText());
         currentUser.setPhone(phone_input.getText());
-        currentUser.setAdresse(address_input.getText());
+        currentUser.setAddress(address_input.getText());
         currentUser.update();
         System.out.println(currentUser);
     }
