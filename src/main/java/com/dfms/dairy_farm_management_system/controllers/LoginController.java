@@ -7,10 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
@@ -23,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class LoginController implements Initializable {
     @Override
@@ -55,9 +54,9 @@ public class LoginController implements Initializable {
         System.out.println("email: " + email + " password: " + password);
 
         if (validateLogin(email, password)) {
-            System.out.println("Login Successful");
+            switchToMainLayout(event);
         } else {
-            System.out.println("Login Failed");
+            displayAlert("Invalid email or password", "Please check your email and password and try again", Alert.AlertType.ERROR);
         }
     }
 
