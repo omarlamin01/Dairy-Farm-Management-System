@@ -23,6 +23,7 @@ public class NewEmployeeController implements Initializable {
         this.setRoleComboItems();
         validatePhoneInput(phoneNumberInput);
         validateDecimalInput(salaryInput);
+        validateEmailInput(emailInput);
     }
 
     private Statement st;
