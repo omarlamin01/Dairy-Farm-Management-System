@@ -1,7 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -78,7 +77,7 @@ public class EmployeesController implements Initializable {
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 Employee employee = new Employee();
-                employee.setId_employee(rs.getInt("id"));
+                employee.setId(rs.getInt("id"));
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
                 employee.setEmail(rs.getString("email"));
