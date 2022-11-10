@@ -17,6 +17,9 @@ public class Employee extends Model {
     private Date updated_at;
     private Date created_at;
 
+    public Employee() {
+    }
+
     public Employee(int id_employee, String firstName, String lastName, char gender, String cin, String email, String phone, String adresse, float salary, Date recruitmentDate, String contractType, Date updated_at, Date created_at) {
         this.id_employee = id_employee;
         this.firstName = firstName;
@@ -32,8 +35,6 @@ public class Employee extends Model {
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
-
-    public Employee() { }
 
     public int getId_employee() {
         return id_employee;

@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Pregnancy extends Model{
+public class Pregnancy extends Model {
     private int id_pregnancy;
     private int id_cow;
     private Date start_date;
@@ -27,7 +27,6 @@ public class Pregnancy extends Model{
     }
 
 
-
     public void setPregnancy_type(String pregnancy_type) {
         this.pregnancy_type = pregnancy_type;
     }
@@ -49,13 +48,12 @@ public class Pregnancy extends Model{
     }
 
 
-
     public String getPregnancy_type() {
         return pregnancy_type;
     }
 
     public Pregnancy(int id, int id_cow, Date start_date, Date end_date, String pregnancy_type) {
-        this.id_pregnancy= id;
+        this.id_pregnancy = id;
         this.id_cow = id_cow;
         this.start_date = start_date;
         this.end_date = end_date;
