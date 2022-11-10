@@ -10,10 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
@@ -87,13 +84,20 @@ public class NewEmployeeController implements Initializable {
         String gender = this.genderCombo.getValue();
         String role = this.roleCombo.getValue();
 
-        String query = "INSERT INTO employee (first_name, last_name, gender, cin, email, phone, adress, salary, recruitment_date, contract_type, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query_emp = "INSERT INTO employee (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query_user = "INSERT INTO user (role_id, employee_id, first_name, last_name, email, password, phone, address, gender, cin, salary) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+        //insert into employee table
         try {
-            this.pst = this.con.prepareStatement(query);
+            this.pst = this.con.prepareStatement(query_emp);
             this.pst.setString(1, firstName);
             this.pst.setString(2, lastName);
-            this.pst.setString(3, gender);
+            //check gender type
+            if (this.genderCombo.getValue().equals("Male")) {
+                this.pst.setString(3, "M");
+            } else {
+                this.pst.setString(3, "F");
+            }
             this.pst.setString(4, cin);
             this.pst.setString(5, email);
             this.pst.setString(6, phone);
@@ -101,16 +105,47 @@ public class NewEmployeeController implements Initializable {
             this.pst.setString(8, salary);
             this.pst.setString(9, hireDate);
             this.pst.setString(10, contractType);
-            this.pst.setString(11, role);
             this.pst.execute();
+
+            //insert into user table
+            try {
+                this.con = DBConfig.getConnection();
+                this.pst = this.con.prepareStatement(query_user);
+                //check role type
+                if (this.roleCombo.getValue().equals("Admin")) {
+                    this.pst.setInt(1, 1);
+                } else if (this.roleCombo.getValue().equals("HR")) {
+                    this.pst.setInt(1, 2);
+                } else if (this.roleCombo.getValue().equals("Sales agent")) {
+                    this.pst.setInt(1, 3);
+                } else if (this.roleCombo.getValue().equals("Production manager")) {
+                    this.pst.setInt(1, 4);
+                } else if (this.roleCombo.getValue().equals("Veterinare")) {
+                    this.pst.setInt(1, 5);
+                }
+                //get last inserted employee id
+                this.st = this.con.createStatement();
+                ResultSet rs = this.st.executeQuery("SELECT MAX(id) FROM employee");
+                rs.next();
+                int lastInsertedId = rs.getInt(1);
+                this.pst.setInt(2, lastInsertedId);
+                this.pst.setString(3, firstName);
+                this.pst.setString(4, lastName);
+                this.pst.setString(5, email);
+                this.pst.setString(6, "123456");
+                this.pst.setString(7, phone);
+                this.pst.setString(8, adress);
+
+                displayAlert("Done", "Employee added successfully", Alert.AlertType.INFORMATION);
+
+            } catch (SQLException e) {
+                displayAlert("Error", "Error while adding employee", Alert.AlertType.ERROR);
+                e.printStackTrace();
+            }
+            closeWindow((Button) mouseEvent.getSource());
+        } finally {
             this.pst.close();
             this.con.close();
-            displayAlert("Done", "Employee added successfully", Alert.AlertType.INFORMATION);
-
-        } catch (SQLException e) {
-            displayAlert("Error", "Error while adding employee", Alert.AlertType.ERROR);
-            e.printStackTrace();
         }
-        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
     }
 }
