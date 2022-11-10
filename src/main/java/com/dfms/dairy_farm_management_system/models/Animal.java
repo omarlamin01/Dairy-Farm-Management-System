@@ -23,9 +23,7 @@ public class Animal {
         this.race = race;
     }
 
-    public Animal() {
-
-    }
+    public Animal() {}
 
     public int getId_animal() {
         return id_animal;
