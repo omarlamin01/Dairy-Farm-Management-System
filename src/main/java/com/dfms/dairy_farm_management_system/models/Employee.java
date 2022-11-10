@@ -2,14 +2,14 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Employee {
+public class Employee extends Model {
     private int id_employee;
     private String firstName;
     private String lastName;
     private char gender;
     private String cin;
     private String email;
-    private int phone;
+    private String phone;
     private String adresse;
     private float salary;
     private Date recruitmentDate;
@@ -17,7 +17,10 @@ public class Employee {
     private Date updated_at;
     private Date created_at;
 
-    public Employee(int id_employee, String firstName, String lastName, char gender, String cin, String email, int phone, String adresse, float salary, Date recruitmentDate, String contractType, Date updated_at, Date created_at) {
+    public Employee() {
+    }
+
+    public Employee(int id_employee, String firstName, String lastName, char gender, String cin, String email, String phone, String adresse, float salary, Date recruitmentDate, String contractType, Date updated_at, Date created_at) {
         this.id_employee = id_employee;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -81,11 +84,11 @@ public class Employee {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

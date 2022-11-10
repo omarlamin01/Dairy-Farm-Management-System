@@ -26,7 +26,7 @@
                     <Insets bottom="10.0" />
                 </VBox.margin>
                 <Label text="Welcome," textFill="WHITE" />
-                <Label styleClass="user_name" text="Abdellatif" textFill="WHITE" />
+                <Label fx:id="user_name" styleClass="user_name" text="Abdellatif" textFill="WHITE" />
             </HBox>
             <Button fx:id="dashboard_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" onMousePressed="#loadDashboard" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Dashboard">
                 <graphic>
