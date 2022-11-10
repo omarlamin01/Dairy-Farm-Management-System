@@ -28,6 +28,15 @@ public class Animal {
 
     public Animal() {}
 
+    public Animal(int id_animal, String type, Date birth_date,String routine, String race) {
+        this.id_animal = id_animal;
+        this.type = type;
+        this.birth_date = birth_date;
+
+        this.routine = routine;
+        this.race = race;
+    }
+
     public int getId_animal() {
         return id_animal;
     }

@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.*;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class NewAnimalController implements Initializable {
@@ -29,6 +30,9 @@ public class NewAnimalController implements Initializable {
     private ComboBox <String> routineCombo;
     PreparedStatement st = null;
     ResultSet rs = null;
+
+     String animal_ID ;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -84,12 +88,17 @@ public class NewAnimalController implements Initializable {
     }
     @FXML
     void addAnimal(MouseEvent event) {
+        Random random = new Random();
+        int rand = random.nextInt();
+        animal_ID = "Cow-"+rand;
+
+
         Connection con = DBConfig.getConnection();
         String insert_query = "INSERT INTO animal (id,type,birth_date,purchase_date,routine_id,race_id) VALUES (?,?,?,?,(select id from routine where name ='"+routineCombo.getSelectionModel().getSelectedItem()+"'),(select id from race where name ='"+raceCombo.getSelectionModel().getSelectedItem()+"'))";
 
         try {
             st = con.prepareStatement(insert_query);
-            st.setInt(1,1285635);
+            st.setString(1,animal_ID);
             st.setString(2, typeCombo.getSelectionModel().getSelectedItem());
             st.setDate(3, Date.valueOf(birthDate.getValue()));
             st.setDate(4, Date.valueOf(purchaseDate.getValue()));
