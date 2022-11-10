@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Animal{
+public class Animal {
    private int id_animal;
    private String type;
    private Date birth_date;
@@ -19,6 +19,14 @@ public class Animal{
         this.purchase_date = purchase_date;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.routine = routine;
+        this.race = race;
+    }
+
+    public Animal(int id_animal, String type, Date birth_date, String routine, String race) {
+        this.id_animal = id_animal;
+        this.type = type;
+        this.birth_date = birth_date;
         this.routine = routine;
         this.race = race;
     }
