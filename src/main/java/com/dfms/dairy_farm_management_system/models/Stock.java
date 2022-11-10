@@ -1,6 +1,6 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Stock extends Model {
+public class Stock extends Model{
     private int id_stock;
     private String name;
     private String type;

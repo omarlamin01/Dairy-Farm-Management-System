@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.sql.*;
 
 public class DBConfig {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/dfms";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/dairyfarm";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
     private static Connection conn = null;
 
-    public static Connection getConnection() {
-        return conn;
-    }
+
 
     // Connect to database
-    public static void connect() {
+    public static Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
@@ -22,6 +20,7 @@ public class DBConfig {
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Error: " + e.getMessage());
         }
+        return conn;
     }
 
     // Disconnect from database

@@ -17,8 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ManageAnimalController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ManageAnimalController">
  <stylesheets>
      <URL value="@../../../style/style.css" />
      <URL value="@../../../style/table_view.css" />
@@ -86,14 +85,14 @@
                      </HBox>
                  </children>
              </HBox>
-             <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+             <TableView fx:id="animals" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                  <columns>
-                     <TableColumn prefWidth="60.0" text="ID" />
-                     <TableColumn prefWidth="120.0" text="Type" />
-                     <TableColumn maxWidth="1.7976931348623157E308" prefWidth="120.0" text="Race" />
-                     <TableColumn prefWidth="150.0" text="Birth Date" />
-                     <TableColumn prefWidth="155.33331298828125" text="Routine" />
-                     <TableColumn prefWidth="136.66668701171875" text="Actions" />
+                     <TableColumn fx:id="colid" prefWidth="60.0" text="ID" />
+                     <TableColumn fx:id="coltype" prefWidth="120.0" text="Type" />
+                     <TableColumn fx:id="colrace" maxWidth="1.7976931348623157E308" prefWidth="120.0" text="Race" />
+                     <TableColumn fx:id="colbirth" prefWidth="150.0" text="Birth Date" />
+                     <TableColumn fx:id="colroutine" prefWidth="155.33331298828125" text="Routine" />
+                     <TableColumn fx:id="colactions" prefWidth="136.66668701171875" text="Actions" />
                  </columns>
              </TableView>
          </children>

@@ -5,5 +5,4 @@ public class Model {
     public void read(){}
     public void delete(){}
     public void save(){}
-
 }

@@ -91,9 +91,10 @@
                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
                             <TableColumn prefWidth="125.33333587646484" text="Animal ID" />
-                            <TableColumn prefWidth="236.0" text="Note" />
-                            <TableColumn prefWidth="243.0" text="Added date" />
-                            <TableColumn prefWidth="154.0" text="Actions" />
+                            <TableColumn prefWidth="186.0" />
+                            <TableColumn prefWidth="154.0" text="Note" />
+                            <TableColumn prefWidth="136.66668701171875" text="Added date" />
+                            <TableColumn prefWidth="155.33331298828125" text="Actions" />
                         </columns>
                     </TableView>
                 </VBox>
