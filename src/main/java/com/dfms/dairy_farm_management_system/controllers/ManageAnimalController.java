@@ -60,6 +60,7 @@ public class ManageAnimalController implements Initializable {
 
     PreparedStatement st = null;
     ResultSet rs = null;
+    Animal animal ;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
@@ -78,9 +79,9 @@ public class ManageAnimalController implements Initializable {
     public void openAddNewAnimal(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add New Animal", "add_new_animal");
     }
-
+    ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
     public ObservableList<Animal> getAnimal() throws SQLException, ClassNotFoundException {
-        ObservableList<Animal> list = FXCollections.observableArrayList();
+
 
         String select_query = "SELECT a.id,a.type,a.birth_date, r.name,ro.name from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=  ro.id ";
 
@@ -91,14 +92,34 @@ public class ManageAnimalController implements Initializable {
                 animal.setId_animal(rs.getInt("id"));
                 animal.setType(rs.getString("type"));
                 animal.setBirth_date(rs.getDate("birth_date"));
-                animal.setRace(rs.getString("name"));
-                animal.setRoutine(rs.getString("name"));
+                animal.setRace(rs.getString("r.name"));
+                animal.setRoutine(rs.getString("ro.name"));
 
-                list.add(animal);
+                listAnimal.add(animal);
             }
-        return list;
+        return listAnimal;
     }
+        public void refreshTableAnimal() throws SQLException {
 
+           listAnimal.clear();
+            Connection connection = DBConfig.getConnection();
+            String query_refresh = "SELECT a.id,a.type,a.birth_date, r.name,ro.name from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=  ro.id ";
+            st = connection.prepareStatement(query_refresh);
+            rs= st.executeQuery();
+
+            while (rs.next()){
+                listAnimal.add(new  Animal(
+                        rs.getInt("id"),
+                       rs.getString("type"),
+                       rs.getDate("birth_date"),
+                       rs.getString("r.name"),
+                     rs.getString("ro.name")));
+              animals.setItems(listAnimal);
+
+
+            }
+
+      }
     public void afficher() throws SQLException, ClassNotFoundException {
         ObservableList<Animal> list = getAnimal();
         colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id_animal"));
@@ -175,6 +196,16 @@ public class ManageAnimalController implements Initializable {
 
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
+                            animal = animals.getSelectionModel().getSelectedItem();
+                            String delete_query = "DELETE FROM animal WHERE id  ="+animal.getId_animal();
+                            Connection connection = DBConfig.getConnection();
+                            try {
+                                st = connection.prepareStatement(delete_query);
+                                st.execute();
+                                refreshTableAnimal();
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
 
 
                         });
