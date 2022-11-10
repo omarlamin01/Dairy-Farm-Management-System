@@ -254,7 +254,11 @@ public class MainLayoutController implements Initializable {
             pst.setString(1, user_id);
             ResultSet resultSet = pst.executeQuery();
             while (resultSet.next()) {
-                user_name.setText(resultSet.getString("first_name"));
+                //capitalize first letter of first name
+                String first_letter = resultSet.getString("first_name").substring(0, 1).toUpperCase();
+                String rest_of_name = resultSet.getString("first_name").substring(1);
+                String name = first_letter + rest_of_name;
+                user_name.setText(name);
             }
         } catch (SQLException e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
