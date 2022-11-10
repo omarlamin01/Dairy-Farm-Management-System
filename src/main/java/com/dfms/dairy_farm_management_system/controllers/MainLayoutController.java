@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -38,7 +39,7 @@ public class MainLayoutController implements Initializable {
                 "-fx-background-insets: 0, 0 0 0 4;");
 
         //load user details
-        user = getCurrentUser();
+        getCurrentUser();
     }
 
     private PreparedStatement pst;
@@ -83,6 +84,9 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     private Button logout_btn;
+
+    @FXML
+    private Label user_name;
 
     private Parent root = null;
 
@@ -239,21 +243,20 @@ public class MainLayoutController implements Initializable {
     }
 
     //get current logged in user
-    private User getCurrentUser() {
+    private void getCurrentUser() {
         String user_id = DBConfig.getCurrentUser();
 
         User user = new User();
         try {
-            String query = "SELECT * FROM users WHERE id = ?";
+            String query = "SELECT * FROM user WHERE id = ?";
             pst = DBConfig.getConnection().prepareStatement(query);
             pst.setString(1, user_id);
             ResultSet resultSet = pst.executeQuery();
             while (resultSet.next()) {
-
+                user_name.setText(resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return user;
     }
 }
