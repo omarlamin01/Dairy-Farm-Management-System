@@ -1,8 +1,12 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Race extends Model{
+public class Race{
     private int id_race;
     private String name;
+
+    public Race() {
+
+    }
 
     public void setId(int id) {
         this.id_race = id;
