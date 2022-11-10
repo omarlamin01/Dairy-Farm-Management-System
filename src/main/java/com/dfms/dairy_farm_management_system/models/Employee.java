@@ -17,6 +17,9 @@ public class Employee {
     private Date updated_at;
     private Date created_at;
 
+    public Employee() {
+    }
+
     public Employee(int id_employee, String firstName, String lastName, char gender, String cin, String email, int phone, String adresse, float salary, Date recruitmentDate, String contractType, Date updated_at, Date created_at) {
         this.id_employee = id_employee;
         this.firstName = firstName;

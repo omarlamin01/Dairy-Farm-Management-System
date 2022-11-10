@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -51,9 +52,14 @@ public class LoginController implements Initializable {
         String email = email_input.getText().trim();
         String password = password_input.getText().trim();
 
-        System.out.println("email: " + email + " password: " + password);
-
         if (validateLogin(email, password)) {
+            //store logged in user in session
+            String query = "SELECT * FROM user WHERE email = '" + email + "' AND password = '" + password + "'";
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if (rs.next()) {
+                DBConfig.setCurrentUser(rs.getString("id"));
+            }
             switchToMainLayout(event);
         } else {
             displayAlert("Invalid email or password", "Please check your email and password and try again", Alert.AlertType.ERROR);
@@ -70,6 +76,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private void exitApplication(MouseEvent event) {
+        DBConfig.disconnect();
         System.exit(0);
     }
 

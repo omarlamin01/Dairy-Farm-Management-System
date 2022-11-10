@@ -1,6 +1,8 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
@@ -33,8 +36,14 @@ public class MainLayoutController implements Initializable {
         loadView(first_view);
         dashboard_btn.setStyle("-fx-background-color: #FFC700, #72ED12;" +
                 "-fx-background-insets: 0, 0 0 0 4;");
+
+        //load user details
+        user = getCurrentUser();
     }
 
+    private PreparedStatement pst;
+    private Connection con = DBConfig.getConnection();
+    private User user;
     @FXML
     private BorderPane borderPane;
 
@@ -131,11 +140,13 @@ public class MainLayoutController implements Initializable {
         String sales_view = "sales";
         loadView(sales_view);
     }
+
     @FXML
     void loadMilkCollection(ActionEvent event) {
         String milkcollection_view = "milk_collection";
         loadView(milkcollection_view);
     }
+
     private void loadView(String fxml) {
         String views_path = "/com/dfms/dairy_farm_management_system/";
         try {
@@ -225,5 +236,24 @@ public class MainLayoutController implements Initializable {
         centerScreen(stage);
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();
+    }
+
+    //get current logged in user
+    private User getCurrentUser() {
+        String user_id = DBConfig.getCurrentUser();
+
+        User user = new User();
+        try {
+            String query = "SELECT * FROM users WHERE id = ?";
+            pst = DBConfig.getConnection().prepareStatement(query);
+            pst.setString(1, user_id);
+            ResultSet resultSet = pst.executeQuery();
+            while (resultSet.next()) {
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }
