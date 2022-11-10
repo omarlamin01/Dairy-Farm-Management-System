@@ -6,12 +6,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -106,6 +110,13 @@ public class ManageAnimalController implements Initializable {
         Callback<TableColumn<Animal, String>, TableCell<Animal, String>> cellFoctory = (TableColumn<Animal, String> param) -> {
             // make cell containing buttons
             final TableCell<Animal, String> cell = new TableCell<Animal, String>() {
+
+                Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                final Button btnEdit = new Button();
+                Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                final Button btnDelete = new Button();
+                Image imgViewDetail = new Image(getClass().getResourceAsStream("/images/eye.png"));
+                final Button btnViewDetail = new Button();
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -115,10 +126,19 @@ public class ManageAnimalController implements Initializable {
                         setText(null);
 
                     } else {
+                        btnViewDetail.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        ImageView iv1 = new ImageView();
+                        iv1.setImage(imgViewDetail);
+                        iv1.setPreserveRatio(true);
+                        iv1.setSmooth(true);
+                        iv1.setCache(true);
+                        btnViewDetail.setGraphic(iv1);
 
-                        Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                        final Button btnEdit = new Button();
-                        btnEdit.setStyle("-fx-background-color: transparent;");
+                        setGraphic(btnViewDetail);
+                        setText(null);
+
+
+                        btnEdit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
                         ImageView iv = new ImageView();
                         iv.setImage(imgEdit);
                         iv.setPreserveRatio(true);
@@ -127,34 +147,45 @@ public class ManageAnimalController implements Initializable {
                         btnEdit.setGraphic(iv);
 
                         setGraphic(btnEdit);
-                        setAlignment(Pos.CENTER);
-                        setText(null);
-                    }
-                }
-                public void deleteItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    //that cell created only on non-empty rows
-                    if (empty) {
-                        setGraphic(null);
                         setText(null);
 
-                    } else {
+                        btnDelete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        ImageView iv2 = new ImageView();
 
-                        Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                        final Button btnDelete = new Button();
-                        btnDelete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:28px;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(imgDelete);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        btnDelete.setGraphic(iv);
+                        iv2.setImage(imgDelete);
+                        iv2.setPreserveRatio(true);
+                        iv2.setSmooth(true);
+                        iv2.setCache(true);
+                        btnDelete.setGraphic(iv2);
+
 
                         setGraphic(btnDelete);
-                        setAlignment(Pos.CENTER);
+
                         setText(null);
+
+                        HBox managebtn = new HBox(btnEdit, btnDelete,btnViewDetail);
+                        managebtn.setStyle("-fx-alignment:center");
+                        HBox.setMargin(btnEdit, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(btnDelete, new Insets(1, 1, 0, 2));
+                        HBox.setMargin(btnViewDetail, new Insets(1, 1, 0, 1));
+
+                        setGraphic(managebtn);
+
+                        setText(null);
+
+
+                        btnDelete.setOnMouseClicked((MouseEvent event) -> {
+                          
+
+                        });
+
                     }
                 }
+
+
+
+
+
             };
                  return cell;
             };
