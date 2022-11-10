@@ -175,7 +175,7 @@ public class ManageAnimalController implements Initializable {
 
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
-                          
+
 
                         });
 
