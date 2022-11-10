@@ -1,8 +1,10 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,10 +17,21 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ResourceBundle;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
+public class LoginController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-public class LoginController {
+    }
+
+    private Statement st;
+    private Connection con = DBConfig.getConnection();
     @FXML
     private Circle close_btn;
 
@@ -35,8 +48,33 @@ public class LoginController {
     private PasswordField password_input;
 
     @FXML
-    private void login(MouseEvent event) {
-        //switch to main layout
+    private void login(MouseEvent event) throws SQLException {
+        String email = email_input.getText().trim();
+        String password = password_input.getText().trim();
+
+        System.out.println("email: " + email + " password: " + password);
+
+        if (validateLogin(email, password)) {
+            System.out.println("Login Successful");
+        } else {
+            System.out.println("Login Failed");
+        }
+    }
+
+    public boolean validateLogin(String email, String password) throws SQLException {
+        //check if user exists limit 1
+        st = con.createStatement();
+        String query = "SELECT e.email, u.password FROM employee e INNER JOIN user u ON e.id = u.employee_id WHERE e.email = '" + email + "' AND u.password = '" + password + "' LIMIT 1";
+        st.executeQuery(query);
+        return st.getResultSet().next();
+    }
+
+    @FXML
+    private void exitApplication(MouseEvent event) {
+        System.exit(0);
+    }
+
+    public void switchToMainLayout(MouseEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
         Stage stage = new Stage();
         Scene scene = null;
@@ -52,10 +90,5 @@ public class LoginController {
         // centerScreen(stage);
         ((Node) event.getSource()).getScene().getWindow().hide();
         stage.show();
-    }
-
-    @FXML
-    private void exitApplication(MouseEvent event) {
-        System.exit(0);
     }
 }
