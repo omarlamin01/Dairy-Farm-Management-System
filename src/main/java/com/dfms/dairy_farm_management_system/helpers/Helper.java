@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.function.DoubleConsumer;
 
 public class Helper {
@@ -54,6 +55,12 @@ public class Helper {
         stage.setScene(scene);
         centerScreen(stage);
         stage.show();
+    }
+
+    //close window
+    public static void closeWindow(Object event) {
+        Stage stage = (Stage) ((javafx.scene.Node) event).getScene().getWindow();
+        stage.close();
     }
 
     //validate inputs to accept only numbers
