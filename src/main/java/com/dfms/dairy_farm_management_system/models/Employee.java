@@ -20,18 +20,18 @@ public class Employee extends Model {
     public Employee() {
     }
 
-    public Employee(int id_employee, String firstName, String lastName, char gender, String cin, String email, String phone, String adresse, float salary, Date recruitmentDate, String contractType, Date updated_at, Date created_at) {
-        this.id = id_employee;
-        this.first_name = firstName;
-        this.last_name = lastName;
+    public Employee(int id, String first_name, String last_name, char gender, String cin, String email, String phone, String adresse, float salary, Date recruitment_date, String contract_type, Date updated_at, Date created_at) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.gender = gender;
         this.cin = cin;
         this.email = email;
         this.phone = phone;
         this.address = adresse;
         this.salary = salary;
-        this.recruitment_date = recruitmentDate;
-        this.contract_type = contractType;
+        this.recruitment_date = recruitment_date;
+        this.contract_type = contract_type;
         this.updated_at = updated_at;
         this.created_at = created_at;
     }

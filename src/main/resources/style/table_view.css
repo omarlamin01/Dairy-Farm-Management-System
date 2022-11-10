@@ -41,7 +41,6 @@
     -fx-background-color: -fx-table-cell-border-color, #e5e5e5;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em; /* 0 */
-
 }
 
 .table-row-cell:odd {
@@ -51,9 +50,10 @@
 }
 
 .table-row-cell:selected {
-    -fx-background-color: #005797;
+    -fx-background-color: #1f7ecb;
     -fx-background-insets: 0;
     -fx-background-radius: 1;
+    -fx-text-fill: white;
 }
 
 .table-view > .virtual-flow > .scroll-bar:vertical,

@@ -93,11 +93,11 @@ public class EmployeesController implements Initializable {
     //display all the employees in the table
     public void displayEmployees() {
         ObservableList<Employee> employees = getEmployees();
-        col_id.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
-        first_name_col.setCellValueFactory(new PropertyValueFactory<Employee, String>("first_name"));
-        last_name_col.setCellValueFactory(new PropertyValueFactory<Employee, String>("last_name"));
-        email_col.setCellValueFactory(new PropertyValueFactory<Employee, String>("email"));
-        salary_col.setCellValueFactory(new PropertyValueFactory<Employee, String>("salary"));
+        col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        first_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        last_name_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
+        salary_col.setCellValueFactory(new PropertyValueFactory<>("salary"));
         Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<Employee, String> param) -> {
             final TableCell<Employee, String> cell = new TableCell<Employee, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
@@ -161,7 +161,7 @@ public class EmployeesController implements Initializable {
                         setGraphic(managebtn);
                         setText(null);
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            System.out.println("delete");
+                            displayAlert("Delete", "Are you sure you want to delete this employee?", Alert.AlertType.CONFIRMATION);
                         });
                     }
                 }
@@ -171,6 +171,8 @@ public class EmployeesController implements Initializable {
         actions_col.setCellFactory(cellFoctory);
         employees_table.setItems(employees);
     }
+
+    //add new employee
 
     public void openAddEmployee(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add Employee", "add_new_employee");
