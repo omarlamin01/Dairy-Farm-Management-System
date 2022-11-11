@@ -9,6 +9,12 @@ public class MilkCollection extends Model{
     private String period;
     private Date collection_date;
 
+    public MilkCollection(String period ,float quantity, int cow_id) {
+        this.cow_id = cow_id;
+        this.quantity = quantity;
+        this.period = period;
+    }
+
     public String getPeriod() {
         return period;
     }
