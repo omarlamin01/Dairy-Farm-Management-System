@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.connection.Session;
 import com.dfms.dairy_farm_management_system.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -245,23 +246,12 @@ public class MainLayoutController implements Initializable {
 
     //get current logged in user
     private void getCurrentUser() {
-        String user_id = DBConfig.getCurrentUser();
-
-        User user = new User();
-        try {
-            String query = "SELECT * FROM user WHERE id = ?";
-            pst = DBConfig.getConnection().prepareStatement(query);
-            pst.setString(1, user_id);
-            ResultSet resultSet = pst.executeQuery();
-            while (resultSet.next()) {
-                //capitalize first letter of first name
-                String first_letter = resultSet.getString("first_name").substring(0, 1).toUpperCase();
-                String rest_of_name = resultSet.getString("first_name").substring(1);
-                String name = first_letter + rest_of_name;
-                user_name.setText(name);
-            }
-        } catch (SQLException e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-        }
+        User user = Session.getCurrentUser();
+        //capitalize first letter of first name
+        String firstName = user.getFirstName().toLowerCase();
+        String first_letter = firstName.substring(0, 1).toUpperCase();
+        String rest_of_name = first_letter.substring(1);
+        String name = first_letter + rest_of_name;
+        user_name.setText(name);
     }
 }

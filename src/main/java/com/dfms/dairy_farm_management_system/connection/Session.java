@@ -10,22 +10,22 @@ import java.sql.Statement;
 public class Session {
     private Statement st;
     private static final Connection con = DBConfig.getConnection();
-    private static User user;
-    private static String user_id;
+    private static User current_user;
+    private static String current_user_id;
 
     public Session(String user_id) {
-        Session.user_id = user_id;
+        Session.current_user_id = user_id;
     }
 
-    public static User getUser() {
+    public static User getCurrentUser() {
         //get user from database
         String query = "SELECT * FROM users WHERE id = ?";
         try {
             PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(1, user_id);
+            pst.setString(1, current_user_id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                user = new User(
+                current_user = new User(
                         rs.getInt("employee_id"),
                         rs.getString("first_name"),
                         rs.getString("last_name"),
@@ -45,18 +45,18 @@ public class Session {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return user;
+        return current_user;
     }
 
-    public static void setUser(User user) {
-        Session.user = user;
+    public static void setCurrentUser(User user) {
+        Session.current_user = user;
     }
 
-    public String getUserId() {
-        return user_id;
+    public String getCurrentUserId() {
+        return current_user_id;
     }
 
-    public void setUserId(String user_id) {
-        Session.user_id = user_id;
+    public void setCurrentUserId(String user_id) {
+        Session.current_user_id = user_id;
     }
 }

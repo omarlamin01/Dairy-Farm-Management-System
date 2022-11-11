@@ -75,7 +75,7 @@ public class LoginController implements Initializable {
                 user.setCreatedAt(rs.getDate("created_at"));
                 user.setUpdatedAt(rs.getDate("updated_at"));
 
-                Session.setUser(user);
+                Session.setCurrentUser(user);
             }
             switchToMainLayout(event);
         } else {
