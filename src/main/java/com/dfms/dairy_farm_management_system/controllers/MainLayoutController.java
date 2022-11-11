@@ -249,9 +249,9 @@ public class MainLayoutController implements Initializable {
         User user = Session.getCurrentUser();
         //capitalize first letter of first name
         try {
-            String firstName = user.getFirstName().toLowerCase();
-            String first_letter = firstName.substring(0, 1).toUpperCase();
-            String rest_of_name = first_letter.substring(1);
+            String first_name = user.getFirstName().toLowerCase();
+            String first_letter = first_name.substring(0, 1).toUpperCase();
+            String rest_of_name = first_name.substring(1);
             String name = first_letter + rest_of_name;
             user_name.setText(name);
         } catch (Exception e) {
