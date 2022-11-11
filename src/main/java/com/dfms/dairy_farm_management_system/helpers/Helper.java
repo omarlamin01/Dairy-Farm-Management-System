@@ -1,9 +1,12 @@
 package com.dfms.dairy_farm_management_system.helpers;
 
 import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -15,10 +18,16 @@ import javafx.stage.Stage;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Objects;
 import java.util.function.DoubleConsumer;
 
 public class Helper {
+    private static Connection con = DBConfig.getConnection();
+
     public static void centerScreen(Stage stage) {
         Screen screen = Screen.getPrimary();
         Rectangle2D sbounds = screen.getBounds();
@@ -163,5 +172,21 @@ public class Helper {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public static ObservableList<String> getRoles() {
+        ObservableList<String> rolesList = FXCollections.observableArrayList();
+        Statement st = null;
+        try {
+            con = DBConfig.getConnection();
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM role");
+            while (rs.next()) {
+                rolesList.add(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            displayAlert("Error", "Error while getting roles", Alert.AlertType.ERROR);
+        }
+        return rolesList;
     }
 }

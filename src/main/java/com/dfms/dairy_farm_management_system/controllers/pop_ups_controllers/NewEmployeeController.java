@@ -63,7 +63,7 @@ public class NewEmployeeController implements Initializable {
     }
 
     public void setRoleComboItems() {
-        getRoles();
+        this.rolesList = getRoles();
         this.roleCombo.setItems(this.rolesList);
     }
 
@@ -144,19 +144,6 @@ public class NewEmployeeController implements Initializable {
         } finally {
             this.pst.close();
             this.con.close();
-        }
-    }
-
-    public void getRoles() {
-        try {
-            this.con = DBConfig.getConnection();
-            this.st = this.con.createStatement();
-            ResultSet rs = this.st.executeQuery("SELECT * FROM role");
-            while (rs.next()) {
-                this.rolesList.add(rs.getString("name"));
-            }
-        } catch (SQLException e) {
-            displayAlert("Error", "Error while getting roles", Alert.AlertType.ERROR);
         }
     }
 
