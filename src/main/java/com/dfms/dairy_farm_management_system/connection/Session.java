@@ -19,7 +19,7 @@ public class Session {
 
     public static User getCurrentUser() {
         //get user from database
-        String query = "SELECT * FROM users WHERE id = ?";
+        String query = "SELECT * FROM user WHERE id = ?";
         try {
             PreparedStatement pst = con.prepareStatement(query);
             pst.setString(1, current_user_id);
