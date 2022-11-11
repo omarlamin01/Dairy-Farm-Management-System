@@ -52,12 +52,12 @@
                      <Insets bottom="10.0" />
                  </VBox.margin>
                  <children>
-                     <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
+                     <TextField fx:id="textField_search" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for an animal..." styleClass="text-field-search">
                          <padding>
                              <Insets left="10.0" />
                          </padding>
                      </TextField>
-                     <Button mnemonicParsing="false" styleClass="btn-search">
+                     <Button mnemonicParsing="false" onAction="#goSearch" styleClass="btn-search">
                          <graphic>
                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
