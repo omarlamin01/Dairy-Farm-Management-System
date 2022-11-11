@@ -29,36 +29,37 @@ public class NewMilkCollectionController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
-            this.setCowComboItems();
+           setCowComboItems();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        this.setPeriodComboItem();
+        this.setPeriodComboItems();
 
 
     }
-    public void setPeriodComboItem() {
-        period_input.setItems(FXCollections.observableArrayList("Morning", "Evening"));
+    public void setPeriodComboItems() {
+        this.period_input.setItems(FXCollections.observableArrayList("morning", "evening"));
     }
+
     public void setCowComboItems() throws SQLException {
 
         ObservableList<String> cows = FXCollections.observableArrayList();
 
-        String select_query = "SELECT id from animal where type='cow';";
+        String select_query = "SELECT id from animal  where type='cow';";
 
         st = DBConfig.getConnection().prepareStatement(select_query);
         rs = st.executeQuery();
         while (rs.next()) {
 
-            cows .add(rs.getString("cow_id"));
+            cows.add(rs.getString("id"));
         }
 
            cowid.setItems(cows);
     }
     @FXML
-    void addMilkCollection(MouseEvent event) {
 
 
+    public void addMilkCollection(javafx.scene.input.MouseEvent mouseEvent) {
     }
 }
