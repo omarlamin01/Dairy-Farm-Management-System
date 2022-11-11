@@ -4,6 +4,9 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Animal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -57,6 +60,11 @@ public class ManageAnimalController implements Initializable {
     private TableColumn<Animal,String> colactions;
     @FXML
     private ComboBox<String> combo;
+    @FXML
+    private TextField textField_search;
+
+
+    Connection con = DBConfig.getConnection();
 
     PreparedStatement st = null;
     ResultSet rs = null;
@@ -72,6 +80,7 @@ public class ManageAnimalController implements Initializable {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        goSearch();
     }
 
 
@@ -83,13 +92,13 @@ public class ManageAnimalController implements Initializable {
     public ObservableList<Animal> getAnimal() throws SQLException, ClassNotFoundException {
 
 
-        String select_query = "SELECT a.id,a.type,a.birth_date, r.name,ro.name from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=  ro.id ";
+        String select_query = "SELECT a.id,a.type,a.birth_date, r.name,ro.name from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=ro.id ";
 
-            st = DBConfig.getConnection().prepareStatement(select_query);
+            st = con.prepareStatement(select_query);
             rs = st.executeQuery();
             while (rs.next()) {
                 Animal animal = new Animal();
-                animal.setId_animal(rs.getInt("id"));
+                animal.setId(rs.getString("id"));
                 animal.setType(rs.getString("type"));
                 animal.setBirth_date(rs.getDate("birth_date"));
                 animal.setRace(rs.getString("r.name"));
@@ -102,14 +111,13 @@ public class ManageAnimalController implements Initializable {
         public void refreshTableAnimal() throws SQLException {
 
            listAnimal.clear();
-            Connection connection = DBConfig.getConnection();
             String query_refresh = "SELECT a.id,a.type,a.birth_date, r.name,ro.name from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=  ro.id ";
-            st = connection.prepareStatement(query_refresh);
+            st = con.prepareStatement(query_refresh);
             rs= st.executeQuery();
 
             while (rs.next()){
                 listAnimal.add(new  Animal(
-                        rs.getInt("id"),
+                        rs.getString("id"),
                        rs.getString("type"),
                        rs.getDate("birth_date"),
                        rs.getString("r.name"),
@@ -120,9 +128,9 @@ public class ManageAnimalController implements Initializable {
             }
 
       }
-    public void afficher() throws SQLException, ClassNotFoundException {
+    public void  afficher() throws SQLException, ClassNotFoundException {
         ObservableList<Animal> list = getAnimal();
-        colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id_animal"));
+        colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
         coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
         colbirth.setCellValueFactory(new PropertyValueFactory<Animal, Date>("birth_date"));
         colrace.setCellValueFactory(new PropertyValueFactory<Animal, String>("race"));
@@ -197,7 +205,7 @@ public class ManageAnimalController implements Initializable {
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
                             animal = animals.getSelectionModel().getSelectedItem();
-                            String delete_query = "DELETE FROM animal WHERE id  ="+animal.getId_animal();
+                            String delete_query = "DELETE FROM animal WHERE id='"+animal.getId()+"'";
                             Connection connection = DBConfig.getConnection();
                             try {
                                 st = connection.prepareStatement(delete_query);
@@ -225,5 +233,34 @@ public class ManageAnimalController implements Initializable {
       animals.setItems(list);
 
     }
+
+    public void goSearch() {
+      String  search_text = textField_search.getText();
+        FilteredList<Animal> filteredData = new FilteredList<>(listAnimal, p -> true);
+        textField_search.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(animal -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (animal.getType().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (animal.getRace().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (animal.getId().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false; // Does not match.
+            });
+        });
+        SortedList<Animal> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(animals.comparatorProperty());
+        animals.setItems(sortedData);
+
+    }
+
 
 }
