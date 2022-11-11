@@ -54,7 +54,7 @@ public class ProfileController implements Initializable {
     }
 
     public void getUserData() {
-        User currentUser = new User(1, "lamine", "omar", 'M', "JT90918", "omarlamin272@gmail.com", "0616944666", "Taroudant", 5000, new Date(), "CDD", new Date(), new Date());
+        User currentUser = new User(1, "lamine", "omar", "M", "JT90918", "omarlamin272@gmail.com", "1234", "0616944666", "Taroudant", 5000, new Date(), "CDD", new Date(), new Date());
         first_name_input.setText(currentUser.getFirstName());
         last_name_input.setText(currentUser.getLastName());
         cin_input.setText(currentUser.getCin());
@@ -65,7 +65,7 @@ public class ProfileController implements Initializable {
 
     @FXML
     void updateLoginInfo(MouseEvent event) {
-        User currentUser = new User(1, "lamine", "omar", 'M', "JT90918", "omarlamin272@gmail.com", "0616944666", "Taroudant", 5000, new Date(), "CDD", new Date(), new Date());
+        User currentUser = new User(1, "lamine", "omar", "M", "JT90918", "omarlamin272@gmail.com", "1234", "0616944666", "Taroudant", 5000, new Date(), "CDD", new Date(), new Date());
         currentUser.setPassword("samepasswordeverywhere");
         if (currentUser.getPassword().equals(current_password_input.getText())) {
             if (new_password_input.getText().equals(confirm_new_password_input.getText())) {
@@ -82,7 +82,7 @@ public class ProfileController implements Initializable {
 
     @FXML
     void updatePersonalInfo(MouseEvent event) {
-        User currentUser = new User(1, "lamine", "omar", 'M', "JT90918", "omarlamin272@gmail.com", "0616944666", "Taroudant", 5000, new Date(), "CDD", new Date(), new Date());
+        User currentUser = new User(1, "lamine", "omar", "M", "JT90918", "omarlamin272@gmail.com", "1234", "0616944666", "Taroudant", 5000, new Date(), "CDD", new Date(), new Date());
         currentUser.setFirstName(first_name_input.getText());
         currentUser.setLastName(last_name_input.getText());
         currentUser.setCin(cin_input.getText());

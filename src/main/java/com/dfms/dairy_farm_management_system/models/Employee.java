@@ -6,7 +6,7 @@ public class Employee extends Model {
     private int id;
     private String first_name;
     private String last_name;
-    private char gender;
+    private String gender;
     private String cin;
     private String email;
     private String phone;
@@ -20,7 +20,7 @@ public class Employee extends Model {
     public Employee() {
     }
 
-    public Employee(int id, String first_name, String last_name, char gender, String cin, String email, String phone, String adresse, float salary, Date recruitment_date, String contract_type, Date updated_at, Date created_at) {
+    public Employee(int id, String first_name, String last_name, String gender, String cin, String email, String phone, String adresse, float salary, Date recruitment_date, String contract_type, Date updated_at, Date created_at) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -60,11 +60,11 @@ public class Employee extends Model {
         this.last_name = last_name;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
