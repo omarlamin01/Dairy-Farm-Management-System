@@ -1,6 +1,8 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -19,12 +22,14 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class MainLayoutController implements Initializable {
     @Override
@@ -33,8 +38,14 @@ public class MainLayoutController implements Initializable {
         loadView(first_view);
         dashboard_btn.setStyle("-fx-background-color: #FFC700, #72ED12;" +
                 "-fx-background-insets: 0, 0 0 0 4;");
+
+        //load user details
+        getCurrentUser();
     }
 
+    private PreparedStatement pst;
+    private Connection con = DBConfig.getConnection();
+    private User user;
     @FXML
     private BorderPane borderPane;
 
@@ -74,6 +85,9 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     private Button logout_btn;
+
+    @FXML
+    private Label user_name;
 
     private Parent root = null;
 
@@ -131,11 +145,13 @@ public class MainLayoutController implements Initializable {
         String sales_view = "sales";
         loadView(sales_view);
     }
+
     @FXML
     void loadMilkCollection(ActionEvent event) {
         String milkcollection_view = "milk_collection";
         loadView(milkcollection_view);
     }
+
     private void loadView(String fxml) {
         String views_path = "/com/dfms/dairy_farm_management_system/";
         try {
@@ -225,5 +241,27 @@ public class MainLayoutController implements Initializable {
         centerScreen(stage);
         stage.show();
         ((Node) (event.getSource())).getScene().getWindow().hide();
+    }
+
+    //get current logged in user
+    private void getCurrentUser() {
+        String user_id = DBConfig.getCurrentUser();
+
+        User user = new User();
+        try {
+            String query = "SELECT * FROM user WHERE id = ?";
+            pst = DBConfig.getConnection().prepareStatement(query);
+            pst.setString(1, user_id);
+            ResultSet resultSet = pst.executeQuery();
+            while (resultSet.next()) {
+                //capitalize first letter of first name
+                String first_letter = resultSet.getString("first_name").substring(0, 1).toUpperCase();
+                String rest_of_name = resultSet.getString("first_name").substring(1);
+                String name = first_letter + rest_of_name;
+                user_name.setText(name);
+            }
+        } catch (SQLException e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 }

@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.function.DoubleConsumer;
 
 public class Helper {
@@ -53,6 +55,12 @@ public class Helper {
         stage.setScene(scene);
         centerScreen(stage);
         stage.show();
+    }
+
+    //close window
+    public static void closeWindow(Object event) {
+        Stage stage = (Stage) ((javafx.scene.Node) event).getScene().getWindow();
+        stage.close();
     }
 
     //validate inputs to accept only numbers
@@ -146,5 +154,14 @@ public class Helper {
                 }
             }
         });
+    }
+
+    //display alert message
+    public static void displayAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

@@ -7,7 +7,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -64,21 +63,13 @@
                 <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
             </rowConstraints>
             <VBox.margin>
                 <Insets top="10.0" />
             </VBox.margin>
             <children>
-                <TextField fx:id="weightInput" promptText="Weight (Kg)" stylesheets="@../../../../style/style.css" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
-                    <styleClass>
-                        <String fx:value="input" />
-                        <String fx:value="weight_input" />
-                    </styleClass>
-                    <GridPane.margin>
-                        <Insets bottom="10.0" left="8.0" />
-                    </GridPane.margin>
-                </TextField>
-                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addAnimal" styleClass="btn" text="Add" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
+                <Button fx:id="btn_add_animal" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addAnimal" styleClass="btn" text="Add" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
                 <ComboBox fx:id="typeCombo" maxWidth="1.7976931348623157E308" promptText="Type">
                     <styleClass>
                         <String fx:value="combo_box" />
@@ -97,7 +88,7 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
                 </ComboBox>
-                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
                     <GridPane.margin>
                         <Insets bottom="10.0" />
                     </GridPane.margin>
@@ -120,6 +111,12 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </DatePicker>
+            <ComboBox fx:id="routineCombo" maxWidth="1.7976931348623157E308" promptText="Routine" GridPane.rowIndex="2">
+               <styleClass>
+                  <String fx:value="combo_box" />
+                  <String fx:value="feed_input" />
+               </styleClass>
+            </ComboBox>
             </children>
         </GridPane>
     </children>
