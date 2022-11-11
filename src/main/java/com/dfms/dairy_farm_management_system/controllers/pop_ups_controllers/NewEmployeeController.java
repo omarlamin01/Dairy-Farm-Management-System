@@ -119,7 +119,7 @@ public class NewEmployeeController implements Initializable {
                 ResultSet rs = this.st.executeQuery("SELECT MAX(id) FROM employee");
                 rs.next();
                 int employee_id = rs.getInt(1);
-                // String query_user = "INSERT INTO user (role_id, employee_id, first_name, last_name, email, password, phone, address, gender, cin, salary) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
                 //insert into user table
                 this.pst.setInt(1, role_id);
                 this.pst.setInt(2, employee_id);
@@ -129,7 +129,12 @@ public class NewEmployeeController implements Initializable {
                 this.pst.setString(6, cin);
                 this.pst.setString(7, phone);
                 this.pst.setString(8, adress);
-                this.pst.setString(9, gender);
+                //check gender type
+                if (this.genderCombo.getValue().equals("Male")) {
+                    this.pst.setString(9, "M");
+                } else {
+                    this.pst.setString(9, "F");
+                }
                 this.pst.setString(10, cin);
                 this.pst.setString(11, salary);
                 this.pst.execute();
