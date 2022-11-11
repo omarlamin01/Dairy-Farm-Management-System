@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class NewMilkCollectionController implements Initializable {
     @FXML
-    private ComboBox<Integer> cowid;
+    private ComboBox<String> cowid;
 
     @FXML
     private TextField milkquantity_input;
@@ -27,12 +27,14 @@ public class NewMilkCollectionController implements Initializable {
     ResultSet rs = null;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         try {
-            setCowComboItems();
+            this.setCowComboItems();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        setPeriodComboItem();
+
+        this.setPeriodComboItem();
 
 
     }
@@ -41,7 +43,7 @@ public class NewMilkCollectionController implements Initializable {
     }
     public void setCowComboItems() throws SQLException {
 
-        ObservableList<Integer> cows = FXCollections.observableArrayList();
+        ObservableList<String> cows = FXCollections.observableArrayList();
 
         String select_query = "SELECT id from animal where type='cow';";
 
@@ -49,7 +51,7 @@ public class NewMilkCollectionController implements Initializable {
         rs = st.executeQuery();
         while (rs.next()) {
 
-            cows .add(rs.getInt("cow_id"));
+            cows .add(rs.getString("cow_id"));
         }
 
            cowid.setItems(cows);
