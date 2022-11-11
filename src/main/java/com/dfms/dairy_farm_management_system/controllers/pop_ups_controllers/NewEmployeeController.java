@@ -63,9 +63,7 @@ public class NewEmployeeController implements Initializable {
     }
 
     public void setRoleComboItems() {
-        //get roles from db
-        this.rolesList = FXCollections.observableArrayList("Admin", "HR", "Sales agent", "Production manager", "Veterinare");
-
+        getRoles();
         this.roleCombo.setItems(this.rolesList);
     }
 
@@ -112,30 +110,29 @@ public class NewEmployeeController implements Initializable {
             try {
                 this.con = DBConfig.getConnection();
                 this.pst = this.con.prepareStatement(query_user);
-                //check role type
-                if (this.roleCombo.getValue().equals("Admin")) {
-                    this.pst.setInt(1, 1);
-                } else if (this.roleCombo.getValue().equals("HR")) {
-                    this.pst.setInt(1, 2);
-                } else if (this.roleCombo.getValue().equals("Sales agent")) {
-                    this.pst.setInt(1, 3);
-                } else if (this.roleCombo.getValue().equals("Production manager")) {
-                    this.pst.setInt(1, 4);
-                } else if (this.roleCombo.getValue().equals("Veterinare")) {
-                    this.pst.setInt(1, 5);
-                }
+
+                //get role id
+                int role_id = getRoleID(role);
+
                 //get last inserted employee id
                 this.st = this.con.createStatement();
                 ResultSet rs = this.st.executeQuery("SELECT MAX(id) FROM employee");
                 rs.next();
-                int lastInsertedId = rs.getInt(1);
-                this.pst.setInt(2, lastInsertedId);
+                int employee_id = rs.getInt(1);
+                // String query_user = "INSERT INTO user (role_id, employee_id, first_name, last_name, email, password, phone, address, gender, cin, salary) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                //insert into user table
+                this.pst.setInt(1, role_id);
+                this.pst.setInt(2, employee_id);
                 this.pst.setString(3, firstName);
                 this.pst.setString(4, lastName);
                 this.pst.setString(5, email);
-                this.pst.setString(6, "123456");
+                this.pst.setString(6, cin);
                 this.pst.setString(7, phone);
                 this.pst.setString(8, adress);
+                this.pst.setString(9, gender);
+                this.pst.setString(10, cin);
+                this.pst.setString(11, salary);
+                this.pst.execute();
 
                 displayAlert("Done", "Employee added successfully", Alert.AlertType.INFORMATION);
 
@@ -148,5 +145,31 @@ public class NewEmployeeController implements Initializable {
             this.pst.close();
             this.con.close();
         }
+    }
+
+    public void getRoles() {
+        try {
+            this.con = DBConfig.getConnection();
+            this.st = this.con.createStatement();
+            ResultSet rs = this.st.executeQuery("SELECT * FROM role");
+            while (rs.next()) {
+                this.rolesList.add(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            displayAlert("Error", "Error while getting roles", Alert.AlertType.ERROR);
+        }
+    }
+
+    public int getRoleID(String role) {
+        try {
+            this.con = DBConfig.getConnection();
+            this.st = this.con.createStatement();
+            ResultSet rs = this.st.executeQuery("SELECT id FROM role WHERE name = '" + role + "'");
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            displayAlert("Error", "Error while getting role id", Alert.AlertType.ERROR);
+        }
+        return 0;
     }
 }
