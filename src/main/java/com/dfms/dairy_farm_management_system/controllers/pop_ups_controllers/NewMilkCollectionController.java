@@ -15,6 +15,8 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
+import static jdk.internal.net.http.common.Utils.close;
+
 public class NewMilkCollectionController implements Initializable {
     @FXML
     private ComboBox<String> cowid;
@@ -90,6 +92,11 @@ public class NewMilkCollectionController implements Initializable {
             aler.setContentText(" Milk Collection added successfull");
 
             aler.showAndWait();
+          //CLEAR DATA
+            milkquantity_input.setText("");
+
+
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
