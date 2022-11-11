@@ -2,7 +2,9 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.connection.Session;
 import com.dfms.dairy_farm_management_system.models.Employee;
+import com.dfms.dairy_farm_management_system.models.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -58,7 +60,22 @@ public class LoginController implements Initializable {
             st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             if (rs.next()) {
-                DBConfig.setCurrentUser(rs.getString("id"));
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setRoleId(rs.getInt("role"));
+                user.setSalary(rs.getFloat("salary"));
+                user.setGender(rs.getString("gender"));
+                user.setPhone(rs.getString("phone"));
+                user.setAddress(rs.getString("address"));
+                user.setCin(rs.getString("cin"));
+                user.setCreatedAt(rs.getDate("created_at"));
+                user.setUpdatedAt(rs.getDate("updated_at"));
+
+                Session.setUser(user);
             }
             switchToMainLayout(event);
         } else {

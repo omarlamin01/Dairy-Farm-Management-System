@@ -19,7 +19,6 @@ public class Session {
 
     public static User getUser() {
         //get user from database
-        User user = null;
         String query = "SELECT * FROM users WHERE id = ?";
         try {
             PreparedStatement pst = con.prepareStatement(query);
