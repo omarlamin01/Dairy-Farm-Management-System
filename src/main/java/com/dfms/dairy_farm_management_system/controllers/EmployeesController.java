@@ -250,7 +250,7 @@ public class EmployeesController implements Initializable {
 
     public void viewEmployee(String title, String view, Employee selectedEmployee) throws IOException {
         view = "popups/details/" + view;
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource(view));
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource(view + ".fxml"));
         Parent root = loader.load();
         ViewEmployeeDetails employeeDetails = loader.getController();
         employeeDetails.setEmployee(selectedEmployee);
