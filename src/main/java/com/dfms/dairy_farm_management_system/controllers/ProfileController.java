@@ -63,6 +63,9 @@ public class ProfileController implements Initializable {
         phone_input.setText(String.valueOf(currentUser.getPhone()));
         address_input.setText(currentUser.getAdress());
         email_input.setText(currentUser.getEmail());
+        current_password_input.setText(null);
+        new_password_input.setText(null);
+        confirm_new_password_input.setText(null);
     }
 
     @FXML
@@ -74,6 +77,7 @@ public class ProfileController implements Initializable {
                 currentUser.setPassword(new_password_input.getText());
                 if(currentUser.update()) {
                     displayAlert("Done", "Profile updated successfully", Alert.AlertType.INFORMATION);
+                    getUserData();
                 } else {
                     displayAlert("Error", "Some error heppened", Alert.AlertType.ERROR);
                 }
@@ -95,6 +99,7 @@ public class ProfileController implements Initializable {
         currentUser.setAdress(address_input.getText());
         if(currentUser.update()) {
             displayAlert("Done", "Profile updated successfully", Alert.AlertType.INFORMATION);
+            getUserData();
         } else {
             displayAlert("Error", "Some error heppened", Alert.AlertType.ERROR);
         }
