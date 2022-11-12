@@ -148,7 +148,7 @@
                     </TableView>
                 </VBox>
             </Tab>
-            <Tab fx:id="vaccineTable" text="Vaccine Monitor">
+            <Tab text="Vaccine Monitor">
                 <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
                     <Label styleClass="sub_header" text="Manage animal vaccination here" textAlignment="CENTER">
                         <font>
