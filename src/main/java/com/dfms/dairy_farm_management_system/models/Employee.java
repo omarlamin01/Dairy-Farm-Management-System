@@ -1,5 +1,8 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+
+import java.sql.*;
 import java.util.Date;
 
 public class Employee implements Model {
@@ -10,7 +13,7 @@ public class Employee implements Model {
     private String cin;
     private String email;
     private String phone;
-    private String address;
+    private String adress;
     private float salary;
     private Date recruitment_date;
     private String contract_type;
@@ -28,7 +31,7 @@ public class Employee implements Model {
         this.cin = cin;
         this.email = email;
         this.phone = phone;
-        this.address = adresse;
+        this.adress = adresse;
         this.salary = salary;
         this.recruitment_date = recruitment_date;
         this.contract_type = contract_type;
@@ -92,12 +95,12 @@ public class Employee implements Model {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
     public float getSalary() {
@@ -142,22 +145,72 @@ public class Employee implements Model {
 
     @Override
     public boolean save() {
-        
+        String insertQuery = "INSERT INTO employee (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement = connection.prepareStatement(insertQuery);
+            preparedStatement.setString(1, first_name);
+            preparedStatement.setString(2, last_name);
+
+            if (gender.equals("Male")) {
+                preparedStatement.setString(3, "M");
+            } else {
+                preparedStatement.setString(3, "F");
+            }
+            preparedStatement.setString(4, cin);
+            preparedStatement.setString(5, email);
+            preparedStatement.setString(6, phone);
+            preparedStatement.setString(7, adress);
+            preparedStatement.setString(8, String.valueOf(salary));
+            preparedStatement.setString(9, String.valueOf(recruitment_date));
+            preparedStatement.setString(10, contract_type);
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean update() {
+        String updateQuery = "UPDATE `employee` SET `first_name` = 'lam-ine', `last_name` = 'o-mar', `gender` = 'M', `cin` = 'jt909-18', `email` = 'omarlamine272@gmail.com', `phone` = '+212616944666', `address` = 'Taroudant, Souss-massa, Morocco', `salary` = '5000.00', `recruitment_date` = '2020-06-16', `contract_type` = 'CDI', `updated_at` = '2022-11-12' WHERE `employee`.`id` = 1";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
 
+            preparedStatement = connection.prepareStatement(updateQuery);
+            preparedStatement.setString(1, first_name);
+            preparedStatement.setString(2, last_name);
+
+            if (gender.equals("Male")) {
+                preparedStatement.setString(3, "M");
+            } else {
+                preparedStatement.setString(3, "F");
+            }
+            preparedStatement.setString(4, cin);
+            preparedStatement.setString(5, email);
+            preparedStatement.setString(6, phone);
+            preparedStatement.setString(7, adress);
+            preparedStatement.setString(8, String.valueOf(salary));
+            preparedStatement.setString(9, String.valueOf(recruitment_date));
+            preparedStatement.setString(10, contract_type);
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public Class read(String id) {
+    public Class read() {
 
         return null;
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete() {
 
     }
 }
