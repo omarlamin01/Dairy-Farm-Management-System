@@ -14,5 +14,14 @@ ALTER TABLE user ADD COLUMN cin VARCHAR(20) NOT NULL;
 ALTER TABLE user ADD COLUMN phone VARCHAR(20) NOT NULL;
 ALTER TABLE user ADD COLUMN salary FLOAT NOT NULL;
 ALTER TABLE user ADD COLUMN email VARCHAR(50);
+ALTER TABLE user ADD COLUMN address VARCHAR(100);
 
 /*change the type of animal_id */
+
+/*insert roles */
+INSERT INTO role (name) VALUES ('Admin');
+INSERT INTO role (name) VALUES ('HR');
+INSERT INTO role (name) VALUES ('Sales agent');
+INSERT INTO role (name) VALUES ('Production manager');
+INSERT INTO role (name) VALUES ('Veterinary');
+

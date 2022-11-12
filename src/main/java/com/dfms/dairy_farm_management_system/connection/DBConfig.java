@@ -10,7 +10,6 @@ public class DBConfig {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
     private static Connection conn = null;
-    private static String current_user = null;
 
 
     // Connect to database
@@ -47,13 +46,5 @@ public class DBConfig {
             System.out.println("Error: " + e.getMessage());
         }
         return resultSet;
-    }
-
-    public static void setCurrentUser(String id) {
-        current_user = id;
-    }
-
-    public static String getCurrentUser() {
-        return current_user;
     }
 }

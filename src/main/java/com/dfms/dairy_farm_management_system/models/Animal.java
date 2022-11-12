@@ -5,7 +5,7 @@ import java.util.Date;
 public class Animal {
 
 
-    private int id_animal;
+    private String id;
     private String type;
     private Date birth_date;
     private Date purchase_date;
@@ -15,8 +15,8 @@ public class Animal {
     private String race;
 
 
-    public Animal(int id_animal, String type, Date birth_date, Date purchase_date, Date created_at, Date updated_at, String routine, String race) {
-        this.id_animal = id_animal;
+    public Animal(String id, String type, Date birth_date, Date purchase_date, Date created_at, Date updated_at, String routine, String race) {
+        this.id = id;
         this.type = type;
         this.birth_date = birth_date;
         this.purchase_date = purchase_date;
@@ -28,8 +28,8 @@ public class Animal {
 
     public Animal() {}
 
-    public Animal(int id_animal, String type, Date birth_date,String routine, String race) {
-        this.id_animal = id_animal;
+    public Animal(String id, String type, Date birth_date,String routine, String race) {
+        this.id = id;
         this.type = type;
         this.birth_date = birth_date;
 
@@ -37,12 +37,12 @@ public class Animal {
         this.race = race;
     }
 
-    public int getId_animal() {
-        return id_animal;
+    public String getId() {
+        return id;
     }
 
-    public void setId_animal(int id_animal) {
-        this.id_animal = id_animal;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getType() {
