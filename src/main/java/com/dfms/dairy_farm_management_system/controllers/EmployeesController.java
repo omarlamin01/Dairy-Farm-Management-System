@@ -1,8 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.ViewEmployeeDetails;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.ViewEmployeeController;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -31,6 +28,7 @@ import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class EmployeesController implements Initializable {
@@ -44,7 +42,7 @@ public class EmployeesController implements Initializable {
 
     private Statement st;
     private PreparedStatement pst;
-    private Connection con = DBConfig.getConnection();
+    private Connection con = getConnection();
     @FXML
     private TableView<Employee> employees_table;
     @FXML
@@ -189,10 +187,10 @@ public class EmployeesController implements Initializable {
 
                         view_details_btn.setOnMouseClicked((MouseEvent event) -> {
                             try {
-                                //int id = employees_table.getSelectionModel().getSelectedItem().getId();
-                                Employee employee = employees_table.getSelectionModel().getSelectedItem();
+                                int id = employees_table.getSelectionModel().getSelectedItem().getId();
+                                Employee employee = getEmployee(id);
+                                displayEmployeeConsole(employee);
                                 viewEmployee("View Employee", "view_employee", employee);
-
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -252,15 +250,54 @@ public class EmployeesController implements Initializable {
     }
 
     public void viewEmployee(String title, String view, Employee selectedEmployee) throws IOException {
-        String path = "popups/details/" + view;
-        FXMLLoader loader = new FXMLLoader(Main.class.getResource(path + ".fxml"));
-        Parent root = loader.load();
-        ViewEmployeeDetails employeeDetails = loader.getController();
-        employeeDetails.setEmployee(selectedEmployee);
+        String path = "popups" + view + ".fxml";
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(path));
+        Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
-        stage.setScene(new Scene(root));
+        ViewEmployeeController controller = fxmlLoader.getController();
+        controller.setEmployee(selectedEmployee);
+        stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
         stage.setTitle(title);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
+        stage.setResizable(false);
+        stage.setScene(scene);
+        centerScreen(stage);
+        stage.show();
+    }
+
+    public void displayEmployeeConsole(Employee employee) {
+        System.out.println("Employee ID: " + employee.getId());
+        System.out.println("Employee First Name: " + employee.getFirstName());
+        System.out.println("Employee Last Name: " + employee.getLastName());
+        System.out.println("Employee Email: " + employee.getEmail());
+        System.out.println("Employee Phone: " + employee.getPhone());
+        System.out.println("Employee Address: " + employee.getAdress());
+        System.out.println("Employee Cin: " + employee.getCin());
+        System.out.println("Employee gender: " + employee.getGender());
+        System.out.println("Employee Recrutement Date: " + employee.getRecruitmentDate());
+    }
+
+    public Employee getEmployee(int id) {
+        Employee employee = new Employee();
+        String query = "SELECT * FROM employee WHERE id = " + id;
+        con = getConnection();
+        try {
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                employee.setId(rs.getInt("id"));
+                employee.setFirstName(rs.getString("first_name"));
+                employee.setLastName(rs.getString("last_name"));
+                employee.setEmail(rs.getString("email"));
+                employee.setPhone(rs.getString("phone"));
+                employee.setAdress(rs.getString("address"));
+                employee.setCin(rs.getString("cin"));
+                employee.setGender(rs.getString("gender"));
+                employee.setRecruitmentDate(rs.getDate("recruitment_date"));
+                employee.setSalary(rs.getFloat("salary"));
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        return employee;
     }
 }

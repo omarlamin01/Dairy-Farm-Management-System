@@ -9,20 +9,18 @@ import javafx.scene.control.Label;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
-public class ViewEmployeeDetails implements Initializable {
+public class ViewEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeLabels();
         getEmployee();
     }
 
     private Statement st;
     private PreparedStatement pst;
-    private Connection con = DBConfig.getConnection();
+    private final Connection con = DBConfig.getConnection();
 
     @FXML
     private Label address_label;
@@ -57,7 +55,7 @@ public class ViewEmployeeDetails implements Initializable {
     @FXML
     private Label salary_label;
 
-    private Employee employee;
+    private static Employee employee;
 
     public void getEmployee() {
         //header_label.setText("Here's the details of " + employee.getFirstName() + " " + employee.getLastName());
@@ -73,20 +71,6 @@ public class ViewEmployeeDetails implements Initializable {
     }
 
     public void setEmployee(Employee selectedEmployee) {
-        employee = selectedEmployee;
-    }
-
-    public void initializeLabels() {
-        header_label = new Label();
-        first_name_label = new Label();
-        last_name_label = new Label();
-        email_label = new Label();
-        phone_label = new Label();
-        address_label = new Label();
-        cin_label = new Label();
-        salary_label = new Label();
-        contract_type_label = new Label();
-        gender_label = new Label();
-        role_label = new Label();
+        ViewEmployeeController.employee = selectedEmployee;
     }
 }
