@@ -3,6 +3,8 @@ package com.dfms.dairy_farm_management_system.models;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Employee implements Model {
@@ -150,7 +152,6 @@ public class Employee implements Model {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
-            preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, first_name);
             preparedStatement.setString(2, last_name);
 
@@ -166,6 +167,7 @@ public class Employee implements Model {
             preparedStatement.setString(8, String.valueOf(salary));
             preparedStatement.setString(9, String.valueOf(recruitment_date));
             preparedStatement.setString(10, contract_type);
+
             return preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -175,27 +177,24 @@ public class Employee implements Model {
 
     @Override
     public boolean update() {
-        String updateQuery = "UPDATE `employee` SET `first_name` = 'lam-ine', `last_name` = 'o-mar', `gender` = 'M', `cin` = 'jt909-18', `email` = 'omarlamine272@gmail.com', `phone` = '+212616944666', `address` = 'Taroudant, Souss-massa, Morocco', `salary` = '5000.00', `recruitment_date` = '2020-06-16', `contract_type` = 'CDI', `updated_at` = '2022-11-12' WHERE `employee`.`id` = 1";
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        String updateQuery = "UPDATE `employee` SET `first_name` = '" + first_name +
+                "', `last_name` = '" + last_name +
+                "', `gender` = '" + (gender.equals("Male") ? 'M' : 'F') +
+                "', `cin` = '" + cin +
+                "', `email` = '" + email +
+                "', `phone` = '" + phone +
+                "', `address` = '" + adress +
+                "', `salary` = '" + salary +
+                "', `recruitment_date` = '" + recruitment_date +
+                "', `contract_type` = '" + contract_type +
+                "', `updated_at` = '" + dtf.format(now) +"' " +
+                "WHERE `employee`.`id` = " + this.id;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
-
-            preparedStatement = connection.prepareStatement(updateQuery);
-            preparedStatement.setString(1, first_name);
-            preparedStatement.setString(2, last_name);
-
-            if (gender.equals("Male")) {
-                preparedStatement.setString(3, "M");
-            } else {
-                preparedStatement.setString(3, "F");
-            }
-            preparedStatement.setString(4, cin);
-            preparedStatement.setString(5, email);
-            preparedStatement.setString(6, phone);
-            preparedStatement.setString(7, adress);
-            preparedStatement.setString(8, String.valueOf(salary));
-            preparedStatement.setString(9, String.valueOf(recruitment_date));
-            preparedStatement.setString(10, contract_type);
             return preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -204,13 +203,26 @@ public class Employee implements Model {
     }
 
     @Override
-    public Class read() {
-
-        return null;
-    }
-
-    @Override
     public boolean delete() {
-
+        String updateQuery = "UPDATE `employee` SET `first_name` = '" + first_name +
+                "', `last_name` = '" + last_name +
+                "', `gender` = '" + (gender.equals("Male") ? 'M' : 'F') +
+                "', `cin` = '" + cin +
+                "', `email` = '" + email +
+                "', `phone` = '" + phone +
+                "', `address` = '" + adress +
+                "', `salary` = '" + salary +
+                "', `recruitment_date` = '" + recruitment_date +
+                "', `contract_type` = '" + contract_type +
+                "', `updated_at` = '" + dtf.format(now) +"' " +
+                "WHERE `employee`.`id` = " + this.id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
