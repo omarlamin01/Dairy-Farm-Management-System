@@ -186,6 +186,7 @@ public class EmployeesController implements Initializable {
                                 viewEmployee();
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
                             }
                         });
                     }
