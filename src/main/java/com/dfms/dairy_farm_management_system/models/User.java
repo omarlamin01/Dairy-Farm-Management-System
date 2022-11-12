@@ -41,4 +41,19 @@ public class User extends Employee {
         this.roleId = roleId;
     }
 
+    @Override
+    public boolean save() {
+        return super.save();
+        
+    }
+
+    @Override
+    public boolean update() {
+        return super.update();
+    }
+
+    @Override
+    public boolean delete() {
+        return super.delete();
+    }
 }
