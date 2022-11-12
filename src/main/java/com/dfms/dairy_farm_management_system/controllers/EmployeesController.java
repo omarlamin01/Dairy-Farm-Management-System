@@ -186,7 +186,7 @@ public class EmployeesController implements Initializable {
 
                         view_details_btn.setOnMouseClicked((MouseEvent event) -> {
                             try {
-                                viewEmployee("View Employee", "view_employee_details");
+                                viewEmployee("View Employee", "view_employee");
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -246,16 +246,7 @@ public class EmployeesController implements Initializable {
     }
 
     public void viewEmployee(String title, String view) throws IOException {
-        String url = "popups/details/" + view + ".fxml";
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        // stage.initStyle(StageStyle.TRANSPARENT);
-        stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-        stage.setTitle(title);
-        stage.setResizable(false);
-        stage.setScene(scene);
-        centerScreen(stage);
-        stage.show();
+        view = "details/" + view;
+        openNewWindow(title, view);
     }
 }
