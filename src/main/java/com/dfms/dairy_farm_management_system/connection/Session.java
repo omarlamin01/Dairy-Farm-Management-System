@@ -48,6 +48,11 @@ public class Session {
         return current_user;
     }
 
+    public static void logoutUser() {
+        current_user = null;
+        current_user_id = null;
+    }
+
     public static void setCurrentUser(User user) {
         Session.current_user = user;
     }

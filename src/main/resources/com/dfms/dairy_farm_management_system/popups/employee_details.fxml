@@ -43,7 +43,7 @@
                 <Insets bottom="10.0" />
             </VBox.margin>
         </Pane>
-        <Label styleClass="sub_header" text="Here's the details of selected employee" textAlignment="CENTER">
+        <Label fx:id="header" styleClass="sub_header" text="Here's the details of selected employee" textAlignment="CENTER">
             <font>
                 <Font size="18.0" />
             </font>
