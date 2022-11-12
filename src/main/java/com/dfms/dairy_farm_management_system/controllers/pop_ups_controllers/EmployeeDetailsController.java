@@ -22,10 +22,8 @@ public class EmployeeDetailsController implements Initializable {
         fetchEmployee();
     }
 
-    private Statement st;
-    private PreparedStatement pst;
-    private Connection con = getConnection();
-
+    @FXML
+    private Label header;
     @FXML
     private Label address;
 
@@ -65,7 +63,7 @@ public class EmployeeDetailsController implements Initializable {
 
     public void fetchEmployee() {
         employee = getEmployee(EmployeeDetailsController.employee_id);
-        //header_label.setText("Here's the details of " + employee.getFirstName() + " " + employee.getLastName());
+        header.setText("Here's all the information about " + employee.getFirstName() + " " + employee.getLastName());
         first_name.setText(employee.getFirstName());
         last_name.setText(employee.getLastName());
         email.setText(employee.getEmail());
@@ -81,9 +79,9 @@ public class EmployeeDetailsController implements Initializable {
     public Employee getEmployee(int id) {
         Employee employee = new Employee();
         String query = "SELECT * FROM employee WHERE id = " + id;
-        con = getConnection();
+        Connection con = getConnection();
         try {
-            st = con.createStatement();
+            Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 employee.setId(rs.getInt("id"));
