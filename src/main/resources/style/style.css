@@ -310,3 +310,22 @@
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
+
+/* view detail popup */
+.detail-item {
+    -fx-background-color: -light-gray-color;
+    -fx-border-radius: 10px;
+    -fx-font-size: 1em;
+    -fx-text-fill: white;
+    -fx-background-radius: 10px;
+    -fx-padding: 20px;
+}
+
+.detail-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.detail-label-value {
+    -fx-font-size: 14px;
+}

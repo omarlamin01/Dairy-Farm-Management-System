@@ -162,6 +162,8 @@ public class EmployeesController implements Initializable {
 
                         setGraphic(managebtn);
                         setText(null);
+
+                        //action for action buttons
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
                             Employee employee = employees_table.getSelectionModel().getSelectedItem();
                             if (employee != null) {
@@ -174,8 +176,16 @@ public class EmployeesController implements Initializable {
                                     deleteEmployee(employee.getId());
                                     displayEmployees();
                                 }
-                            }else {
+                            } else {
                                 displayAlert("Error", "Please select an employee to delete", Alert.AlertType.ERROR);
+                            }
+                        });
+
+                        view_details_btn.setOnMouseClicked((MouseEvent event) -> {
+                            try {
+                                viewEmployee();
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                             }
                         });
                     }
@@ -229,5 +239,9 @@ public class EmployeesController implements Initializable {
     @FXML
     void searchEmployee(MouseEvent event) {
         liveSearch(this.search_employee_input, employees_table);
+    }
+
+    public void viewEmployee() throws IOException {
+        openNewWindow("Employee details", "details/view_employee_details");
     }
 }
