@@ -30,19 +30,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-//        launch();
-        Employee employee = new Employee();
-        employee.setId(2);
-        employee.setFirstName("updated");
-        employee.setLastName("name");
-        employee.setCin("jt1234");
-        employee.setEmail("omar.lamine@edu.uiz.ac.ma");
-        employee.setGender("Male");
-        employee.setPhone("06661234");
-        employee.setAdress("Morocco");
-        employee.setSalary(4500);
-        employee.setRecruitmentDate(new Date());
-        employee.setContractType("CDD");
-        System.out.println(employee.update());
+        launch();
     }
 }
