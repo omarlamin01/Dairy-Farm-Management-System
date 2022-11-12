@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Animal;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,7 +41,7 @@ MilkCollection mc;
         combo.setItems(list);
         try {
             afficher();
-            search_milkcollection();
+            liveSearch(search_input,MilkCollectionTable);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -342,6 +343,34 @@ MilkCollection mc;
         //SortedList.comparatorProperty().bind(table.comparatorProperty());
         sorteddata.comparatorProperty().bind(MilkCollectionTable.comparatorProperty());
         MilkCollectionTable.setItems(sorteddata);}
+    public void liveSearch(TextField search_input, TableView table) {
+        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                try {
+                    refreshTableMilkCollection();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                ObservableList<MilkCollection> filteredList = FXCollections.observableArrayList();
+                ObservableList<MilkCollection> milkCollections = null;
+                try {
+                    milkCollections = getMilkCollection();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                for (MilkCollection milkCollection : milkCollections) {
+                    if (milkCollection.getPeriod().toLowerCase().contains(newValue.toLowerCase()) || milkCollection.getCow_id().toLowerCase().contains(newValue.toLowerCase())) {
+                        filteredList.add(milkCollection );
+                    }
+                }
+                MilkCollectionTable.setItems(filteredList);
+            }
+        });
+    }
+
 
     @FXML
     void openAddNewMilkCollection(MouseEvent event) throws IOException {
