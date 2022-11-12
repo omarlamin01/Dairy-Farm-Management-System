@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.validatePhoneInput;
@@ -60,7 +59,7 @@ public class ProfileController implements Initializable {
         last_name_input.setText(currentUser.getLastName());
         cin_input.setText(currentUser.getCin());
         phone_input.setText(String.valueOf(currentUser.getPhone()));
-        address_input.setText(currentUser.getAddress());
+        address_input.setText(currentUser.getAdress());
         email_input.setText(currentUser.getEmail());
     }
 
@@ -87,7 +86,7 @@ public class ProfileController implements Initializable {
         currentUser.setLastName(last_name_input.getText());
         currentUser.setCin(cin_input.getText());
         currentUser.setPhone(phone_input.getText());
-        currentUser.setAddress(address_input.getText());
+        currentUser.setAdress(address_input.getText());
         currentUser.update();
         System.out.println(currentUser);
     }
