@@ -16,7 +16,8 @@ import java.util.ResourceBundle;
 public class ViewEmployeeDetails implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getEmployee(this.employeeId);
+        initializeLabels();
+        getEmployee();
     }
 
     private Statement st;
@@ -56,39 +57,9 @@ public class ViewEmployeeDetails implements Initializable {
     @FXML
     private Label salary_label;
 
-    private Employee employee;
-    private int employeeId;
+    private Employee employee = new Employee();
 
-    public void getEmployee(int employeeId) {
-
-        //get employee from db and store it in employee object
-        con = DBConfig.getConnection();
-        try {
-            pst = con.prepareStatement("SELECT * FROM employee WHERE id = ?");
-            pst.setInt(1, employeeId);
-            pst.execute();
-
-            ResultSet rs = pst.getResultSet();
-
-            employee = new Employee();
-            employee.setId(rs.getInt("id"));
-            employee.setFirstName(rs.getString("first_name"));
-            employee.setLastName(rs.getString("last_name"));
-            employee.setEmail(rs.getString("email"));
-            employee.setAdress(rs.getString("address"));
-            employee.setCin(rs.getString("cin"));
-            employee.setPhone(rs.getString("phone"));
-            employee.setGender(rs.getString("gender"));
-            employee.setSalary(rs.getFloat("salary"));
-            employee.setRecruitmentDate(rs.getDate("recruitment_date"));
-            employee.setContractType(rs.getString("contract_type"));
-
-            DBConfig.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
+    public void getEmployee() {
         //header_label.setText("Here's the details of " + employee.getFirstName() + " " + employee.getLastName());
         first_name_label.setText(employee.getFirstName());
         last_name_label.setText(employee.getLastName());
@@ -101,7 +72,21 @@ public class ViewEmployeeDetails implements Initializable {
         gender_label.setText(employee.getGender());
     }
 
-    public void setEmployeeId(int id) {
-        this.employeeId = id;
+    public void setEmployee(Employee selectedEmployee) {
+        this.employee = selectedEmployee;
+    }
+
+    public void initializeLabels() {
+        header_label = new Label();
+        first_name_label = new Label();
+        last_name_label = new Label();
+        email_label = new Label();
+        phone_label = new Label();
+        address_label = new Label();
+        cin_label = new Label();
+        salary_label = new Label();
+        contract_type_label = new Label();
+        gender_label = new Label();
+        role_label = new Label();
     }
 }
