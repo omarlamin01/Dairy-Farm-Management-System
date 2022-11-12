@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -82,6 +83,63 @@ public class LoginController implements Initializable {
             displayAlert("Invalid email or password", "Please check your email and password and try again", Alert.AlertType.ERROR);
         }
     }
+
+    @FXML
+    void loginWithEnter(KeyEvent event) {
+        //check if enter key is pressed
+        if (event.getCode().toString().equals("ENTER")) {
+            try {
+                String email = email_input.getText().trim();
+                String password = password_input.getText().trim();
+
+                if (validateLogin(email, password)) {
+                    //store logged in user in session
+                    String query = "SELECT * FROM user WHERE email = '" + email + "' AND password = '" + password + "'";
+                    st = con.createStatement();
+                    ResultSet rs = st.executeQuery(query);
+                    if (rs.next()) {
+                        User user = new User();
+                        user.setId(rs.getInt("id"));
+                        user.setFirstName(rs.getString("first_name"));
+                        user.setLastName(rs.getString("last_name"));
+                        user.setEmail(rs.getString("email"));
+                        user.setPassword(rs.getString("password"));
+                        user.setRoleId(rs.getInt("role_id"));
+                        user.setSalary(rs.getFloat("salary"));
+                        user.setGender(rs.getString("gender"));
+                        user.setPhone(rs.getString("phone"));
+                        user.setAddress(rs.getString("address"));
+                        user.setCin(rs.getString("cin"));
+                        user.setCreatedAt(rs.getDate("created_at"));
+                        user.setUpdatedAt(rs.getDate("updated_at"));
+
+                        Session.setCurrentUser(user);
+                    }
+                    //switch to main layout
+                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
+                    Stage stage = new Stage();
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(fxmlLoader.load());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    stage.setTitle("Dairy Farm Management System");
+                    stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                    stage.setScene(scene);
+                    // centerScreen(stage);
+                    ((Node) event.getSource()).getScene().getWindow().hide();
+                    stage.show();
+                } else {
+                    displayAlert("Invalid email or password", "Please check your email and password and try again", Alert.AlertType.ERROR);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
 
     public boolean validateLogin(String email, String password) throws SQLException {
         //check if user exists limit 1
