@@ -57,7 +57,7 @@
                <children>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
                      <children>
-                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label">
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
@@ -67,12 +67,12 @@
                             <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Label text="First Name" GridPane.columnIndex="1">
+                              <Label prefWidth="200.0" text="First Name" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                              <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                               <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../../icons/user_name.png" />
@@ -87,7 +87,7 @@
                   </HBox>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
                      <children>
-                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label">
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
@@ -97,12 +97,12 @@
                               <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label text="First Name" GridPane.columnIndex="1">
+                              <Label prefWidth="200.0" text="Last name" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                              <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                               <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../../icons/user_name.png" />
@@ -117,7 +117,7 @@
                   </HBox>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
                      <children>
-                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label">
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
@@ -127,12 +127,12 @@
                               <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label text="First Name" GridPane.columnIndex="1">
+                              <Label prefWidth="200.0" text="CIN" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                              <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                               <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../../icons/user_name.png" />
@@ -147,7 +147,7 @@
                   </HBox>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
                      <children>
-                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label">
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
@@ -157,12 +157,12 @@
                               <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label text="First Name" GridPane.columnIndex="1">
+                              <Label prefWidth="200.0" text="Email" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                              <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                               <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../../icons/user_name.png" />
@@ -177,7 +177,7 @@
                   </HBox>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
                      <children>
-                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label">
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
@@ -187,12 +187,12 @@
                               <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label text="First Name" GridPane.columnIndex="1">
+                              <Label prefWidth="200.0" text="Gender" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                              <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                               <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../../icons/user_name.png" />
@@ -207,7 +207,7 @@
                   </HBox>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
                      <children>
-                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label">
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
@@ -217,12 +217,12 @@
                               <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label text="First Name" GridPane.columnIndex="1">
+                              <Label prefWidth="200.0" text="Phone" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                              <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                               <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../../icons/user_name.png" />
@@ -237,7 +237,7 @@
                   </HBox>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
                      <children>
-                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label">
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
@@ -247,12 +247,12 @@
                               <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label text="First Name" GridPane.columnIndex="1">
+                              <Label prefWidth="200.0" text="Address" GridPane.columnIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                              <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                               <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../../../icons/user_name.png" />
@@ -261,6 +261,99 @@
                            </children>
                         </GridPane>
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
+                     <children>
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="304.0" prefWidth="363.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label prefWidth="200.0" text="Address" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                              <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../icons/user_name.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </GridPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
+                     <children>
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="304.0" prefWidth="363.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label prefWidth="200.0" text="Address" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                              <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../icons/user_name.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </GridPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
+                     <children>
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="304.0" prefWidth="363.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label prefWidth="200.0" text="Address" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                              <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../../icons/user_name.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </GridPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
                   </HBox>
                </children>
             </VBox>

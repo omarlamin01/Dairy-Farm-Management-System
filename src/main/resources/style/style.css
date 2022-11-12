@@ -329,3 +329,7 @@
 .detail-label-value {
     -fx-font-size: 14px;
 }
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
