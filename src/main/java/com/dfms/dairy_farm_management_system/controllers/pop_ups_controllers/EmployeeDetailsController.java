@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
@@ -73,7 +74,11 @@ public class EmployeeDetailsController implements Initializable {
         salary.setText(String.valueOf(employee.getSalary()));
         contract_type.setText(employee.getContractType());
         recruitment_date.setText(String.valueOf(employee.getRecruitmentDate()));
-        gender.setText(employee.getGender());
+        if (Objects.equals(employee.getGender(), "M")) {
+            gender.setText("Male");
+        } else {
+            gender.setText("Female");
+        }
     }
 
     public Employee getEmployee(int id) {
