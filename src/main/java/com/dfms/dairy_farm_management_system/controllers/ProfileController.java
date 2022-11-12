@@ -4,6 +4,7 @@ import com.dfms.dairy_farm_management_system.connection.Session;
 import com.dfms.dairy_farm_management_system.models.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -11,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.validatePhoneInput;
 
 public class ProfileController implements Initializable {
@@ -70,12 +72,16 @@ public class ProfileController implements Initializable {
             if (new_password_input.getText().equals(confirm_new_password_input.getText())) {
                 currentUser.setEmail(email_input.getText());
                 currentUser.setPassword(new_password_input.getText());
-                currentUser.update();
+                if(currentUser.update()) {
+                    displayAlert("Done", "Profile updated successfully", Alert.AlertType.INFORMATION);
+                } else {
+                    displayAlert("Error", "Some error heppened", Alert.AlertType.ERROR);
+                }
             } else {
-                System.out.println("New password doesn't match password confirm!");
+                displayAlert("Error", "New password doesn't match password confirm!", Alert.AlertType.ERROR);
             }
         } else {
-            System.out.println("Wrong password!");
+            displayAlert("Error", "Wrong password!", Alert.AlertType.ERROR);
         }
     }
 
@@ -87,7 +93,10 @@ public class ProfileController implements Initializable {
         currentUser.setCin(cin_input.getText());
         currentUser.setPhone(phone_input.getText());
         currentUser.setAdress(address_input.getText());
-        currentUser.update();
-        System.out.println(currentUser);
+        if(currentUser.update()) {
+            displayAlert("Done", "Profile updated successfully", Alert.AlertType.INFORMATION);
+        } else {
+            displayAlert("Error", "Some error heppened", Alert.AlertType.ERROR);
+        }
     }
 }
