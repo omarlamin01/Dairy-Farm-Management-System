@@ -30,7 +30,8 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        email_input.setText("abc@gmail.com");
+        password_input.setText("1234");
     }
 
     private Statement st;

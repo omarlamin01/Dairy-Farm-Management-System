@@ -72,6 +72,21 @@ public class NewEmployeeController implements Initializable {
     public void addEmployee(MouseEvent mouseEvent) throws SQLException {
         System.out.println("Employee: { " + "First name: \"" + this.firstNameInput.getText() + "\", " + "Last name: \"" + this.lastNameInput.getText() + "\", " + "Email: \"" + this.emailInput.getText() + "\", " + "Phone: \"" + this.phoneNumberInput.getText() + "\", " + "Adress: \"" + this.adressInput.getText() + "\", " + "CIN: \"" + this.cininput.getText() + "\", " + "Salary: \"" + this.salaryInput.getText() + "\", " + "Hire date: \"" + this.hireDate.getValue() + "\", " + "Contract type: \"" + this.contractCombo.getValue() + "\", " + "Gender: \"" + this.genderCombo.getValue() + "\", " + "Role: \"" + this.roleCombo.getValue() + "\"" + " }");
 
+        if (inputesAreEmpty()) {
+            setErrorOnInput(this.firstNameInput, "First name is required");
+            setErrorOnInput(this.lastNameInput, "Last name is required");
+            setErrorOnInput(this.emailInput, "Email is required");
+            setErrorOnInput(this.phoneNumberInput, "Phone number is required");
+            setErrorOnInput(this.adressInput, "Adress is required");
+            setErrorOnInput(this.cininput, "CIN is required");
+            setErrorOnInput(this.salaryInput, "Salary is required");
+            setErrorOnInput(this.hireDate, "Hire date is required");
+            setErrorOnInput(this.roleCombo, "Role is required");
+            setErrorOnInput(this.genderCombo, "Gender is required");
+            setErrorOnInput(this.contractCombo, "Contract type is required");
+            return;
+        }
+
         String firstName = this.firstNameInput.getText();
         String lastName = this.lastNameInput.getText();
         String email = this.emailInput.getText();
@@ -83,6 +98,7 @@ public class NewEmployeeController implements Initializable {
         String contractType = this.contractCombo.getValue();
         String gender = this.genderCombo.getValue();
         String role = this.roleCombo.getValue();
+
 
         String query_emp = "INSERT INTO employee (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String query_user = "INSERT INTO user (role_id, employee_id, first_name, last_name, email, password, phone, address, gender, cin, salary) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -166,5 +182,12 @@ public class NewEmployeeController implements Initializable {
             displayAlert("Error", "Error while getting role id", Alert.AlertType.ERROR);
         }
         return 0;
+    }
+
+    //check if all inputs are filled
+    public boolean inputesAreEmpty() {
+        if (this.firstNameInput.getText().isEmpty() || this.lastNameInput.getText().isEmpty() || this.emailInput.getText().isEmpty() || this.phoneNumberInput.getText().isEmpty() || this.adressInput.getText().isEmpty() || this.cininput.getText().isEmpty() || this.salaryInput.getText().isEmpty() || this.hireDate.getValue() == null || this.contractCombo.getValue() == null || this.genderCombo.getValue() == null || this.roleCombo.getValue() == null)
+            return true;
+        return true;
     }
 }
