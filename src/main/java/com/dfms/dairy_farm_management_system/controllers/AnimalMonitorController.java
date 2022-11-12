@@ -1,19 +1,24 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
-import com.dfms.dairy_farm_management_system.models.HealthStatus;
-import com.dfms.dairy_farm_management_system.models.Pregnancy;
-import com.dfms.dairy_farm_management_system.models.Routine;
-import com.dfms.dairy_farm_management_system.models.Vaccination;
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.*;
+import java.util.Map;
+import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executor;
 
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
 
 public class AnimalMonitorController implements Initializable {
@@ -97,6 +102,31 @@ public class AnimalMonitorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
+
+    //get all the HealthStatus
+    public ObservableList<HealthStatus> getHealthStatus() {
+        ObservableList<HealthStatus> monitors = FXCollections.observableArrayList();
+        String query = "SELECT * FROM employee";
+        try {
+            Connection connection = DBConfig.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                HealthStatus monitor = new HealthStatus();
+                monitor.setId(resultSet.getInt("id"));
+                monitor.setAnimal_id(resultSet.getInt("animal_id"));
+                monitor.setVaccin_id(resultSet.getInt("vaccine_id"));
+                monitor.setWeight(resultSet.getFloat("weight"));
+                monitor.setBreading(resultSet.getFloat("breading"));
+                monitor.setAge(resultSet.getFloat("age"));
+                monitor.setControl_date(resultSet.getDate("control_date"));
+                monitors.add(monitor);
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        return monitors;
     }
 
     @FXML
