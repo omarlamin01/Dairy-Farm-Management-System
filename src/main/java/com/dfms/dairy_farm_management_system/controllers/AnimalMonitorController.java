@@ -1,5 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.models.HealthStatus;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -18,7 +19,6 @@ public class AnimalMonitorController implements Initializable {
 
     }
 
-
     //Health status tab
     @FXML
     TextField healthStatusSearch;
@@ -26,6 +26,17 @@ public class AnimalMonitorController implements Initializable {
     Button healthSearchButton;
     @FXML
     Button newStatusButton;
+    @FXML
+    TableView<HealthStatus> healthMonitorTable;
+    @FXML
+    TableColumn<HealthStatus, String> animal_id_col;
+    @FXML
+    TableColumn<HealthStatus, String> healthMonitorNoteCol;
+    @FXML
+    TableColumn<HealthStatus, String> healthMonitorAddedDateCol;
+    @FXML
+    TableColumn<HealthStatus, String> healthMonitorActionsCol;
+
 
     //Pregnancy tab
     @FXML
@@ -42,6 +53,7 @@ public class AnimalMonitorController implements Initializable {
     Button vaccineSearchButton;
     @FXML
     Button newVaccinationButton;
+
     //Routine monitor tab
     @FXML
     private Button RoutineSearchButton;
