@@ -186,8 +186,7 @@ public class EmployeesController implements Initializable {
                                 int id = employees_table.getSelectionModel().getSelectedItem().getId();
                                 Employee employee = getEmployee(id);
                                 displayEmployeeConsole(employee);
-                                openNewWindow("Employee Details", "employee_details");
-                            } catch (IOException e) {
+                            } catch (Exception e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
                             }
@@ -280,19 +279,6 @@ public class EmployeesController implements Initializable {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
         return employee;
-    }
-
-    public void fetchEmployee() {
-        //header_label.setText("Here's the details of " + employee.getFirstName() + " " + employee.getLastName());
-//        first_name_label.setText(employee.getFirstName());
-//        last_name_label.setText(employee.getLastName());
-//        email_label.setText(employee.getEmail());
-//        phone_label.setText(employee.getPhone());
-//        address_label.setText(employee.getAdress());
-//        cin_label.setText(employee.getCin());
-//        salary_label.setText(String.valueOf(employee.getSalary()));
-//        contract_type_label.setText(employee.getContractType());
-//        gender_label.setText(employee.getGender());
     }
 
     public void setEmployee(Employee selectedEmployee) {
