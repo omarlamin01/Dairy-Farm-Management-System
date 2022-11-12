@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Purchase extends Model{
+public class Purchase {
     private int id_purchase;
     private int id_supplier;
     private int id_stock;

@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Employee extends Model {
+public class Employee implements Model {
     private int id;
     private String first_name;
     private String last_name;
@@ -138,5 +138,26 @@ public class Employee extends Model {
 
     public void setCreatedAt(Date created_at) {
         this.created_at = created_at;
+    }
+
+    @Override
+    public boolean save() {
+        
+    }
+
+    @Override
+    public boolean update() {
+
+    }
+
+    @Override
+    public Class read(String id) {
+
+        return null;
+    }
+
+    @Override
+    public boolean delete(String id) {
+
     }
 }

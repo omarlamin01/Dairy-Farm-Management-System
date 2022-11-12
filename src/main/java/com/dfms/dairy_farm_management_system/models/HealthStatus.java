@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class HealthStatus extends Model{
+public class HealthStatus {
     private int id_healthstatus;
     private int id_animal;
     private int id_vaccin;
