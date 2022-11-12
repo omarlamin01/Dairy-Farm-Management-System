@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.models.HealthStatus;
 import com.dfms.dairy_farm_management_system.models.Pregnancy;
+import com.dfms.dairy_farm_management_system.models.Vaccination;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -66,6 +67,18 @@ public class AnimalMonitorController implements Initializable {
     Button vaccineSearchButton;
     @FXML
     Button newVaccinationButton;
+    @FXML
+    TableView<Vaccination> vaccinationTable;
+    @FXML
+    TableColumn<Vaccination, String> vaccineNameCol;
+    @FXML
+    TableColumn<Vaccination, String> vaccineDoseCol;
+    @FXML
+    TableColumn<Vaccination, String> vaccinationNotesCol;
+    @FXML
+    TableColumn<Vaccination, String> vaccinationDateCol;
+    @FXML
+    TableColumn<Vaccination, String> vaccinationActions;
 
     //Routine monitor tab
     @FXML
