@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.models.HealthStatus;
 import com.dfms.dairy_farm_management_system.models.Pregnancy;
+import com.dfms.dairy_farm_management_system.models.Routine;
 import com.dfms.dairy_farm_management_system.models.Vaccination;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,10 +17,6 @@ import javafx.scene.input.*;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
 
 public class AnimalMonitorController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
 
     //Health status tab
     @FXML
@@ -38,7 +35,6 @@ public class AnimalMonitorController implements Initializable {
     TableColumn<HealthStatus, String> healthMonitorAddedDateCol;
     @FXML
     TableColumn<HealthStatus, String> healthMonitorActionsCol;
-
 
     //Pregnancy tab
     @FXML
@@ -82,24 +78,26 @@ public class AnimalMonitorController implements Initializable {
 
     //Routine monitor tab
     @FXML
-    private Button RoutineSearchButton;
+    Button RoutineSearchButton;
     @FXML
-    private Button newRoutineButton;
+    Button newRoutineButton;
     @FXML
-    private TextField routineSearch;
+    TextField routineSearch;
+    @FXML
+    TableView<Routine> routineTable;
+    @FXML
+    TableColumn<Routine, String> routineNameCol;
+    @FXML
+    TableColumn<Routine, String> routineNotesCol;
+    @FXML
+    TableColumn<Routine, String> routineAdditionDateCol;
+    @FXML
+    TableColumn<Routine, String> routineActionsCol;
 
-    //Health status monitor
-    @FXML
-    ComboBox<String> animalStatusId;
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-    @FXML
-    DatePicker monitorDate;
-
-    @FXML
-    ComboBox healthStatus;
-
-    @FXML
-    TextArea healthStatusNotes;
+    }
 
     @FXML
     public void openAddHealthStatus(MouseEvent mouseEvent) throws IOException {
