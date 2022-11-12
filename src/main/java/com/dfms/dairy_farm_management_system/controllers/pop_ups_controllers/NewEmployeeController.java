@@ -141,6 +141,7 @@ public class NewEmployeeController implements Initializable {
 
                 displayAlert("Done", "Employee added successfully", Alert.AlertType.INFORMATION);
 
+                //refresh table
             } catch (SQLException e) {
                 displayAlert("Error", "Error while adding employee", Alert.AlertType.ERROR);
                 e.printStackTrace();
