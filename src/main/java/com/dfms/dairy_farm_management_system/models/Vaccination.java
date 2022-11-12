@@ -1,21 +1,13 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import java.util.Date;
-
-public class Vaccin {
+public class Vaccination {
 
     private int id_vaccin;
 
     private String name;
     private String dose;
     private String note;
-
-    public Vaccin(int id_vaccin, String name, String dose, String note) {
-        this.id_vaccin = id_vaccin;
-        this.name = name;
-        this.dose = dose;
-        this.note = note;
-    }
+    private String date;
 
     public int getId_vaccin() {
         return id_vaccin;
@@ -47,5 +39,13 @@ public class Vaccin {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
