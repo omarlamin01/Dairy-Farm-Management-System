@@ -189,7 +189,8 @@ public class EmployeesController implements Initializable {
 
                         view_details_btn.setOnMouseClicked((MouseEvent event) -> {
                             try {
-                                viewEmployee("View Employee", "view_employee", employees_table.getSelectionModel().getSelectedItem());
+                                int id = employees_table.getSelectionModel().getSelectedItem().getId();
+                                viewEmployee("View Employee", "view_employee", id);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -248,12 +249,12 @@ public class EmployeesController implements Initializable {
         liveSearch(this.search_employee_input, employees_table);
     }
 
-    public void viewEmployee(String title, String view, Employee selectedEmployee) throws IOException {
+    public void viewEmployee(String title, String view, int id) throws IOException {
         view = "popups/details/" + view;
         FXMLLoader loader = new FXMLLoader(Main.class.getResource(view + ".fxml"));
         Parent root = loader.load();
         ViewEmployeeDetails employeeDetails = loader.getController();
-        employeeDetails.setEmployee(selectedEmployee);
+        employeeDetails.setEmployeeId(id);
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.setTitle(title);
