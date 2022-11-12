@@ -60,7 +60,7 @@ public class NewEmployeeController implements Initializable {
     }
 
     public void setContractComboItems() {
-        this.contractCombo.setItems(FXCollections.observableArrayList("CDI", "CDD", "Anapec"));
+        this.contractCombo.setItems(FXCollections.observableArrayList("CDI", "CDD", "CTT"));
     }
 
     public void setRoleComboItems() {
@@ -70,6 +70,7 @@ public class NewEmployeeController implements Initializable {
 
     @FXML
     public void addEmployee(MouseEvent mouseEvent) throws SQLException {
+        this.con = DBConfig.getConnection();
         System.out.println("Employee: { " + "First name: \"" + this.firstNameInput.getText() + "\", " + "Last name: \"" + this.lastNameInput.getText() + "\", " + "Email: \"" + this.emailInput.getText() + "\", " + "Phone: \"" + this.phoneNumberInput.getText() + "\", " + "Adress: \"" + this.adressInput.getText() + "\", " + "CIN: \"" + this.cininput.getText() + "\", " + "Salary: \"" + this.salaryInput.getText() + "\", " + "Hire date: \"" + this.hireDate.getValue() + "\", " + "Contract type: \"" + this.contractCombo.getValue() + "\", " + "Gender: \"" + this.genderCombo.getValue() + "\", " + "Role: \"" + this.roleCombo.getValue() + "\"" + " }");
 
         if (inputesAreEmpty()) {
@@ -152,13 +153,10 @@ public class NewEmployeeController implements Initializable {
                 displayAlert("Error", "Error while adding employee", Alert.AlertType.ERROR);
                 e.printStackTrace();
             }
-            closeWindow((Button) mouseEvent.getSource());
-            //refresh table
-            EmployeesController employeesController = new EmployeesController();
-            employeesController.refreshTable();
         } finally {
             this.pst.close();
             this.con.close();
+            closeWindow((Button) mouseEvent.getSource());
         }
     }
 
