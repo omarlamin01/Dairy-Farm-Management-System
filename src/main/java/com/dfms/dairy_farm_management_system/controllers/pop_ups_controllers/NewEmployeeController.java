@@ -1,6 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.controllers.EmployeesController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -140,13 +141,14 @@ public class NewEmployeeController implements Initializable {
                 this.pst.execute();
 
                 displayAlert("Done", "Employee added successfully", Alert.AlertType.INFORMATION);
-
-                //refresh table
             } catch (SQLException e) {
                 displayAlert("Error", "Error while adding employee", Alert.AlertType.ERROR);
                 e.printStackTrace();
             }
             closeWindow((Button) mouseEvent.getSource());
+            //refresh table
+            EmployeesController employeesController = new EmployeesController();
+            employeesController.refreshTable();
         } finally {
             this.pst.close();
             this.con.close();

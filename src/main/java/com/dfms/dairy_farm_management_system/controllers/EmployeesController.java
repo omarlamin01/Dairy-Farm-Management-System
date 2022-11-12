@@ -177,4 +177,11 @@ public class EmployeesController implements Initializable {
     public void openAddEmployee(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add Employee", "add_new_employee");
     }
+
+    public void refreshTable() {
+        if (employees_table.getItems() != null) {
+            employees_table.getItems().clear();
+            displayEmployees();
+        }
+    }
 }
