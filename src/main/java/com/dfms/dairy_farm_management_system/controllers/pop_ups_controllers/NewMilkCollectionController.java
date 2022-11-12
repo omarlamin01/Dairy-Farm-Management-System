@@ -67,7 +67,7 @@ public class NewMilkCollectionController implements Initializable {
 
         String period=period_input.getSelectionModel().getSelectedItem();
         float quantity=Float.parseFloat(milkquantity_input.getText());
-        int cow=Integer.parseInt(cowid.getSelectionModel().getSelectedItem());
+        String cow=cowid.getSelectionModel().getSelectedItem();
         MilkCollection M=new MilkCollection(period,quantity,cow);
         if(quantity==0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -83,7 +83,7 @@ public class NewMilkCollectionController implements Initializable {
 
             st.setString(1, period);
             st.setFloat(2, quantity);
-            st.setInt(3, cow);
+            st.setString(3, cow);
             st.executeUpdate();
             Alert aler = new Alert(Alert.AlertType.INFORMATION);
             aler.setTitle(" add Milk Collection ");

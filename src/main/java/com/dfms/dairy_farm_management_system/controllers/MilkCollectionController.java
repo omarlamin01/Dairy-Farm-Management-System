@@ -84,7 +84,7 @@ MilkCollection mc;
         rs = st.executeQuery();
         while (rs.next()) {
             MilkCollection milkCollection = new MilkCollection();
-            milkCollection.setCow_id(rs.getInt("cow_id"));
+            milkCollection.setCow_id(rs.getString("cow_id"));
             milkCollection.setQuantity(rs.getFloat("quantity"));
             milkCollection.setPeriod(rs.getString("period"));
             milkCollection.setCollection_date(rs.getDate("created_at"));
@@ -103,7 +103,7 @@ MilkCollection mc;
         rs= st.executeQuery();
 
         while (rs.next()){
-            list.add(new  MilkCollection(rs.getInt("mc.cow_id"), rs.getFloat("quantity"), rs.getString("period"), rs.getDate("mc.created_at")));
+            list.add(new  MilkCollection(rs.getString("mc.cow_id"), rs.getFloat("quantity"), rs.getString("period"), rs.getDate("mc.created_at")));
 
                     MilkCollectionTable.setItems(list);
 
@@ -187,7 +187,7 @@ MilkCollection mc;
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
                             mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
-                            String delete_query = "DELETE FROM milk_collection WHERE id  ="+mc.getId();
+                            String delete_query = "DELETE FROM milk_collection WHERE id="+mc.getId()+"";
                             Connection connection = DBConfig.getConnection();
                             try {
                                 st = connection.prepareStatement(delete_query);
@@ -293,7 +293,7 @@ MilkCollection mc;
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
                             mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
-                            String delete_query = "DELETE FROM milk_collection WHERE id ="+mc.getId();
+                            String delete_query = "DELETE FROM milk_collection WHERE id="+mc.getId()+"";
                             Connection connection = DBConfig.getConnection();
                             try {
                                 st = connection.prepareStatement(delete_query);
