@@ -5,6 +5,8 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class User extends Employee {
@@ -79,7 +81,28 @@ public class User extends Employee {
 
     @Override
     public boolean update() {
-        return super.update();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        String updateQuery = "UPDATE `user` SET `password` = '" + password +
+                "', `updated_at` = '" + dtf.format(now) +
+                "', `first_name` = '" + super.getFirstName() +
+                "', `last_name` = '" + super.getLastName() +
+                "', `gender` = '" + (super.getGender().equalsIgnoreCase("Male") ? 'M' : 'F') +
+                "', `cin` = '" + super.getCin() +
+                "', `phone` = '" + super.getPhone() +
+                "', `salary` = '" + super.getSalary() +
+                "', `email` = '" + super.getEmail() +
+                "', `address` = '" + super.getAdress() +
+                "' WHERE `user`.`id` = " + this.id_user;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+            return (preparedStatement.executeUpdate() != 0) && super.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
