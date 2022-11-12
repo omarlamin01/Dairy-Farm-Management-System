@@ -107,6 +107,14 @@ public class User extends Employee {
 
     @Override
     public boolean delete() {
-        return super.delete();
+        String deleteQuery = "DELETE FROM `user` WHERE `user`.`id` = " + this.id_user;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            return (preparedStatement.executeUpdate() != 0) && super.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
