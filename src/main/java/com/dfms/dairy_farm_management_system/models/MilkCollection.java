@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class MilkCollection extends Model{
+public class MilkCollection {
     private int id;
     private int cow_id;
     private float quantity;

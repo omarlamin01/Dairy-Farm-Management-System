@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Pregnancy extends Model {
+public class Pregnancy {
     private int id_pregnancy;
     private int id_cow;
     private Date start_date;

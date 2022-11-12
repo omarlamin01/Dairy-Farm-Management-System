@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class RoutineDetails extends Model {
+public class RoutineDetails {
     private  int id_routinedetail;
     private int id_routine;
     private int id_stock;

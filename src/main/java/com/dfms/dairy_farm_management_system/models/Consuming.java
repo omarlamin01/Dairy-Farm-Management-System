@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Consuming  extends Model{
+public class Consuming {
 
     private int id_consuming;
 

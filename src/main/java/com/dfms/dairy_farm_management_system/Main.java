@@ -1,6 +1,7 @@
 package com.dfms.dairy_farm_management_system;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.Date;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
 
@@ -28,6 +30,19 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+//        launch();
+        Employee employee = new Employee();
+        employee.setId(2);
+        employee.setFirstName("updated");
+        employee.setLastName("name");
+        employee.setCin("jt1234");
+        employee.setEmail("omar.lamine@edu.uiz.ac.ma");
+        employee.setGender("Male");
+        employee.setPhone("06661234");
+        employee.setAdress("Morocco");
+        employee.setSalary(4500);
+        employee.setRecruitmentDate(new Date());
+        employee.setContractType("CDD");
+        System.out.println(employee.update());
     }
 }
