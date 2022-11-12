@@ -59,10 +59,12 @@ public class EmployeeDetailsController implements Initializable {
     @FXML
     private Label salary;
 
-    private static Employee employee = new Employee();
+    public static int employee_id;
+    public static Employee employee;
 
 
     public void fetchEmployee() {
+        employee = getEmployee(EmployeeDetailsController.employee_id);
         //header_label.setText("Here's the details of " + employee.getFirstName() + " " + employee.getLastName());
         first_name.setText(employee.getFirstName());
         last_name.setText(employee.getLastName());
@@ -74,10 +76,6 @@ public class EmployeeDetailsController implements Initializable {
         contract_type.setText(employee.getContractType());
         recruitment_date.setText(String.valueOf(employee.getRecruitmentDate()));
         gender.setText(employee.getGender());
-    }
-
-    public void setEmployee(int id) {
-        EmployeeDetailsController.employee = getEmployee(id);
     }
 
     public Employee getEmployee(int id) {
@@ -103,5 +101,9 @@ public class EmployeeDetailsController implements Initializable {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
         return employee;
+    }
+
+    public void setEmployeeId(int id) {
+        EmployeeDetailsController.employee_id = id;
     }
 }

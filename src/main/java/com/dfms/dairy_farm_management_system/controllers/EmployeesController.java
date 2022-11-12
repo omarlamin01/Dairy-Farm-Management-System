@@ -194,7 +194,8 @@ public class EmployeesController implements Initializable {
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 EmployeeDetailsController controller = fxmlLoader.getController();
-                                controller.setEmployee(id);
+                                System.out.println("id: " + id);
+                                controller.setEmployeeId(id);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
