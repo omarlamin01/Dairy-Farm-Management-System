@@ -250,7 +250,7 @@ public class EmployeesController implements Initializable {
     }
 
     public void viewEmployee(String title, String view, Employee selectedEmployee) throws IOException {
-        String path = "popups" + view + ".fxml";
+        String path = "popups/" + view + ".fxml";
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(path));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();

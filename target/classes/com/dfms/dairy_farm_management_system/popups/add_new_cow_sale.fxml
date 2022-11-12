@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.CowSalesController">
+      <children>
+      <HBox alignment="CENTER_LEFT" spacing="10.0">
+         <children>
+            <Label styleClass="header" text="Add" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+                <Label styleClass="header_green" text="Cow Sales" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+         </children>
+      </HBox>
+          <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
+              <children>
+                  <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
+                  <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
+              </children>
+              <VBox.margin>
+                  <Insets bottom="10.0" />
+              </VBox.margin>
+          </Pane>
+          <Label styleClass="sub_header" text="Add new cow sales operation" textAlignment="CENTER">
+              <font>
+                  <Font size="18.0" />
+              </font>
+              <padding>
+                  <Insets bottom="10.0" />
+              </padding>
+          </Label>
+      <GridPane prefWidth="660.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+         <children>
+            <DatePicker fx:id="operationDate" maxWidth="1.7976931348623157E308" promptText="Operation date" GridPane.rowIndex="2">
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="date_input" />
+               </styleClass>
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
+            </DatePicker>
+            <TextField fx:id="priceOfSale" promptText="Price of sale" stylesheets="@../../../../style/style.css" GridPane.rowIndex="5">
+               <styleClass>
+                  <String fx:value="input" />
+                  <String fx:value="money_input" />
+               </styleClass>
+               <GridPane.margin>
+                  <Insets bottom="10.0" left="8.0" />
+               </GridPane.margin>
+            </TextField>
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addCowSale" styleClass="btn" text="Add" GridPane.rowIndex="7" />
+            <ComboBox fx:id="clientsCombo" maxWidth="1.7976931348623157E308" promptText="Client" GridPane.rowIndex="1">
+               <styleClass>
+                  <String fx:value="combo_box" />
+                  <String fx:value="name_input" />
+               </styleClass>
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
+            </ComboBox>
+            <ComboBox fx:id="animalsCombo" maxWidth="1.7976931348623157E308" promptText="Animal ID" GridPane.rowIndex="4">
+               <styleClass>
+                  <String fx:value="combo_box" />
+                  <String fx:value="cow_input" />
+               </styleClass>
+               <GridPane.margin>
+                  <Insets bottom="10.0" />
+               </GridPane.margin>
+            </ComboBox>
+         </children>
+      </GridPane>
+      </children>
+   <stylesheets>
+      <URL value="@../../../../style/style.css" />
+      <URL value="@../../../../style/date_picker.css" />
+   </stylesheets>
+  </VBox>
