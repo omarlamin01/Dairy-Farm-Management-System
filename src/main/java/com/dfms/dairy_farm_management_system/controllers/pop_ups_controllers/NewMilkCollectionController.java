@@ -15,7 +15,6 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
-import static jdk.internal.net.http.common.Utils.close;
 
 public class NewMilkCollectionController implements Initializable {
     @FXML
