@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.ViewEmployeeDetails;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -186,7 +189,7 @@ public class EmployeesController implements Initializable {
 
                         view_details_btn.setOnMouseClicked((MouseEvent event) -> {
                             try {
-                                viewEmployee("View Employee", "view_employee");
+                                viewEmployee("View Employee", "view_employee", employees_table.getSelectionModel().getSelectedItem());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -245,8 +248,16 @@ public class EmployeesController implements Initializable {
         liveSearch(this.search_employee_input, employees_table);
     }
 
-    public void viewEmployee(String title, String view) throws IOException {
-        view = "details/" + view;
-        openNewWindow(title, view);
+    public void viewEmployee(String title, String view, Employee selectedEmployee) throws IOException {
+        view = "popups/details/" + view;
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource(view));
+        Parent root = loader.load();
+        ViewEmployeeDetails employeeDetails = loader.getController();
+        employeeDetails.setEmployee(selectedEmployee);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle(title);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
 }
