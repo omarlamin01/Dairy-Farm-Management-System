@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
@@ -162,7 +163,17 @@ public class EmployeesController implements Initializable {
                         setGraphic(managebtn);
                         setText(null);
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            displayAlert("Delete", "Are you sure you want to delete this employee?", Alert.AlertType.CONFIRMATION);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete Employee");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Are you sure you want to delete this employee?");
+                            Optional<ButtonType> action = alert.showAndWait();
+                            if (action.get() == ButtonType.OK) {
+                                //get selected item of clicked button
+                                Employee employee = getTableView().getItems().get(getIndex());
+                                deleteEmployee(employee.getId());
+                                displayEmployees();
+                            }
                         });
                     }
                 }
@@ -171,6 +182,17 @@ public class EmployeesController implements Initializable {
         };
         actions_col.setCellFactory(cellFoctory);
         employees_table.setItems(employees);
+    }
+
+    private void deleteEmployee(int id) {
+        String query = "DELETE FROM employee WHERE id = " + id;
+        try {
+            st = con.createStatement();
+            st.executeUpdate(query);
+            displayAlert("Success", "Employee deleted successfully", Alert.AlertType.INFORMATION);
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     //add new employee
