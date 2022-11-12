@@ -1,17 +1,22 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -182,14 +187,28 @@ public class EmployeesController implements Initializable {
                         });
 
                         view_details_btn.setOnMouseClicked((MouseEvent event) -> {
+                            int id = employees_table.getSelectionModel().getSelectedItem().getId();
+                            Employee employee = getEmployee(id);
+                            displayEmployeeConsole(employee);
+
+                            String url = "popups/employee_details.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
+                            Scene scene = null;
                             try {
-                                int id = employees_table.getSelectionModel().getSelectedItem().getId();
-                                Employee employee = getEmployee(id);
-                                displayEmployeeConsole(employee);
-                            } catch (Exception e) {
+                                scene = new Scene(fxmlLoader.load());
+                                EmployeeDetailsController controller = fxmlLoader.getController();
+                                controller.setEmployee(employee);
+                            } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
                             }
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Employee Details");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
                     }
                 }
