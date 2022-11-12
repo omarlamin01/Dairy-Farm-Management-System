@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Vaccin extends Model{
+public class Vaccin {
 
     private int id_vaccin;
 

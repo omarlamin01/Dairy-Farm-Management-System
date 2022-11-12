@@ -3,7 +3,6 @@ package com.dfms.dairy_farm_management_system.controllers;
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.connection.Session;
-import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -72,7 +71,7 @@ public class LoginController implements Initializable {
                 user.setSalary(rs.getFloat("salary"));
                 user.setGender(rs.getString("gender"));
                 user.setPhone(rs.getString("phone"));
-                user.setAddress(rs.getString("address"));
+                user.setAdress(rs.getString("address"));
                 user.setCin(rs.getString("cin"));
                 user.setCreatedAt(rs.getDate("created_at"));
                 user.setUpdatedAt(rs.getDate("updated_at"));
