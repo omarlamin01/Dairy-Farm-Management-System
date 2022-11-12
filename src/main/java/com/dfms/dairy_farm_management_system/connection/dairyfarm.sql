@@ -55,7 +55,7 @@ INSERT INTO `animal` (`id`, `birth_date`, `purchase_date`, `routine_id`, `race_i
 CREATE TABLE `animal_sale` (
   `id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
-  `animal_id` int(11) DEFAULT NULL,
+  `animal_id` varchar(30) DEFAULT NULL,
   `price` float NOT NULL,
   `sale_date` date DEFAULT NULL,
   `created_at` date NOT NULL DEFAULT current_timestamp(),
@@ -122,7 +122,7 @@ CREATE TABLE `employee` (
 
 CREATE TABLE `health_status` (
   `id` int(11) NOT NULL,
-  `animal_id` int(11) DEFAULT NULL,
+  `animal_id` varchar(30) DEFAULT NULL,
   `vaccine_id` int(11) NOT NULL,
   `weight` float DEFAULT NULL,
   `breading` float DEFAULT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE `health_status` (
 
 CREATE TABLE `milk_collection` (
   `id` int(11) NOT NULL,
-  `cow_id` int(11) NOT NULL,
+  `cow_id` varchar(30) NOT NULL,
   `quantity` float NOT NULL,
   `period` enum('morning','evening') NOT NULL,
   `created_at` date NOT NULL DEFAULT current_timestamp(),
@@ -171,7 +171,7 @@ CREATE TABLE `milk_sale` (
 
 CREATE TABLE `pregnancy` (
   `id` int(11) NOT NULL,
-  `cow_id` int(11) DEFAULT NULL,
+  `cow_id` varchar(30) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `delivery_date` date DEFAULT NULL,
   `pregnancy_type` enum('Natural Service','By Collecting Semen') DEFAULT NULL,

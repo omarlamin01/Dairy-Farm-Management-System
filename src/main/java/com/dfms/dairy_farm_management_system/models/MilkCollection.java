@@ -4,18 +4,18 @@ import java.util.Date;
 
 public class MilkCollection {
     private int id;
-    private int cow_id;
+    private String cow_id;
     private float quantity;
     private String period;
     private Date collection_date;
 
-    public MilkCollection( int cow_id,float quantity,String period ,Date d) {
+    public MilkCollection( String cow_id,float quantity,String period ,Date d) {
         this.cow_id = cow_id;
         this.quantity = quantity;
         this.period = period;
         this.collection_date=d;
     }
-    public MilkCollection(String period ,float quantity, int cow_id) {
+    public MilkCollection(String period ,float quantity, String cow_id) {
         this.cow_id = cow_id;
         this.quantity = quantity;
         this.period = period;
@@ -33,7 +33,7 @@ public class MilkCollection {
 
     }
 
-    public MilkCollection(int id, int id_cow, float quantity, Date collection_date) {
+    public MilkCollection(int id, String id_cow, float quantity, Date collection_date) {
         this.id = id;
         this.cow_id = id_cow;
         this.quantity = quantity;
@@ -43,7 +43,7 @@ public class MilkCollection {
         this.id = id;
     }
 
-    public void setCow_id(int id_cow) {
+    public void setCow_id(String id_cow) {
         this.cow_id = id_cow;
     }
 
@@ -59,7 +59,7 @@ public class MilkCollection {
         return id;
     }
 
-    public int getCow_id() {
+    public String getCow_id() {
         return cow_id;
     }
 
