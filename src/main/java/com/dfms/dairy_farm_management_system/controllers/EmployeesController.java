@@ -1,22 +1,17 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
-import com.dfms.dairy_farm_management_system.Main;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.ViewEmployeeController;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -43,6 +38,7 @@ public class EmployeesController implements Initializable {
     private Statement st;
     private PreparedStatement pst;
     private Connection con = getConnection();
+
     @FXML
     private TableView<Employee> employees_table;
     @FXML
@@ -284,5 +280,21 @@ public class EmployeesController implements Initializable {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
         return employee;
+    }
+
+    public void fetchEmployee() {
+        //header_label.setText("Here's the details of " + employee.getFirstName() + " " + employee.getLastName());
+//        first_name_label.setText(employee.getFirstName());
+//        last_name_label.setText(employee.getLastName());
+//        email_label.setText(employee.getEmail());
+//        phone_label.setText(employee.getPhone());
+//        address_label.setText(employee.getAdress());
+//        cin_label.setText(employee.getCin());
+//        salary_label.setText(String.valueOf(employee.getSalary()));
+//        contract_type_label.setText(employee.getContractType());
+//        gender_label.setText(employee.getGender());
+    }
+
+    public void setEmployee(Employee selectedEmployee) {
     }
 }

@@ -17,7 +17,7 @@
 
 <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/18"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.ViewEmployeeController">
+      fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController">
     <children>
         <HBox alignment="CENTER_LEFT" spacing="10.0">
             <children>
