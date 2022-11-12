@@ -23,13 +23,12 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
 
 public class MilkCollectionController implements Initializable {
@@ -97,17 +96,11 @@ MilkCollection mc;
     }
     public void refreshTableMilkCollection() throws SQLException {
 
-        list.clear();
-        Connection connection = DBConfig.getConnection();
-        String query_refresh = "SELECT  mc.cow_id, quantity ,period,mc.created_at  from  milk_collection mc ,animal a where mc.cow_id= a.id and a.type='cow' ";
-        st = connection.prepareStatement(query_refresh);
-        rs= st.executeQuery();
-
-        while (rs.next()){
-            list.add(new  MilkCollection(rs.getString("mc.cow_id"), rs.getFloat("quantity"), rs.getString("period"), rs.getDate("mc.created_at")));
-
-                    MilkCollectionTable.setItems(list);
-
+        MilkCollectionTable.getItems().clear();
+        try {
+            afficher();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
 
     }
@@ -187,22 +180,27 @@ MilkCollection mc;
 
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
-                            mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
-                            String delete_query = "DELETE FROM milk_collection WHERE id="+mc.getId()+"";
-                            Connection connection = DBConfig.getConnection();
-                            try {
-                                st = connection.prepareStatement(delete_query);
-                                st.execute();
-                                refreshTableMilkCollection();
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete MilkCollection");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Are you sure you want to delete this row?");
+                            Optional<ButtonType> action = alert.showAndWait();
+                            if (action.get() == ButtonType.OK) {
+                                //get selected item of clicked button
+                                MilkCollection mc = getTableView().getItems().get(getIndex());
+                                deleteMilkCollection(mc.getId());
+                                try {
+                                    afficher();
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
+                                } catch (ClassNotFoundException e) {
+                                    throw new RuntimeException(e);
+                                }
+
                             }
-
-
                         });
 
-                    }
-                }
+                        }}
 
 
 
@@ -217,133 +215,10 @@ MilkCollection mc;
 
     }
 
-    void search_milkcollection() throws SQLException, ClassNotFoundException {
-        ObservableList<MilkCollection> list = getMilkCollection();
-        id_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, String>("cow_id"));
-        milk_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, Float>("quantity"));
-        period_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, String>("period"));
-        date_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, Date>("collection_date"));
-
-
-        Callback<TableColumn<MilkCollection, String>, TableCell<MilkCollection, String>> cellFoctory = (TableColumn<MilkCollection, String> param) -> {
-            // make cell containing buttons
-            final TableCell<MilkCollection, String> cell = new TableCell<MilkCollection, String>() {
-
-                Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                final Button btnEdit = new Button();
-                Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                final Button btnDelete = new Button();
-                Image imgViewDetail = new Image(getClass().getResourceAsStream("/images/eye.png"));
-                final Button btnViewDetail = new Button();
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    //that cell created only on non-empty rows
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-
-                    } else {
-                        btnViewDetail.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv1 = new ImageView();
-                        iv1.setImage(imgViewDetail);
-                        iv1.setPreserveRatio(true);
-                        iv1.setSmooth(true);
-                        iv1.setCache(true);
-                        btnViewDetail.setGraphic(iv1);
-
-                        setGraphic(btnViewDetail);
-                        setText(null);
-
-
-                        btnEdit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(imgEdit);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        btnEdit.setGraphic(iv);
-
-                        setGraphic(btnEdit);
-                        setText(null);
-
-                        btnDelete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv2 = new ImageView();
-
-                        iv2.setImage(imgDelete);
-                        iv2.setPreserveRatio(true);
-                        iv2.setSmooth(true);
-                        iv2.setCache(true);
-                        btnDelete.setGraphic(iv2);
-
-
-                        setGraphic(btnDelete);
-
-                        setText(null);
-
-                        HBox managebtn = new HBox(btnEdit, btnDelete,btnViewDetail);
-                        managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(btnEdit, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(btnDelete, new Insets(1, 1, 0, 2));
-                        HBox.setMargin(btnViewDetail, new Insets(1, 1, 0, 1));
-
-                        setGraphic(managebtn);
-
-                        setText(null);
-
-
-                        btnDelete.setOnMouseClicked((MouseEvent event) -> {
-                            mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
-                            String delete_query = "DELETE FROM milk_collection WHERE id="+mc.getId()+"";
-                            Connection connection = DBConfig.getConnection();
-                            try {
-                                st = connection.prepareStatement(delete_query);
-                                st.execute();
-                                refreshTableMilkCollection();
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            }
-
-
-                        });
-
-
-                    }
-                }
 
 
 
-
-
-            };
-            return cell;
-        };
-
-        actions_col.setCellFactory(cellFoctory);
-        MilkCollectionTable.setItems(list);
-
-
-        FilteredList<MilkCollection> filteredData =new FilteredList<>(list, b->true);
-        search_input.textProperty().addListener((observable,oldValue,newValue)->{
-            filteredData.setPredicate(MilkCollection->{
-                if(newValue==null|| newValue.isEmpty()) {
-                    return true;
-                }
-                String lowerCaseFilter =newValue.toLowerCase();
-                if( String.valueOf(MilkCollection.getCow_id()).toLowerCase().contains(lowerCaseFilter)){
-                    return true;
-                }
-                if(MilkCollection.getPeriod().toLowerCase().indexOf(lowerCaseFilter) !=-1) {
-                    return true;
-                }
-                 return false;
-                });
-        });
-        SortedList<MilkCollection> sorteddata=new SortedList<>(filteredData);
-        //SortedList.comparatorProperty().bind(table.comparatorProperty());
-        sorteddata.comparatorProperty().bind(MilkCollectionTable.comparatorProperty());
-        MilkCollectionTable.setItems(sorteddata);}
-    public void liveSearch(TextField search_input, TableView table) {
+        public void liveSearch(TextField search_input, TableView table) {
         search_input.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
                 try {
@@ -374,4 +249,19 @@ MilkCollection mc;
 
     @FXML
     void openAddNewMilkCollection(MouseEvent event) throws IOException {
-        openNewWindow("Add Milk Collection", "add_new_milk_collection");}}
+        openNewWindow("Add Milk Collection", "add_new_milk_collection");}
+    private Connection con = DBConfig.getConnection();
+    private Statement stt;
+    private void deleteMilkCollection(int id) {
+        String query = "DELETE FROM milk_collection WHERE id = " + id;
+        try {
+
+            stt = con.createStatement();
+            stt.executeUpdate(query);
+
+            displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+    }
