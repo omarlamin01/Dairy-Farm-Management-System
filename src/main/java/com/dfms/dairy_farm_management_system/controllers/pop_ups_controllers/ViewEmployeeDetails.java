@@ -57,7 +57,7 @@ public class ViewEmployeeDetails implements Initializable {
     @FXML
     private Label salary_label;
 
-    private Employee employee = new Employee();
+    private Employee employee;
 
     public void getEmployee() {
         //header_label.setText("Here's the details of " + employee.getFirstName() + " " + employee.getLastName());
@@ -73,7 +73,7 @@ public class ViewEmployeeDetails implements Initializable {
     }
 
     public void setEmployee(Employee selectedEmployee) {
-        this.employee = selectedEmployee;
+        employee = selectedEmployee;
     }
 
     public void initializeLabels() {
