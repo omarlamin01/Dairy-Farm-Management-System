@@ -1,5 +1,10 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class User extends Employee {
@@ -43,8 +48,33 @@ public class User extends Employee {
 
     @Override
     public boolean save() {
-        return super.save();
-        
+        String insertQuery = "INSERT INTO `user` (`role_id`, `employee_id`, `password`, `first_name`, `last_name`, `gender`, `cin`, `phone`, `salary`, `email`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setString(1, String.valueOf(roleId));
+            preparedStatement.setString(2, String.valueOf(super.getId()));
+            preparedStatement.setString(3, password);
+            preparedStatement.setString(4, super.getFirstName());
+            preparedStatement.setString(5, super.getLastName());
+
+            if (super.getGender().equalsIgnoreCase("Male")) {
+                preparedStatement.setString(6, "M");
+            } else {
+                preparedStatement.setString(6, "F");
+            }
+            preparedStatement.setString(7, super.getCin());
+            preparedStatement.setString(8, super.getPhone());
+            preparedStatement.setString(9, String.valueOf(super.getSalary()));
+            preparedStatement.setString(10, super.getEmail());
+            preparedStatement.setString(11, super.getAdress());
+
+            return (preparedStatement.executeUpdate() != 0) && super.save();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
