@@ -1,18 +1,22 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -24,12 +28,12 @@ import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class EmployeesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         export_cb.setItems(list);
         displayEmployees();
         liveSearch(search_employee_input, employees_table);
@@ -68,7 +72,6 @@ public class EmployeesController implements Initializable {
 
     @FXML
     private Button openAddNewEmployeeBtn;
-    ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
 
     //get all the employees
     public ObservableList<Employee> getEmployees() {
@@ -183,7 +186,7 @@ public class EmployeesController implements Initializable {
 
                         view_details_btn.setOnMouseClicked((MouseEvent event) -> {
                             try {
-                                viewEmployee();
+                                viewEmployee("View Employee", "view_employee_details");
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -242,7 +245,17 @@ public class EmployeesController implements Initializable {
         liveSearch(this.search_employee_input, employees_table);
     }
 
-    public void viewEmployee() throws IOException {
-        openNewWindow("Employee details", "details/view_employee_details");
+    public void viewEmployee(String title, String view) throws IOException {
+        String url = "popups/details/" + view + ".fxml";
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        // stage.initStyle(StageStyle.TRANSPARENT);
+        stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+        stage.setTitle(title);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        centerScreen(stage);
+        stage.show();
     }
 }
