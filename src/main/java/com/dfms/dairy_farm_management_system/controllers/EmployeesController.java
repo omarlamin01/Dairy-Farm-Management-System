@@ -188,16 +188,13 @@ public class EmployeesController implements Initializable {
 
                         view_details_btn.setOnMouseClicked((MouseEvent event) -> {
                             int id = employees_table.getSelectionModel().getSelectedItem().getId();
-                            Employee employee = getEmployee(id);
-                            displayEmployeeConsole(employee);
-
                             String url = "popups/employee_details.fxml";
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 EmployeeDetailsController controller = fxmlLoader.getController();
-                                controller.setEmployee(employee);
+                                controller.setEmployee(id);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -275,31 +272,28 @@ public class EmployeesController implements Initializable {
         System.out.println("Employee Recrutement Date: " + employee.getRecruitmentDate());
     }
 
-    public Employee getEmployee(int id) {
-        Employee employee = new Employee();
-        String query = "SELECT * FROM employee WHERE id = " + id;
-        con = getConnection();
-        try {
-            st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()) {
-                employee.setId(rs.getInt("id"));
-                employee.setFirstName(rs.getString("first_name"));
-                employee.setLastName(rs.getString("last_name"));
-                employee.setEmail(rs.getString("email"));
-                employee.setPhone(rs.getString("phone"));
-                employee.setAdress(rs.getString("address"));
-                employee.setCin(rs.getString("cin"));
-                employee.setGender(rs.getString("gender"));
-                employee.setRecruitmentDate(rs.getDate("recruitment_date"));
-                employee.setSalary(rs.getFloat("salary"));
-            }
-        } catch (Exception e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-        }
-        return employee;
-    }
-
-    public void setEmployee(Employee selectedEmployee) {
-    }
+//    public Employee getEmployee(int id) {
+//        Employee employee = new Employee();
+//        String query = "SELECT * FROM employee WHERE id = " + id;
+//        con = getConnection();
+//        try {
+//            st = con.createStatement();
+//            ResultSet rs = st.executeQuery(query);
+//            while (rs.next()) {
+//                employee.setId(rs.getInt("id"));
+//                employee.setFirstName(rs.getString("first_name"));
+//                employee.setLastName(rs.getString("last_name"));
+//                employee.setEmail(rs.getString("email"));
+//                employee.setPhone(rs.getString("phone"));
+//                employee.setAdress(rs.getString("address"));
+//                employee.setCin(rs.getString("cin"));
+//                employee.setGender(rs.getString("gender"));
+//                employee.setRecruitmentDate(rs.getDate("recruitment_date"));
+//                employee.setSalary(rs.getFloat("salary"));
+//            }
+//        } catch (Exception e) {
+//            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//        }
+//        return employee;
+//    }
 }
