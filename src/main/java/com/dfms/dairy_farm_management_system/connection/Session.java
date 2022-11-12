@@ -41,6 +41,7 @@ public class Session {
                         rs.getDate("updated_at"),
                         rs.getDate("created_at")
                 );
+                current_user.setId_user(rs.getInt("id"));
             }
         } catch (Exception e) {
             e.printStackTrace();
