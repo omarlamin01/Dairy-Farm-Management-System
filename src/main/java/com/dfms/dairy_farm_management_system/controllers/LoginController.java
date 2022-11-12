@@ -108,7 +108,7 @@ public class LoginController implements Initializable {
                         user.setSalary(rs.getFloat("salary"));
                         user.setGender(rs.getString("gender"));
                         user.setPhone(rs.getString("phone"));
-                        user.setAddress(rs.getString("address"));
+                        user.setAdress(rs.getString("address"));
                         user.setCin(rs.getString("cin"));
                         user.setCreatedAt(rs.getDate("created_at"));
                         user.setUpdatedAt(rs.getDate("updated_at"));
