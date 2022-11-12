@@ -200,4 +200,9 @@ public class EmployeesController implements Initializable {
             }
         });
     }
+
+    @FXML
+    void searchEmployee(MouseEvent event) {
+        liveSearch(this.search_employee_input, employees_table);
+    }
 }

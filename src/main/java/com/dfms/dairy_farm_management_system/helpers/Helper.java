@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.helpers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
