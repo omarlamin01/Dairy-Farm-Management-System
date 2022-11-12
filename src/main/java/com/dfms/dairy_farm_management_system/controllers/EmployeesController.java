@@ -163,16 +163,19 @@ public class EmployeesController implements Initializable {
                         setGraphic(managebtn);
                         setText(null);
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("Delete Employee");
-                            alert.setHeaderText(null);
-                            alert.setContentText("Are you sure you want to delete this employee?");
-                            Optional<ButtonType> action = alert.showAndWait();
-                            if (action.get() == ButtonType.OK) {
-                                //get selected item of clicked button
-                                Employee employee = getTableView().getItems().get(getIndex());
-                                deleteEmployee(employee.getId());
-                                displayEmployees();
+                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
+                            if (employee != null) {
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                alert.setTitle("Confirmation");
+                                alert.setHeaderText("Are you sure you want to delete this employee?");
+                                alert.setContentText("Click ok to confirm");
+                                Optional<ButtonType> action = alert.showAndWait();
+                                if (action.get() == ButtonType.OK) {
+                                    deleteEmployee(employee.getId());
+                                    displayEmployees();
+                                }
+                            }else {
+                                displayAlert("Error", "Please select an employee to delete", Alert.AlertType.ERROR);
                             }
                         });
                     }
