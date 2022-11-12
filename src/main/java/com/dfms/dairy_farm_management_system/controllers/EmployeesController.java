@@ -179,7 +179,7 @@ public class EmployeesController implements Initializable {
     }
 
     public void refreshTable() {
-        if (employees_table.getItems() != null) {
+        if (employees_table != null) {
             employees_table.getItems().clear();
             displayEmployees();
         }
