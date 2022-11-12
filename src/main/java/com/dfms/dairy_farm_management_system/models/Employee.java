@@ -155,7 +155,7 @@ public class Employee implements Model {
             preparedStatement.setString(1, first_name);
             preparedStatement.setString(2, last_name);
 
-            if (gender.equals("Male")) {
+            if (gender.equalsIgnoreCase("Male")) {
                 preparedStatement.setString(3, "M");
             } else {
                 preparedStatement.setString(3, "F");
@@ -165,10 +165,10 @@ public class Employee implements Model {
             preparedStatement.setString(6, phone);
             preparedStatement.setString(7, adress);
             preparedStatement.setString(8, String.valueOf(salary));
-            preparedStatement.setString(9, String.valueOf(recruitment_date));
+            preparedStatement.setString(9, "2022-11-12");
             preparedStatement.setString(10, contract_type);
 
-            return preparedStatement.execute();
+            return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -182,20 +182,20 @@ public class Employee implements Model {
 
         String updateQuery = "UPDATE `employee` SET `first_name` = '" + first_name +
                 "', `last_name` = '" + last_name +
-                "', `gender` = '" + (gender.equals("Male") ? 'M' : 'F') +
+                "', `gender` = '" + (gender.equalsIgnoreCase("Male") ? 'M' : 'F') +
                 "', `cin` = '" + cin +
                 "', `email` = '" + email +
                 "', `phone` = '" + phone +
                 "', `address` = '" + adress +
                 "', `salary` = '" + salary +
-                "', `recruitment_date` = '" + recruitment_date +
+                "', `recruitment_date` = '" + "2022-11-12" +
                 "', `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) +"' " +
                 "WHERE `employee`.`id` = " + this.id;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
-            return preparedStatement.execute();
+            return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -204,22 +204,11 @@ public class Employee implements Model {
 
     @Override
     public boolean delete() {
-        String updateQuery = "UPDATE `employee` SET `first_name` = '" + first_name +
-                "', `last_name` = '" + last_name +
-                "', `gender` = '" + (gender.equals("Male") ? 'M' : 'F') +
-                "', `cin` = '" + cin +
-                "', `email` = '" + email +
-                "', `phone` = '" + phone +
-                "', `address` = '" + adress +
-                "', `salary` = '" + salary +
-                "', `recruitment_date` = '" + recruitment_date +
-                "', `contract_type` = '" + contract_type +
-                "', `updated_at` = '" + dtf.format(now) +"' " +
-                "WHERE `employee`.`id` = " + this.id;
+        String deleteQuery = "DELETE FROM `employee` WHERE `employee`.`id` = " + this.id;
         try {
             Connection connection = DBConfig.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
-            return preparedStatement.execute();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
