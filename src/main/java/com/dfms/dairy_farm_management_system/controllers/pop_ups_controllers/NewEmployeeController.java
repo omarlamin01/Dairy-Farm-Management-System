@@ -177,8 +177,18 @@ public class NewEmployeeController implements Initializable {
 
     //check if all inputs are filled
     public boolean inputesAreEmpty() {
-        if (this.firstNameInput.getText().isEmpty() || this.lastNameInput.getText().isEmpty() || this.emailInput.getText().isEmpty() || this.phoneNumberInput.getText().isEmpty() || this.adressInput.getText().isEmpty() || this.cininput.getText().isEmpty() || this.salaryInput.getText().isEmpty() || this.hireDate.getValue() == null || this.contractCombo.getValue() == null || this.genderCombo.getValue() == null || this.roleCombo.getValue() == null)
+        if (this.firstNameInput.getText().isEmpty()
+                || this.lastNameInput.getText().isEmpty()
+                || this.emailInput.getText().isEmpty()
+                || this.phoneNumberInput.getText().isEmpty()
+                || this.adressInput.getText().isEmpty()
+                || this.cininput.getText().isEmpty()
+                || this.salaryInput.getText().isEmpty()
+                || this.hireDate.getValue() == null
+                || this.contractCombo.getValue() == null
+                || this.genderCombo.getValue() == null
+                || this.roleCombo.getValue() == null)
             return true;
-        return true;
+        return false;
     }
 }
