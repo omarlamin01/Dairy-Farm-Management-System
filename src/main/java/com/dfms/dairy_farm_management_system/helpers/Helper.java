@@ -132,6 +132,21 @@ public class Helper {
         comboBox.setTooltip(new Tooltip(error));
     }
 
+    public static void removeErrorOnInput(TextField textField) {
+        textField.getStyleClass().remove("error");
+        textField.setTooltip(null);
+    }
+
+    public static void removeErrorOnInput(DatePicker datePicker) {
+        datePicker.getStyleClass().remove("error");
+        datePicker.setTooltip(null);
+    }
+
+    public static void removeErrorOnInput(ComboBox comboBox) {
+        comboBox.getStyleClass().remove("error");
+        comboBox.setTooltip(null);
+    }
+
     //validate email input
     public static void validateEmailInput(TextField textField) {
         // email should be a valid email otherwise error

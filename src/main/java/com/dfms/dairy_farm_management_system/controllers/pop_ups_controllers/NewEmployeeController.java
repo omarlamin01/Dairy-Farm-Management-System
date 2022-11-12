@@ -73,19 +73,10 @@ public class NewEmployeeController implements Initializable {
         System.out.println("Employee: { " + "First name: \"" + this.firstNameInput.getText() + "\", " + "Last name: \"" + this.lastNameInput.getText() + "\", " + "Email: \"" + this.emailInput.getText() + "\", " + "Phone: \"" + this.phoneNumberInput.getText() + "\", " + "Adress: \"" + this.adressInput.getText() + "\", " + "CIN: \"" + this.cininput.getText() + "\", " + "Salary: \"" + this.salaryInput.getText() + "\", " + "Hire date: \"" + this.hireDate.getValue() + "\", " + "Contract type: \"" + this.contractCombo.getValue() + "\", " + "Gender: \"" + this.genderCombo.getValue() + "\", " + "Role: \"" + this.roleCombo.getValue() + "\"" + " }");
 
         if (inputesAreEmpty()) {
-            setErrorOnInput(this.firstNameInput, "First name is required");
-            setErrorOnInput(this.lastNameInput, "Last name is required");
-            setErrorOnInput(this.emailInput, "Email is required");
-            setErrorOnInput(this.phoneNumberInput, "Phone number is required");
-            setErrorOnInput(this.adressInput, "Adress is required");
-            setErrorOnInput(this.cininput, "CIN is required");
-            setErrorOnInput(this.salaryInput, "Salary is required");
-            setErrorOnInput(this.hireDate, "Hire date is required");
-            setErrorOnInput(this.roleCombo, "Role is required");
-            setErrorOnInput(this.genderCombo, "Gender is required");
-            setErrorOnInput(this.contractCombo, "Contract type is required");
+            displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
             return;
         }
+
 
         String firstName = this.firstNameInput.getText();
         String lastName = this.lastNameInput.getText();
