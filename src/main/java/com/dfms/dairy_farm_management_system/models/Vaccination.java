@@ -1,6 +1,6 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Vaccination {
+public class Vaccination implements Model {
 
     private int id_vaccin;
 
@@ -47,5 +47,20 @@ public class Vaccination {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean save() {
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
     }
 }
