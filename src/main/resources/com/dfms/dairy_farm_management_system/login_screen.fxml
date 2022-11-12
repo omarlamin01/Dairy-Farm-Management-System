@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="481.0" prefWidth="805.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.LoginController">
+<AnchorPane onKeyPressed="#loginWithEnter" prefHeight="481.0" prefWidth="805.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.LoginController">
     <Pane layoutX="-5.0" prefHeight="481.0" prefWidth="367.0" style="-fx-background-color: #72ED12;">
         <ImageView fitHeight="140.0" fitWidth="140.0" layoutX="114.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../../images/logo.png" />

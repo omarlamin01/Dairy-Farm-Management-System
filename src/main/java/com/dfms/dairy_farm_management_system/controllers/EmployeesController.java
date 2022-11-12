@@ -31,6 +31,7 @@ public class EmployeesController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         export_cb.setItems(list);
         displayEmployees();
+        liveSearch(search_employee_input, employees_table);
     }
 
     private Statement st;
@@ -176,5 +177,32 @@ public class EmployeesController implements Initializable {
 
     public void openAddEmployee(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add Employee", "add_new_employee");
+    }
+
+    public void refreshTable() {
+        employees_table.getItems().clear();
+        displayEmployees();
+    }
+
+    public void liveSearch(TextField search_input, TableView table) {
+        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                refreshTable();
+            } else {
+                ObservableList<Employee> filteredList = FXCollections.observableArrayList();
+                ObservableList<Employee> employees = getEmployees();
+                for (Employee employee : employees) {
+                    if (employee.getFirstName().toLowerCase().contains(newValue.toLowerCase()) || employee.getLastName().toLowerCase().contains(newValue.toLowerCase())) {
+                        filteredList.add(employee);
+                    }
+                }
+                table.setItems(filteredList);
+            }
+        });
+    }
+
+    @FXML
+    void searchEmployee(MouseEvent event) {
+        liveSearch(this.search_employee_input, employees_table);
     }
 }

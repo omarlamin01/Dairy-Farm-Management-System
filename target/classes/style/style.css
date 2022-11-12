@@ -64,6 +64,12 @@
     -fx-background-insets: 0px 0px 0px -8px;
 }
 
+.error {
+    -fx-border-color: red;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
 .email_input {
     -fx-background-image: url("../icons/email.png");
 }
@@ -95,9 +101,11 @@
 .gender_input {
     -fx-background-image: url("../icons/gender.png");
 }
+
 .cin_input {
     -fx-background-image: url("../icons/cin.png");
 }
+
 .box_input {
     -fx-background-image: url("../icons/box.png");
 }
@@ -150,9 +158,11 @@
 .clock_input {
     -fx-background-image: url("../icons/clock.png");
 }
+
 .milk_input {
     -fx-background-image: url("../icons/milk.png");
 }
+
 .nav_bar {
     -fx-background-color: -dark-blue-color;
 }
