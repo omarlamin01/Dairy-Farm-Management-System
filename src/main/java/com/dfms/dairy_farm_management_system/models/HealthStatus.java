@@ -2,40 +2,30 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class HealthStatus {
-    private int id_healthstatus;
-    private int id_animal;
-    private int id_vaccin;
+public class HealthStatus implements Model {
+    private int id;
+    private int animal_id;
+    private int vaccin_id;
     private float weight;
     private float breading;
     private float age;
-    private Date date_control;
+    private Date control_date;
+    private String health_score;
 
-    public int getId_vaccin() {
-        return id_vaccin;
+    public int getVaccin_id() {
+        return vaccin_id;
     }
 
-    public void setId_vaccin(int id_vaccin) {
-        this.id_vaccin = id_vaccin;
+    public void setVaccin_id(int vaccin_id) {
+        this.vaccin_id = vaccin_id;
     }
 
-    public HealthStatus(int id, int id_animal, int id_vaccin, float weight, float breading, float age, Date date_control, String health_score) {
-        this.id_healthstatus = id;
-        this.id_animal = id_animal;
-        this.id_vaccin = id_vaccin;
-        this.weight = weight;
-        this.breading = breading;
-        this.age = age;
-        this.date_control = date_control;
-        this.health_score = health_score;
+    public Date getControl_date() {
+        return control_date;
     }
 
-    public Date getDate_control() {
-        return date_control;
-    }
-
-    public void setDate_control(Date date_control) {
-        this.date_control = date_control;
+    public void setControl_date(Date control_date) {
+        this.control_date = control_date;
     }
 
     public float getAge() {
@@ -46,15 +36,12 @@ public class HealthStatus {
         this.age = age;
     }
 
-
-    private String health_score;
-
     public void setId(int id) {
-        this.id_healthstatus = id;
+        this.id = id;
     }
 
-    public void setId_animal(int id_animal) {
-        this.id_animal = id_animal;
+    public void setAnimal_id(int animal_id) {
+        this.animal_id = animal_id;
     }
 
     public void setWeight(float weight) {
@@ -70,11 +57,11 @@ public class HealthStatus {
     }
 
     public int getId() {
-        return id_healthstatus;
+        return id;
     }
 
-    public int getId_animal() {
-        return id_animal;
+    public int getAnimal_id() {
+        return animal_id;
     }
 
     public float getWeight() {
@@ -90,4 +77,18 @@ public class HealthStatus {
     }
 
 
+    @Override
+    public boolean save() {
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
+    }
 }
