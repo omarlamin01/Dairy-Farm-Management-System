@@ -98,7 +98,7 @@
                     </TableView>
                 </VBox>
             </Tab>
-            <Tab fx:id="pregnancyTable" text="Cow Pregnancy">
+            <Tab text="Cow Pregnancy">
                 <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
                     <Label styleClass="sub_header" text="Manage cows pregnancy here" textAlignment="CENTER">
                         <font>
