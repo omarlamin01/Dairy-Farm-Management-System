@@ -15,8 +15,14 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.HBox;
+import javafx.util.Callback;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
@@ -101,13 +107,13 @@ public class AnimalMonitorController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        displayMonitors();
     }
 
     //get all the HealthStatus
     public ObservableList<HealthStatus> getHealthStatus() {
         ObservableList<HealthStatus> monitors = FXCollections.observableArrayList();
-        String query = "SELECT * FROM employee";
+        String query = "SELECT * FROM `health_status`";
         try {
             Connection connection = DBConfig.getConnection();
             Statement statement = connection.createStatement();
@@ -127,6 +133,86 @@ public class AnimalMonitorController implements Initializable {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
         return monitors;
+    }
+
+    //display all the monitors in the table
+    public void displayMonitors() {
+        ObservableList<HealthStatus> monitors = getHealthStatus();
+        animal_id_col.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
+        healthMonitorNoteCol.setCellValueFactory(new PropertyValueFactory<>("notes"));
+        healthMonitorAddedDateCol.setCellValueFactory(new PropertyValueFactory<>("control_date"));
+        Callback<TableColumn<HealthStatus, String>, TableCell<HealthStatus, String>> cellFoctory = (TableColumn<HealthStatus, String> param) -> {
+            final TableCell<HealthStatus, String> cell = new TableCell<HealthStatus, String>() {
+                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                final Button edit_btn = new Button();
+                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                final Button delete_btn = new Button();
+                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
+                final Button view_details_btn = new Button();
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    //that cell created only on non-empty rows
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        view_details_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        ImageView iv1 = new ImageView();
+                        iv1.setImage(view_details_img);
+                        iv1.setPreserveRatio(true);
+                        iv1.setSmooth(true);
+                        iv1.setCache(true);
+                        view_details_btn.setGraphic(iv1);
+
+                        setGraphic(view_details_btn);
+                        setText(null);
+
+
+                        edit_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        ImageView iv = new ImageView();
+                        iv.setImage(edit_img);
+                        iv.setPreserveRatio(true);
+                        iv.setSmooth(true);
+                        iv.setCache(true);
+                        edit_btn.setGraphic(iv);
+
+                        setGraphic(edit_btn);
+                        setText(null);
+
+                        delete_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        ImageView iv2 = new ImageView();
+
+                        iv2.setImage(delete_img);
+                        iv2.setPreserveRatio(true);
+                        iv2.setSmooth(true);
+                        iv2.setCache(true);
+                        delete_btn.setGraphic(iv2);
+
+
+                        setGraphic(delete_btn);
+
+                        setText(null);
+
+                        HBox managebtn = new HBox(edit_btn, delete_btn, view_details_btn);
+                        managebtn.setStyle("-fx-alignment:center");
+                        HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(delete_btn, new Insets(1, 1, 0, 2));
+                        HBox.setMargin(view_details_btn, new Insets(1, 1, 0, 1));
+
+                        setGraphic(managebtn);
+                        setText(null);
+                        delete_btn.setOnMouseClicked((MouseEvent event) -> {
+                            displayAlert("Delete", "Are you sure you want to delete this monitor?", Alert.AlertType.CONFIRMATION);
+                        });
+                    }
+                }
+            };
+            return cell;
+        };
+        healthMonitorActionsCol.setCellFactory(cellFoctory);
+        healthMonitorTable.setItems(monitors);
     }
 
     @FXML
