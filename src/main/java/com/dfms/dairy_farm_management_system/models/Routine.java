@@ -3,14 +3,22 @@ package com.dfms.dairy_farm_management_system.models;
 import java.util.Date;
 
 public class Routine implements Model {
-    private int id_routine;
+    private int id;
     private String name;
     private String note;
+    private Date date;
 
-    public void setId(int id) {
-        this.id_routine = id;
+    public Date getDate() {
+        return date;
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -20,11 +28,9 @@ public class Routine implements Model {
         this.note = note;
     }
 
-
     public int getId() {
-        return id_routine;
+        return id;
     }
-
 
     public String getName() {
         return name;
@@ -33,7 +39,6 @@ public class Routine implements Model {
     public String getNote() {
         return note;
     }
-
 
     @Override
     public boolean save() {
