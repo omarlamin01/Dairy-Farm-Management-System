@@ -106,6 +106,7 @@ public class AnimalMonitorController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         displayMonitors();
         displayPregnancies();
+        displayVaccinations();
     }
 
     //get all the HealthStatus
@@ -321,7 +322,7 @@ public class AnimalMonitorController implements Initializable {
     //get all the vaccinations
     public ObservableList<Vaccination> getVaccinations() {
         ObservableList<Vaccination> vaccinations = FXCollections.observableArrayList();
-        String query = "SELECT * FROM `vaccination`";
+        String query = "SELECT * FROM `vaccine`";
         try {
             Connection connection = DBConfig.getConnection();
             Statement statement = connection.createStatement();
@@ -329,11 +330,10 @@ public class AnimalMonitorController implements Initializable {
             while (resultSet.next()) {
                 Vaccination vaccination = new Vaccination();
                 vaccination.setId(resultSet.getInt("id"));
-                vaccination.setName(resultSet.getString("cow_id"));
-//                vaccination.setStart_date(resultSet.getDate("start_date"));
-//                vaccination.setEnd_date(resultSet.getDate("delivery_date"));
-//                vaccination.setType(resultSet.getString("pregnancy_type"));
-//                vaccination.setStatus(resultSet.getString("pregnancy_status"));
+                vaccination.setName(resultSet.getString("name"));
+                vaccination.setDose(resultSet.getString("dose"));
+                vaccination.setDate(resultSet.getString("created_at"));
+                vaccination.setNote(resultSet.getString("note"));
                 vaccinations.add(vaccination);
             }
         } catch (Exception e) {
@@ -342,13 +342,13 @@ public class AnimalMonitorController implements Initializable {
         return vaccinations;
     }
 
-    //display all the pregnancies in the table
+    //display all the vaccinations in the table
     public void displayVaccinations() {
         ObservableList<Vaccination> vaccinations = getVaccinations();
-        cow_id_col.setCellValueFactory(new PropertyValueFactory<>("cow_id"));
-        pregnancyStartDateCol.setCellValueFactory(new PropertyValueFactory<>("start_date"));
-        pregnancyEndCol.setCellValueFactory(new PropertyValueFactory<>("end_date"));
-        pregnancyTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        vaccineDoseCol.setCellValueFactory(new PropertyValueFactory<>("dose"));
+        vaccinationNotesCol.setCellValueFactory(new PropertyValueFactory<>("note"));
+        vaccinationDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         Callback<TableColumn<Vaccination, String>, TableCell<Vaccination, String>> cellFoctory = (TableColumn<Vaccination, String> param) -> {
             final TableCell<Vaccination, String> cell = new TableCell<Vaccination, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
@@ -412,7 +412,7 @@ public class AnimalMonitorController implements Initializable {
                         setGraphic(managebtn);
                         setText(null);
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            displayAlert("Delete", "Are you sure you want to delete this pregnancy?", Alert.AlertType.CONFIRMATION);
+                            displayAlert("Delete", "Are you sure you want to delete this vaccination?", Alert.AlertType.CONFIRMATION);
                         });
                     }
                 }
