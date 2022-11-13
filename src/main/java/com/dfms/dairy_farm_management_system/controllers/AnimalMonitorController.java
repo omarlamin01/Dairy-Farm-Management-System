@@ -107,6 +107,7 @@ public class AnimalMonitorController implements Initializable {
         displayMonitors();
         displayPregnancies();
         displayVaccinations();
+        displayRoutines();
     }
 
     //get all the HealthStatus
@@ -421,6 +422,108 @@ public class AnimalMonitorController implements Initializable {
         };
         vaccinationActions.setCellFactory(cellFoctory);
         vaccinationTable.setItems(vaccinations);
+    }
+
+    //get all the routines
+    public ObservableList<Routine> getRoutines() {
+        ObservableList<Routine> routines = FXCollections.observableArrayList();
+        String query = "SELECT * FROM `routine`";
+        try {
+            Connection connection = DBConfig.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                Routine routine = new Routine();
+                routine.setId(resultSet.getInt("id"));
+                routine.setName(resultSet.getString("name"));
+                routine.setNote(resultSet.getString("note"));
+                routine.setDate(resultSet.getDate("created_at"));
+                routines.add(routine);
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        return routines;
+    }
+
+    //display all the routines in the table
+    public void displayRoutines() {
+        ObservableList<Routine> routines = getRoutines();
+        routineNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        routineNotesCol.setCellValueFactory(new PropertyValueFactory<>("note"));
+        routineAdditionDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        Callback<TableColumn<Routine, String>, TableCell<Routine, String>> cellFoctory = (TableColumn<Routine, String> param) -> {
+            final TableCell<Routine, String> cell = new TableCell<Routine, String>() {
+                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                final Button edit_btn = new Button();
+                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                final Button delete_btn = new Button();
+                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
+                final Button view_details_btn = new Button();
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    //that cell created only on non-empty rows
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        view_details_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        ImageView iv1 = new ImageView();
+                        iv1.setImage(view_details_img);
+                        iv1.setPreserveRatio(true);
+                        iv1.setSmooth(true);
+                        iv1.setCache(true);
+                        view_details_btn.setGraphic(iv1);
+
+                        setGraphic(view_details_btn);
+                        setText(null);
+
+
+                        edit_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        ImageView iv = new ImageView();
+                        iv.setImage(edit_img);
+                        iv.setPreserveRatio(true);
+                        iv.setSmooth(true);
+                        iv.setCache(true);
+                        edit_btn.setGraphic(iv);
+
+                        setGraphic(edit_btn);
+                        setText(null);
+
+                        delete_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        ImageView iv2 = new ImageView();
+
+                        iv2.setImage(delete_img);
+                        iv2.setPreserveRatio(true);
+                        iv2.setSmooth(true);
+                        iv2.setCache(true);
+                        delete_btn.setGraphic(iv2);
+
+
+                        setGraphic(delete_btn);
+
+                        setText(null);
+
+                        HBox managebtn = new HBox(edit_btn, delete_btn, view_details_btn);
+                        managebtn.setStyle("-fx-alignment:center");
+                        HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(delete_btn, new Insets(1, 1, 0, 2));
+                        HBox.setMargin(view_details_btn, new Insets(1, 1, 0, 1));
+
+                        setGraphic(managebtn);
+                        setText(null);
+                        delete_btn.setOnMouseClicked((MouseEvent event) -> {
+                            displayAlert("Delete", "Are you sure you want to delete this routine?", Alert.AlertType.CONFIRMATION);
+                        });
+                    }
+                }
+            };
+            return cell;
+        };
+        routineActionsCol.setCellFactory(cellFoctory);
+        routineTable.setItems(routines);
     }
 
     @FXML
