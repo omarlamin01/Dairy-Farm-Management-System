@@ -3,15 +3,23 @@ package com.dfms.dairy_farm_management_system.models;
 import java.util.Date;
 
 public class Pregnancy implements Model {
-    private int id_pregnancy;
+    private int id;
     private int id_cow;
     private Date start_date;
     private Date end_date;
+    private String type;
+    private String status;
 
-    private String pregnancy_type;
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public void setId(int id) {
-        this.id_pregnancy = id;
+        this.id = id;
     }
 
     public void setId_cow(int id_cow) {
@@ -26,13 +34,12 @@ public class Pregnancy implements Model {
         this.end_date = end_date;
     }
 
-
-    public void setPregnancy_type(String pregnancy_type) {
-        this.pregnancy_type = pregnancy_type;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getId() {
-        return id_pregnancy;
+        return id;
     }
 
     public int getId_cow() {
@@ -47,9 +54,8 @@ public class Pregnancy implements Model {
         return end_date;
     }
 
-
-    public String getPregnancy_type() {
-        return pregnancy_type;
+    public String getType() {
+        return type;
     }
 
     @Override
