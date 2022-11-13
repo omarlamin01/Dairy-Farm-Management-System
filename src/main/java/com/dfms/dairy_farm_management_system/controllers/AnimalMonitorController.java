@@ -21,8 +21,8 @@ import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.*;
 
 public class AnimalMonitorController implements Initializable {
 
@@ -131,6 +131,8 @@ public class AnimalMonitorController implements Initializable {
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        } finally {
+            disconnect();
         }
         return monitors;
     }
@@ -235,6 +237,8 @@ public class AnimalMonitorController implements Initializable {
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        } finally {
+            disconnect();
         }
         return pregnancies;
     }
@@ -339,6 +343,8 @@ public class AnimalMonitorController implements Initializable {
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        } finally {
+            disconnect();
         }
         return vaccinations;
     }
@@ -429,7 +435,7 @@ public class AnimalMonitorController implements Initializable {
         ObservableList<Routine> routines = FXCollections.observableArrayList();
         String query = "SELECT * FROM `routine`";
         try {
-            Connection connection = DBConfig.getConnection();
+            Connection connection = getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -442,6 +448,8 @@ public class AnimalMonitorController implements Initializable {
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        } finally {
+            disconnect();
         }
         return routines;
     }
