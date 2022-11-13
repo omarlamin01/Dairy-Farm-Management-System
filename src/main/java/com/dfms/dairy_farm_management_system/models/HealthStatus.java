@@ -11,6 +11,15 @@ public class HealthStatus implements Model {
     private float age;
     private Date control_date;
     private String health_score;
+    private String notes;
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 
     public int getVaccin_id() {
         return vaccin_id;
