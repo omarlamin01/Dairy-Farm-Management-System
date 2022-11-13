@@ -318,6 +318,111 @@ public class AnimalMonitorController implements Initializable {
         pregnancyTable.setItems(pregnancies);
     }
 
+    //get all the vaccinations
+    public ObservableList<Vaccination> getVaccinations() {
+        ObservableList<Vaccination> vaccinations = FXCollections.observableArrayList();
+        String query = "SELECT * FROM `vaccination`";
+        try {
+            Connection connection = DBConfig.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                Vaccination vaccination = new Vaccination();
+                vaccination.setId(resultSet.getInt("id"));
+                vaccination.setName(resultSet.getString("cow_id"));
+//                vaccination.setStart_date(resultSet.getDate("start_date"));
+//                vaccination.setEnd_date(resultSet.getDate("delivery_date"));
+//                vaccination.setType(resultSet.getString("pregnancy_type"));
+//                vaccination.setStatus(resultSet.getString("pregnancy_status"));
+                vaccinations.add(vaccination);
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        return vaccinations;
+    }
+
+    //display all the pregnancies in the table
+    public void displayVaccinations() {
+        ObservableList<Vaccination> vaccinations = getVaccinations();
+        cow_id_col.setCellValueFactory(new PropertyValueFactory<>("cow_id"));
+        pregnancyStartDateCol.setCellValueFactory(new PropertyValueFactory<>("start_date"));
+        pregnancyEndCol.setCellValueFactory(new PropertyValueFactory<>("end_date"));
+        pregnancyTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        Callback<TableColumn<Vaccination, String>, TableCell<Vaccination, String>> cellFoctory = (TableColumn<Vaccination, String> param) -> {
+            final TableCell<Vaccination, String> cell = new TableCell<Vaccination, String>() {
+                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                final Button edit_btn = new Button();
+                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                final Button delete_btn = new Button();
+                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
+                final Button view_details_btn = new Button();
+
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    //that cell created only on non-empty rows
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+                    } else {
+                        view_details_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        ImageView iv1 = new ImageView();
+                        iv1.setImage(view_details_img);
+                        iv1.setPreserveRatio(true);
+                        iv1.setSmooth(true);
+                        iv1.setCache(true);
+                        view_details_btn.setGraphic(iv1);
+
+                        setGraphic(view_details_btn);
+                        setText(null);
+
+
+                        edit_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        ImageView iv = new ImageView();
+                        iv.setImage(edit_img);
+                        iv.setPreserveRatio(true);
+                        iv.setSmooth(true);
+                        iv.setCache(true);
+                        edit_btn.setGraphic(iv);
+
+                        setGraphic(edit_btn);
+                        setText(null);
+
+                        delete_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        ImageView iv2 = new ImageView();
+
+                        iv2.setImage(delete_img);
+                        iv2.setPreserveRatio(true);
+                        iv2.setSmooth(true);
+                        iv2.setCache(true);
+                        delete_btn.setGraphic(iv2);
+
+
+                        setGraphic(delete_btn);
+
+                        setText(null);
+
+                        HBox managebtn = new HBox(edit_btn, delete_btn, view_details_btn);
+                        managebtn.setStyle("-fx-alignment:center");
+                        HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(delete_btn, new Insets(1, 1, 0, 2));
+                        HBox.setMargin(view_details_btn, new Insets(1, 1, 0, 1));
+
+                        setGraphic(managebtn);
+                        setText(null);
+                        delete_btn.setOnMouseClicked((MouseEvent event) -> {
+                            displayAlert("Delete", "Are you sure you want to delete this pregnancy?", Alert.AlertType.CONFIRMATION);
+                        });
+                    }
+                }
+            };
+            return cell;
+        };
+        vaccinationActions.setCellFactory(cellFoctory);
+        vaccinationTable.setItems(vaccinations);
+    }
+
     @FXML
     public void openAddHealthStatus(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add health status", "add_new_health_status");
