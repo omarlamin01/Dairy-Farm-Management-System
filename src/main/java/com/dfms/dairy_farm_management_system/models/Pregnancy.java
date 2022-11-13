@@ -51,13 +51,4 @@ public class Pregnancy {
     public String getPregnancy_type() {
         return pregnancy_type;
     }
-
-    public Pregnancy(int id, int id_cow, Date start_date, Date end_date, String pregnancy_type) {
-        this.id_pregnancy = id;
-        this.id_cow = id_cow;
-        this.start_date = start_date;
-        this.end_date = end_date;
-
-        this.pregnancy_type = pregnancy_type;
-    }
 }
