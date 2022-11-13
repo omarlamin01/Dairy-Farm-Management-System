@@ -2,19 +2,18 @@ package com.dfms.dairy_farm_management_system.models;
 
 public class Vaccination implements Model {
 
-    private int id_vaccin;
-
+    private int id;
     private String name;
     private String dose;
     private String note;
     private String date;
 
-    public int getId_vaccin() {
-        return id_vaccin;
+    public int getId() {
+        return id;
     }
 
-    public void setId_vaccin(int id_vaccin) {
-        this.id_vaccin = id_vaccin;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
