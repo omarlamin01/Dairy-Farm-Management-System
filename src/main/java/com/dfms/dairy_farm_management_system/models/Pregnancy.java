@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Pregnancy {
+public class Pregnancy implements Model {
     private int id_pregnancy;
     private int id_cow;
     private Date start_date;
@@ -50,5 +50,20 @@ public class Pregnancy {
 
     public String getPregnancy_type() {
         return pregnancy_type;
+    }
+
+    @Override
+    public boolean save() {
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
     }
 }
