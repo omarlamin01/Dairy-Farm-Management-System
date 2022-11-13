@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Pregnancy implements Model {
     private int id;
-    private int id_cow;
+    private int cow_id;
     private Date start_date;
     private Date end_date;
     private String type;
@@ -22,8 +22,8 @@ public class Pregnancy implements Model {
         this.id = id;
     }
 
-    public void setId_cow(int id_cow) {
-        this.id_cow = id_cow;
+    public void setCow_id(int cow_id) {
+        this.cow_id = cow_id;
     }
 
     public void setStart_date(Date start_date) {
@@ -42,8 +42,8 @@ public class Pregnancy implements Model {
         return id;
     }
 
-    public int getId_cow() {
-        return id_cow;
+    public int getCow_id() {
+        return cow_id;
     }
 
     public Date getStart_date() {
