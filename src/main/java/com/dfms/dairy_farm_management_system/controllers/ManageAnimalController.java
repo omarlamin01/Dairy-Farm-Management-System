@@ -32,6 +32,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
 
 
@@ -204,11 +205,12 @@ public class ManageAnimalController implements Initializable {
 
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
+                            displayAlert("Delete", "Are you sure you want to delete this Cow?", Alert.AlertType.CONFIRMATION);
                             animal = animals.getSelectionModel().getSelectedItem();
                             String delete_query = "DELETE FROM animal WHERE id='"+animal.getId()+"'";
-                            Connection connection = DBConfig.getConnection();
+
                             try {
-                                st = connection.prepareStatement(delete_query);
+                                st = con.prepareStatement(delete_query);
                                 st.execute();
                                 refreshTableAnimal();
                             } catch (SQLException e) {
@@ -220,11 +222,6 @@ public class ManageAnimalController implements Initializable {
 
                     }
                 }
-
-
-
-
-
             };
                  return cell;
             };
