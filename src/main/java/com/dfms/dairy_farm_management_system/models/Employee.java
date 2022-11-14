@@ -3,61 +3,61 @@ package com.dfms.dairy_farm_management_system.models;
 import java.util.Date;
 
 public class Employee extends Model {
-    private int id_employee;
-    private String firstName;
-    private String lastName;
+    private int id;
+    private String first_name;
+    private String last_name;
     private char gender;
     private String cin;
     private String email;
     private String phone;
-    private String adresse;
+    private String address;
     private float salary;
-    private Date recruitmentDate;
-    private String contractType;
+    private Date recruitment_date;
+    private String contract_type;
     private Date updated_at;
     private Date created_at;
 
     public Employee() {
     }
 
-    public Employee(int id_employee, String firstName, String lastName, char gender, String cin, String email, String phone, String adresse, float salary, Date recruitmentDate, String contractType, Date updated_at, Date created_at) {
-        this.id_employee = id_employee;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Employee(int id, String first_name, String last_name, char gender, String cin, String email, String phone, String adresse, float salary, Date recruitment_date, String contract_type, Date updated_at, Date created_at) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.gender = gender;
         this.cin = cin;
         this.email = email;
         this.phone = phone;
-        this.adresse = adresse;
+        this.address = adresse;
         this.salary = salary;
-        this.recruitmentDate = recruitmentDate;
-        this.contractType = contractType;
+        this.recruitment_date = recruitment_date;
+        this.contract_type = contract_type;
         this.updated_at = updated_at;
         this.created_at = created_at;
     }
 
-    public int getId_employee() {
-        return id_employee;
+    public int getId() {
+        return id;
     }
 
-    public void setId_employee(int id_employee) {
-        this.id_employee = id_employee;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
     }
 
     public char getGender() {
@@ -92,12 +92,12 @@ public class Employee extends Model {
         this.phone = phone;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public float getSalary() {
@@ -109,34 +109,34 @@ public class Employee extends Model {
     }
 
     public Date getRecruitmentDate() {
-        return recruitmentDate;
+        return recruitment_date;
     }
 
-    public void setRecruitmentDate(Date recruitmentDate) {
-        this.recruitmentDate = recruitmentDate;
+    public void setRecruitmentDate(Date recruitment_date) {
+        this.recruitment_date = recruitment_date;
     }
 
     public String getContractType() {
-        return contractType;
+        return contract_type;
     }
 
-    public void setContractType(String contractType) {
-        this.contractType = contractType;
+    public void setContractType(String contract_type) {
+        this.contract_type = contract_type;
     }
 
-    public Date getUpdated_at() {
+    public Date getUpdatedAt() {
         return updated_at;
     }
 
-    public void setUpdated_at(Date updated_at) {
+    public void setUpdatedAt(Date updated_at) {
         this.updated_at = updated_at;
     }
 
-    public Date getCreated_at() {
+    public Date getCreatedAt() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setCreatedAt(Date created_at) {
         this.created_at = created_at;
     }
 }

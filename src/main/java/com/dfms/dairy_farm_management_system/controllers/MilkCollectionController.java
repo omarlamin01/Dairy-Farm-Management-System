@@ -22,6 +22,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,8 +30,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
-public class MilkCollectionController implements Initializable {
 
+public class MilkCollectionController implements Initializable {
+MilkCollection mc;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -72,6 +74,7 @@ public class MilkCollectionController implements Initializable {
     private TextField search_input;
     PreparedStatement st = null;
     ResultSet rs = null;
+    ObservableList<MilkCollection> list = FXCollections.observableArrayList();
     public ObservableList<MilkCollection> getMilkCollection() throws SQLException, ClassNotFoundException {
         ObservableList<MilkCollection> list = FXCollections.observableArrayList();
 
@@ -90,6 +93,22 @@ public class MilkCollectionController implements Initializable {
             list.add(milkCollection);
         }
         return list;
+    }
+    public void refreshTableMilkCollection() throws SQLException {
+
+        list.clear();
+        Connection connection = DBConfig.getConnection();
+        String query_refresh = "SELECT  mc.cow_id, quantity ,period,mc.created_at  from  milk_collection mc ,animal a where mc.cow_id= a.id and a.type='cow' ";
+        st = connection.prepareStatement(query_refresh);
+        rs= st.executeQuery();
+
+        while (rs.next()){
+            list.add(new  MilkCollection(rs.getInt("mc.cow_id"), rs.getFloat("quantity"), rs.getString("period"), rs.getDate("mc.created_at")));
+
+                    MilkCollectionTable.setItems(list);
+
+        }
+
     }
     public void afficher() throws SQLException, ClassNotFoundException {
         ObservableList<MilkCollection> list = getMilkCollection();
@@ -167,6 +186,16 @@ public class MilkCollectionController implements Initializable {
 
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
+                            mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
+                            String delete_query = "DELETE FROM milk_collection WHERE id  ="+mc.getId();
+                            Connection connection = DBConfig.getConnection();
+                            try {
+                                st = connection.prepareStatement(delete_query);
+                                st.execute();
+                                refreshTableMilkCollection();
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
 
 
                         });
@@ -186,6 +215,7 @@ public class MilkCollectionController implements Initializable {
         MilkCollectionTable.setItems(list);
 
     }
+
     void search_milkcollection() throws SQLException, ClassNotFoundException {
         ObservableList<MilkCollection> list = getMilkCollection();
         id_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, String>("cow_id"));
@@ -262,9 +292,20 @@ public class MilkCollectionController implements Initializable {
 
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
+                            mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
+                            String delete_query = "DELETE FROM milk_collection WHERE id ="+mc.getId();
+                            Connection connection = DBConfig.getConnection();
+                            try {
+                                st = connection.prepareStatement(delete_query);
+                                st.execute();
+                                refreshTableMilkCollection();
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
 
 
                         });
+
 
                     }
                 }

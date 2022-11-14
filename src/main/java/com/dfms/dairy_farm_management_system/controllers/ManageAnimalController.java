@@ -121,8 +121,8 @@ public class ManageAnimalController implements Initializable {
                        rs.getString("type"),
                        rs.getDate("birth_date"),
                        rs.getString("r.name"),
-                     rs.getString("ro.name")));
-              animals.setItems(listAnimal);
+                       rs.getString("ro.name")));
+                       animals.setItems(listAnimal);
 
 
             }
