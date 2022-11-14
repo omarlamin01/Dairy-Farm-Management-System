@@ -1,16 +1,21 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class Employee extends Model {
+public class Employee implements Model {
     private int id;
     private String first_name;
     private String last_name;
-    private char gender;
+    private String gender;
     private String cin;
     private String email;
     private String phone;
-    private String address;
+    private String adress;
     private float salary;
     private Date recruitment_date;
     private String contract_type;
@@ -20,7 +25,7 @@ public class Employee extends Model {
     public Employee() {
     }
 
-    public Employee(int id, String first_name, String last_name, char gender, String cin, String email, String phone, String adresse, float salary, Date recruitment_date, String contract_type, Date updated_at, Date created_at) {
+    public Employee(int id, String first_name, String last_name, String gender, String cin, String email, String phone, String adresse, float salary, Date recruitment_date, String contract_type, Date updated_at, Date created_at) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -28,7 +33,7 @@ public class Employee extends Model {
         this.cin = cin;
         this.email = email;
         this.phone = phone;
-        this.address = adresse;
+        this.adress = adresse;
         this.salary = salary;
         this.recruitment_date = recruitment_date;
         this.contract_type = contract_type;
@@ -60,11 +65,11 @@ public class Employee extends Model {
         this.last_name = last_name;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -92,12 +97,12 @@ public class Employee extends Model {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
+    public String getAdress() {
+        return adress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
     public float getSalary() {
@@ -138,5 +143,75 @@ public class Employee extends Model {
 
     public void setCreatedAt(Date created_at) {
         this.created_at = created_at;
+    }
+
+    @Override
+    public boolean save() {
+        String insertQuery = "INSERT INTO employee (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setString(1, first_name);
+            preparedStatement.setString(2, last_name);
+
+            if (gender.equalsIgnoreCase("Male")) {
+                preparedStatement.setString(3, "M");
+            } else {
+                preparedStatement.setString(3, "F");
+            }
+            preparedStatement.setString(4, cin);
+            preparedStatement.setString(5, email);
+            preparedStatement.setString(6, phone);
+            preparedStatement.setString(7, adress);
+            preparedStatement.setString(8, String.valueOf(salary));
+            preparedStatement.setString(9, "2022-11-12");
+            preparedStatement.setString(10, contract_type);
+
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        String updateQuery = "UPDATE `employee` SET `first_name` = '" + first_name +
+                "', `last_name` = '" + last_name +
+                "', `gender` = '" + (gender.equalsIgnoreCase("Male") ? 'M' : 'F') +
+                "', `cin` = '" + cin +
+                "', `email` = '" + email +
+                "', `phone` = '" + phone +
+                "', `address` = '" + adress +
+                "', `salary` = '" + salary +
+                "', `recruitment_date` = '" + "2022-11-12" +
+                "', `contract_type` = '" + contract_type +
+                "', `updated_at` = '" + dtf.format(now) +"' " +
+                "WHERE `employee`.`id` = " + this.id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean delete() {
+        String deleteQuery = "DELETE FROM `employee` WHERE `employee`.`id` = " + this.id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

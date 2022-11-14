@@ -1,6 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.controllers.EmployeesController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,6 +24,7 @@ public class NewEmployeeController implements Initializable {
         this.setRoleComboItems();
         validatePhoneInput(phoneNumberInput);
         validateDecimalInput(salaryInput);
+        validateEmailInput(emailInput);
     }
 
     private Statement st;
@@ -58,19 +60,24 @@ public class NewEmployeeController implements Initializable {
     }
 
     public void setContractComboItems() {
-        this.contractCombo.setItems(FXCollections.observableArrayList("CDI", "CDD", "Anapec"));
+        this.contractCombo.setItems(FXCollections.observableArrayList("CDI", "CDD", "CTT"));
     }
 
     public void setRoleComboItems() {
-        //get roles from db
-        this.rolesList = FXCollections.observableArrayList("Admin", "HR", "Sales agent", "Production manager", "Veterinare");
-
+        this.rolesList = getRoles();
         this.roleCombo.setItems(this.rolesList);
     }
 
     @FXML
     public void addEmployee(MouseEvent mouseEvent) throws SQLException {
+        this.con = DBConfig.getConnection();
         System.out.println("Employee: { " + "First name: \"" + this.firstNameInput.getText() + "\", " + "Last name: \"" + this.lastNameInput.getText() + "\", " + "Email: \"" + this.emailInput.getText() + "\", " + "Phone: \"" + this.phoneNumberInput.getText() + "\", " + "Adress: \"" + this.adressInput.getText() + "\", " + "CIN: \"" + this.cininput.getText() + "\", " + "Salary: \"" + this.salaryInput.getText() + "\", " + "Hire date: \"" + this.hireDate.getValue() + "\", " + "Contract type: \"" + this.contractCombo.getValue() + "\", " + "Gender: \"" + this.genderCombo.getValue() + "\", " + "Role: \"" + this.roleCombo.getValue() + "\"" + " }");
+
+        if (inputesAreEmpty()) {
+            displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
+            return;
+        }
+
 
         String firstName = this.firstNameInput.getText();
         String lastName = this.lastNameInput.getText();
@@ -83,6 +90,7 @@ public class NewEmployeeController implements Initializable {
         String contractType = this.contractCombo.getValue();
         String gender = this.genderCombo.getValue();
         String role = this.roleCombo.getValue();
+
 
         String query_emp = "INSERT INTO employee (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String query_user = "INSERT INTO user (role_id, employee_id, first_name, last_name, email, password, phone, address, gender, cin, salary) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -111,41 +119,74 @@ public class NewEmployeeController implements Initializable {
             try {
                 this.con = DBConfig.getConnection();
                 this.pst = this.con.prepareStatement(query_user);
-                //check role type
-                if (this.roleCombo.getValue().equals("Admin")) {
-                    this.pst.setInt(1, 1);
-                } else if (this.roleCombo.getValue().equals("HR")) {
-                    this.pst.setInt(1, 2);
-                } else if (this.roleCombo.getValue().equals("Sales agent")) {
-                    this.pst.setInt(1, 3);
-                } else if (this.roleCombo.getValue().equals("Production manager")) {
-                    this.pst.setInt(1, 4);
-                } else if (this.roleCombo.getValue().equals("Veterinare")) {
-                    this.pst.setInt(1, 5);
-                }
+
+                //get role id
+                int role_id = getRoleID(role);
+
                 //get last inserted employee id
                 this.st = this.con.createStatement();
                 ResultSet rs = this.st.executeQuery("SELECT MAX(id) FROM employee");
                 rs.next();
-                int lastInsertedId = rs.getInt(1);
-                this.pst.setInt(2, lastInsertedId);
+                int employee_id = rs.getInt(1);
+
+                //insert into user table
+                this.pst.setInt(1, role_id);
+                this.pst.setInt(2, employee_id);
                 this.pst.setString(3, firstName);
                 this.pst.setString(4, lastName);
                 this.pst.setString(5, email);
-                this.pst.setString(6, "123456");
+                this.pst.setString(6, cin);
                 this.pst.setString(7, phone);
                 this.pst.setString(8, adress);
+                //check gender type
+                if (this.genderCombo.getValue().equals("Male")) {
+                    this.pst.setString(9, "M");
+                } else {
+                    this.pst.setString(9, "F");
+                }
+                this.pst.setString(10, cin);
+                this.pst.setString(11, salary);
+                this.pst.execute();
 
                 displayAlert("Done", "Employee added successfully", Alert.AlertType.INFORMATION);
-
             } catch (SQLException e) {
                 displayAlert("Error", "Error while adding employee", Alert.AlertType.ERROR);
                 e.printStackTrace();
             }
-            closeWindow((Button) mouseEvent.getSource());
         } finally {
             this.pst.close();
             this.con.close();
+            closeWindow((Button) mouseEvent.getSource());
         }
+    }
+
+    public int getRoleID(String role) {
+        try {
+            this.con = DBConfig.getConnection();
+            this.st = this.con.createStatement();
+            ResultSet rs = this.st.executeQuery("SELECT id FROM role WHERE name = '" + role + "'");
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            displayAlert("Error", "Error while getting role id", Alert.AlertType.ERROR);
+        }
+        return 0;
+    }
+
+    //check if all inputs are filled
+    public boolean inputesAreEmpty() {
+        if (this.firstNameInput.getText().isEmpty()
+                || this.lastNameInput.getText().isEmpty()
+                || this.emailInput.getText().isEmpty()
+                || this.phoneNumberInput.getText().isEmpty()
+                || this.adressInput.getText().isEmpty()
+                || this.cininput.getText().isEmpty()
+                || this.salaryInput.getText().isEmpty()
+                || this.hireDate.getValue() == null
+                || this.contractCombo.getValue() == null
+                || this.genderCombo.getValue() == null
+                || this.roleCombo.getValue() == null)
+            return true;
+        return false;
     }
 }

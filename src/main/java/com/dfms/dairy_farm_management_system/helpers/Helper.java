@@ -1,24 +1,35 @@
 package com.dfms.dairy_farm_management_system.helpers;
 
 import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.Employee;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Objects;
 import java.util.function.DoubleConsumer;
 
 public class Helper {
+    private static Connection con = DBConfig.getConnection();
+
     public static void centerScreen(Stage stage) {
         Screen screen = Screen.getPrimary();
         Rectangle2D sbounds = screen.getBounds();
@@ -107,21 +118,34 @@ public class Helper {
         });
     }
 
-    //check if the input is empty
-    public static void validateInputs(TextField... textFields) {
-        for (TextField textField : textFields) {
-            textField.textProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                    String newValue) {
-                    if (newValue.isEmpty()) {
-                        textField.setStyle("-fx-border-color: red");
-                    } else {
-                        textField.setStyle("-fx-border-color: transparent");
-                    }
-                }
-            });
-        }
+    public static void setErrorOnInput(TextField textField, String error) {
+        textField.getStyleClass().add("error");
+        textField.setTooltip(new Tooltip(error));
+    }
+
+    public static void setErrorOnInput(DatePicker datePicker, String error) {
+        datePicker.getStyleClass().add("error");
+        datePicker.setTooltip(new Tooltip(error));
+    }
+
+    public static void setErrorOnInput(ComboBox comboBox, String error) {
+        comboBox.getStyleClass().add("error");
+        comboBox.setTooltip(new Tooltip(error));
+    }
+
+    public static void removeErrorOnInput(TextField textField) {
+        textField.getStyleClass().remove("error");
+        textField.setTooltip(null);
+    }
+
+    public static void removeErrorOnInput(DatePicker datePicker) {
+        datePicker.getStyleClass().remove("error");
+        datePicker.setTooltip(null);
+    }
+
+    public static void removeErrorOnInput(ComboBox comboBox) {
+        comboBox.getStyleClass().remove("error");
+        comboBox.setTooltip(null);
     }
 
     //validate email input
@@ -163,5 +187,21 @@ public class Helper {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public static ObservableList<String> getRoles() {
+        ObservableList<String> rolesList = FXCollections.observableArrayList();
+        Statement st = null;
+        try {
+            con = DBConfig.getConnection();
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT * FROM role");
+            while (rs.next()) {
+                rolesList.add(rs.getString("name"));
+            }
+        } catch (SQLException e) {
+            displayAlert("Error", "Error while getting roles", Alert.AlertType.ERROR);
+        }
+        return rolesList;
     }
 }

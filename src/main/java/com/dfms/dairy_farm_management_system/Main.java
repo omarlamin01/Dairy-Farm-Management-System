@@ -1,6 +1,7 @@
 package com.dfms.dairy_farm_management_system;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,13 +11,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.Date;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
 
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        String first_view = "main_layout";
+        String first_view = "login_screen";
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(first_view + ".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
