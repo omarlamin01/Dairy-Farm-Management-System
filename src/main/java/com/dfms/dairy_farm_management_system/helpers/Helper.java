@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.helpers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
@@ -117,21 +118,34 @@ public class Helper {
         });
     }
 
-    //check if the input is empty
-    public static void validateInputs(TextField... textFields) {
-        for (TextField textField : textFields) {
-            textField.textProperty().addListener(new ChangeListener<String>() {
-                @Override
-                public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                    String newValue) {
-                    if (newValue.isEmpty()) {
-                        textField.setStyle("-fx-border-color: red");
-                    } else {
-                        textField.setStyle("-fx-border-color: transparent");
-                    }
-                }
-            });
-        }
+    public static void setErrorOnInput(TextField textField, String error) {
+        textField.getStyleClass().add("error");
+        textField.setTooltip(new Tooltip(error));
+    }
+
+    public static void setErrorOnInput(DatePicker datePicker, String error) {
+        datePicker.getStyleClass().add("error");
+        datePicker.setTooltip(new Tooltip(error));
+    }
+
+    public static void setErrorOnInput(ComboBox comboBox, String error) {
+        comboBox.getStyleClass().add("error");
+        comboBox.setTooltip(new Tooltip(error));
+    }
+
+    public static void removeErrorOnInput(TextField textField) {
+        textField.getStyleClass().remove("error");
+        textField.setTooltip(null);
+    }
+
+    public static void removeErrorOnInput(DatePicker datePicker) {
+        datePicker.getStyleClass().remove("error");
+        datePicker.setTooltip(null);
+    }
+
+    public static void removeErrorOnInput(ComboBox comboBox) {
+        comboBox.getStyleClass().remove("error");
+        comboBox.setTooltip(null);
     }
 
     //validate email input
