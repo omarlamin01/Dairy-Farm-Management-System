@@ -53,15 +53,6 @@ public class HealthStatusController implements Initializable {
         monitor.setControl_date(monitorDate.getValue());
         monitor.setHealth_score(healthStatus.getValue());
         monitor.setNotes(healthStatusNotes.getText());
-        String query = "INSERT INTO `health_status` (`animal_id`, `vaccine_id`, `weight`, `breading`, `age`, `control_date`) VALUES (" +
-                monitor.getAnimal_id() +
-                ", 1" +
-                ", " + monitor.getWeight() +
-                ", " + monitor.getBreathing() +
-                ", " + monitor.getAge() +
-                ", " + monitor.getControl_date() +
-                ")";
-        System.out.println(query);
         if (monitor.save()) {
             displayAlert("Success", "Health monitor added successfully.", Alert.AlertType.INFORMATION);
             closeWindow(mouseEvent);
