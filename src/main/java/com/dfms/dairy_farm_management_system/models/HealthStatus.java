@@ -1,15 +1,20 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import java.util.Date;
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class HealthStatus implements Model {
     private int id;
     private int animal_id;
     private int vaccin_id;
     private float weight;
-    private float breading;
+    private float breathing;
     private float age;
-    private Date control_date;
+    private LocalDate control_date;
     private String health_score;
     private String notes;
 
@@ -29,11 +34,11 @@ public class HealthStatus implements Model {
         this.vaccin_id = vaccin_id;
     }
 
-    public Date getControl_date() {
+    public LocalDate getControl_date() {
         return control_date;
     }
 
-    public void setControl_date(Date control_date) {
+    public void setControl_date(LocalDate control_date) {
         this.control_date = control_date;
     }
 
@@ -57,8 +62,8 @@ public class HealthStatus implements Model {
         this.weight = weight;
     }
 
-    public void setBreading(float breading) {
-        this.breading = breading;
+    public void setBreathing(float breathing) {
+        this.breathing = breathing;
     }
 
     public void setHealth_score(String health_score) {
@@ -77,8 +82,8 @@ public class HealthStatus implements Model {
         return weight;
     }
 
-    public float getBreading() {
-        return breading;
+    public float getBreathing() {
+        return breathing;
     }
 
     public String getHealth_score() {
@@ -88,7 +93,23 @@ public class HealthStatus implements Model {
 
     @Override
     public boolean save() {
-        return false;
+        String query = "INSERT INTO `health_status` (`animal_id`, `vaccine_id`, `weight`, `breading`, `age`, `control_date`) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setString(1, String.valueOf(this.animal_id));
+            preparedStatement.setString(2, "1");
+            preparedStatement.setString(3, String.valueOf(this.weight));
+            preparedStatement.setString(4, String.valueOf(this.breathing));
+            preparedStatement.setString(5, String.valueOf(this.age));
+            preparedStatement.setString(6, String.valueOf(this.control_date));
+
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

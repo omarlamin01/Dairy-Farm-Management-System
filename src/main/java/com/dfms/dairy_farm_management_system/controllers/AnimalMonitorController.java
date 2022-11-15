@@ -124,9 +124,9 @@ public class AnimalMonitorController implements Initializable {
                 monitor.setAnimal_id(resultSet.getInt("animal_id"));
                 monitor.setVaccin_id(resultSet.getInt("vaccine_id"));
                 monitor.setWeight(resultSet.getFloat("weight"));
-                monitor.setBreading(resultSet.getFloat("breading"));
+                monitor.setBreathing(resultSet.getFloat("breading"));
                 monitor.setAge(resultSet.getFloat("age"));
-                monitor.setControl_date(resultSet.getDate("control_date"));
+                monitor.setControl_date(resultSet.getDate("control_date").toLocalDate());
                 monitors.add(monitor);
             }
         } catch (Exception e) {

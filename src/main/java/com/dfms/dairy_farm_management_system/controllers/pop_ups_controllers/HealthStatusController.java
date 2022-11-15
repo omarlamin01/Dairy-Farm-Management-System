@@ -1,18 +1,21 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import com.dfms.dairy_farm_management_system.models.HealthStatus;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
+
+import com.dfms.dairy_farm_management_system.helpers.Helper.*;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.closeWindow;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class HealthStatusController implements Initializable {
     @Override
@@ -40,19 +43,30 @@ public class HealthStatusController implements Initializable {
 
     public void setAnimals() {
         //get animals ids from database
-        this.animals = FXCollections.observableArrayList("cow-1", "bull-1", "cow-2", "cow-3", "Bull-1", "cow-calf-1");
+        this.animals = FXCollections.observableArrayList("1", "2", "3", "4", "Bull-1", "cow-calf-1");
     }
 
     @FXML
     public void addHealthStatus(MouseEvent mouseEvent) {
-        System.out.println("Health status { " +
-                "Animal id: \"" + animalId.getValue() + "\", " +
-                "Monitor date: \"" + monitorDate.getValue() + "\", " +
-                "Status: \"" + healthStatus.getValue() + "\", " +
-                "Notes: \"" + healthStatusNotes.getText() + "\" " +
-                "},"
-        );
-
-        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
+        HealthStatus monitor = new HealthStatus();
+        monitor.setAnimal_id(Integer.parseInt(animalId.getValue()));
+        monitor.setControl_date(monitorDate.getValue());
+        monitor.setHealth_score(healthStatus.getValue());
+        monitor.setNotes(healthStatusNotes.getText());
+        String query = "INSERT INTO `health_status` (`animal_id`, `vaccine_id`, `weight`, `breading`, `age`, `control_date`) VALUES (" +
+                monitor.getAnimal_id() +
+                ", 1" +
+                ", " + monitor.getWeight() +
+                ", " + monitor.getBreathing() +
+                ", " + monitor.getAge() +
+                ", " + monitor.getControl_date() +
+                ")";
+        System.out.println(query);
+        if (monitor.save()) {
+            displayAlert("Success", "Health monitor added successfully.", Alert.AlertType.INFORMATION);
+            closeWindow(mouseEvent);
+        } else {
+            displayAlert("Error", "Some error happened while saving!", Alert.AlertType.ERROR);
+        }
     }
 }
