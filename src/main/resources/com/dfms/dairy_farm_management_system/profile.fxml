@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-
 <ScrollPane style="-fx-background-color: transparent;" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ProfileController">
     <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
         <Label styleClass="header" text="Profile" textAlignment="CENTER">
@@ -126,6 +125,7 @@
                 <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="1.7976931348623157E308" />
             </rowConstraints>
+
             <TextField fx:id="email_input" promptText="Email">
                 <GridPane.margin>
                     <Insets bottom="10.0" right="10.0" />
