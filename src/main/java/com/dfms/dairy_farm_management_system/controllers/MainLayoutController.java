@@ -225,6 +225,7 @@ public class MainLayoutController implements Initializable {
         //logout if user clicks ok
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
+            Session.logoutUser();
             logoutSystem(login_view, event);
         }
     }

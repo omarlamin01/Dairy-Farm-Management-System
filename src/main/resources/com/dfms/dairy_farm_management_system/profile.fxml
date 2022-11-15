@@ -43,7 +43,7 @@
                 <Insets bottom="10.0" top="10.0" />
             </VBox.margin>
         </Label>
-        <GridPane minHeight="-Infinity" minWidth="-Infinity">
+        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
             <columnConstraints>
                 <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="438.3333435058594" minWidth="10.0" prefWidth="399.66668701171875" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="407.0" minWidth="10.0" prefWidth="400.33331298828125" />
