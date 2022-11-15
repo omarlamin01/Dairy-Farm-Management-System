@@ -1,9 +1,12 @@
 package com.dfms.dairy_farm_management_system.connection;
 
 import com.dfms.dairy_farm_management_system.models.Employee;
+import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
 import java.sql.*;
+
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class DBConfig {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/dairyfarm";
@@ -17,9 +20,8 @@ public class DBConfig {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            System.out.println("Connected to database");
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
         return conn;
     }
@@ -29,10 +31,9 @@ public class DBConfig {
         try {
             if (conn != null && !conn.isClosed()) {
                 conn.close();
-                System.out.println("Disconnected from database");
             }
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 

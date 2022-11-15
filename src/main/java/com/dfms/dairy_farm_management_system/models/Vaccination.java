@@ -1,28 +1,19 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import java.util.Date;
+public class Vaccination implements Model {
 
-public class Vaccin {
-
-    private int id_vaccin;
-
+    private int id;
     private String name;
     private String dose;
     private String note;
+    private String date;
 
-    public Vaccin(int id_vaccin, String name, String dose, String note) {
-        this.id_vaccin = id_vaccin;
-        this.name = name;
-        this.dose = dose;
-        this.note = note;
+    public int getId() {
+        return id;
     }
 
-    public int getId_vaccin() {
-        return id_vaccin;
-    }
-
-    public void setId_vaccin(int id_vaccin) {
-        this.id_vaccin = id_vaccin;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -47,5 +38,28 @@ public class Vaccin {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    @Override
+    public boolean save() {
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
     }
 }
