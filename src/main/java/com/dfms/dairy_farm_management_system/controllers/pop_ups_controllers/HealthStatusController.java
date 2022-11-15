@@ -22,8 +22,7 @@ import java.util.ResourceBundle;
 import com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.closeWindow;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class HealthStatusController implements Initializable {
     @Override
@@ -83,8 +82,8 @@ public class HealthStatusController implements Initializable {
         monitor.setHealth_score(healthStatus.getValue());
         monitor.setNotes(healthStatusNotes.getText());
         if (monitor.save()) {
+            closePopUp(mouseEvent);
             displayAlert("Success", "Health monitor added successfully.", Alert.AlertType.INFORMATION);
-            closeWindow(mouseEvent);
         } else {
             displayAlert("Error", "Some error happened while saving!", Alert.AlertType.ERROR);
         }
