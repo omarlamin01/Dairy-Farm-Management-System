@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -189,26 +190,21 @@ public class EmployeesController implements Initializable {
 
                         //update employee
                         edit_btn.setOnMouseClicked((MouseEvent event) -> {
-                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
+                            int id = employees_table.getSelectionModel().getSelectedItem().getId();
                             String path = "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml";
-                            if (employee != null) {
-                                FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
-                                try {
-                                    loader.load();
-                                } catch (IOException ex) {
-                                    displayAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
-                                    ex.printStackTrace();
-                                }
-//                                UpdateEmployeeController updateEmployeeController = loader.getController();
-//                                updateEmployeeController.setUpdateEmployee(employee);
-//                                updateEmployeeController.setEmployeesController(this);
-                                Parent parent = loader.getRoot();
-                                Stage stage = new Stage();
-                                stage.setScene(new Scene(parent));
-                                stage.show();
-                            } else {
-                                displayAlert("Error", "Please select an employee to update", Alert.AlertType.ERROR);
+                            FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
+                            try {
+                                loader.load();
+                            } catch (IOException ex) {
+                                displayAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
+                                ex.printStackTrace();
                             }
+                            UpdateEmployeeController updateEmployeeController = loader.getController();
+                            updateEmployeeController.setEmplyeeId(id);
+                            Parent parent = loader.getRoot();
+                            Stage stage = new Stage();
+                            stage.setScene(new Scene(parent));
+                            stage.show();
                         });
 
                         //view employee details

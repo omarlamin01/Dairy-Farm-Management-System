@@ -2,9 +2,11 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.connection.Session;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.User;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -13,14 +15,19 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class UpdateEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        getUserData();
+        fetchEmployee();
     }
 
     private Statement st;
@@ -60,26 +67,26 @@ public class UpdateEmployeeController implements Initializable {
     @FXML
     private TextField salaryInput;
 
+    public static int employee_id;
+    public static Employee employee;
+
     @FXML
     void updateEmployee(MouseEvent event) {
 
     }
 
     //get current user data
-    public void getUserData() {
-        User currentUser = Session.getCurrentUser();
-        firstNameInput.setText(currentUser.getFirstName());
-        lastNameInput.setText(currentUser.getLastName());
-        cinInput.setText(currentUser.getCin());
-        phoneNumberInput.setText(String.valueOf(currentUser.getPhone()));
-        addressInput.setText(currentUser.getAdress());
-        emailInput.setText(currentUser.getEmail());
-        genderCombo.setValue(currentUser.getGender());
-        roleCombo.setValue(getRoleName(currentUser.getRoleId()));
-        salaryInput.setText(String.valueOf(currentUser.getSalary()));
-        LocalDate date = LocalDate.parse((CharSequence) currentUser.getRecruitmentDate());
+    public void fetchEmployee() {
+        employee = getEmployee(EmployeeDetailsController.employee_id);
+        firstNameInput.setText(employee.getFirstName());
+        lastNameInput.setText(employee.getLastName());
+        emailInput.setText(employee.getEmail());
+        phoneNumberInput.setText(employee.getPhone());
+        addressInput.setText(employee.getAdress());
+        cinInput.setText(employee.getCin());
+        salaryInput.setText(String.valueOf(employee.getSalary()));
+        LocalDate date = LocalDate.parse((CharSequence) employee.getRecruitmentDate());
         hireDate.setValue(date);
-        contractCombo.setValue(currentUser.getContractType());
     }
 
     public String getRoleName(int id) {
@@ -93,5 +100,34 @@ public class UpdateEmployeeController implements Initializable {
             e.printStackTrace();
         }
         return roleName;
+    }
+
+    public Employee getEmployee(int id) {
+        Employee employee = new Employee();
+        String query = "SELECT * FROM employee WHERE id = " + id;
+        Connection con = getConnection();
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                employee.setId(rs.getInt("id"));
+                employee.setFirstName(rs.getString("first_name"));
+                employee.setLastName(rs.getString("last_name"));
+                employee.setEmail(rs.getString("email"));
+                employee.setPhone(rs.getString("phone"));
+                employee.setAdress(rs.getString("address"));
+                employee.setCin(rs.getString("cin"));
+                employee.setGender(rs.getString("gender"));
+                employee.setRecruitmentDate(rs.getDate("recruitment_date"));
+                employee.setSalary(rs.getFloat("salary"));
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        return employee;
+    }
+
+    public void setEmplyeeId(int id) {
+        UpdateEmployeeController.employee_id = id;
     }
 }
