@@ -1,6 +1,9 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.models.Animal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,9 +11,11 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -19,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -28,12 +34,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 
 public class ManageAnimalController implements Initializable {
@@ -73,7 +79,7 @@ public class ManageAnimalController implements Initializable {
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         combo.setItems(list);
         try {
-            afficher();
+            dispalyAnimals();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -130,7 +136,7 @@ public class ManageAnimalController implements Initializable {
 
     }
 
-    public void afficher() throws SQLException, ClassNotFoundException {
+    public void dispalyAnimals() throws SQLException, ClassNotFoundException {
         ObservableList<Animal> list = getAnimal();
         colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
         coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
@@ -207,19 +213,47 @@ public class ManageAnimalController implements Initializable {
 
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
-                            displayAlert("Delete", "Are you sure you want to delete this Cow?", Alert.AlertType.CONFIRMATION);
+
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete Confirmation");
+                            alert.setHeaderText("Are you sure you want to delete this Cow?");
                             animal = animals.getSelectionModel().getSelectedItem();
                             String delete_query = "DELETE FROM animal WHERE id='"+animal.getId()+"'";
+                            Optional<ButtonType> result = alert.showAndWait();
+                             if(result.get() == ButtonType.OK) {
+                                 try {
+                                     st = con.prepareStatement(delete_query);
+                                     st.execute();
+                                     refreshTableAnimal();
+                                 } catch (SQLException e) {
+                                     throw new RuntimeException(e);
+                                 }
+                                 Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
+                                 alertInfo.setTitle("Delete Cow");
+                                 alertInfo.setHeaderText("Cow deleted successfully");
+                                 alertInfo.showAndWait();
+                             }
 
+                        });
+                        btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
+                            String id_animal = animals.getSelectionModel().getSelectedItem().getId();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_details.fxml"));
+                            Scene scene = null;
                             try {
-                                st = con.prepareStatement(delete_query);
-                                st.execute();
-                                refreshTableAnimal();
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
+                                scene = new Scene(fxmlLoader.load());
+                                AnimalDetailsController controller = fxmlLoader.getController();
+                                controller.setAnimalId(id_animal);
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
                             }
-
-
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Animal Details");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
 
                     }
