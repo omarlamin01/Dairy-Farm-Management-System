@@ -205,7 +205,7 @@ public class EmployeesController implements Initializable {
                             Stage stage = new Stage();
                             stage.setScene(new Scene(parent));
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                            stage.setTitle("Employee Details");
+                            stage.setTitle("Update Employee");
                             stage.setResizable(false);
                             centerScreen(stage);
                             stage.show();
