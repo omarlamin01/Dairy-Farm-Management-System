@@ -14,6 +14,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -72,6 +73,10 @@ public class Helper {
     public static void closeWindow(Object event) {
         Stage stage = (Stage) ((javafx.scene.Node) event).getScene().getWindow();
         stage.close();
+    }
+
+    public static void closePopUp(MouseEvent mouseEvent) {
+        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
     }
 
     //validate inputs to accept only numbers

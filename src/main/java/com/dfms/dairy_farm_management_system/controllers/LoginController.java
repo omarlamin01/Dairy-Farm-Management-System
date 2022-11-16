@@ -18,23 +18,37 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        email_input.setText("abc@gmail.com");
-        password_input.setText("1234");
+        email_input.setText(autoConnect()[0]);
+        password_input.setText(autoConnect()[1]);
+    }
+
+    public String[] autoConnect() {
+        String[] arr = new String[2];
+        String query = "SELECT email, password FROM `user` ORDER BY `user`.`id` ASC LIMIT 1";
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            arr[0] = resultSet.getString("email");
+            arr[1] = resultSet.getString("password");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return arr;
     }
 
     private Statement st;
-    private Connection con = DBConfig.getConnection();
+    private Connection con = getConnection();
     @FXML
     private Circle close_btn;
 

@@ -229,7 +229,7 @@ public class AnimalMonitorController implements Initializable {
                 Pregnancy pregnancy = new Pregnancy();
                 pregnancy.setId(resultSet.getInt("id"));
                 pregnancy.setCow_id(resultSet.getInt("cow_id"));
-                pregnancy.setStart_date(resultSet.getDate("start_date"));
+                pregnancy.setStart_date(resultSet.getDate("start_date").toLocalDate());
                 pregnancy.setEnd_date(resultSet.getDate("delivery_date"));
                 pregnancy.setType(resultSet.getString("pregnancy_type"));
                 pregnancy.setStatus(resultSet.getString("pregnancy_status"));
