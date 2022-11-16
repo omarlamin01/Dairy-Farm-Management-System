@@ -193,19 +193,19 @@ public class EmployeesController implements Initializable {
                             int id = employees_table.getSelectionModel().getSelectedItem().getId();
                             String path = "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml";
                             FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
-                            Scene scene = null;
                             try {
-                                scene = loader.load();
+                                loader.load();
                             } catch (IOException ex) {
                                 displayAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
                                 ex.printStackTrace();
                             }
                             UpdateEmployeeController updateEmployeeController = loader.getController();
                             updateEmployeeController.setEmplyeeId(id);
+                            Parent parent = loader.getRoot();
                             Stage stage = new Stage();
-                            stage.setScene(scene);
+                            stage.setScene(new Scene(parent));
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                            stage.setTitle("Update Employee");
+                            stage.setTitle("Employee Details");
                             stage.setResizable(false);
                             centerScreen(stage);
                             stage.show();
