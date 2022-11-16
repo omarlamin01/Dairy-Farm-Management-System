@@ -136,7 +136,7 @@ public class EmployeesController implements Initializable {
                         setText(null);
 
 
-                        edit_btn.setStyle("-fx-background-color: #FFC700;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
+                        edit_btn.setStyle("-fx-background-color: #2B66FD;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         ImageView iv = new ImageView();
                         iv.setImage(edit_img);
                         iv.setPreserveRatio(true);
