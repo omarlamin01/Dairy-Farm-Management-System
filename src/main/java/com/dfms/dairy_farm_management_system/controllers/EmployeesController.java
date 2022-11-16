@@ -172,6 +172,9 @@ public class EmployeesController implements Initializable {
 
                         //delete employee
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
+                            //mark row as selected
+                            TableRow<Employee> currentRow = getTableRow();
+                            employees_table.getSelectionModel().select(currentRow.getItem());
                             Employee employee = employees_table.getSelectionModel().getSelectedItem();
                             if (employee != null) {
                                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -190,6 +193,9 @@ public class EmployeesController implements Initializable {
 
                         //update employee
                         edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            //mark row as selected
+                            TableRow<Employee> currentRow = getTableRow();
+                            employees_table.getSelectionModel().select(currentRow.getItem());
                             int id = employees_table.getSelectionModel().getSelectedItem().getId();
                             String path = "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml";
                             FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
@@ -213,6 +219,9 @@ public class EmployeesController implements Initializable {
 
                         //view employee details
                         view_details_btn.setOnMouseClicked((MouseEvent event) -> {
+                            //mark row as selected
+                            TableRow<Employee> currentRow = getTableRow();
+                            employees_table.getSelectionModel().select(currentRow.getItem());
                             int id = employees_table.getSelectionModel().getSelectedItem().getId();
                             String url = "popups/employee_details.fxml";
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
