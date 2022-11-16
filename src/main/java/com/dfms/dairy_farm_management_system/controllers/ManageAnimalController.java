@@ -36,29 +36,26 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
 
 
-
-
-
 public class ManageAnimalController implements Initializable {
     @FXML
     private TableView<Animal> animals;
 
     @FXML
-    private TableColumn<Animal,String> colid;
+    private TableColumn<Animal, String> colid;
 
     @FXML
-    private TableColumn<Animal,String> coltype;
+    private TableColumn<Animal, String> coltype;
 
     @FXML
-    private TableColumn<Animal,String> colrace;
+    private TableColumn<Animal, String> colrace;
 
     @FXML
     private TableColumn<Animal, Date> colbirth;
 
     @FXML
-    private TableColumn<Animal,String> colroutine;
+    private TableColumn<Animal, String> colroutine;
     @FXML
-    private TableColumn<Animal,String> colactions;
+    private TableColumn<Animal, String> colactions;
     @FXML
     private ComboBox<String> combo;
     @FXML
@@ -69,7 +66,8 @@ public class ManageAnimalController implements Initializable {
 
     PreparedStatement st = null;
     ResultSet rs = null;
-    Animal animal ;
+    Animal animal;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
@@ -85,51 +83,54 @@ public class ManageAnimalController implements Initializable {
     }
 
 
-
     public void openAddNewAnimal(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add New Animal", "add_new_animal");
     }
+
     ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
+
     public ObservableList<Animal> getAnimal() throws SQLException, ClassNotFoundException {
 
 
         String select_query = "SELECT a.id,a.type,a.birth_date, r.name,ro.name from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=ro.id ";
 
-            st = con.prepareStatement(select_query);
-            rs = st.executeQuery();
-            while (rs.next()) {
-                Animal animal = new Animal();
-                animal.setId(rs.getString("id"));
-                animal.setType(rs.getString("type"));
-                animal.setBirth_date(rs.getDate("birth_date"));
-                animal.setRace(rs.getString("r.name"));
-                animal.setRoutine(rs.getString("ro.name"));
+        st = con.prepareStatement(select_query);
+        rs = st.executeQuery();
+        while (rs.next()) {
+            Animal animal = new Animal();
+            animal.setId(rs.getString("id"));
+            animal.setType(rs.getString("type"));
+            animal.setBirth_date(rs.getDate("birth_date"));
+            animal.setRace(rs.getString("r.name"));
+            animal.setRoutine(rs.getString("ro.name"));
 
-                listAnimal.add(animal);
-            }
+            listAnimal.add(animal);
+        }
         return listAnimal;
     }
-        public void refreshTableAnimal() throws SQLException {
 
-           listAnimal.clear();
-            String query_refresh = "SELECT a.id,a.type,a.birth_date, r.name,ro.name from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=  ro.id ";
-            st = con.prepareStatement(query_refresh);
-            rs= st.executeQuery();
+    public void refreshTableAnimal() throws SQLException {
 
-            while (rs.next()){
-                listAnimal.add(new  Animal(
-                        rs.getString("id"),
-                       rs.getString("type"),
-                       rs.getDate("birth_date"),
-                       rs.getString("r.name"),
-                       rs.getString("ro.name")));
-                       animals.setItems(listAnimal);
+        listAnimal.clear();
+        String query_refresh = "SELECT a.id,a.type,a.birth_date, r.name,ro.name from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=  ro.id ";
+        st = con.prepareStatement(query_refresh);
+        rs = st.executeQuery();
+
+        while (rs.next()) {
+            listAnimal.add(new Animal(
+                    rs.getString("id"),
+                    rs.getString("type"),
+                    rs.getDate("birth_date"),
+                    rs.getString("r.name"),
+                    rs.getString("ro.name")));
+            animals.setItems(listAnimal);
 
 
-            }
+        }
 
-      }
-    public void  afficher() throws SQLException, ClassNotFoundException {
+    }
+
+    public void afficher() throws SQLException, ClassNotFoundException {
         ObservableList<Animal> list = getAnimal();
         colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
         coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
@@ -147,6 +148,7 @@ public class ManageAnimalController implements Initializable {
                 final Button btnDelete = new Button();
                 Image imgViewDetail = new Image(getClass().getResourceAsStream("/images/eye.png"));
                 final Button btnViewDetail = new Button();
+
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -193,7 +195,7 @@ public class ManageAnimalController implements Initializable {
 
                         setText(null);
 
-                        HBox managebtn = new HBox(btnEdit, btnDelete,btnViewDetail);
+                        HBox managebtn = new HBox(btnEdit, btnDelete, btnViewDetail);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(btnEdit, new Insets(1, 1, 0, 3));
                         HBox.setMargin(btnDelete, new Insets(1, 1, 0, 2));
@@ -222,17 +224,19 @@ public class ManageAnimalController implements Initializable {
 
                     }
                 }
-            };
-                 return cell;
-            };
 
-      colactions.setCellFactory(cellFoctory);
-      animals.setItems(list);
+
+            };
+            return cell;
+        };
+
+        colactions.setCellFactory(cellFoctory);
+        animals.setItems(list);
 
     }
 
     public void goSearch() {
-      String  search_text = textField_search.getText();
+        String search_text = textField_search.getText();
         FilteredList<Animal> filteredData = new FilteredList<>(listAnimal, p -> true);
         textField_search.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(animal -> {

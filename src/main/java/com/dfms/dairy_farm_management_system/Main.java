@@ -24,7 +24,6 @@ public class Main extends Application {
         stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
         stage.setTitle("Dairy Farm Management System");
         stage.setScene(scene);
-        //stage.initStyle(StageStyle.TRANSPARENT);
         centerScreen(stage);
         stage.show();
     }

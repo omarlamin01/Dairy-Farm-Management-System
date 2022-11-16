@@ -1,5 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import com.dfms.dairy_farm_management_system.models.Vaccination;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,21 +13,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+
 public class VaccinationController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setVaccines();
-        this.setAnimals();
-
-        //set animals ids list
-        animalVaccine.setItems(animals);
-
-        //set vaccines list
-        vaccineId.setItems(vaccines);
-    }
-
     @FXML
     ComboBox<String> animalVaccine;
     @FXML
@@ -39,18 +36,69 @@ public class VaccinationController implements Initializable {
     ObservableList<String> vaccines;
     ObservableList<String> animals;
 
-    public void setVaccines() {
-        //get vaccines ids from db
-        this.vaccines = FXCollections.observableArrayList("vac-1", "vac-2", "vac-3", "vac-4", "vac-5");
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setVaccines();
+        this.setAnimals();
     }
 
     public void setAnimals() {
-        //get animals ids from database
-        this.animals = FXCollections.observableArrayList("cow-1", "bull-1", "cow-2", "cow-3", "Bull-1", "cow-calf-1");
+        this.animals = FXCollections.observableArrayList();
+        for (String id : getAnimalsIds()) {
+            animals.add(id);
+        }
+        animalVaccine.setItems(animals);
+    }
+
+    public ArrayList<String> getAnimalsIds() {
+        ArrayList<String> ids = new ArrayList<String>();
+        String query = "SELECT id FROM animal ORDER BY created_at DESC";
+        try {
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                ids.add(resultSet.getString("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ids;
+    }
+
+    public void setVaccines() {
+        this.vaccines = FXCollections.observableArrayList();
+        Object[] strings = getVaccinesIds().keySet().toArray();
+        System.out.println(strings);
+        int i = 0;
+        for (Object vaccine_name : strings) {
+            System.out.println(i++ + " => " + vaccine_name);
+            this.vaccines.add((String) vaccine_name);
+        }
+        vaccineId.setItems(this.vaccines);
+    }
+
+    public HashMap<String, String> getVaccinesIds() {
+        HashMap<String, String> vaccinesIds = new HashMap<String, String>();
+        String query = "SELECT id, name FROM `stock` WHERE `type` = 'Vaccine' ORDER BY created_at DESC";
+        try {
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                vaccinesIds.put(resultSet.getString("name"), resultSet.getString("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(vaccinesIds);
+        return vaccinesIds;
     }
 
     @FXML
     public void addVaccination(MouseEvent mouseEvent) {
+        Vaccination vaccination = new Vaccination();
+        vaccination.setDate(String.valueOf(vaccinationDate.getValue()));
         System.out.println("Vaccination { " +
                 "Animal id: \"" + animalVaccine.getValue() + "\", " +
                 "Vaccine id: \"" + vaccineId.getValue() + "\", " +

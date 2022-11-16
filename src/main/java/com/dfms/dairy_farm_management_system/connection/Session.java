@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 
 public class Session {
     private Statement st;
@@ -22,7 +23,7 @@ public class Session {
         String query = "SELECT * FROM user WHERE id = ?";
         try {
             PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(1, current_user_id);
+            pst.setString(1, "1");
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 current_user = new User(
@@ -36,11 +37,13 @@ public class Session {
                         rs.getString("phone"),
                         rs.getString("address"),
                         rs.getFloat("salary"),
-                        rs.getDate("recruitment_date"),
-                        rs.getString("contract_type"),
+                        new Date(),
+                        "CDD",
                         rs.getDate("updated_at"),
                         rs.getDate("created_at")
                 );
+                current_user.setId_user(1);
+                current_user.setRoleId(1);
             }
         } catch (Exception e) {
             e.printStackTrace();

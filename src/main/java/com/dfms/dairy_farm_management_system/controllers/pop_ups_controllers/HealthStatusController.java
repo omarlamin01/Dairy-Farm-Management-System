@@ -1,18 +1,28 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import com.dfms.dairy_farm_management_system.models.HealthStatus;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
+
+import com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class HealthStatusController implements Initializable {
     @Override
@@ -40,19 +50,41 @@ public class HealthStatusController implements Initializable {
 
     public void setAnimals() {
         //get animals ids from database
-        this.animals = FXCollections.observableArrayList("cow-1", "bull-1", "cow-2", "cow-3", "Bull-1", "cow-calf-1");
+        ObservableList<String> collection = FXCollections.observableArrayList();
+        for (String id : getAnimalsIds()) {
+            collection.add(id);
+        }
+        this.animals = collection;
+    }
+
+    public ArrayList<String> getAnimalsIds() {
+        ArrayList<String> ids = new ArrayList<String>();
+        String query = "SELECT id FROM animal ORDER BY created_at DESC";
+        try {
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                ids.add(resultSet.getString("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ids;
     }
 
     @FXML
     public void addHealthStatus(MouseEvent mouseEvent) {
-        System.out.println("Health status { " +
-                "Animal id: \"" + animalId.getValue() + "\", " +
-                "Monitor date: \"" + monitorDate.getValue() + "\", " +
-                "Status: \"" + healthStatus.getValue() + "\", " +
-                "Notes: \"" + healthStatusNotes.getText() + "\" " +
-                "},"
-        );
-
-        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
+        HealthStatus monitor = new HealthStatus();
+        monitor.setAnimal_id(Integer.parseInt(animalId.getValue()));
+        monitor.setControl_date(monitorDate.getValue());
+        monitor.setHealth_score(healthStatus.getValue());
+        monitor.setNotes(healthStatusNotes.getText());
+        if (monitor.save()) {
+            closePopUp(mouseEvent);
+            displayAlert("Success", "Health monitor added successfully.", Alert.AlertType.INFORMATION);
+        } else {
+            displayAlert("Error", "Some error happened while saving!", Alert.AlertType.ERROR);
+        }
     }
 }
