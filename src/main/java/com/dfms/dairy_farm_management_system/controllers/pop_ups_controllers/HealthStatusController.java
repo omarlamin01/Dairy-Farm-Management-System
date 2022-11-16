@@ -50,9 +50,8 @@ public class HealthStatusController implements Initializable {
 
     public void setAnimals() {
         //get animals ids from database
-        ArrayList<String> list = getAnimalsIds();
         ObservableList<String> collection = FXCollections.observableArrayList();
-        for (String id : list) {
+        for (String id : getAnimalsIds()) {
             collection.add(id);
         }
         this.animals = collection;
