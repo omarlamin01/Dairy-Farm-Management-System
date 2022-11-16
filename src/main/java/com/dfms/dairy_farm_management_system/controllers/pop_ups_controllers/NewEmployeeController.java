@@ -91,6 +91,10 @@ public class NewEmployeeController implements Initializable {
         String gender = this.genderCombo.getValue();
         String role = this.roleCombo.getValue();
 
+        if (!isUnique(email, phone, cin)) {
+            displayAlert("Error", "Email, phone or CIN already exists", Alert.AlertType.ERROR);
+            return;
+        }
 
         String query_emp = "INSERT INTO employee (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         String query_user = "INSERT INTO user (role_id, employee_id, first_name, last_name, email, password, phone, address, gender, cin, salary) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -188,5 +192,20 @@ public class NewEmployeeController implements Initializable {
                 || this.roleCombo.getValue() == null)
             return true;
         return false;
+    }
+
+    //check if email, cin and phone are unique
+    public boolean isUnique(String email, String cin, String phone) {
+        String query = "SELECT * FROM employee WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
+        try {
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if (rs.next()) {
+                return false;
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        return true;
     }
 }
