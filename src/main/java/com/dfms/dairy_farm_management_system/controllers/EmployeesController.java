@@ -124,7 +124,7 @@ public class EmployeesController implements Initializable {
                         setGraphic(null);
                         setText(null);
                     } else {
-                        view_details_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        view_details_btn.setStyle("-fx-background-color: #1E1E1E;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         ImageView iv1 = new ImageView();
                         iv1.setImage(view_details_img);
                         iv1.setPreserveRatio(true);
@@ -136,7 +136,7 @@ public class EmployeesController implements Initializable {
                         setText(null);
 
 
-                        edit_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        edit_btn.setStyle("-fx-background-color: #2B66FD;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         ImageView iv = new ImageView();
                         iv.setImage(edit_img);
                         iv.setPreserveRatio(true);
@@ -147,7 +147,7 @@ public class EmployeesController implements Initializable {
                         setGraphic(edit_btn);
                         setText(null);
 
-                        delete_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        delete_btn.setStyle("-fx-background-color: #FF3939;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         ImageView iv2 = new ImageView();
 
                         iv2.setImage(delete_img);
@@ -161,17 +161,20 @@ public class EmployeesController implements Initializable {
 
                         setText(null);
 
-                        HBox managebtn = new HBox(edit_btn, delete_btn, view_details_btn);
+                        HBox managebtn = new HBox(view_details_btn, edit_btn, delete_btn);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(delete_btn, new Insets(1, 1, 0, 2));
-                        HBox.setMargin(view_details_btn, new Insets(1, 1, 0, 1));
+                        HBox.setMargin(delete_btn, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(view_details_btn, new Insets(1, 1, 0, 3));
 
                         setGraphic(managebtn);
                         setText(null);
 
                         //delete employee
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
+                            //mark row as selected
+                            TableRow<Employee> currentRow = getTableRow();
+                            employees_table.getSelectionModel().select(currentRow.getItem());
                             Employee employee = employees_table.getSelectionModel().getSelectedItem();
                             if (employee != null) {
                                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -190,6 +193,9 @@ public class EmployeesController implements Initializable {
 
                         //update employee
                         edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            //mark row as selected
+                            TableRow<Employee> currentRow = getTableRow();
+                            employees_table.getSelectionModel().select(currentRow.getItem());
                             int id = employees_table.getSelectionModel().getSelectedItem().getId();
                             String path = "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml";
                             FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
@@ -213,6 +219,9 @@ public class EmployeesController implements Initializable {
 
                         //view employee details
                         view_details_btn.setOnMouseClicked((MouseEvent event) -> {
+                            //mark row as selected
+                            TableRow<Employee> currentRow = getTableRow();
+                            employees_table.getSelectionModel().select(currentRow.getItem());
                             int id = employees_table.getSelectionModel().getSelectedItem().getId();
                             String url = "popups/employee_details.fxml";
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
