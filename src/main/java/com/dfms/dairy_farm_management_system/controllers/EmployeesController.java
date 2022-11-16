@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -168,7 +170,7 @@ public class EmployeesController implements Initializable {
                         setGraphic(managebtn);
                         setText(null);
 
-                        //action for action buttons
+                        //delete employee
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
                             Employee employee = employees_table.getSelectionModel().getSelectedItem();
                             if (employee != null) {
@@ -186,6 +188,30 @@ public class EmployeesController implements Initializable {
                             }
                         });
 
+                        //update employee
+                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            int id = employees_table.getSelectionModel().getSelectedItem().getId();
+                            String path = "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml";
+                            FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
+                            try {
+                                loader.load();
+                            } catch (IOException ex) {
+                                displayAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
+                                ex.printStackTrace();
+                            }
+                            UpdateEmployeeController updateEmployeeController = loader.getController();
+                            updateEmployeeController.setEmplyeeId(id);
+                            Parent parent = loader.getRoot();
+                            Stage stage = new Stage();
+                            stage.setScene(new Scene(parent));
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Update Employee");
+                            stage.setResizable(false);
+                            centerScreen(stage);
+                            stage.show();
+                        });
+
+                        //view employee details
                         view_details_btn.setOnMouseClicked((MouseEvent event) -> {
                             int id = employees_table.getSelectionModel().getSelectedItem().getId();
                             String url = "popups/employee_details.fxml";
