@@ -190,7 +190,7 @@ public class Employee implements Model {
                 "', `salary` = '" + salary +
                 "', `recruitment_date` = '" + "2022-11-12" +
                 "', `contract_type` = '" + contract_type +
-                "', `updated_at` = '" + dtf.format(now) +"' " +
+                "', `updated_at` = '" + dtf.format(now) + "' " +
                 "WHERE `employee`.`id` = " + this.id;
         try {
             Connection connection = DBConfig.getConnection();

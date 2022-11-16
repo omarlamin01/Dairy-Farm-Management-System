@@ -1,41 +1,45 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import java.util.Date;
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 
-public class HealthStatus {
-    private int id_healthstatus;
-    private int id_animal;
-    private int id_vaccin;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDate;
+
+public class HealthStatus implements Model {
+    private int id;
+    private int animal_id;
+    private int vaccin_id;
     private float weight;
-    private float breading;
+    private float breathing;
     private float age;
-    private Date date_control;
+    private LocalDate control_date;
+    private String health_score;
+    private String notes;
 
-    public int getId_vaccin() {
-        return id_vaccin;
+    public String getNotes() {
+        return notes;
     }
 
-    public void setId_vaccin(int id_vaccin) {
-        this.id_vaccin = id_vaccin;
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
-    public HealthStatus(int id, int id_animal, int id_vaccin, float weight, float breading, float age, Date date_control, String health_score) {
-        this.id_healthstatus = id;
-        this.id_animal = id_animal;
-        this.id_vaccin = id_vaccin;
-        this.weight = weight;
-        this.breading = breading;
-        this.age = age;
-        this.date_control = date_control;
-        this.health_score = health_score;
+    public int getVaccin_id() {
+        return vaccin_id;
     }
 
-    public Date getDate_control() {
-        return date_control;
+    public void setVaccin_id(int vaccin_id) {
+        this.vaccin_id = vaccin_id;
     }
 
-    public void setDate_control(Date date_control) {
-        this.date_control = date_control;
+    public LocalDate getControl_date() {
+        return control_date;
+    }
+
+    public void setControl_date(LocalDate control_date) {
+        this.control_date = control_date;
     }
 
     public float getAge() {
@@ -46,23 +50,20 @@ public class HealthStatus {
         this.age = age;
     }
 
-
-    private String health_score;
-
     public void setId(int id) {
-        this.id_healthstatus = id;
+        this.id = id;
     }
 
-    public void setId_animal(int id_animal) {
-        this.id_animal = id_animal;
+    public void setAnimal_id(int animal_id) {
+        this.animal_id = animal_id;
     }
 
     public void setWeight(float weight) {
         this.weight = weight;
     }
 
-    public void setBreading(float breading) {
-        this.breading = breading;
+    public void setBreathing(float breathing) {
+        this.breathing = breathing;
     }
 
     public void setHealth_score(String health_score) {
@@ -70,19 +71,19 @@ public class HealthStatus {
     }
 
     public int getId() {
-        return id_healthstatus;
+        return id;
     }
 
-    public int getId_animal() {
-        return id_animal;
+    public int getAnimal_id() {
+        return animal_id;
     }
 
     public float getWeight() {
         return weight;
     }
 
-    public float getBreading() {
-        return breading;
+    public float getBreathing() {
+        return breathing;
     }
 
     public String getHealth_score() {
@@ -90,4 +91,34 @@ public class HealthStatus {
     }
 
 
+    @Override
+    public boolean save() {
+        String query = "INSERT INTO `health_status` (`animal_id`, `vaccine_id`, `weight`, `breading`, `age`, `control_date`) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            preparedStatement.setString(1, String.valueOf(this.animal_id));
+            preparedStatement.setString(2, "1");
+            preparedStatement.setString(3, String.valueOf(this.weight));
+            preparedStatement.setString(4, String.valueOf(this.breathing));
+            preparedStatement.setString(5, String.valueOf(this.age));
+            preparedStatement.setString(6, String.valueOf(this.control_date));
+
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
+    }
 }

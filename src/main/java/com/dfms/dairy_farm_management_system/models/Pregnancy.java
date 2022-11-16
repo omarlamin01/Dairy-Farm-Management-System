@@ -2,20 +2,28 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Pregnancy {
-    private int id_pregnancy;
-    private int id_cow;
+public class Pregnancy implements Model {
+    private int id;
+    private int cow_id;
     private Date start_date;
     private Date end_date;
+    private String type;
+    private String status;
 
-    private String pregnancy_type;
-
-    public void setId(int id) {
-        this.id_pregnancy = id;
+    public String getStatus() {
+        return status;
     }
 
-    public void setId_cow(int id_cow) {
-        this.id_cow = id_cow;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCow_id(int cow_id) {
+        this.cow_id = cow_id;
     }
 
     public void setStart_date(Date start_date) {
@@ -26,17 +34,16 @@ public class Pregnancy {
         this.end_date = end_date;
     }
 
-
-    public void setPregnancy_type(String pregnancy_type) {
-        this.pregnancy_type = pregnancy_type;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getId() {
-        return id_pregnancy;
+        return id;
     }
 
-    public int getId_cow() {
-        return id_cow;
+    public int getCow_id() {
+        return cow_id;
     }
 
     public Date getStart_date() {
@@ -47,17 +54,22 @@ public class Pregnancy {
         return end_date;
     }
 
-
-    public String getPregnancy_type() {
-        return pregnancy_type;
+    public String getType() {
+        return type;
     }
 
-    public Pregnancy(int id, int id_cow, Date start_date, Date end_date, String pregnancy_type) {
-        this.id_pregnancy = id;
-        this.id_cow = id_cow;
-        this.start_date = start_date;
-        this.end_date = end_date;
+    @Override
+    public boolean save() {
+        return false;
+    }
 
-        this.pregnancy_type = pregnancy_type;
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
     }
 }

@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -13,9 +14,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-
-<ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: transparent;" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ProfileController">
-    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+<ScrollPane style="-fx-background-color: transparent;" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ProfileController">
+    <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
         <Label styleClass="header" text="Profile" textAlignment="CENTER">
             <font>
                 <Font name="System Bold" size="24.0" />
@@ -125,15 +125,7 @@
                 <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="1.7976931348623157E308" />
             </rowConstraints>
-            <TextField fx:id="new_password_input" promptText="New password" GridPane.rowIndex="1">
-                <GridPane.margin>
-                    <Insets bottom="10.0" right="10.0" />
-                </GridPane.margin>
-                <styleClass>
-                    <String fx:value="input" />
-                    <String fx:value="password_input" />
-                </styleClass>
-            </TextField>
+
             <TextField fx:id="email_input" promptText="Email">
                 <GridPane.margin>
                     <Insets bottom="10.0" right="10.0" />
@@ -143,29 +135,38 @@
                     <String fx:value="email_input" />
                 </styleClass>
             </TextField>
-            <TextField fx:id="current_password_input" promptText="Current password" GridPane.columnIndex="1">
-                <GridPane.margin>
-                    <Insets bottom="10.0" left="10.0" />
-                </GridPane.margin>
-                <styleClass>
-                    <String fx:value="input" />
-                    <String fx:value="password_input" />
-                </styleClass>
-            </TextField>
-            <TextField fx:id="confirm_new_password_input" promptText="Confirm new password" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                <GridPane.margin>
-                    <Insets bottom="10.0" left="10.0" />
-                </GridPane.margin>
-                <styleClass>
-                    <String fx:value="input" />
-                    <String fx:value="password_input" />
-                </styleClass>
-            </TextField>
             <Button fx:id="update_login_info_btn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#updateLoginInfo" styleClass="btn" text="UPDATE" GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
                 <GridPane.margin>
                     <Insets left="-8.0" />
                 </GridPane.margin>
             </Button>
+         <PasswordField fx:id="current_password_input" promptText="Current password" GridPane.columnIndex="1">
+            <styleClass>
+               <String fx:value="input" />
+               <String fx:value="password_input" />
+            </styleClass>
+            <GridPane.margin>
+               <Insets bottom="10.0" left="10.0" />
+            </GridPane.margin>
+         </PasswordField>
+         <PasswordField fx:id="new_password_input" promptText="New password" GridPane.rowIndex="1">
+            <styleClass>
+               <String fx:value="input" />
+               <String fx:value="password_input" />
+            </styleClass>
+            <GridPane.margin>
+               <Insets bottom="10.0" right="10.0" />
+            </GridPane.margin>
+         </PasswordField>
+         <PasswordField fx:id="confirm_new_password_input" promptText="Confirm new password" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <styleClass>
+               <String fx:value="input" />
+               <String fx:value="password_input" />
+            </styleClass>
+            <GridPane.margin>
+               <Insets bottom="10.0" left="10.0" />
+            </GridPane.margin>
+         </PasswordField>
         </GridPane>
     </VBox>
 </ScrollPane>
