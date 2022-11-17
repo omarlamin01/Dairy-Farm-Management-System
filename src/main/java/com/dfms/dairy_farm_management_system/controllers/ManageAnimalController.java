@@ -165,43 +165,43 @@ public class ManageAnimalController implements Initializable {
 
                     } else {
                         btnViewDetail.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv1 = new ImageView();
-                        iv1.setImage(imgViewDetail);
-                        iv1.setPreserveRatio(true);
-                        iv1.setSmooth(true);
-                        iv1.setCache(true);
-                        btnViewDetail.setGraphic(iv1);
+                        ImageView iv_viewDetail = new ImageView();
+                        iv_viewDetail.setImage(imgViewDetail);
+                        iv_viewDetail.setPreserveRatio(true);
+                        iv_viewDetail.setSmooth(true);
+                        iv_viewDetail.setCache(true);
+                        btnViewDetail.setGraphic(iv_viewDetail);
 
                         setGraphic(btnViewDetail);
                         setText(null);
 
 
                         btnEdit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(imgEdit);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        btnEdit.setGraphic(iv);
+                        ImageView iv_edit = new ImageView();
+                        iv_edit.setImage(imgEdit);
+                        iv_edit.setPreserveRatio(true);
+                        iv_edit.setSmooth(true);
+                        iv_edit.setCache(true);
+                        btnEdit.setGraphic(iv_edit);
 
                         setGraphic(btnEdit);
                         setText(null);
 
                         btnDelete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv2 = new ImageView();
+                        ImageView iv_delete = new ImageView();
 
-                        iv2.setImage(imgDelete);
-                        iv2.setPreserveRatio(true);
-                        iv2.setSmooth(true);
-                        iv2.setCache(true);
-                        btnDelete.setGraphic(iv2);
+                        iv_delete.setImage(imgDelete);
+                        iv_delete.setPreserveRatio(true);
+                        iv_delete.setSmooth(true);
+                        iv_delete.setCache(true);
+                        btnDelete.setGraphic(iv_delete);
 
 
                         setGraphic(btnDelete);
 
                         setText(null);
 
-                        HBox managebtn = new HBox(btnEdit, btnDelete, btnViewDetail);
+                        HBox managebtn = new HBox(iv_edit, iv_delete, iv_viewDetail);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(btnEdit, new Insets(1, 1, 0, 3));
                         HBox.setMargin(btnDelete, new Insets(1, 1, 0, 2));
@@ -212,7 +212,7 @@ public class ManageAnimalController implements Initializable {
                         setText(null);
 
 
-                        btnDelete.setOnMouseClicked((MouseEvent event) -> {
+                        iv_delete.setOnMouseClicked((MouseEvent event) -> {
 
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete Confirmation");
@@ -235,14 +235,14 @@ public class ManageAnimalController implements Initializable {
                              }
 
                         });
-                        btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
-                            String id_animal = animals.getSelectionModel().getSelectedItem().getId();
+                            iv_viewDetail.setOnMouseClicked((MouseEvent event) -> {
+                            Animal animal = animals.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 AnimalDetailsController controller = fxmlLoader.getController();
-                                controller.setAnimalId(id_animal);
+                               controller.fetchAnimal(animal.getId(),animal.getRace(),animal.getBirth_date(),animal.getRoutine(),animal.getPurchase_date(),animal.getType());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();

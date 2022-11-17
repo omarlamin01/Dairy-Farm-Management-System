@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -39,49 +40,54 @@ public class AnimalDetailsController implements Initializable {
     @FXML
     private Label purchase_date;
     public static String id_animal;
-    public static Animal animal;
+
+//    public static void setId_animal(String id_animal) {
+//        AnimalDetailsController.id_animal = id_animal;
+//    }
+
+    public static Animal animal = new Animal();
 
     Connection con = DBConfig.getConnection();
     PreparedStatement st = null;
     ResultSet rs = null;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            fetchAnimal();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public Animal getAnimal(String id) throws SQLException {
-         animal =new Animal();
-
-        String select_query = "SELECT a.id,a.type,a.birth_date, r.name,ro.name,a.purchase_date from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=ro.id  where id='"+id+"'";
-
-        st = con.prepareStatement(select_query);
-        rs = st.executeQuery();
-        while (rs.next()) {
-            animal.setId(rs.getString("id"));
-            animal.setType(rs.getString("type"));
-            animal.setBirth_date(rs.getDate("birth_date"));
-            animal.setRace(rs.getString("r.name"));
-            animal.setRoutine(rs.getString("ro.name"));
-            animal.setPurchase_date(rs.getDate("purchase_date"));
-        }
-        return animal;
-    }
-
-    public void fetchAnimal() throws SQLException {
-        animal = getAnimal(AnimalDetailsController.id_animal);
-        header.setText("Here's all the information about Cow Num: " + animal.getId());
-        id.setText(animal.getId());
-        birth_date.setText(animal.getBirth_date()+"");
-        race.setText(animal.getRace());
-        routine.setText(animal.getRace());
-        type.setText(animal.getType());
-        purchase_date.setText(animal.getPurchase_date()+" ");
 
     }
-    public void setAnimalId(String id) {
-        AnimalDetailsController.id_animal = id;
-    }
+
+//    public Animal getAnimal(String id) throws SQLException {
+//
+//        String select_query = "SELECT a.id,a.type,a.birth_date, r.name,ro.name,a.purchase_date from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=ro.id and a.id='" + id + "'";
+//
+//        st = con.prepareStatement(select_query);
+//        rs = st.executeQuery();
+//        while (rs.next()) {
+//            animal.setId(rs.getString("id"));
+//            animal.setType(rs.getString("type"));
+//            animal.setBirth_date(rs.getDate("birth_date"));
+//            animal.setRace(rs.getString("r.name"));
+//            animal.setRoutine(rs.getString("ro.name"));
+//            animal.setPurchase_date(rs.getDate("purchase_date"));
+//        }
+//        return animal;
+//    }
+
+     public void fetchAnimal(String id_animal, String race_animal,Date birthdate,String routine_animal,Date purchasedate,String type_animal)  {
+//        animal = getAnimal(AnimalDetailsController.id_animal);
+         header.setText("Here's all the information about Cow Num: " + id_animal);
+         birth_date.setText(birthdate+"");
+         id.setText(id_animal);
+         race.setText(race_animal);
+         routine.setText(routine_animal);
+         type.setText(type_animal);
+         purchase_date.setText(purchasedate+ " ");
+
+     }
+
+//    public void setAnimalId(String id) {
+//        AnimalDetailsController.id_animal = id;
+//
+//    }
+
 }
