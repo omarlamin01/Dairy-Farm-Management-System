@@ -3,6 +3,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.MilkCollectionlDetailsController;
 import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
@@ -239,12 +240,12 @@ public class MilkCollectionController implements Initializable {
                         });
                         btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
                             MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_details.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/milkcollection_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
-                                AnimalDetailsController controller = fxmlLoader.getController();
-                                controller.fetchAnimal(animal.getId(), animal.getRace(), animal.getBirth_date(), animal.getRoutine(), animal.getPurchase_date(), animal.getType());
+                                MilkCollectionlDetailsController controller = fxmlLoader.getController();
+                                controller.fetchMilkCollection( mc.getId(),mc.getCow_id(), mc.getPeriod(), mc.getQuantity(), mc.getCollection_date());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
