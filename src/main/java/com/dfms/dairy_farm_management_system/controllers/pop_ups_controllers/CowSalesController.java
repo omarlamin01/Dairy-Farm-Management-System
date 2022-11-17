@@ -1,14 +1,13 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.AnimalSale;
+import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -18,7 +17,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.validateDecimalInput;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class CowSalesController implements Initializable {
     @Override
@@ -80,8 +80,25 @@ public class CowSalesController implements Initializable {
 
     @FXML
     public void addCowSale(MouseEvent mouseEvent) {
-        System.out.println("Sale: {" + " Client: \"" + this.clientsCombo.getValue() + "\"," + " Animal ID: \"" + this.animalsCombo.getValue() + "\"," + " Operation date: \"" + this.operationDate.getValue() + "\"," + " Price of sale: \"" + this.priceOfSale.getText() + "\" " + "}");
+        if (clientsCombo.getValue() == null || animalsCombo.getValue() == null || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
+            displayAlert("Error", "Please Fill all fields ", Alert.AlertType.ERROR);
+        } else if (Float.parseFloat(priceOfSale.getText()) == 0) {
+            displayAlert("Error", "Price can't be null ", Alert.AlertType.ERROR);
+        } else {
+            AnimalSale animalSale = new AnimalSale();
+            animalSale.setId_animal(animalsCombo.getValue());
+            animalSale.setPrice(Float.parseFloat(priceOfSale.getText()));
+            animalSale.setId_client(clientsCombo.getValue());
+            animalSale.setOperationDate(operationDate.getValue());
+            if (animalSale.save()) {
+                closePopUp(mouseEvent);
+                displayAlert("success", "Sale added successfully", Alert.AlertType.INFORMATION);
 
-        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
+            } else {
+                displayAlert("Error", "Error while saving!!!", Alert.AlertType.ERROR);
+            }
+
+
+        }
     }
 }

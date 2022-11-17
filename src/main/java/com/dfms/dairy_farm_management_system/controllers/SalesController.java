@@ -26,7 +26,9 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
@@ -61,7 +63,7 @@ public class SalesController implements Initializable {
     private TableView<AnimalSale> AnimalSalesTable;
 
     @FXML
-    private TableColumn<AnimalSale, Date> operationdate_col;
+    private TableColumn<AnimalSale, LocalDate> operationdate_col;
 
     @FXML
     private TableColumn<AnimalSale, Float> price_col;
@@ -96,7 +98,7 @@ public class SalesController implements Initializable {
             animalSale.setId_animal(rs.getString("animal_id"));
             animalSale.setPrice(rs.getFloat("price"));
             animalSale.setId_client(rs.getString("name"));
-            animalSale.setOperationDate(rs.getDate("sale_date"));
+            animalSale.setOperationDate(rs.getDate("sale_date").toLocalDate());
 
 
             list.add(animalSale);
@@ -118,7 +120,7 @@ public class SalesController implements Initializable {
         animalis_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("id_animal"));
         price_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, Float>("price"));
         client_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("id_client"));
-        operationdate_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, Date>("operationDate"));
+        operationdate_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, LocalDate>("operationDate"));
 
 
         Callback<TableColumn<AnimalSale, String>, TableCell<AnimalSale, String>> cellFoctory = (TableColumn<AnimalSale, String> param) -> {

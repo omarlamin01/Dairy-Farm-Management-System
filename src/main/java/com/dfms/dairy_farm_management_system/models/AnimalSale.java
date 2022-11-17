@@ -3,9 +3,10 @@ package com.dfms.dairy_farm_management_system.models;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class AnimalSale  implements Model{
 
@@ -16,7 +17,7 @@ public class AnimalSale  implements Model{
 
     private String id_animal;
     private float price;
-    private Date operationDate;
+    private LocalDate operationDate;
 
     public AnimalSale() {
 
@@ -58,15 +59,15 @@ public class AnimalSale  implements Model{
         this.price = price;
     }
 
-    public Date getOperationDate() {
+    public LocalDate getOperationDate() {
         return operationDate;
     }
 
-    public void setOperationDate(Date operationDate) {
+    public void setOperationDate(LocalDate operationDate) {
         this.operationDate = operationDate;
     }
 
-    public AnimalSale(int id_sales, String id_client, String id_animal, float price, Date operationDate) {
+    public AnimalSale(int id_sales, String id_client, String id_animal, float price, LocalDate operationDate) {
         this.id= id_sales;
         this.id_client = id_client;
         this.id_animal = id_animal;
@@ -75,15 +76,15 @@ public class AnimalSale  implements Model{
     }
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO animal_sale (animal_id,price,client_id,sale_date) VALUES (?,?,?,?)";
+        String insertQuery = "INSERT INTO animal_sale (animal_id,price,client_id,sale_date) VALUES (?,?,(select id from client where name ='"+getId_client()+"'),?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
             preparedStatement.setString(1, id_animal);
             preparedStatement.setFloat(2, price);
-            preparedStatement.setString(3, id_client);
-            preparedStatement.setDate(4, (java.sql.Date) operationDate);
+
+            preparedStatement.setDate(3, Date.valueOf(operationDate));
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
