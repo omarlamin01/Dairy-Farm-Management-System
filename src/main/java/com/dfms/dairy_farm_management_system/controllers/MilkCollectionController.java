@@ -28,11 +28,11 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class MilkCollectionController implements Initializable {
-MilkCollection mc;
+    MilkCollection mc;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -40,11 +40,12 @@ MilkCollection mc;
         combo.setItems(list);
         try {
             afficher();
-            liveSearch(search_input,MilkCollectionTable);
+            liveSearch(search_input, MilkCollectionTable);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
+
     @FXML
     private ComboBox<String> combo;
     @FXML
@@ -75,15 +76,17 @@ MilkCollection mc;
     PreparedStatement st = null;
     ResultSet rs = null;
     ObservableList<MilkCollection> list = FXCollections.observableArrayList();
+
     public ObservableList<MilkCollection> getMilkCollection() throws SQLException, ClassNotFoundException {
         ObservableList<MilkCollection> list = FXCollections.observableArrayList();
 
-        String select_query = "SELECT mc.cow_id, quantity ,period,mc.created_at from  milk_collection mc ,animal a where mc.cow_id= a.id and a.type='cow' ";
+        String select_query = "SELECT  mc.id, mc.cow_id, quantity ,period,mc.created_at from  milk_collection mc ,animal a where mc.cow_id= a.id and a.type='cow' ";
 
         st = DBConfig.getConnection().prepareStatement(select_query);
         rs = st.executeQuery();
         while (rs.next()) {
             MilkCollection milkCollection = new MilkCollection();
+            milkCollection.setId(rs.getInt("id"));
             milkCollection.setCow_id(rs.getString("cow_id"));
             milkCollection.setQuantity(rs.getFloat("quantity"));
             milkCollection.setPeriod(rs.getString("period"));
@@ -94,6 +97,7 @@ MilkCollection mc;
         }
         return list;
     }
+
     public void refreshTableMilkCollection() throws SQLException {
 
         MilkCollectionTable.getItems().clear();
@@ -104,6 +108,7 @@ MilkCollection mc;
         }
 
     }
+
     public void afficher() throws SQLException, ClassNotFoundException {
         ObservableList<MilkCollection> list = getMilkCollection();
         id_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, String>("cow_id"));
@@ -122,6 +127,7 @@ MilkCollection mc;
                 final Button btnDelete = new Button();
                 Image imgViewDetail = new Image(getClass().getResourceAsStream("/images/eye.png"));
                 final Button btnViewDetail = new Button();
+
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -168,7 +174,7 @@ MilkCollection mc;
 
                         setText(null);
 
-                        HBox managebtn = new HBox(btnEdit, btnDelete,btnViewDetail);
+                        HBox managebtn = new HBox(btnEdit, btnDelete, btnViewDetail);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(btnEdit, new Insets(1, 1, 0, 3));
                         HBox.setMargin(btnDelete, new Insets(1, 1, 0, 2));
@@ -180,25 +186,28 @@ MilkCollection mc;
 
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
-                           MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
-                            String query = "DELETE FROM milk_collection WHERE id = "+mc.getId()+"";
-                            Connection connection = DBConfig.getConnection();
-                            try {
-                                st = connection.prepareStatement(query);
-                                st.execute();
-                                refreshTableMilkCollection();
+                            MilkCollection m = new MilkCollection();
+                            MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
+                            if (mc.delete()) {
 
-                                //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
-                            } catch (SQLException e) {
-                               // displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                                throw new RuntimeException(e);
+                                displayAlert("success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
+                                try {
+                                    refreshTableMilkCollection();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                    throw new RuntimeException(e);
+                                }
+                            } else {
+                                displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
                             }
+
+
+                            //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
+
                         });
 
-                        }}
-
-
-
+                    }
+                }
 
 
             };
@@ -211,9 +220,7 @@ MilkCollection mc;
     }
 
 
-
-
-        public void liveSearch(TextField search_input, TableView table) {
+    public void liveSearch(TextField search_input, TableView table) {
         search_input.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
                 try {
@@ -233,7 +240,7 @@ MilkCollection mc;
                 }
                 for (MilkCollection milkCollection : milkCollections) {
                     if (milkCollection.getPeriod().toLowerCase().contains(newValue.toLowerCase()) || milkCollection.getCow_id().toLowerCase().contains(newValue.toLowerCase())) {
-                        filteredList.add(milkCollection );
+                        filteredList.add(milkCollection);
                     }
                 }
                 MilkCollectionTable.setItems(filteredList);
@@ -244,11 +251,14 @@ MilkCollection mc;
 
     @FXML
     void openAddNewMilkCollection(MouseEvent event) throws IOException {
-        openNewWindow("Add Milk Collection", "add_new_milk_collection");}
+        openNewWindow("Add Milk Collection", "add_new_milk_collection");
+    }
+
     private Connection con = DBConfig.getConnection();
     private Statement stt;
+
     private void deleteMilkCollection(int id) {
-        String query = "DELETE FROM milk_collection WHERE id = "+id;
+        String query = "DELETE FROM milk_collection WHERE id = " + id;
         try {
 
             stt = con.createStatement();
@@ -259,4 +269,4 @@ MilkCollection mc;
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-    }
+}
