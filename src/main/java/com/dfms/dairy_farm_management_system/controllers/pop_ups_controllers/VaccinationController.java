@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
 
 public class VaccinationController implements Initializable {
     @FXML
@@ -106,7 +107,6 @@ public class VaccinationController implements Initializable {
                 "Notes: \"" + vaccineNotes.getText() + "\" " +
                 "},"
         );
-
-        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
+        closePopUp(mouseEvent);
     }
 }

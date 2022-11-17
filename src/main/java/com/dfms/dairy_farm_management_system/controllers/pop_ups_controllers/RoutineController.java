@@ -13,7 +13,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.ResourceBundle;
+
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
 
 public class RoutineController implements Initializable {
     @Override
@@ -35,7 +43,7 @@ public class RoutineController implements Initializable {
 
     public void setFoods() {
         //get foods from db
-        this.foods = new String[]{"Corn", "Weed", "Grass"};
+        this.foods = getFoods().keySet().toArray(new String[0]);
 
         //
         for (String food : foods) {
@@ -77,6 +85,22 @@ public class RoutineController implements Initializable {
         }
     }
 
+    public HashMap<String, Integer> getFoods() {
+        HashMap<String, Integer> list = new HashMap<>();
+        String query = "SELECT id, name FROM stock WHERE type = 'feed'";
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                list.put(resultSet.getString("name"), resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     @FXML
     public void addRoutine(MouseEvent mouseEvent) {
         System.out.println("Routine { " +
@@ -85,6 +109,6 @@ public class RoutineController implements Initializable {
                 "},"
         );
 
-        ((Stage)(((Button)mouseEvent.getSource()).getScene().getWindow())).close();
+        closePopUp(mouseEvent);
     }
 }

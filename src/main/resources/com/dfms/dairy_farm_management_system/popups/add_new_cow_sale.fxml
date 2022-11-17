@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.CowSalesController">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.CowSalesController">
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
@@ -29,7 +29,7 @@
                   <Insets />
                </HBox.margin>
             </Label>
-                <Label styleClass="header_green" text="Cow Sales" textAlignment="CENTER">
+                <Label styleClass="header_green" text="Animal Sales" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -45,7 +45,7 @@
                   <Insets bottom="10.0" />
               </VBox.margin>
           </Pane>
-          <Label styleClass="sub_header" text="Add new cow sales operation" textAlignment="CENTER">
+          <Label styleClass="sub_header" text="Add new animal sales operation" textAlignment="CENTER">
               <font>
                   <Font size="18.0" />
               </font>
