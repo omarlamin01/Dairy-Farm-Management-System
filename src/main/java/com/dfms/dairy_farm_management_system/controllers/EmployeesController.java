@@ -1,8 +1,10 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
+import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -73,8 +75,6 @@ public class EmployeesController implements Initializable {
 
     @FXML
     private Button openAddNewEmployeeBtn;
-
-    Employee employee;
 
     //get all the employees
     public ObservableList<Employee> getEmployees() {
@@ -156,7 +156,7 @@ public class EmployeesController implements Initializable {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete Employee");
                             alert.setHeaderText("Are you sure you want to delete this employee?");
-                            employee = employees_table.getSelectionModel().getSelectedItem();
+                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
@@ -196,25 +196,20 @@ public class EmployeesController implements Initializable {
 
                         //view employee details
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
-                            //mark row as selected
-                            TableRow<Employee> currentRow = getTableRow();
-                            employees_table.getSelectionModel().select(currentRow.getItem());
-                            int id = employees_table.getSelectionModel().getSelectedItem().getId();
-                            String url = "popups/employee_details.fxml";
+                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 EmployeeDetailsController controller = fxmlLoader.getController();
-                                System.out.println("id: " + id);
-                                controller.setEmployeeId(id);
+                                controller.fetchEmployee(employee);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
                             }
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                            stage.setTitle("Employee Details");
+                            stage.setTitle("Animal Details");
                             stage.setResizable(false);
                             stage.setScene(scene);
                             centerScreen(stage);
