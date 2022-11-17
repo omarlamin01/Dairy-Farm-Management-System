@@ -1,8 +1,13 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
 
-public class AnimalSale {
+public class AnimalSale  implements Model{
 
     private int id;
 
@@ -67,5 +72,32 @@ public class AnimalSale {
         this.id_animal = id_animal;
         this.price = price;
         this.operationDate = operationDate;
+    }
+    @Override
+    public boolean save() {
+        String insertQuery = "INSERT INTO animal_sale (animal_id,price,client_id,sale_date) VALUES (?,?,?,?)";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setString(1, id_animal);
+            preparedStatement.setFloat(2, price);
+            preparedStatement.setString(3, id_client);
+            preparedStatement.setDate(4, (java.sql.Date) operationDate);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
     }
 }
