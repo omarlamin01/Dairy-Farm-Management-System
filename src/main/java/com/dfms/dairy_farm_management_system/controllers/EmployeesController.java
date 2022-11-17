@@ -124,8 +124,8 @@ public class EmployeesController implements Initializable {
                         setGraphic(null);
                         setText(null);
                     } else {
-                        view_details_btn.setStyle("-fx-background-color: #1E1E1E;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         ImageView iv_view_details = new ImageView();
+                        iv_view_details.setStyle("-fx-background-color: #1E1E1E;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         iv_view_details.setImage(view_details_img);
                         iv_view_details.setPreserveRatio(true);
                         iv_view_details.setSmooth(true);
@@ -136,8 +136,8 @@ public class EmployeesController implements Initializable {
                         setText(null);
 
 
-                        edit_btn.setStyle("-fx-background-color: #2B66FD;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         ImageView iv_edit = new ImageView();
+                        iv_edit.setStyle("-fx-background-color: #2B66FD;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         iv_edit.setImage(edit_img);
                         iv_edit.setPreserveRatio(true);
                         iv_edit.setSmooth(true);
@@ -147,15 +147,14 @@ public class EmployeesController implements Initializable {
                         setGraphic(edit_btn);
                         setText(null);
 
-                        delete_btn.setStyle("-fx-background-color: #FF3939;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         ImageView iv_delete = new ImageView();
+                        iv_delete.setStyle("-fx-background-color: #FF3939;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
 
                         iv_delete.setImage(delete_img);
                         iv_delete.setPreserveRatio(true);
                         iv_delete.setSmooth(true);
                         iv_delete.setCache(true);
                         delete_btn.setGraphic(iv_delete);
-
 
                         setGraphic(delete_btn);
 

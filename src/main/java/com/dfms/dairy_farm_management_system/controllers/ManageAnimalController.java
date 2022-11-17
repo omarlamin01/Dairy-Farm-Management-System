@@ -250,7 +250,6 @@ public class ManageAnimalController implements Initializable {
                             centerScreen(stage);
                             stage.show();
                         });
-                        
 
 
                     }
