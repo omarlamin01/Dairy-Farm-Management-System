@@ -77,7 +77,7 @@ public class UpdateEmployeeController implements Initializable {
 
     //get current user data
     public void fetchEmployee() {
-        employee = getEmployee(EmployeeDetailsController.employee_id);
+        employee = getEmployee(1);
         firstNameInput.setText(employee.getFirstName());
         lastNameInput.setText(employee.getLastName());
         emailInput.setText(employee.getEmail());
