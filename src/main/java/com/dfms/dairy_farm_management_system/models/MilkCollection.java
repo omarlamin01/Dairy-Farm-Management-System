@@ -5,6 +5,8 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class MilkCollection  implements Model{
@@ -94,22 +96,33 @@ public class MilkCollection  implements Model{
 
     @Override
     public boolean update() {
-        return false;
-    }
 
-    @Override
-    public boolean delete() {
-        String deleteQuery = "DELETE FROM `milk_collection` WHERE `milk_collection`.`id` = " + this.id;
+
+        String updateQuery = "UPDATE `milk_collection` SET `cow_id` = '" + cow_id +
+                "', `period` = '" + period +
+                "', ` quantity` = '" + quantity +
+
+                "WHERE `milk_collection`.`id` = " + this.id;
         try {
             Connection connection = DBConfig.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }}
+
+        @Override
+        public boolean delete () {
+            String deleteQuery = "DELETE FROM `milk_collection` WHERE `milk_collection`.`id` = " + this.id;
+            try {
+                Connection connection = DBConfig.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+                return preparedStatement.executeUpdate() != 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
-    }
 
     }
-
-

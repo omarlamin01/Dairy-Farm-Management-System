@@ -1,6 +1,8 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
 import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
@@ -9,7 +11,9 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.geometry.Insets;
@@ -19,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -106,7 +111,6 @@ public class MilkCollectionController implements Initializable {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void afficher() throws SQLException, ClassNotFoundException {
@@ -186,7 +190,7 @@ public class MilkCollectionController implements Initializable {
 
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
-                            MilkCollection m = new MilkCollection();
+
                             MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
                             if (mc.delete()) {
 
@@ -205,7 +209,54 @@ public class MilkCollectionController implements Initializable {
                             //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
 
                         });
+                        btnEdit.setOnMouseClicked((MouseEvent event) -> {
 
+                            MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
+                            String path = "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml";
+                            FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
+                            try {
+                                loader.load();
+                            } catch (IOException ex) {
+                                displayAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
+                                ex.printStackTrace();
+                            }
+                            if (mc.update()) {
+
+                                displayAlert("success", "Milk Collection Updated successfully", Alert.AlertType.INFORMATION);
+                                try {
+                                    refreshTableMilkCollection();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                    throw new RuntimeException(e);
+                                }
+                            } else {
+                                displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
+                            }
+
+
+                            //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
+
+                        });
+                        btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
+                            MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_details.fxml"));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                                AnimalDetailsController controller = fxmlLoader.getController();
+                                controller.fetchAnimal(animal.getId(), animal.getRace(), animal.getBirth_date(), animal.getRoutine(), animal.getPurchase_date(), animal.getType());
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
+                            }
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Animal Details");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
+                        });
                     }
                 }
 
