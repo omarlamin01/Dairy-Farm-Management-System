@@ -214,4 +214,23 @@ public class Employee implements Model {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", cin='" + cin + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", adress='" + adress + '\'' +
+                ", salary=" + salary +
+                ", recruitment_date=" + recruitment_date +
+                ", contract_type='" + contract_type + '\'' +
+                ", updated_at=" + updated_at +
+                ", created_at=" + created_at +
+                '}';
+    }
 }

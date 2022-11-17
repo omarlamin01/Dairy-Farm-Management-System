@@ -70,6 +70,8 @@ public class EmployeeDetailsController implements Initializable {
         recruitment_date.setText("employee.getRecruitmentDate().toString()");
         role.setText("Employee");
         salary.setText(String.valueOf(employee.getSalary()));
+
+        System.out.println(employee.toString());
     }
 
     public String getRole(int id) {
