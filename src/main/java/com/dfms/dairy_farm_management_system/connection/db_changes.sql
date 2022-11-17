@@ -25,3 +25,9 @@ INSERT INTO role (name) VALUES ('Sales agent');
 INSERT INTO role (name) VALUES ('Production manager');
 INSERT INTO role (name) VALUES ('Veterinary');
 
+
+
+
+/*17/11/22*/
+ALTER TABLE `client` CHANGE `email` `email` VARCHAR(30) NOT NULL;
+

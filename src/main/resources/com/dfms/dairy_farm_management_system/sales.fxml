@@ -78,14 +78,14 @@
                                </Button>
                            </HBox>
                        </HBox>
-                       <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                       <TableView fx:id="AnimalSalesTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                            <columns>
                                <TableColumn minWidth="0.0" prefWidth="0.0" />
                                <TableColumn fx:id="animalis_col" prefWidth="132.0" text="Animal id" />
                                <TableColumn fx:id="price_col" prefWidth="155.0" text="Price" />
                                <TableColumn fx:id="client_col" prefWidth="181.0" text="Client" />
                                <TableColumn fx:id="operationdate_col" prefWidth="168.0" text="Operation date" />
-                               <TableColumn prefWidth="167.0" text="Actions" />
+                               <TableColumn fx:id="action_col" prefWidth="167.0" text="Actions" />
                            </columns>
                        </TableView>
                   </children>

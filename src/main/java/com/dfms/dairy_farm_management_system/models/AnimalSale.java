@@ -13,11 +13,15 @@ public class AnimalSale {
     private float price;
     private Date operationDate;
 
-    public int getId_sales() {
+    public AnimalSale() {
+
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId_sales(int id_sales) {
+    public void setId(int id_sales) {
         this.id = id_sales;
     }
 
@@ -60,7 +64,6 @@ public class AnimalSale {
     public AnimalSale(int id_sales, int id_client, String id_animal, float price, Date operationDate) {
         this.id= id_sales;
         this.id_client = id_client;
-
         this.id_animal = id_animal;
         this.price = price;
         this.operationDate = operationDate;
