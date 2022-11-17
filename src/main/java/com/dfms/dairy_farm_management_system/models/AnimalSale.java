@@ -7,7 +7,7 @@ public class AnimalSale {
     private int id;
 
 
-    private int id_client;
+    private String id_client;
 
     private String id_animal;
     private float price;
@@ -25,11 +25,11 @@ public class AnimalSale {
         this.id = id_sales;
     }
 
-    public int getId_client() {
+    public String getId_client() {
         return id_client;
     }
 
-    public void setId_client(int id_client) {
+    public void setId_client(String id_client) {
         this.id_client = id_client;
     }
 
@@ -61,7 +61,7 @@ public class AnimalSale {
         this.operationDate = operationDate;
     }
 
-    public AnimalSale(int id_sales, int id_client, String id_animal, float price, Date operationDate) {
+    public AnimalSale(int id_sales, String id_client, String id_animal, float price, Date operationDate) {
         this.id= id_sales;
         this.id_client = id_client;
         this.id_animal = id_animal;

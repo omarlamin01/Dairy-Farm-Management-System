@@ -86,7 +86,7 @@ public class SalesController implements Initializable {
     public ObservableList<AnimalSale> getAnimalSale() throws SQLException, ClassNotFoundException {
         ObservableList<AnimalSale> list = FXCollections.observableArrayList();
 
-        String select_query = "SELECT ass.id, ass.animal_id, price ,ass.client_id,ass.sale_date from  animal_sale ass ,animal a,client c where ass.animal_id= a.id and ass.client_id= c.id ";
+        String select_query = "SELECT ass.id, ass.animal_id, price ,c.name,ass.sale_date from  animal_sale ass ,animal a,client c where ass.animal_id= a.id and ass.client_id= c.id ";
 
         st = DBConfig.getConnection().prepareStatement(select_query);
         rs = st.executeQuery();
@@ -95,7 +95,7 @@ public class SalesController implements Initializable {
             animalSale.setId(rs.getInt("id"));
             animalSale.setId_animal(rs.getString("animal_id"));
             animalSale.setPrice(rs.getFloat("price"));
-            animalSale.setId_client(rs.getInt("client_id"));
+            animalSale.setId_client(rs.getString("name"));
             animalSale.setOperationDate(rs.getDate("sale_date"));
 
 
@@ -115,9 +115,9 @@ public class SalesController implements Initializable {
 
     private void afficher() throws SQLException, ClassNotFoundException {
         ObservableList<AnimalSale> list = getAnimalSale();
-        animalis_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("animal_id"));
+        animalis_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("id_animal"));
         price_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, Float>("price"));
-        client_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("client_id"));
+        client_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("id_client"));
         operationdate_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, Date>("operationDate"));
 
 
