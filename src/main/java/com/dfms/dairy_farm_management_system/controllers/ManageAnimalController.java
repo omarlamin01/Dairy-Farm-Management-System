@@ -1,6 +1,9 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.models.Animal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,9 +11,11 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -19,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -28,11 +34,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 
 public class ManageAnimalController implements Initializable {
@@ -72,7 +79,7 @@ public class ManageAnimalController implements Initializable {
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         combo.setItems(list);
         try {
-            afficher();
+            dispalyAnimals();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -129,7 +136,7 @@ public class ManageAnimalController implements Initializable {
 
     }
 
-    public void afficher() throws SQLException, ClassNotFoundException {
+    public void dispalyAnimals() throws SQLException, ClassNotFoundException {
         ObservableList<Animal> list = getAnimal();
         colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
         coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
@@ -158,43 +165,43 @@ public class ManageAnimalController implements Initializable {
 
                     } else {
                         btnViewDetail.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv1 = new ImageView();
-                        iv1.setImage(imgViewDetail);
-                        iv1.setPreserveRatio(true);
-                        iv1.setSmooth(true);
-                        iv1.setCache(true);
-                        btnViewDetail.setGraphic(iv1);
+                        ImageView iv_viewDetail = new ImageView();
+                        iv_viewDetail.setImage(imgViewDetail);
+                        iv_viewDetail.setPreserveRatio(true);
+                        iv_viewDetail.setSmooth(true);
+                        iv_viewDetail.setCache(true);
+                        btnViewDetail.setGraphic(iv_viewDetail);
 
                         setGraphic(btnViewDetail);
                         setText(null);
 
 
                         btnEdit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(imgEdit);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        btnEdit.setGraphic(iv);
+                        ImageView iv_edit = new ImageView();
+                        iv_edit.setImage(imgEdit);
+                        iv_edit.setPreserveRatio(true);
+                        iv_edit.setSmooth(true);
+                        iv_edit.setCache(true);
+                        btnEdit.setGraphic(iv_edit);
 
                         setGraphic(btnEdit);
                         setText(null);
 
                         btnDelete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv2 = new ImageView();
+                        ImageView iv_delete = new ImageView();
 
-                        iv2.setImage(imgDelete);
-                        iv2.setPreserveRatio(true);
-                        iv2.setSmooth(true);
-                        iv2.setCache(true);
-                        btnDelete.setGraphic(iv2);
+                        iv_delete.setImage(imgDelete);
+                        iv_delete.setPreserveRatio(true);
+                        iv_delete.setSmooth(true);
+                        iv_delete.setCache(true);
+                        btnDelete.setGraphic(iv_delete);
 
 
                         setGraphic(btnDelete);
 
                         setText(null);
 
-                        HBox managebtn = new HBox(btnEdit, btnDelete, btnViewDetail);
+                        HBox managebtn = new HBox(iv_edit, iv_delete, iv_viewDetail);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(btnEdit, new Insets(1, 1, 0, 3));
                         HBox.setMargin(btnDelete, new Insets(1, 1, 0, 2));
@@ -205,19 +212,48 @@ public class ManageAnimalController implements Initializable {
                         setText(null);
 
 
-                        btnDelete.setOnMouseClicked((MouseEvent event) -> {
+                        iv_delete.setOnMouseClicked((MouseEvent event) -> {
+
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete Confirmation");
+                            alert.setHeaderText("Are you sure you want to delete this Cow?");
                             animal = animals.getSelectionModel().getSelectedItem();
-                            String delete_query = "DELETE FROM animal WHERE id='" + animal.getId() + "'";
-                            Connection connection = DBConfig.getConnection();
+                            String delete_query = "DELETE FROM animal WHERE id='"+animal.getId()+"'";
+                            Optional<ButtonType> result = alert.showAndWait();
+                             if(result.get() == ButtonType.OK) {
+                                 try {
+                                     st = con.prepareStatement(delete_query);
+                                     st.execute();
+                                     refreshTableAnimal();
+                                 } catch (SQLException e) {
+                                     throw new RuntimeException(e);
+                                 }
+                                 Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
+                                 alertInfo.setTitle("Delete Cow");
+                                 alertInfo.setHeaderText("Cow deleted successfully");
+                                 alertInfo.showAndWait();
+                             }
+
+                        });
+                            iv_viewDetail.setOnMouseClicked((MouseEvent event) -> {
+                            Animal animal = animals.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_details.fxml"));
+                            Scene scene = null;
                             try {
-                                st = connection.prepareStatement(delete_query);
-                                st.execute();
-                                refreshTableAnimal();
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
+                                scene = new Scene(fxmlLoader.load());
+                                AnimalDetailsController controller = fxmlLoader.getController();
+                               controller.fetchAnimal(animal.getId(),animal.getRace(),animal.getBirth_date(),animal.getRoutine(),animal.getPurchase_date(),animal.getType());
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
                             }
-
-
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Animal Details");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
 
                     }
