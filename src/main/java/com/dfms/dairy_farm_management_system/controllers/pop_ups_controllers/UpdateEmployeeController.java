@@ -31,6 +31,8 @@ public class UpdateEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setGenderComboItems();
+        setRoleComboItems();
+        setContractComboItems();
     }
 
     private Statement st;
