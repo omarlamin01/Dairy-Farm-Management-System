@@ -78,7 +78,6 @@ public class NewEmployeeController implements Initializable {
             return;
         }
 
-
         String firstName = this.firstNameInput.getText();
         String lastName = this.lastNameInput.getText();
         String email = this.emailInput.getText();

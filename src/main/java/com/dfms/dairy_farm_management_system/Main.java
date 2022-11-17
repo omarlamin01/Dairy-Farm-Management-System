@@ -13,7 +13,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.Date;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class Main extends Application {
     @Override
@@ -26,6 +26,12 @@ public class Main extends Application {
         stage.setScene(scene);
         centerScreen(stage);
         stage.show();
+
+        String password = "abdellatif.laghjaj";
+        String enc_pass = encryptPassword(password);
+        System.out.println("Encrypted password: " + enc_pass);
+
+        System.out.println(MD5(enc_pass, password));
     }
 
     public static void main(String[] args) {
