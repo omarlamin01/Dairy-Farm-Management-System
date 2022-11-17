@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
         public void initialize(URL url, ResourceBundle resourceBundle) {
 
         }
-        public void fetchMilkCollection(int id, String cow,  String periode, Float quantitymilk, Date milkcollection)  {
+        public void fetchMilkCollection(int id, String cow, String periode, Float quantitymilk, Date milkcollection)  {
 //        animal = getAnimal(AnimalDetailsController.id_animal);
             header.setText("Here's all the information about MilkCollection Num: " + id);
             cow_id.setText(cow+"");
