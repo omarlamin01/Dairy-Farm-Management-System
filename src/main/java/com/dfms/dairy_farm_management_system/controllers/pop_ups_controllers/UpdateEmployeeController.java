@@ -85,11 +85,6 @@ public class UpdateEmployeeController implements Initializable {
         String email = emailInput.getText();
         String phone = phoneNumberInput.getText();
 
-        if (!isUnique(email, cin, phone)) {
-            displayAlert("Error", "This employee already exists", Alert.AlertType.ERROR);
-            return;
-        }
-
         Employee employee = new Employee();
         employee.setFirstName(firstNameInput.getText());
         employee.setLastName(lastNameInput.getText());
@@ -102,10 +97,14 @@ public class UpdateEmployeeController implements Initializable {
         employee.setContractType(contractCombo.getValue());
         employee.setRecruitmentDate(java.sql.Date.valueOf(hireDate.getValue()));
 
-        employee.update();
-        displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
-        //close the window
-        ((Node) event.getSource()).getScene().getWindow().hide();
+        System.out.println(employee.toString());
+
+        if (employee.update()) {
+            displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        } else {
+            displayAlert("Error", "Error while updating employee", Alert.AlertType.ERROR);
+        }
     }
 
     //get current user data
@@ -207,19 +206,5 @@ public class UpdateEmployeeController implements Initializable {
                 || this.genderCombo.getValue() == null)
             return true;
         return false;
-    }
-
-    public boolean isUnique(String email, String cin, String phone) {
-        String query = "SELECT * FROM employee WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
-        try {
-            st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            if (rs.next()) {
-                return false;
-            }
-        } catch (Exception e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-        }
-        return true;
     }
 }

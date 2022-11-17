@@ -165,7 +165,7 @@ public class Employee implements Model {
             preparedStatement.setString(6, phone);
             preparedStatement.setString(7, adress);
             preparedStatement.setString(8, String.valueOf(salary));
-            preparedStatement.setString(9, "2022-11-12");
+            preparedStatement.setString(9, recruitment_date.toString());
             preparedStatement.setString(10, contract_type);
 
             return preparedStatement.executeUpdate() != 0;
@@ -188,7 +188,7 @@ public class Employee implements Model {
                 "', `phone` = '" + phone +
                 "', `address` = '" + adress +
                 "', `salary` = '" + salary +
-                "', `recruitment_date` = '" + "2022-11-12" +
+                "', `recruitment_date` = '" + recruitment_date +
                 "', `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) + "' " +
                 "WHERE `employee`.`id` = " + this.id;
