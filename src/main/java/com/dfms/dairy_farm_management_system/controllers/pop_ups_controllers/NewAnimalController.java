@@ -19,22 +19,24 @@ import java.util.ResourceBundle;
 public class NewAnimalController implements Initializable {
 
     @FXML
-   private  ComboBox<String> typeCombo;
+    private ComboBox<String> typeCombo;
     @FXML
     private ComboBox<String> raceCombo;
     @FXML
-   private  DatePicker birthDate;
+    private DatePicker birthDate;
     @FXML
     private DatePicker purchaseDate;
     @FXML
-    private ComboBox <String> routineCombo;
+    private ComboBox<String> routineCombo;
     @FXML
     private Button btn_add_animal;
+    private Boolean update;
+
     PreparedStatement st = null;
     ResultSet rs = null;
 
-     String animal_ID ;
-   private Connection con = DBConfig.getConnection();
+    String animal_ID;
+    private Connection con = DBConfig.getConnection();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -70,6 +72,7 @@ public class NewAnimalController implements Initializable {
 
         raceCombo.setItems(races);
     }
+
     public void setRoutineComboItems() throws SQLException {
         //get races from db
         ObservableList<String> routines = FXCollections.observableArrayList();
@@ -93,21 +96,19 @@ public class NewAnimalController implements Initializable {
         purchaseDate.setValue(null);
         birthDate.setValue(null);
 
-          btn_add_animal.setDisable(false);
+        btn_add_animal.setDisable(false);
 
     }
+
     @FXML
     void addAnimal(MouseEvent event) {
         Random random = new Random();
         int rand = random.nextInt();
-        animal_ID = "Cow-"+rand;
-
-
-        String insert_query = "INSERT INTO animal (id,type,birth_date,purchase_date,routine_id,race_id) VALUES (?,?,?,?,(select id from routine where name ='"+routineCombo.getSelectionModel().getSelectedItem()+"'),(select id from race where name ='"+raceCombo.getSelectionModel().getSelectedItem()+"'))";
+        animal_ID = "Cow-" + rand;
 
         try {
-            st = con.prepareStatement(insert_query);
-            st.setString(1,animal_ID);
+            st = con.prepareStatement(getQuery());
+            st.setString(1, animal_ID);
             st.setString(2, typeCombo.getSelectionModel().getSelectedItem());
             st.setDate(3, Date.valueOf(birthDate.getValue()));
             st.setDate(4, Date.valueOf(purchaseDate.getValue()));
@@ -117,6 +118,20 @@ public class NewAnimalController implements Initializable {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+
+    }
+    private String getQuery() {
+      String insert_query = null;
+        if (update == false) {
+            insert_query = "INSERT INTO animal (id,type,birth_date,purchase_date,routine_id,race_id) VALUES (?,?,?,?,(select id from routine where name ='" + routineCombo.getSelectionModel().getSelectedItem() + "'),(select id from race where name ='" + raceCombo.getSelectionModel().getSelectedItem() + "'))";
+
+    }
+        return insert_query;
+    }
+
+
+    void setUpdate(boolean b) {
+        this.update = b;
 
     }
 

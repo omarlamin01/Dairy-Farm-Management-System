@@ -250,7 +250,31 @@ public class ManageAnimalController implements Initializable {
                             centerScreen(stage);
                             stage.show();
                         });
-                        
+
+                        iv_edit.setOnMouseClicked((MouseEvent event) -> {
+                            Animal animal = animals.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_details.fxml"));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                                AnimalDetailsController controller = fxmlLoader.getController();
+                                controller.fetchAnimal(animal.getId(), animal.getRace(), animal.getBirth_date(), animal.getRoutine(), animal.getPurchase_date(), animal.getType());
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
+                            }
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Animal Details");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
+
+
+                        });
+
+
 
 
                     }
