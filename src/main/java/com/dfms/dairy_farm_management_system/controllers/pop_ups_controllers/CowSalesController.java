@@ -1,5 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +13,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.validateDecimalInput;
@@ -19,8 +23,16 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.validateDecim
 public class CowSalesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setAnimalsList();
-        this.setClientsList();
+        try {
+            this.setAnimalsList();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            this.setClientsList();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         validateDecimalInput(priceOfSale);
     }
 
@@ -33,17 +45,37 @@ public class CowSalesController implements Initializable {
     @FXML
     TextField priceOfSale;
 
-    ObservableList<String> clientsList;
-    ObservableList<String> animalsList;
 
-    public void setClientsList() {
-        this.clientsList = FXCollections.observableArrayList("client-1", "client-2", "client-3", "client-4", "client-5");
-        this.clientsCombo.setItems(this.clientsList);
+    PreparedStatement st = null;
+    ResultSet rs = null;
+    public void setClientsList() throws SQLException {
+        ObservableList<String> client = FXCollections.observableArrayList();
+
+        String select_query = "SELECT name from client ";
+
+        st = DBConfig.getConnection().prepareStatement(select_query);
+        rs = st.executeQuery();
+        while (rs.next()) {
+
+            client.add(rs.getString("name"));
+        }
+
+        clientsCombo.setItems(client);
     }
 
-    public void setAnimalsList() {
-        this.animalsList = FXCollections.observableArrayList("cow-1", "bull-1", "cow-2", "cow-3", "Bull-1", "cow-calf-1");
-        this.animalsCombo.setItems(this.animalsList);
+    public void setAnimalsList() throws SQLException {
+        ObservableList<String> animals = FXCollections.observableArrayList();
+
+        String select_query = "SELECT id from animal ";
+
+        st = DBConfig.getConnection().prepareStatement(select_query);
+        rs = st.executeQuery();
+        while (rs.next()) {
+
+            animals.add(rs.getString("id"));
+        }
+
+        animalsCombo.setItems(animals);
     }
 
     @FXML

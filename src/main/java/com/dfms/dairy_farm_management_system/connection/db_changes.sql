@@ -32,3 +32,4 @@ INSERT INTO role (name) VALUES ('Veterinary');
 ALTER TABLE `client` CHANGE `email` `email` VARCHAR(30) NOT NULL;
 /*ADD FOREIGN KEY IN ANIMALSALES FOR ANIMAL ID*/
 
+
