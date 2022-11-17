@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -124,43 +125,43 @@ public class EmployeesController implements Initializable {
                         setText(null);
                     } else {
                         view_details_btn.setStyle("-fx-background-color: #1E1E1E;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
-                        ImageView iv1 = new ImageView();
-                        iv1.setImage(view_details_img);
-                        iv1.setPreserveRatio(true);
-                        iv1.setSmooth(true);
-                        iv1.setCache(true);
-                        view_details_btn.setGraphic(iv1);
+                        ImageView iv_view_details = new ImageView();
+                        iv_view_details.setImage(view_details_img);
+                        iv_view_details.setPreserveRatio(true);
+                        iv_view_details.setSmooth(true);
+                        iv_view_details.setCache(true);
+                        view_details_btn.setGraphic(iv_view_details);
 
                         setGraphic(view_details_btn);
                         setText(null);
 
 
                         edit_btn.setStyle("-fx-background-color: #2B66FD;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(edit_img);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        edit_btn.setGraphic(iv);
+                        ImageView iv_edit = new ImageView();
+                        iv_edit.setImage(edit_img);
+                        iv_edit.setPreserveRatio(true);
+                        iv_edit.setSmooth(true);
+                        iv_edit.setCache(true);
+                        edit_btn.setGraphic(iv_edit);
 
                         setGraphic(edit_btn);
                         setText(null);
 
                         delete_btn.setStyle("-fx-background-color: #FF3939;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
-                        ImageView iv2 = new ImageView();
+                        ImageView iv_delete = new ImageView();
 
-                        iv2.setImage(delete_img);
-                        iv2.setPreserveRatio(true);
-                        iv2.setSmooth(true);
-                        iv2.setCache(true);
-                        delete_btn.setGraphic(iv2);
+                        iv_delete.setImage(delete_img);
+                        iv_delete.setPreserveRatio(true);
+                        iv_delete.setSmooth(true);
+                        iv_delete.setCache(true);
+                        delete_btn.setGraphic(iv_delete);
 
 
                         setGraphic(delete_btn);
 
                         setText(null);
 
-                        HBox managebtn = new HBox(view_details_btn, edit_btn, delete_btn);
+                        HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
                         HBox.setMargin(delete_btn, new Insets(1, 1, 0, 3));
