@@ -85,8 +85,6 @@ public class EmployeeDetailsController implements Initializable {
         first_name.setText(employee.getFirstName());
         last_name.setText(employee.getLastName());
         salary.setText(String.valueOf(employee.getSalary()));
-
-        System.out.println(employee.toString());
     }
 
     public String getRole(int id) {
