@@ -13,7 +13,7 @@
 
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="1096.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.MainLayoutController">
     <left>
-      <ScrollPane hbarPolicy="NEVER" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+      <ScrollPane fx:id="nav_scroll_pane" hbarPolicy="NEVER" BorderPane.alignment="CENTER">
          <content>
               <VBox alignment="TOP_CENTER" prefHeight="531.0" prefWidth="224.0" styleClass="nav_bar">
                   <ImageView fitHeight="102.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
