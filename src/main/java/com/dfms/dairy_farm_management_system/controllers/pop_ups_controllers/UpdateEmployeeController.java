@@ -4,6 +4,8 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.connection.Session;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -23,10 +25,12 @@ import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.getRoles;
 
 public class UpdateEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setGenderComboItems();
     }
 
     private Statement st;
@@ -66,11 +70,11 @@ public class UpdateEmployeeController implements Initializable {
     @FXML
     private TextField salaryInput;
 
-    public static int employee_id;
-    public static Employee employee;
+    ObservableList<String> rolesList;
 
     @FXML
     void updateEmployee(MouseEvent event) {
+        // set values in gender combo box
 
     }
 
@@ -90,6 +94,7 @@ public class UpdateEmployeeController implements Initializable {
                 cinInput.setText(rs.getString("cin"));
                 phoneNumberInput.setText(rs.getString("phone"));
                 contractCombo.setValue(rs.getString("contract_type"));
+                genderCombo.setValue(rs.getString("gender"));
                 LocalDate date = LocalDate.parse(rs.getString("recruitment_date"));
                 hireDate.setValue(date);
             }
@@ -141,7 +146,16 @@ public class UpdateEmployeeController implements Initializable {
         return employee;
     }
 
-    public void setEmplyeeId(int id) {
-        UpdateEmployeeController.employee_id = id;
+    public void setGenderComboItems() {
+        genderCombo.setItems(FXCollections.observableArrayList("Male", "Female"));
+    }
+
+    public void setRoleComboItems() {
+        this.rolesList = getRoles();
+        this.roleCombo.setItems(this.rolesList);
+    }
+
+    public void setContractComboItems() {
+        this.contractCombo.setItems(FXCollections.observableArrayList("CDI", "CDD", "CTT"));
     }
 }
