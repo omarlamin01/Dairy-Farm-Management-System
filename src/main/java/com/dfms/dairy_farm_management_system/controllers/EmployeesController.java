@@ -170,26 +170,22 @@ public class EmployeesController implements Initializable {
 
                         //update employee
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
-                            //mark row as selected
-                            TableRow<Employee> currentRow = getTableRow();
-                            employees_table.getSelectionModel().select(currentRow.getItem());
-                            int id = employees_table.getSelectionModel().getSelectedItem().getId();
-                            String path = "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml";
-                            FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
+                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/update_employee.fxml"));
+                            Scene scene = null;
                             try {
-                                loader.load();
-                            } catch (IOException ex) {
-                                displayAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
-                                ex.printStackTrace();
+                                scene = new Scene(fxmlLoader.load());
+                                UpdateEmployeeController controller = fxmlLoader.getController();
+                                controller.fetchEmployee(employee);
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
                             }
-                            UpdateEmployeeController updateEmployeeController = loader.getController();
-                            updateEmployeeController.setEmplyeeId(id);
-                            Parent parent = loader.getRoot();
                             Stage stage = new Stage();
-                            stage.setScene(new Scene(parent));
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update Employee");
                             stage.setResizable(false);
+                            stage.setScene(scene);
                             centerScreen(stage);
                             stage.show();
                         });
@@ -209,7 +205,7 @@ public class EmployeesController implements Initializable {
                             }
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                            stage.setTitle("Animal Details");
+                            stage.setTitle("Employee Details");
                             stage.setResizable(false);
                             stage.setScene(scene);
                             centerScreen(stage);

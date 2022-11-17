@@ -27,7 +27,6 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 public class UpdateEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fetchEmployee();
     }
 
     private Statement st;
@@ -76,17 +75,32 @@ public class UpdateEmployeeController implements Initializable {
     }
 
     //get current user data
-    public void fetchEmployee() {
-        employee = getEmployee(1);
+    public void fetchEmployee(Employee employee) {
+
+        //get the employee from the database
+        Connection con = getConnection();
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = con.prepareStatement("SELECT * FROM employee WHERE id = " + employee.getId());
+            rs = st.executeQuery();
+            if (rs.next()) {
+                addressInput.setText(rs.getString("address"));
+                cinInput.setText(rs.getString("cin"));
+                phoneNumberInput.setText(rs.getString("phone"));
+                contractCombo.setValue(rs.getString("contract_type"));
+                LocalDate date = LocalDate.parse(rs.getString("recruitment_date"));
+                hireDate.setValue(date);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        emailInput.setText(employee.getEmail());
         firstNameInput.setText(employee.getFirstName());
         lastNameInput.setText(employee.getLastName());
-        emailInput.setText(employee.getEmail());
-        phoneNumberInput.setText(employee.getPhone());
-        addressInput.setText(employee.getAdress());
-        cinInput.setText(employee.getCin());
         salaryInput.setText(String.valueOf(employee.getSalary()));
-        LocalDate date = LocalDate.parse((CharSequence) employee.getRecruitmentDate());
-        hireDate.setValue(date);
     }
 
     public String getRoleName(int id) {
