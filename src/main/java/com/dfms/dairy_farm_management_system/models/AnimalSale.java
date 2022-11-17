@@ -2,23 +2,23 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.util.Date;
 
-public class Sale {
+public class AnimalSale {
 
-    private int id_sales;
+    private int id;
 
 
     private int id_client;
-    private int id_milkcollection;
-    private int id_animal;
+
+    private String id_animal;
     private float price;
     private Date operationDate;
 
     public int getId_sales() {
-        return id_sales;
+        return id;
     }
 
     public void setId_sales(int id_sales) {
-        this.id_sales = id_sales;
+        this.id = id_sales;
     }
 
     public int getId_client() {
@@ -29,19 +29,15 @@ public class Sale {
         this.id_client = id_client;
     }
 
-    public int getId_milkcollection() {
-        return id_milkcollection;
-    }
 
-    public void setId_milkcollection(int id_milkcollection) {
-        this.id_milkcollection = id_milkcollection;
-    }
 
-    public int getId_animal() {
+
+
+    public String getId_animal() {
         return id_animal;
     }
 
-    public void setId_animal(int id_animal) {
+    public void setId_animal(String id_animal) {
         this.id_animal = id_animal;
     }
 
@@ -61,10 +57,10 @@ public class Sale {
         this.operationDate = operationDate;
     }
 
-    public Sale(int id_sales, int id_client, int id_milkcollection, int id_animal, float price, Date operationDate) {
-        this.id_sales = id_sales;
+    public AnimalSale(int id_sales, int id_client, String id_animal, float price, Date operationDate) {
+        this.id= id_sales;
         this.id_client = id_client;
-        this.id_milkcollection = id_milkcollection;
+
         this.id_animal = id_animal;
         this.price = price;
         this.operationDate = operationDate;
