@@ -1,8 +1,13 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
 
-public class MilkCollection {
+public class MilkCollection  implements Model{
     private int id;
     private String cow_id;
     private float quantity;
@@ -70,6 +75,41 @@ public class MilkCollection {
     public Date getCollection_date() {
         return collection_date;
     }
+    @Override
+    public boolean save() {
+        String insertQuery = "INSERT INTO milk_collection (period,quantity,cow_id) VALUES (?,?,?)";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setString(1, period);
+            preparedStatement.setFloat(2, quantity);
+            preparedStatement.setString(3, cow_id);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        String deleteQuery = "DELETE FROM `milk_collection` WHERE `milk_collection`.`id` = " + this.id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    }
 
 
-}

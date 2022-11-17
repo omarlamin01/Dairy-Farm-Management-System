@@ -180,23 +180,18 @@ MilkCollection mc;
 
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
-                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("Delete MilkCollection");
-                            alert.setHeaderText(null);
-                            alert.setContentText("Are you sure you want to delete this row?");
-                            Optional<ButtonType> action = alert.showAndWait();
-                            if (action.get() == ButtonType.OK) {
-                                //get selected item of clicked button
-                                MilkCollection mc = getTableView().getItems().get(getIndex());
-                                deleteMilkCollection(mc.getId());
-                                try {
-                                    afficher();
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
-                                } catch (ClassNotFoundException e) {
-                                    throw new RuntimeException(e);
-                                }
+                           MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
+                            String query = "DELETE FROM milk_collection WHERE id = "+mc.getId()+"";
+                            Connection connection = DBConfig.getConnection();
+                            try {
+                                st = connection.prepareStatement(query);
+                                st.execute();
+                                refreshTableMilkCollection();
 
+                                //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
+                            } catch (SQLException e) {
+                               // displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                throw new RuntimeException(e);
                             }
                         });
 
@@ -253,7 +248,7 @@ MilkCollection mc;
     private Connection con = DBConfig.getConnection();
     private Statement stt;
     private void deleteMilkCollection(int id) {
-        String query = "DELETE FROM milk_collection WHERE id = " + id;
+        String query = "DELETE FROM milk_collection WHERE id = "+id;
         try {
 
             stt = con.createStatement();
