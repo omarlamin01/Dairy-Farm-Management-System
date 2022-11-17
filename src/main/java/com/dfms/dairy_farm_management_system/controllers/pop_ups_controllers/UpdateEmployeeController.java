@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -76,8 +77,35 @@ public class UpdateEmployeeController implements Initializable {
 
     @FXML
     void updateEmployee(MouseEvent event) {
-        // set values in gender combo box
+        if (inputesAreEmpty()) {
+            displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
+            return;
+        }
+        String cin = cinInput.getText();
+        String email = emailInput.getText();
+        String phone = phoneNumberInput.getText();
 
+        if (!isUnique(email, cin, phone)) {
+            displayAlert("Error", "This employee already exists", Alert.AlertType.ERROR);
+            return;
+        }
+
+        Employee employee = new Employee();
+        employee.setFirstName(firstNameInput.getText());
+        employee.setLastName(lastNameInput.getText());
+        employee.setCin(cinInput.getText());
+        employee.setAdress(addressInput.getText());
+        employee.setEmail(emailInput.getText());
+        employee.setPhone(phoneNumberInput.getText());
+        employee.setSalary(Float.parseFloat(salaryInput.getText()));
+        employee.setGender(genderCombo.getValue());
+        employee.setContractType(contractCombo.getValue());
+        employee.setRecruitmentDate(java.sql.Date.valueOf(hireDate.getValue()));
+
+        employee.update();
+        displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
+        //close the window
+        ((Node) event.getSource()).getScene().getWindow().hide();
     }
 
     //get current user data
@@ -96,7 +124,11 @@ public class UpdateEmployeeController implements Initializable {
                 cinInput.setText(rs.getString("cin"));
                 phoneNumberInput.setText(rs.getString("phone"));
                 contractCombo.setValue(rs.getString("contract_type"));
-                genderCombo.setValue(rs.getString("gender"));
+                if (rs.getString("gender").equals("M")) {
+                    genderCombo.setValue("male");
+                } else {
+                    genderCombo.setValue("Female");
+                }
                 LocalDate date = LocalDate.parse(rs.getString("recruitment_date"));
                 hireDate.setValue(date);
             }
@@ -159,5 +191,35 @@ public class UpdateEmployeeController implements Initializable {
 
     public void setContractComboItems() {
         this.contractCombo.setItems(FXCollections.observableArrayList("CDI", "CDD", "CTT"));
+    }
+
+
+    public boolean inputesAreEmpty() {
+        if (this.firstNameInput.getText().isEmpty()
+                || this.lastNameInput.getText().isEmpty()
+                || this.emailInput.getText().isEmpty()
+                || this.phoneNumberInput.getText().isEmpty()
+                || this.addressInput.getText().isEmpty()
+                || this.cinInput.getText().isEmpty()
+                || this.salaryInput.getText().isEmpty()
+                || this.hireDate.getValue() == null
+                || this.contractCombo.getValue() == null
+                || this.genderCombo.getValue() == null)
+            return true;
+        return false;
+    }
+
+    public boolean isUnique(String email, String cin, String phone) {
+        String query = "SELECT * FROM employee WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
+        try {
+            st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if (rs.next()) {
+                return false;
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        return true;
     }
 }
