@@ -23,10 +23,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -76,6 +73,8 @@ public class EmployeesController implements Initializable {
 
     @FXML
     private Button openAddNewEmployeeBtn;
+
+    Employee employee;
 
     //get all the employees
     public ObservableList<Employee> getEmployees() {
@@ -154,22 +153,18 @@ public class EmployeesController implements Initializable {
 
                         //delete employee
                         iv_delete.setOnMouseClicked((MouseEvent event) -> {
-                            //mark row as selected
-                            TableRow<Employee> currentRow = getTableRow();
-                            employees_table.getSelectionModel().select(currentRow.getItem());
-                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
-                            if (employee != null) {
-                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                alert.setTitle("Confirmation");
-                                alert.setHeaderText("Are you sure you want to delete this employee?");
-                                alert.setContentText("Click ok to confirm");
-                                Optional<ButtonType> action = alert.showAndWait();
-                                if (action.get() == ButtonType.OK) {
-                                    deleteEmployee(employee.getId());
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete Employee");
+                            alert.setHeaderText("Are you sure you want to delete this employee?");
+                            employee = employees_table.getSelectionModel().getSelectedItem();
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    employee.delete();
                                     displayEmployees();
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
-                            } else {
-                                displayAlert("Error", "Please select an employee to delete", Alert.AlertType.ERROR);
                             }
                         });
 
