@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2022 at 12:57 PM
+-- Generation Time: Nov 17, 2022 at 10:45 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -63,6 +63,13 @@ CREATE TABLE `animal_sale` (
   `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `animal_sale`
+--
+
+INSERT INTO `animal_sale` (`id`, `client_id`, `animal_id`, `price`, `sale_date`, `created_at`, `updated_at`) VALUES
+(3, 1, 'Cow-534634684', 33333, '2022-11-07', '2022-11-17', '2022-11-17');
+
 -- --------------------------------------------------------
 
 --
@@ -74,10 +81,17 @@ CREATE TABLE `client` (
   `name` varchar(50) NOT NULL,
   `type` enum('person','company') DEFAULT NULL,
   `phone` int(11) NOT NULL,
-  `email` int(11) NOT NULL,
+  `email` varchar(30) NOT NULL,
   `created_at` date NOT NULL DEFAULT current_timestamp(),
   `updated_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `client`
+--
+
+INSERT INTO `client` (`id`, `name`, `type`, `phone`, `email`, `created_at`, `updated_at`) VALUES
+(1, 'ADARDORNaima', 'person', 788900, 'adardournaima@gmail.com', '2022-11-17', '2022-11-17');
 
 -- --------------------------------------------------------
 
@@ -160,8 +174,8 @@ CREATE TABLE `milk_collection` (
 --
 
 INSERT INTO `milk_collection` (`id`, `cow_id`, `quantity`, `period`, `created_at`, `updated_at`) VALUES
-(1, '1285635', 23, 'morning', '2022-11-12', '2022-11-12'),
-(2, 'Cow--129958159', 678, 'evening', '2022-11-12', '2022-11-12');
+(2, 'Cow--129958159', 678, 'evening', '2022-11-12', '2022-11-12'),
+(3, '1285635', 235689, 'morning', '2022-11-17', '2022-11-17');
 
 -- --------------------------------------------------------
 
@@ -387,7 +401,8 @@ ALTER TABLE `animal`
 --
 ALTER TABLE `animal_sale`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_animal_sale_id_client` (`client_id`);
+  ADD KEY `fk_animal_sale_id_client` (`client_id`),
+  ADD KEY `fk_animal_sale_id_animal` (`animal_id`);
 
 --
 -- Indexes for table `client`
@@ -505,13 +520,13 @@ ALTER TABLE `vaccine`
 -- AUTO_INCREMENT for table `animal_sale`
 --
 ALTER TABLE `animal_sale`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `consuming`
@@ -535,7 +550,7 @@ ALTER TABLE `health_status`
 -- AUTO_INCREMENT for table `milk_collection`
 --
 ALTER TABLE `milk_collection`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pregnancy`
@@ -612,6 +627,7 @@ ALTER TABLE `animal`
 -- Constraints for table `animal_sale`
 --
 ALTER TABLE `animal_sale`
+  ADD CONSTRAINT `fk_animal_sale_id_animal` FOREIGN KEY (`animal_id`) REFERENCES `animal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_animal_sale_id_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
