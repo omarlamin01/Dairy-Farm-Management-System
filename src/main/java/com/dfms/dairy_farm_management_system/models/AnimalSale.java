@@ -99,6 +99,15 @@ public class AnimalSale  implements Model{
 
     @Override
     public boolean delete() {
-        return false;
+        String deleteQuery = "DELETE FROM `animal_sale` WHERE `animal_sale`.`id` = " + this.id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
 }
