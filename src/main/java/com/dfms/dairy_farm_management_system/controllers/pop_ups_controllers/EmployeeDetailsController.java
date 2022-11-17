@@ -60,15 +60,30 @@ public class EmployeeDetailsController implements Initializable {
     private Label salary;
 
     public void fetchEmployee(Employee employee) {
+
+        //get the employee from the database
+        Connection con = getConnection();
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = con.prepareStatement("SELECT * FROM employee WHERE id = " + employee.getId());
+            rs = st.executeQuery();
+            if (rs.next()) {
+                address.setText(rs.getString("address"));
+                cin.setText(rs.getString("cin"));
+                phone.setText(rs.getString("phone"));
+                contract_type.setText(rs.getString("contract_type"));
+                recruitment_date.setText(rs.getString("recruitment_date"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         header.setText(employee.getFirstName() + " " + employee.getLastName());
-        address.setText(employee.getAdress());
-        cin.setText(employee.getCin());
-        contract_type.setText(employee.getContractType());
         email.setText(employee.getEmail());
         first_name.setText(employee.getFirstName());
-        phone.setText(employee.getPhone());
-        recruitment_date.setText("employee.getRecruitmentDate().toString()");
-        role.setText("Employee");
+        last_name.setText(employee.getLastName());
         salary.setText(String.valueOf(employee.getSalary()));
 
         System.out.println(employee.toString());
