@@ -27,12 +27,11 @@ public class Main extends Application {
         centerScreen(stage);
         stage.show();
 
-        String password = "123456";
-        String pass_1 = "abdellatif.laghjaj";
-        String enc_pass = encryptPassword(pass_1);
+        String password = "abdellatif.laghjaj";
+        String enc_pass = encryptPassword(password);
         System.out.println("Encrypted password: " + enc_pass);
 
-        System.out.println(MD5(enc_pass, pass_1));
+        System.out.println(MD5(enc_pass, password));
     }
 
     public static void main(String[] args) {

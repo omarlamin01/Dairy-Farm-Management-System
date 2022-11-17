@@ -110,11 +110,8 @@ public class EmployeesController implements Initializable {
         Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<Employee, String> param) -> {
             final TableCell<Employee, String> cell = new TableCell<Employee, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                final Button edit_btn = new Button();
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                final Button delete_btn = new Button();
                 Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
-                final Button view_details_btn = new Button();
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -125,52 +122,38 @@ public class EmployeesController implements Initializable {
                         setText(null);
                     } else {
                         ImageView iv_view_details = new ImageView();
-                        iv_view_details.setStyle("-fx-background-color: #1E1E1E;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
+                        iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
                         iv_view_details.setImage(view_details_img);
                         iv_view_details.setPreserveRatio(true);
                         iv_view_details.setSmooth(true);
                         iv_view_details.setCache(true);
-                        view_details_btn.setGraphic(iv_view_details);
-
-                        setGraphic(view_details_btn);
-                        setText(null);
 
 
                         ImageView iv_edit = new ImageView();
-                        iv_edit.setStyle("-fx-background-color: #2B66FD;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
+                        iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
                         iv_edit.setImage(edit_img);
                         iv_edit.setPreserveRatio(true);
                         iv_edit.setSmooth(true);
                         iv_edit.setCache(true);
-                        edit_btn.setGraphic(iv_edit);
-
-                        setGraphic(edit_btn);
-                        setText(null);
 
                         ImageView iv_delete = new ImageView();
-                        iv_delete.setStyle("-fx-background-color: #FF3939;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
+                        iv_delete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
 
                         iv_delete.setImage(delete_img);
                         iv_delete.setPreserveRatio(true);
                         iv_delete.setSmooth(true);
                         iv_delete.setCache(true);
-                        delete_btn.setGraphic(iv_delete);
-
-                        setGraphic(delete_btn);
-
-                        setText(null);
 
                         HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
                         managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(delete_btn, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(view_details_btn, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_edit, new Insets(1, 1, 0, 3));
 
                         setGraphic(managebtn);
-                        setText(null);
 
                         //delete employee
-                        delete_btn.setOnMouseClicked((MouseEvent event) -> {
+                        iv_delete.setOnMouseClicked((MouseEvent event) -> {
                             //mark row as selected
                             TableRow<Employee> currentRow = getTableRow();
                             employees_table.getSelectionModel().select(currentRow.getItem());
@@ -191,7 +174,7 @@ public class EmployeesController implements Initializable {
                         });
 
                         //update employee
-                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                        iv_edit.setOnMouseClicked((MouseEvent event) -> {
                             //mark row as selected
                             TableRow<Employee> currentRow = getTableRow();
                             employees_table.getSelectionModel().select(currentRow.getItem());
@@ -217,7 +200,7 @@ public class EmployeesController implements Initializable {
                         });
 
                         //view employee details
-                        view_details_btn.setOnMouseClicked((MouseEvent event) -> {
+                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
                             //mark row as selected
                             TableRow<Employee> currentRow = getTableRow();
                             employees_table.getSelectionModel().select(currentRow.getItem());
