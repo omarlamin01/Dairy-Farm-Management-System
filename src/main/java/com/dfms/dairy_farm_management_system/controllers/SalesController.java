@@ -2,9 +2,8 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.MilkCollectionlDetailsController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalSaleDetailsController;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
-import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,7 +25,7 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
@@ -61,7 +60,7 @@ public class SalesController implements Initializable {
     private TableView<AnimalSale> AnimalSalesTable;
 
     @FXML
-    private TableColumn<AnimalSale, Date> operationdate_col;
+    private TableColumn<AnimalSale, LocalDate> operationdate_col;
 
     @FXML
     private TableColumn<AnimalSale, Float> price_col;
@@ -96,7 +95,7 @@ public class SalesController implements Initializable {
             animalSale.setId_animal(rs.getString("animal_id"));
             animalSale.setPrice(rs.getFloat("price"));
             animalSale.setId_client(rs.getString("name"));
-            animalSale.setOperationDate(rs.getDate("sale_date"));
+            animalSale.setOperationDate(rs.getDate("sale_date").toLocalDate());
 
 
             list.add(animalSale);
@@ -118,7 +117,7 @@ public class SalesController implements Initializable {
         animalis_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("id_animal"));
         price_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, Float>("price"));
         client_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("id_client"));
-        operationdate_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, Date>("operationDate"));
+        operationdate_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, LocalDate>("operationDate"));
 
 
         Callback<TableColumn<AnimalSale, String>, TableCell<AnimalSale, String>> cellFoctory = (TableColumn<AnimalSale, String> param) -> {
@@ -191,12 +190,12 @@ public class SalesController implements Initializable {
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
 
-                          /*  MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
+                            AnimalSale mc = AnimalSalesTable.getSelectionModel().getSelectedItem();
                             if (mc.delete()) {
 
-                                displayAlert("success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
+                                displayAlert("success", "Animal Sale deleted successfully", Alert.AlertType.INFORMATION);
                                 try {
-                                    refreshTableMilkCollection();
+                                    refreshTableAnimalSales();
                                 } catch (SQLException e) {
                                     e.printStackTrace();
                                     throw new RuntimeException(e);
@@ -207,7 +206,7 @@ public class SalesController implements Initializable {
 
 
                             //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
-*/
+
                         });
                         btnEdit.setOnMouseClicked((MouseEvent event) -> {
 
@@ -238,24 +237,24 @@ public class SalesController implements Initializable {
 
                         });
                         btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
-                           /* MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/milkcollection_details.fxml"));
+                            AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_sale_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
-                                MilkCollectionlDetailsController controller = fxmlLoader.getController();
-                                controller.fetchMilkCollection( mc.getId(),mc.getCow_id(), mc.getPeriod(), mc.getQuantity(), mc.getCollection_date());
+                               AnimalSaleDetailsController controller = fxmlLoader.getController();
+                                controller.fetchAnimalSale( animalSale.getId(),animalSale.getId_animal(), animalSale.getPrice(), animalSale.getId_client(), animalSale.getOperationDate());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
                             }
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                            stage.setTitle("Animal Details");
+                            stage.setTitle("Animal Sale Details");
                             stage.setResizable(false);
                             stage.setScene(scene);
                             centerScreen(stage);
-                            stage.show();*/
+                            stage.show();
                         });
                     }
                 }

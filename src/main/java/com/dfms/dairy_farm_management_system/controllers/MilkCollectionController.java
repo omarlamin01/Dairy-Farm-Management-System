@@ -252,7 +252,7 @@ public class MilkCollectionController implements Initializable {
                             }
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                            stage.setTitle("Animal Details");
+                            stage.setTitle("Milk Collection  Details");
                             stage.setResizable(false);
                             stage.setScene(scene);
                             centerScreen(stage);
