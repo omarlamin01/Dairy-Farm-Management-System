@@ -188,7 +188,7 @@ public class Employee implements Model {
                 "', `phone` = '" + phone +
                 "', `address` = '" + adress +
                 "', `salary` = '" + salary +
-                "', `recruitment_date` = '" + recruitment_date +
+                "', `recruitment_date` = '" + "2022-11-12" +
                 "', `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) + "' " +
                 "WHERE `employee`.`id` = " + this.id;
