@@ -39,13 +39,9 @@ public class RoutineController implements Initializable {
     @FXML
     VBox foodList;
 
-    String[] foods;
-
     public void setFoods() {
         //get foods from db
-        this.foods = getFoods().keySet().toArray(new String[0]);
-
-        //
+        String[] foods = getFoods().keySet().toArray(new String[0]);
         for (String food : foods) {
             HBox hBox = new HBox();
             hBox.setSpacing(60);
