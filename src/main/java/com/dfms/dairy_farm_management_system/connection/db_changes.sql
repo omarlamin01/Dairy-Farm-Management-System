@@ -1,27 +1,94 @@
 use dairyfarm;
 
-/*change the size of email in employee table */
-ALTER TABLE employee MODIFY email VARCHAR(50) NOT NULL;
+# Update created_at & updated_at
+ALTER TABLE `animal`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT A;
 
-/*change phone to varchar in employee table */
-ALTER TABLE employee MODIFY phone VARCHAR(20) NOT NULL;
+ALTER TABLE `animal_sale`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT B;
 
-/*add new columns to user table */
-ALTER TABLE user ADD COLUMN first_name VARCHAR(20);
-ALTER TABLE user ADD COLUMN last_name VARCHAR(20);
-ALTER TABLE user ADD COLUMN gender ENUM('M','F') NOT NULL;
-ALTER TABLE user ADD COLUMN cin VARCHAR(20) NOT NULL;
-ALTER TABLE user ADD COLUMN phone VARCHAR(20) NOT NULL;
-ALTER TABLE user ADD COLUMN salary FLOAT NOT NULL;
-ALTER TABLE user ADD COLUMN email VARCHAR(50);
-ALTER TABLE user ADD COLUMN address VARCHAR(100);
+ALTER TABLE `client`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT C;
 
-/*change the type of animal_id */
+ALTER TABLE `consuming`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT D;
 
-/*insert roles */
-INSERT INTO role (name) VALUES ('Admin');
-INSERT INTO role (name) VALUES ('HR');
-INSERT INTO role (name) VALUES ('Sales agent');
-INSERT INTO role (name) VALUES ('Production manager');
-INSERT INTO role (name) VALUES ('Veterinary');
+ALTER TABLE `employee`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT E;
 
+ALTER TABLE `health_status`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT F;
+
+ALTER TABLE `milk_collection`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT G;
+
+ALTER TABLE `milk_sale`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT H;
+
+ALTER TABLE `pregnancy`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT I;
+
+ALTER TABLE `purchase`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT J;
+
+ALTER TABLE `race`
+    DROP `created_at`,
+    DROP `updated_at`;
+SAVEPOINT K;
+
+ALTER TABLE `role`
+    DROP `created_at`,
+    DROP `updated_at`;
+SAVEPOINT L;
+
+ALTER TABLE `routine`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT M;
+
+ALTER TABLE `routine_has_feeds`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT N;
+
+ALTER TABLE `stock`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT O;
+
+ALTER TABLE `supplier`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT P;
+
+ALTER TABLE `user`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+SAVEPOINT Q;
+
+ALTER TABLE `vaccine`
+    CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHANGE `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+COMMIT;
+
+# Update ids
