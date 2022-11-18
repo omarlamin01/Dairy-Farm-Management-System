@@ -110,9 +110,6 @@ public class NewEmployeeController implements Initializable {
         employee.setContractType(contractType);
         employee.setGender(gender);
 
-        //String query_emp = "INSERT INTO employee (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        //String query_user = "INSERT INTO user (role_id, employee_id, first_name, last_name, email, password, phone, address, gender, cin, salary) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
         //insert into employee table
         if (employee.save()) {
             displayAlert("Success", "Employee added successfully", Alert.AlertType.INFORMATION);
