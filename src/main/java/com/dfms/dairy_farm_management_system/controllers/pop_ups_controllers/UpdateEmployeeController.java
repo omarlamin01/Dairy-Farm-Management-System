@@ -74,6 +74,7 @@ public class UpdateEmployeeController implements Initializable {
     private TextField salaryInput;
 
     ObservableList<String> rolesList;
+    int employee_id = -1;
 
     @FXML
     void updateEmployee(MouseEvent event) {
@@ -85,7 +86,8 @@ public class UpdateEmployeeController implements Initializable {
         String email = emailInput.getText();
         String phone = phoneNumberInput.getText();
 
-        Employee employee = new Employee();
+        Employee employee = getEmployee(this.employee_id);
+        System.out.println("Employee id: " + employee.getId());
         employee.setFirstName(firstNameInput.getText());
         employee.setLastName(lastNameInput.getText());
         employee.setCin(cinInput.getText());
@@ -114,6 +116,7 @@ public class UpdateEmployeeController implements Initializable {
         Connection con = getConnection();
         PreparedStatement st = null;
         ResultSet rs = null;
+        this.employee_id = employee.getId();
 
         try {
             st = con.prepareStatement("SELECT * FROM employee WHERE id = " + employee.getId());
@@ -194,16 +197,7 @@ public class UpdateEmployeeController implements Initializable {
 
 
     public boolean inputesAreEmpty() {
-        if (this.firstNameInput.getText().isEmpty()
-                || this.lastNameInput.getText().isEmpty()
-                || this.emailInput.getText().isEmpty()
-                || this.phoneNumberInput.getText().isEmpty()
-                || this.addressInput.getText().isEmpty()
-                || this.cinInput.getText().isEmpty()
-                || this.salaryInput.getText().isEmpty()
-                || this.hireDate.getValue() == null
-                || this.contractCombo.getValue() == null
-                || this.genderCombo.getValue() == null)
+        if (this.firstNameInput.getText().isEmpty() || this.lastNameInput.getText().isEmpty() || this.emailInput.getText().isEmpty() || this.phoneNumberInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.cinInput.getText().isEmpty() || this.salaryInput.getText().isEmpty() || this.hireDate.getValue() == null || this.contractCombo.getValue() == null || this.genderCombo.getValue() == null)
             return true;
         return false;
     }
