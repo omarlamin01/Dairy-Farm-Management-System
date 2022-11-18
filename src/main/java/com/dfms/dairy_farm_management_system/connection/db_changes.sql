@@ -1,5 +1,75 @@
 use dairyfarm;
 
+# Drop all constraints
+ALTER TABLE `animal`
+    DROP CONSTRAINT `fk_animal_id_r`,
+    DROP CONSTRAINT `fk_animal_id_routine`;
+
+--
+-- Constraints for table `animal_sale`
+--
+ALTER TABLE `animal_sale`
+    DROP CONSTRAINT `fk_animal_sale_id_client`;
+
+--
+-- Constraints for table `consuming`
+--
+ALTER TABLE `consuming`
+    DROP CONSTRAINT `fk_consuming_id_stock`;
+
+--
+-- Constraints for table `health_status`
+--
+ALTER TABLE `health_status`
+    DROP CONSTRAINT `fk_health_status_id_vaccine`;
+
+--
+-- Constraints for table `milk_sale`
+--
+ALTER TABLE `milk_sale`
+    DROP CONSTRAINT `fk_milk_sale_id_client`;
+
+--
+-- Constraints for table `purchase`
+--
+ALTER TABLE `purchase`
+    DROP CONSTRAINT `fk_purchase_id_stock`,
+    DROP CONSTRAINT `fk_purchase_id_supplier`;
+
+--
+-- Constraints for table `routine_has_feeds`
+--
+ALTER TABLE `routine_has_feeds`
+    DROP CONSTRAINT `fk_routine_has_feeds_id_routine`,
+    DROP CONSTRAINT `fk_routine_has_feeds_id_stock`;
+
+--
+-- Constraints for table `user`
+--
+ALTER TABLE `user`
+    DROP CONSTRAINT `fk_user_id_employee`,
+    DROP CONSTRAINT `fk_user_id_role`;
+COMMIT;
+
+# Empty all tables
+TRUNCATE `animal`;
+TRUNCATE `animal_sale`;
+TRUNCATE `client`;
+TRUNCATE `consuming`;
+TRUNCATE `employee`;
+TRUNCATE `health_status`;
+TRUNCATE `milk_collection`;
+TRUNCATE `milk_sale`;
+TRUNCATE `pregnancy`;
+TRUNCATE `purchase`;
+TRUNCATE `race`;
+TRUNCATE `role`;
+TRUNCATE `routine`;
+TRUNCATE `routine_has_feeds`;
+TRUNCATE `stock`;
+TRUNCATE `supplier`;
+TRUNCATE `user`;
+
 # Update created_at & updated_at
 ALTER TABLE `animal`
     CHANGE `created_at` `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
