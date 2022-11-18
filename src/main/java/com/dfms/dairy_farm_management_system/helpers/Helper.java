@@ -21,6 +21,9 @@ import javafx.util.Callback;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -208,5 +211,37 @@ public class Helper {
             displayAlert("Error", "Error while getting roles", Alert.AlertType.ERROR);
         }
         return rolesList;
+    }
+
+    //encrypt password
+    public static String encryptPassword(String password) {
+        String generatedPassword = null;
+        // Create MessageDigest instance for MD5
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
+        md.update(password.getBytes(), 0, password.length());
+        generatedPassword = new BigInteger(1, md.digest()).toString(16);
+        return generatedPassword;
+    }
+
+    public static boolean MD5(String encrypted_password, String password) {
+        String md5 = null;
+        boolean isEquals = false;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            byte[] digest = md.digest();
+            md5 = new BigInteger(1, digest).toString(16);
+            isEquals = md5.equals(encrypted_password);
+        } catch (NoSuchAlgorithmException e) {
+            isEquals = false;
+        }
+
+        return isEquals;
     }
 }

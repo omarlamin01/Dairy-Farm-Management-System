@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -20,7 +21,7 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 public class EmployeeDetailsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fetchEmployee();
+
     }
 
     @FXML
@@ -58,55 +59,46 @@ public class EmployeeDetailsController implements Initializable {
     @FXML
     private Label salary;
 
-    public static int employee_id;
-    public static Employee employee;
+    public void fetchEmployee(Employee employee) {
 
-
-    public void fetchEmployee() {
-        employee = getEmployee(EmployeeDetailsController.employee_id);
-        header.setText("Here's all the information about " + employee.getFirstName() + " " + employee.getLastName());
-        first_name.setText(employee.getFirstName());
-        last_name.setText(employee.getLastName());
-        email.setText(employee.getEmail());
-        phone.setText(employee.getPhone());
-        address.setText(employee.getAdress());
-        cin.setText(employee.getCin());
-        salary.setText(String.valueOf(employee.getSalary()));
-        contract_type.setText(employee.getContractType());
-        recruitment_date.setText(String.valueOf(employee.getRecruitmentDate()));
-        if (Objects.equals(employee.getGender(), "M")) {
-            gender.setText("Male");
-        } else {
-            gender.setText("Female");
-        }
-    }
-
-    public Employee getEmployee(int id) {
-        Employee employee = new Employee();
-        String query = "SELECT * FROM employee WHERE id = " + id;
+        //get the employee from the database
         Connection con = getConnection();
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
         try {
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()) {
-                employee.setId(rs.getInt("id"));
-                employee.setFirstName(rs.getString("first_name"));
-                employee.setLastName(rs.getString("last_name"));
-                employee.setEmail(rs.getString("email"));
-                employee.setPhone(rs.getString("phone"));
-                employee.setAdress(rs.getString("address"));
-                employee.setCin(rs.getString("cin"));
-                employee.setGender(rs.getString("gender"));
-                employee.setRecruitmentDate(rs.getDate("recruitment_date"));
-                employee.setSalary(rs.getFloat("salary"));
+            st = con.prepareStatement("SELECT * FROM employee WHERE id = " + employee.getId());
+            rs = st.executeQuery();
+            if (rs.next()) {
+                address.setText(rs.getString("address"));
+                cin.setText(rs.getString("cin"));
+                phone.setText(rs.getString("phone"));
+                contract_type.setText(rs.getString("contract_type"));
+                recruitment_date.setText(rs.getString("recruitment_date"));
             }
         } catch (Exception e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
         }
-        return employee;
+
+        header.setText(employee.getFirstName() + " " + employee.getLastName());
+        email.setText(employee.getEmail());
+        first_name.setText(employee.getFirstName());
+        last_name.setText(employee.getLastName());
+        salary.setText(String.valueOf(employee.getSalary()));
     }
 
-    public void setEmployeeId(int id) {
-        EmployeeDetailsController.employee_id = id;
+    public String getRole(int id) {
+        String role = "";
+        try {
+            Connection con = getConnection();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT name FROM role WHERE id = " + id);
+            while (rs.next()) {
+                role = rs.getString("name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return role;
     }
 }

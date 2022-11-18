@@ -4,7 +4,6 @@ use dairyfarm;
 ALTER TABLE `animal`
     DROP CONSTRAINT `fk_animal_id_r`,
     DROP CONSTRAINT `fk_animal_id_routine`;
-
 --
 -- Constraints for table `animal_sale`
 --

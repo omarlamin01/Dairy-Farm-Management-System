@@ -11,10 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -39,6 +36,8 @@ public class MainLayoutController implements Initializable {
         loadView(first_view);
         dashboard_btn.setStyle("-fx-background-color: #FFC700, #72ED12;" +
                 "-fx-background-insets: 0, 0 0 0 4;");
+
+        nav_scroll_pane.getStyleClass().clear();
 
         //load user details
         getCurrentUser();
@@ -89,6 +88,9 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     private Label user_name;
+
+    @FXML
+    private ScrollPane nav_scroll_pane;
 
     private Parent root = null;
 

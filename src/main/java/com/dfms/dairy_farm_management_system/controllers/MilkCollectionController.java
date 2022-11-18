@@ -1,6 +1,9 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.MilkCollectionlDetailsController;
 import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
@@ -9,7 +12,9 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.geometry.Insets;
@@ -19,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -28,11 +34,11 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class MilkCollectionController implements Initializable {
-MilkCollection mc;
+    MilkCollection mc;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -40,11 +46,12 @@ MilkCollection mc;
         combo.setItems(list);
         try {
             afficher();
-            liveSearch(search_input,MilkCollectionTable);
+            liveSearch(search_input, MilkCollectionTable);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
+
     @FXML
     private ComboBox<String> combo;
     @FXML
@@ -75,15 +82,17 @@ MilkCollection mc;
     PreparedStatement st = null;
     ResultSet rs = null;
     ObservableList<MilkCollection> list = FXCollections.observableArrayList();
+
     public ObservableList<MilkCollection> getMilkCollection() throws SQLException, ClassNotFoundException {
         ObservableList<MilkCollection> list = FXCollections.observableArrayList();
 
-        String select_query = "SELECT mc.cow_id, quantity ,period,mc.created_at from  milk_collection mc ,animal a where mc.cow_id= a.id and a.type='cow' ";
+        String select_query = "SELECT  mc.id, mc.cow_id, quantity ,period,mc.created_at from  milk_collection mc ,animal a where mc.cow_id= a.id and a.type='cow' ";
 
         st = DBConfig.getConnection().prepareStatement(select_query);
         rs = st.executeQuery();
         while (rs.next()) {
             MilkCollection milkCollection = new MilkCollection();
+            milkCollection.setId(rs.getInt("id"));
             milkCollection.setCow_id(rs.getString("cow_id"));
             milkCollection.setQuantity(rs.getFloat("quantity"));
             milkCollection.setPeriod(rs.getString("period"));
@@ -94,6 +103,7 @@ MilkCollection mc;
         }
         return list;
     }
+
     public void refreshTableMilkCollection() throws SQLException {
 
         MilkCollectionTable.getItems().clear();
@@ -102,8 +112,8 @@ MilkCollection mc;
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
     }
+
     public void afficher() throws SQLException, ClassNotFoundException {
         ObservableList<MilkCollection> list = getMilkCollection();
         id_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, String>("cow_id"));
@@ -122,6 +132,7 @@ MilkCollection mc;
                 final Button btnDelete = new Button();
                 Image imgViewDetail = new Image(getClass().getResourceAsStream("/images/eye.png"));
                 final Button btnViewDetail = new Button();
+
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -168,7 +179,7 @@ MilkCollection mc;
 
                         setText(null);
 
-                        HBox managebtn = new HBox(btnEdit, btnDelete,btnViewDetail);
+                        HBox managebtn = new HBox(btnEdit, btnDelete, btnViewDetail);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(btnEdit, new Insets(1, 1, 0, 3));
                         HBox.setMargin(btnDelete, new Insets(1, 1, 0, 2));
@@ -180,30 +191,75 @@ MilkCollection mc;
 
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
-                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("Delete MilkCollection");
-                            alert.setHeaderText(null);
-                            alert.setContentText("Are you sure you want to delete this row?");
-                            Optional<ButtonType> action = alert.showAndWait();
-                            if (action.get() == ButtonType.OK) {
-                                //get selected item of clicked button
-                                MilkCollection mc = getTableView().getItems().get(getIndex());
-                                deleteMilkCollection(mc.getId());
+
+                            MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
+                            if (mc.delete()) {
+
+                                displayAlert("success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
                                 try {
-                                    afficher();
+                                    refreshTableMilkCollection();
                                 } catch (SQLException e) {
-                                    throw new RuntimeException(e);
-                                } catch (ClassNotFoundException e) {
+                                    e.printStackTrace();
                                     throw new RuntimeException(e);
                                 }
-
+                            } else {
+                                displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
                             }
+
+
+                            //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
+
                         });
+                        btnEdit.setOnMouseClicked((MouseEvent event) -> {
 
-                        }}
+                            MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
+                            String path = "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml";
+                            FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
+                            try {
+                                loader.load();
+                            } catch (IOException ex) {
+                                displayAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
+                                ex.printStackTrace();
+                            }
+                            if (mc.update()) {
+
+                                displayAlert("success", "Milk Collection Updated successfully", Alert.AlertType.INFORMATION);
+                                try {
+                                    refreshTableMilkCollection();
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
+                                    throw new RuntimeException(e);
+                                }
+                            } else {
+                                displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
+                            }
 
 
+                            //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
 
+                        });
+                        btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
+                            MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/milkcollection_details.fxml"));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                                MilkCollectionlDetailsController controller = fxmlLoader.getController();
+                                controller.fetchMilkCollection( mc.getId(),mc.getCow_id(), mc.getPeriod(), mc.getQuantity(), mc.getCollection_date());
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
+                            }
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Milk Collection  Details");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
+                        });
+                    }
+                }
 
 
             };
@@ -216,9 +272,7 @@ MilkCollection mc;
     }
 
 
-
-
-        public void liveSearch(TextField search_input, TableView table) {
+    public void liveSearch(TextField search_input, TableView table) {
         search_input.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
                 try {
@@ -238,7 +292,7 @@ MilkCollection mc;
                 }
                 for (MilkCollection milkCollection : milkCollections) {
                     if (milkCollection.getPeriod().toLowerCase().contains(newValue.toLowerCase()) || milkCollection.getCow_id().toLowerCase().contains(newValue.toLowerCase())) {
-                        filteredList.add(milkCollection );
+                        filteredList.add(milkCollection);
                     }
                 }
                 MilkCollectionTable.setItems(filteredList);
@@ -249,9 +303,12 @@ MilkCollection mc;
 
     @FXML
     void openAddNewMilkCollection(MouseEvent event) throws IOException {
-        openNewWindow("Add Milk Collection", "add_new_milk_collection");}
+        openNewWindow("Add Milk Collection", "add_new_milk_collection");
+    }
+
     private Connection con = DBConfig.getConnection();
     private Statement stt;
+
     private void deleteMilkCollection(int id) {
         String query = "DELETE FROM milk_collection WHERE id = " + id;
         try {
@@ -264,4 +321,4 @@ MilkCollection mc;
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-    }
+}

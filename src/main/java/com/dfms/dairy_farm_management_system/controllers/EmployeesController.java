@@ -1,8 +1,10 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
+import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,10 +25,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -110,11 +109,8 @@ public class EmployeesController implements Initializable {
         Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<Employee, String> param) -> {
             final TableCell<Employee, String> cell = new TableCell<Employee, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                final Button edit_btn = new Button();
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                final Button delete_btn = new Button();
                 Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
-                final Button view_details_btn = new Button();
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -124,113 +120,86 @@ public class EmployeesController implements Initializable {
                         setGraphic(null);
                         setText(null);
                     } else {
-                        view_details_btn.setStyle("-fx-background-color: #1E1E1E;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         ImageView iv_view_details = new ImageView();
+                        iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
                         iv_view_details.setImage(view_details_img);
                         iv_view_details.setPreserveRatio(true);
                         iv_view_details.setSmooth(true);
                         iv_view_details.setCache(true);
-                        view_details_btn.setGraphic(iv_view_details);
-
-                        setGraphic(view_details_btn);
-                        setText(null);
 
 
-                        edit_btn.setStyle("-fx-background-color: #2B66FD;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         ImageView iv_edit = new ImageView();
+                        iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
                         iv_edit.setImage(edit_img);
                         iv_edit.setPreserveRatio(true);
                         iv_edit.setSmooth(true);
                         iv_edit.setCache(true);
-                        edit_btn.setGraphic(iv_edit);
 
-                        setGraphic(edit_btn);
-                        setText(null);
-
-                        delete_btn.setStyle("-fx-background-color: #FF3939;-fx-cursor: hand;-fx-size:15px; -fx-padding: 5px;");
                         ImageView iv_delete = new ImageView();
+                        iv_delete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
 
                         iv_delete.setImage(delete_img);
                         iv_delete.setPreserveRatio(true);
                         iv_delete.setSmooth(true);
                         iv_delete.setCache(true);
-                        delete_btn.setGraphic(iv_delete);
-
-
-                        setGraphic(delete_btn);
-
-                        setText(null);
 
                         HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
                         managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(delete_btn, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(view_details_btn, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_edit, new Insets(1, 1, 0, 3));
 
                         setGraphic(managebtn);
-                        setText(null);
 
                         //delete employee
-                        delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            //mark row as selected
-                            TableRow<Employee> currentRow = getTableRow();
-                            employees_table.getSelectionModel().select(currentRow.getItem());
+                        iv_delete.setOnMouseClicked((MouseEvent event) -> {
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete Employee");
+                            alert.setHeaderText("Are you sure you want to delete this employee?");
                             Employee employee = employees_table.getSelectionModel().getSelectedItem();
-                            if (employee != null) {
-                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                alert.setTitle("Confirmation");
-                                alert.setHeaderText("Are you sure you want to delete this employee?");
-                                alert.setContentText("Click ok to confirm");
-                                Optional<ButtonType> action = alert.showAndWait();
-                                if (action.get() == ButtonType.OK) {
-                                    deleteEmployee(employee.getId());
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    employee.delete();
                                     displayEmployees();
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
-                            } else {
-                                displayAlert("Error", "Please select an employee to delete", Alert.AlertType.ERROR);
                             }
                         });
 
                         //update employee
-                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
-                            //mark row as selected
-                            TableRow<Employee> currentRow = getTableRow();
-                            employees_table.getSelectionModel().select(currentRow.getItem());
-                            int id = employees_table.getSelectionModel().getSelectedItem().getId();
-                            String path = "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml";
-                            FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
+                        iv_edit.setOnMouseClicked((MouseEvent event) -> {
+                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/update_employee.fxml"));
+                            Scene scene = null;
                             try {
-                                loader.load();
-                            } catch (IOException ex) {
-                                displayAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
-                                ex.printStackTrace();
+                                scene = new Scene(fxmlLoader.load());
+                                UpdateEmployeeController controller = fxmlLoader.getController();
+                                int employee_id = employee.getId();
+                                controller.fetchEmployee(employee);
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
                             }
-                            UpdateEmployeeController updateEmployeeController = loader.getController();
-                            updateEmployeeController.setEmplyeeId(id);
-                            Parent parent = loader.getRoot();
                             Stage stage = new Stage();
-                            stage.setScene(new Scene(parent));
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update Employee");
                             stage.setResizable(false);
+                            stage.setScene(scene);
                             centerScreen(stage);
                             stage.show();
                         });
 
                         //view employee details
-                        view_details_btn.setOnMouseClicked((MouseEvent event) -> {
-                            //mark row as selected
-                            TableRow<Employee> currentRow = getTableRow();
-                            employees_table.getSelectionModel().select(currentRow.getItem());
-                            int id = employees_table.getSelectionModel().getSelectedItem().getId();
-                            String url = "popups/employee_details.fxml";
+                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
+                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 EmployeeDetailsController controller = fxmlLoader.getController();
-                                System.out.println("id: " + id);
-                                controller.setEmployeeId(id);
+                                controller.fetchEmployee(employee);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();

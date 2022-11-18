@@ -2,10 +2,12 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.EmployeesController;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -78,7 +80,6 @@ public class NewEmployeeController implements Initializable {
             return;
         }
 
-
         String firstName = this.firstNameInput.getText();
         String lastName = this.lastNameInput.getText();
         String email = this.emailInput.getText();
@@ -96,71 +97,25 @@ public class NewEmployeeController implements Initializable {
             return;
         }
 
-        String query_emp = "INSERT INTO employee (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String query_user = "INSERT INTO user (role_id, employee_id, first_name, last_name, email, password, phone, address, gender, cin, salary) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Employee employee = new Employee();
+        employee.setFirstName(firstName);
+        employee.setLastName(lastName);
+        employee.setEmail(email);
+        employee.setPhone(phone);
+        employee.setAdress(adress);
+        employee.setCin(cin);
+        employee.setSalary(Float.parseFloat(salary));
+        Date date = Date.valueOf(hireDate);
+        employee.setRecruitmentDate(date);
+        employee.setContractType(contractType);
+        employee.setGender(gender);
 
         //insert into employee table
-        try {
-            this.pst = this.con.prepareStatement(query_emp);
-            this.pst.setString(1, firstName);
-            this.pst.setString(2, lastName);
-            //check gender type
-            if (this.genderCombo.getValue().equals("Male")) {
-                this.pst.setString(3, "M");
-            } else {
-                this.pst.setString(3, "F");
-            }
-            this.pst.setString(4, cin);
-            this.pst.setString(5, email);
-            this.pst.setString(6, phone);
-            this.pst.setString(7, adress);
-            this.pst.setString(8, salary);
-            this.pst.setString(9, hireDate);
-            this.pst.setString(10, contractType);
-            this.pst.execute();
-
-            //insert into user table
-            try {
-                this.con = DBConfig.getConnection();
-                this.pst = this.con.prepareStatement(query_user);
-
-                //get role id
-                int role_id = getRoleID(role);
-
-                //get last inserted employee id
-                this.st = this.con.createStatement();
-                ResultSet rs = this.st.executeQuery("SELECT MAX(id) FROM employee");
-                rs.next();
-                int employee_id = rs.getInt(1);
-
-                //insert into user table
-                this.pst.setInt(1, role_id);
-                this.pst.setInt(2, employee_id);
-                this.pst.setString(3, firstName);
-                this.pst.setString(4, lastName);
-                this.pst.setString(5, email);
-                this.pst.setString(6, cin);
-                this.pst.setString(7, phone);
-                this.pst.setString(8, adress);
-                //check gender type
-                if (this.genderCombo.getValue().equals("Male")) {
-                    this.pst.setString(9, "M");
-                } else {
-                    this.pst.setString(9, "F");
-                }
-                this.pst.setString(10, cin);
-                this.pst.setString(11, salary);
-                this.pst.execute();
-
-                displayAlert("Done", "Employee added successfully", Alert.AlertType.INFORMATION);
-            } catch (SQLException e) {
-                displayAlert("Error", "Error while adding employee", Alert.AlertType.ERROR);
-                e.printStackTrace();
-            }
-        } finally {
-            this.pst.close();
-            this.con.close();
-            closeWindow((Button) mouseEvent.getSource());
+        if (employee.save()) {
+            displayAlert("Success", "Employee added successfully", Alert.AlertType.INFORMATION);
+            ((Node) (mouseEvent.getSource())).getScene().getWindow().hide();
+        } else {
+            displayAlert("Error", "Error while adding employee", Alert.AlertType.ERROR);
         }
     }
 
