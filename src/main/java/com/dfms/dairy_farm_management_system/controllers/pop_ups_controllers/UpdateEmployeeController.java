@@ -97,7 +97,7 @@ public class UpdateEmployeeController implements Initializable {
         employee.setGender(genderCombo.getValue());
         employee.setContractType(contractCombo.getValue());
         employee.setRecruitmentDate(java.sql.Date.valueOf(hireDate.getValue()));
-        
+
         if (employee.update()) {
             displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
             ((Node) (event.getSource())).getScene().getWindow().hide();
