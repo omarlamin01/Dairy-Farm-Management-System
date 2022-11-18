@@ -87,7 +87,6 @@ public class UpdateEmployeeController implements Initializable {
         String phone = phoneNumberInput.getText();
 
         Employee employee = getEmployee(this.employee_id);
-        System.out.println("Employee id: " + employee.getId());
         employee.setFirstName(firstNameInput.getText());
         employee.setLastName(lastNameInput.getText());
         employee.setCin(cinInput.getText());
@@ -98,9 +97,7 @@ public class UpdateEmployeeController implements Initializable {
         employee.setGender(genderCombo.getValue());
         employee.setContractType(contractCombo.getValue());
         employee.setRecruitmentDate(java.sql.Date.valueOf(hireDate.getValue()));
-
-        System.out.println(employee.toString());
-
+        
         if (employee.update()) {
             displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
             ((Node) (event.getSource())).getScene().getWindow().hide();
