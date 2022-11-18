@@ -132,4 +132,27 @@ ALTER TABLE `employee`
 COMMIT;
 
 # Unicity of some fields
+ALTER TABLE `client` ADD UNIQUE(`name`, `phone`, `email`);
+SAVEPOINT A;
+
+ALTER TABLE `employee` ADD UNIQUE(`cin`, `email`, `phone`);
+SAVEPOINT B;
+
+ALTER TABLE `race` ADD UNIQUE(`name`);
+SAVEPOINT C;
+
+ALTER TABLE `role` ADD UNIQUE(`name`);
+SAVEPOINT D;
+
+ALTER TABLE `routine` ADD UNIQUE(`name`);
+SAVEPOINT E;
+
+ALTER TABLE `stock` ADD UNIQUE(`name`);
+SAVEPOINT F;
+
+ALTER TABLE `supplier` ADD UNIQUE(`name`, `phone`, `email`);
+SAVEPOINT G;
+
+ALTER TABLE `user` ADD UNIQUE(`cin`, `phone`, `email`);
+COMMIT;
 
