@@ -92,3 +92,29 @@ ALTER TABLE `vaccine`
 COMMIT;
 
 # Update ids
+ALTER TABLE `animal` CHANGE `id` `id` VARCHAR(20) NOT NULL AUTO_INCREMENT;
+SAVEPOINT A;
+
+ALTER TABLE `animal_sale` CHANGE `animal_id` `animal_id` VARCHAR(20) NULL DEFAULT NULL;
+SAVEPOINT B;
+
+ALTER TABLE `health_status` CHANGE `animal_id` `animal_id` VARCHAR(20) NULL DEFAULT NULL;
+SAVEPOINT C;
+
+ALTER TABLE `milk_collection` CHANGE `cow_id` `cow_id` VARCHAR(20) NOT NULL;
+SAVEPOINT D;
+
+ALTER TABLE `pregnancy` CHANGE `cow_id` `cow_id` VARCHAR(20) NULL DEFAULT NULL;
+SAVEPOINT E;
+
+TRUNCATE `user`;
+SAVEPOINT F;
+
+ALTER TABLE `user` DROP INDEX `fk_user_id_employee`;
+SAVEPOINT G;
+
+ALTER TABLE `user` DROP `employee_id`;
+SAVEPOINT H;
+
+ALTER TABLE `employee` DROP `id`;
+SAVEPOINT I;
