@@ -1,5 +1,10 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class MilkSale implements Model{
@@ -72,6 +77,14 @@ public class MilkSale implements Model{
 
     @Override
     public boolean delete() {
-        return false;
+        String deleteQuery = "DELETE FROM `milk_sale` WHERE `milk_sale`.`id` = " + this.id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
