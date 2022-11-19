@@ -4,6 +4,7 @@ import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalSaleDetailsController;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
+import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,6 +35,7 @@ public class SalesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         combo.setItems(list);
+        liveSearch(search_input, AnimalSalesTable);
         try {
             afficher();
         } catch (SQLException e) {
@@ -267,6 +269,33 @@ public class SalesController implements Initializable {
         action_col.setCellFactory(cellFoctory);
         AnimalSalesTable.setItems(list);
 
+    }
+    public void liveSearch(TextField search_input, TableView table) {
+        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                try {
+                    refreshTableAnimalSales();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                ObservableList<AnimalSale> filteredList = FXCollections.observableArrayList();
+                ObservableList<AnimalSale> animalSale = null;
+                try {
+                    animalSale = getAnimalSale();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                for (AnimalSale Animal: animalSale) {
+                    if (Animal.getId_client().toLowerCase().contains(newValue.toLowerCase()) || Animal.getId_animal().toLowerCase().contains(newValue.toLowerCase())) {
+                        filteredList.add(Animal);
+                    }
+                }
+                AnimalSalesTable.setItems(filteredList);
+            }
+        });
     }
 
 }
