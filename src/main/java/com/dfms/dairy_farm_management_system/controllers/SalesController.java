@@ -45,7 +45,43 @@ public class SalesController implements Initializable {
         }
     }
     @FXML
+    private TableView<?> MilkSaleTable;
+
+    @FXML
+    private TableColumn<?, ?> action_c;
+
+
+
+    @FXML
+    private TableColumn<?, ?> client_c;
+
+
+    @FXML
+    private ComboBox<?> combo1;
+
+    @FXML
+    private TableColumn<?, ?> date_c;
+
+
+
+    @FXML
+    private TableColumn<?, ?> price_c;
+
+
+
+    @FXML
+    private TableColumn<?, ?> quantity_c;
+
+    @FXML
+    private Button search_btn;
+
+    @FXML
+    private TextField search_inpu;
+
+
+    @FXML
     private ComboBox<String> combo;
+
     ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
 
 
@@ -67,8 +103,7 @@ public class SalesController implements Initializable {
     @FXML
     private TableColumn<AnimalSale, Float> price_col;
 
-    @FXML
-    private Button search_btn;
+
 
     @FXML
     private TextField search_input;
