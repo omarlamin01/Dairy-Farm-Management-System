@@ -98,7 +98,7 @@
                   <children>
                      <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <children>
-                           <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for operation..." styleClass="text-field-search">
+                           <TextField fx:id="search_inpu" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for operation..." styleClass="text-field-search">
                               <padding>
                                  <Insets left="10.0" />
                               </padding>
@@ -131,14 +131,14 @@
                            </HBox>
                         </children>
                      </HBox>
-                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <TableView fx:id="MilkSaleTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
-                           <TableColumn prefWidth="67.66667175292969" text="ID" />
-                           <TableColumn prefWidth="163.0" text="Quantity" />
-                           <TableColumn prefWidth="116.0" text="Price" />
-                           <TableColumn prefWidth="120.33334350585938" text="Client" />
-                           <TableColumn prefWidth="144.0" text="Operation date" />
-                           <TableColumn prefWidth="190.66668701171875" text="Actions" />
+                           <TableColumn minWidth="0.0" prefWidth="0.0" />
+                           <TableColumn fx:id="quantity_c" prefWidth="157.0" text="Quantity" />
+                           <TableColumn fx:id="price_c" prefWidth="147.0" text="Price" />
+                           <TableColumn fx:id="client_c" prefWidth="164.0" text="Client" />
+                           <TableColumn fx:id="date_c" prefWidth="180.0" text="Operation date" />
+                           <TableColumn fx:id="action_c" prefWidth="155.0" text="Actions" />
                         </columns>
                      </TableView>
                   </children>
