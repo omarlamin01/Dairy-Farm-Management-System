@@ -14,11 +14,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="598.0" styleClass="main_content" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalSaleDetailsController">
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="429.0" prefWidth="598.0" styleClass="main_content" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.MilkSaleDetailsController">
     <children>
         <HBox alignment="CENTER_LEFT" spacing="10.0">
             <children>
-                <Label styleClass="header" text="AnimalSale" textAlignment="CENTER">
+                <Label styleClass="header" text="MilkSale" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -42,7 +42,7 @@
                 <Insets bottom="10.0" />
             </VBox.margin>
         </Pane>
-        <Label fx:id="header" styleClass="sub_header" text="Here's the details of selected animalsale" textAlignment="CENTER">
+        <Label fx:id="header" styleClass="sub_header" text="Here's the details of selected milkSale" textAlignment="CENTER">
             <font>
                 <Font size="18.0" />
             </font>
@@ -65,7 +65,7 @@
                                 <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Label prefWidth="200.0" text="ID" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label prefWidth="200.0" text="Milk Quantity " GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <GridPane.margin>
                                         <Insets left="10.0" />
                                     </GridPane.margin>
