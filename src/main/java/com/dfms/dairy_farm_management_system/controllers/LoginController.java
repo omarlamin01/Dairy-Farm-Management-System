@@ -33,7 +33,7 @@ public class LoginController implements Initializable {
 
     public String[] autoConnect() {
         String[] arr = new String[2];
-        String query = "SELECT email, password FROM `user` ORDER BY `user`.`id` ASC LIMIT 1";
+        String query = "SELECT email, password FROM `users` ORDER BY `users`.`id` ASC LIMIT 1";
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -71,7 +71,7 @@ public class LoginController implements Initializable {
 
         if (validateLogin(email, password)) {
             //store logged in user in session
-            String query = "SELECT * FROM user WHERE email = '" + email + "' AND password = '" + password + "'";
+            String query = "SELECT * FROM `users` WHERE email = '" + email + "' AND password = '" + password + "'";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             if (rs.next()) {
