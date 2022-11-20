@@ -36,6 +36,7 @@ public class NewAnimalController implements Initializable {
     ResultSet rs = null;
 
     String animal_ID;
+    String query = null;
     private Connection con = DBConfig.getConnection();
 
     @Override
@@ -107,7 +108,7 @@ public class NewAnimalController implements Initializable {
         animal_ID = "Cow-" + rand;
 
         try {
-            st = con.prepareStatement(getQuery());
+            st = con.prepareStatement(query);
             st.setString(1, animal_ID);
             st.setString(2, typeCombo.getSelectionModel().getSelectedItem());
             st.setDate(3, Date.valueOf(birthDate.getValue()));
@@ -120,19 +121,18 @@ public class NewAnimalController implements Initializable {
         }
 
     }
-    private String getQuery() {
-      String insert_query = null;
+    private void getQuery() {
+
         if (update == false) {
-            insert_query = "INSERT INTO animal (id,type,birth_date,purchase_date,routine_id,race_id) VALUES (?,?,?,?,(select id from routine where name ='" + routineCombo.getSelectionModel().getSelectedItem() + "'),(select id from race where name ='" + raceCombo.getSelectionModel().getSelectedItem() + "'))";
+            query = "INSERT INTO animal (id,type,birth_date,purchase_date,routine_id,race_id) VALUES (?,?,?,?,(select id from routine where name ='" + routineCombo.getSelectionModel().getSelectedItem() + "'),(select id from race where name ='" + raceCombo.getSelectionModel().getSelectedItem() + "'))";
 
     }
-        return insert_query;
+
     }
 
 
     void setUpdate(boolean b) {
         this.update = b;
-
     }
 
 }
