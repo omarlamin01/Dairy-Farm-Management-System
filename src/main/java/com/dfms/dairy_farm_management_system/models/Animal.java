@@ -1,9 +1,6 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -18,6 +15,11 @@ public class Animal implements Model {
     private String type;
     private Timestamp created_at;
     private Timestamp updated_at;
+
+    public Animal() {
+        created_at = Timestamp.valueOf(LocalDateTime.now());
+        updated_at = Timestamp.valueOf(LocalDateTime.now());
+    }
 
     public String getId() {
         return id;
@@ -85,18 +87,19 @@ public class Animal implements Model {
 
     @Override
     public boolean save() {
-        String query = "INSERT INTO `animals` (`birth_date`, `purchase_date`, `routine`, `race`, `type`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO `animals` (`id`, `birth_date`, `purchase_date`, `routine`, `race`, `type`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
 
-            statement.setDate(1, birth_date);
-            statement.setDate(2, purchase_date);
-            statement.setInt(3, routine);
-            statement.setInt(4, race);
-            statement.setString(5, type);
-            statement.setTimestamp(6, created_at);
-            statement.setTimestamp(7, updated_at);
+            statement.setString(1, id);
+            statement.setDate(2, birth_date);
+            statement.setDate(3, purchase_date);
+            statement.setInt(4, routine);
+            statement.setInt(5, race);
+            statement.setString(6, type);
+            statement.setTimestamp(7, created_at);
+            statement.setTimestamp(8, updated_at);
 
             return statement.executeUpdate() != 0;
         } catch (Exception e) {
@@ -107,11 +110,35 @@ public class Animal implements Model {
 
     @Override
     public boolean update() {
+        updated_at = Timestamp.valueOf(LocalDateTime.now());
+        String query = "UPDATE `animals` SET " +
+                "`birth_date` = '" + birth_date +"', " +
+                "`purchase_date` = '" + purchase_date + "', " +
+                "`routine` = '" + routine + "', " +
+                "`race` = '" + race + "', " +
+                "`type` = '" + type + "', " +
+                "`updated_at` = '" + updated_at + "' " +
+                "WHERE `animals`.`id` = '" + id + "'";
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean delete() {
+        String query = "DELETE FROM `animals` WHERE `animals`.`id` = '" + id + "'";
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }
