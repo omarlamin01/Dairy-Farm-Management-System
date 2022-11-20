@@ -23,6 +23,10 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+CREATE DATABASE 'dairyfarm';
+
+USE dairyfarm;
+
 --
 -- Table structure for table `animals`
 --
