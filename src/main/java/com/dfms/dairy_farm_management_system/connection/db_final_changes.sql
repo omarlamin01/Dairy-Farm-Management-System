@@ -23,8 +23,6 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
-CREATE DATABASE 'dairyfarm';
-
 USE dairyfarm;
 
 --
@@ -373,12 +371,12 @@ ALTER TABLE `animals_sales`
 --
 ALTER TABLE `clients`
     ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `name` (`name`, `phone`, `email`),
+    ADD UNIQUE KEY `name` (`name`, `phone`, `email`);
 
-    --
+--
 -- Indexes for table `consuming`
 --
-    ALTER TABLE `consuming`
+ALTER TABLE `consuming`
     ADD PRIMARY KEY (`id`),
     ADD KEY `fk_consuming_id_stock` (`stock_id`);
 
@@ -387,14 +385,14 @@ ALTER TABLE `clients`
 --
 ALTER TABLE `employees`
     ADD PRIMARY KEY (`cin`),
-    ADD UNIQUE KEY `cin` (`cin`, `email`, `phone`),
+    ADD UNIQUE KEY `cin` (`cin`, `email`, `phone`);
 
-    --
+--
 -- Indexes for table `health_status`
 --
-    ALTER TABLE `health_status`
+ALTER TABLE `health_status`
     ADD PRIMARY KEY (`id`),
-    ADD KEY `fk_health_status_id_animal` (`animal_id`),
+    ADD KEY `fk_health_status_id_animal` (`animal_id`);
 
 --
 -- Indexes for table `milk_collections`
@@ -430,26 +428,26 @@ ALTER TABLE `purchases`
 --
 ALTER TABLE `races`
     ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `name` (`name`),
+    ADD UNIQUE KEY `name` (`name`);
 
-    --
+--
 -- Indexes for table `roles`
 --
-    ALTER TABLE `roles`
+ALTER TABLE `roles`
     ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `name` (`name`),
+    ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `routines`
 --
 ALTER TABLE `routines`
     ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `name` (`name`),
+    ADD UNIQUE KEY `name` (`name`);
 
-    --
+--
 -- Indexes for table `routine_has_feeds`
 --
-    ALTER TABLE `routine_has_feeds`
+ALTER TABLE `routine_has_feeds`
     ADD PRIMARY KEY (`id`),
     ADD KEY `fk_routine_has_feeds_id_routine` (`routine_id`),
     ADD KEY `fk_routine_has_feeds_id_stock` (`stock_id`);
@@ -459,14 +457,14 @@ ALTER TABLE `routines`
 --
 ALTER TABLE `stocks`
     ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `name` (`name`),
+    ADD UNIQUE KEY `name` (`name`);
 
-    --
+--
 -- Indexes for table `suppliers`
 --
-    ALTER TABLE `suppliers`
+ALTER TABLE `suppliers`
     ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `name` (`name`,`phone`,`email`),
+    ADD UNIQUE KEY `name` (`name`, `phone`, `email`);
 
 --
 -- Indexes for table `users`
