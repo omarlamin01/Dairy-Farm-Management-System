@@ -123,7 +123,7 @@ public class NewEmployeeController implements Initializable {
         try {
             this.con = DBConfig.getConnection();
             this.st = this.con.createStatement();
-            ResultSet rs = this.st.executeQuery("SELECT id FROM role WHERE name = '" + role + "'");
+            ResultSet rs = this.st.executeQuery("SELECT id FROM `roles` WHERE name = '" + role + "'");
             rs.next();
             return rs.getInt(1);
         } catch (SQLException e) {
@@ -151,7 +151,7 @@ public class NewEmployeeController implements Initializable {
 
     //check if email, cin and phone are unique
     public boolean isUnique(String email, String cin, String phone) {
-        String query = "SELECT * FROM employee WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
+        String query = "SELECT * FROM `employees` WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
         try {
             st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
