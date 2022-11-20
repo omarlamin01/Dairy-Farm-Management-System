@@ -4,8 +4,11 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.connection.Session;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -23,11 +26,14 @@ import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.getRoles;
 
 public class UpdateEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fetchEmployee();
+        setGenderComboItems();
+        setRoleComboItems();
+        setContractComboItems();
     }
 
     private Statement st;
@@ -67,26 +73,72 @@ public class UpdateEmployeeController implements Initializable {
     @FXML
     private TextField salaryInput;
 
-    public static int employee_id;
-    public static Employee employee;
+    ObservableList<String> rolesList;
+    int employee_id = -1;
 
     @FXML
     void updateEmployee(MouseEvent event) {
+        if (inputesAreEmpty()) {
+            displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
+            return;
+        }
+        String cin = cinInput.getText();
+        String email = emailInput.getText();
+        String phone = phoneNumberInput.getText();
 
+        Employee employee = getEmployee(this.employee_id);
+        employee.setFirstName(firstNameInput.getText());
+        employee.setLastName(lastNameInput.getText());
+        employee.setCin(cinInput.getText());
+        employee.setAdress(addressInput.getText());
+        employee.setEmail(emailInput.getText());
+        employee.setPhone(phoneNumberInput.getText());
+        employee.setSalary(Float.parseFloat(salaryInput.getText()));
+        employee.setGender(genderCombo.getValue());
+        employee.setContractType(contractCombo.getValue());
+        employee.setRecruitmentDate(java.sql.Date.valueOf(hireDate.getValue()));
+
+        if (employee.update()) {
+            displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        } else {
+            displayAlert("Error", "Error while updating employee", Alert.AlertType.ERROR);
+        }
     }
 
     //get current user data
-    public void fetchEmployee() {
-        employee = getEmployee(EmployeeDetailsController.employee_id);
+    public void fetchEmployee(Employee employee) {
+
+        //get the employee from the database
+        Connection con = getConnection();
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        this.employee_id = employee.getId();
+
+        try {
+            st = con.prepareStatement("SELECT * FROM employee WHERE id = " + employee.getId());
+            rs = st.executeQuery();
+            if (rs.next()) {
+                addressInput.setText(rs.getString("address"));
+                cinInput.setText(rs.getString("cin"));
+                phoneNumberInput.setText(rs.getString("phone"));
+                contractCombo.setValue(rs.getString("contract_type"));
+                if (rs.getString("gender").equals("M")) {
+                    genderCombo.setValue("male");
+                } else {
+                    genderCombo.setValue("Female");
+                }
+                LocalDate date = LocalDate.parse(rs.getString("recruitment_date"));
+                hireDate.setValue(date);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        emailInput.setText(employee.getEmail());
         firstNameInput.setText(employee.getFirstName());
         lastNameInput.setText(employee.getLastName());
-        emailInput.setText(employee.getEmail());
-        phoneNumberInput.setText(employee.getPhone());
-        addressInput.setText(employee.getAdress());
-        cinInput.setText(employee.getCin());
         salaryInput.setText(String.valueOf(employee.getSalary()));
-        LocalDate date = LocalDate.parse((CharSequence) employee.getRecruitmentDate());
-        hireDate.setValue(date);
     }
 
     public String getRoleName(int id) {
@@ -127,7 +179,23 @@ public class UpdateEmployeeController implements Initializable {
         return employee;
     }
 
-    public void setEmplyeeId(int id) {
-        UpdateEmployeeController.employee_id = id;
+    public void setGenderComboItems() {
+        genderCombo.setItems(FXCollections.observableArrayList("Male", "Female"));
+    }
+
+    public void setRoleComboItems() {
+        this.rolesList = getRoles();
+        this.roleCombo.setItems(this.rolesList);
+    }
+
+    public void setContractComboItems() {
+        this.contractCombo.setItems(FXCollections.observableArrayList("CDI", "CDD", "CTT"));
+    }
+
+
+    public boolean inputesAreEmpty() {
+        if (this.firstNameInput.getText().isEmpty() || this.lastNameInput.getText().isEmpty() || this.emailInput.getText().isEmpty() || this.phoneNumberInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.cinInput.getText().isEmpty() || this.salaryInput.getText().isEmpty() || this.hireDate.getValue() == null || this.contractCombo.getValue() == null || this.genderCombo.getValue() == null)
+            return true;
+        return false;
     }
 }

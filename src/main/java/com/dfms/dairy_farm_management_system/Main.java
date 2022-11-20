@@ -13,12 +13,12 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.Date;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        String first_view = "main_layout";
+        String first_view = "login_screen";
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(first_view + ".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
@@ -26,6 +26,12 @@ public class Main extends Application {
         stage.setScene(scene);
         centerScreen(stage);
         stage.show();
+
+        String password = "abdellatif.laghjaj";
+        String enc_pass = encryptPassword(password);
+        System.out.println("Encrypted password: " + enc_pass);
+
+        System.out.println(MD5(enc_pass, password));
     }
 
     public static void main(String[] args) {
