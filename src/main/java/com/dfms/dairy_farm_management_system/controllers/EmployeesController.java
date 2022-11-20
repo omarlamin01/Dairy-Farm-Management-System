@@ -222,7 +222,7 @@ public class EmployeesController implements Initializable {
     }
 
     private void deleteEmployee(int id) {
-        String query = "DELETE FROM employee WHERE id = " + id;
+        String query = "DELETE FROM `employees` WHERE id = " + id;
         try {
             st = con.createStatement();
             st.executeUpdate(query);
