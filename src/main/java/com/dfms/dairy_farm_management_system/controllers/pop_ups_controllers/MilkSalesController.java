@@ -69,7 +69,7 @@ public class MilkSalesController implements Initializable {
             displayAlert("Error", "Price or quantity can not  be null ", Alert.AlertType.ERROR);
         } else {
             MilkSale milkSale = new MilkSale();
-            milkSale.setQuantity(Float.parseFloat(priceOfSale.getText()));
+            milkSale.setQuantity(Float.parseFloat(quantityInput.getText()));
             milkSale.setPrice(Float.parseFloat(priceOfSale.getText()));
             milkSale.setId_client(clientsCombo.getValue());
             milkSale.setOperationDate(operationDate.getValue());

@@ -333,3 +333,7 @@ ALTER TABLE `user`
 ALTER TABLE `user`
     CHANGE `address` `address` VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `salary`;
 COMMIT;
+
+/*ALTER TABLE `milk_sale`
+    CHANGE `quantity` `quantity` Float CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `salary`;
+COMMIT;*/
