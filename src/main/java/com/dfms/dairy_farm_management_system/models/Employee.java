@@ -147,7 +147,7 @@ public class Employee implements Model {
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO employee (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO `employees` (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -180,7 +180,7 @@ public class Employee implements Model {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
-        String updateQuery = "UPDATE `employee` SET `first_name` = '" + first_name +
+        String updateQuery = "UPDATE `employees` SET `first_name` = '" + first_name +
                 "', `last_name` = '" + last_name +
                 "', `gender` = '" + (gender.equalsIgnoreCase("Male") ? 'M' : 'F') +
                 "', `cin` = '" + cin +
@@ -191,7 +191,7 @@ public class Employee implements Model {
                 "', `recruitment_date` = '" + "2022-11-12" +
                 "', `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) + "' " +
-                "WHERE `employee`.`id` = " + this.id;
+                "WHERE `employees`.`id` = " + this.id;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
@@ -204,7 +204,7 @@ public class Employee implements Model {
 
     @Override
     public boolean delete() {
-        String deleteQuery = "DELETE FROM `employee` WHERE `employee`.`id` = " + this.id;
+        String deleteQuery = "DELETE FROM `employees` WHERE `employees`.`id` = " + this.id;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
