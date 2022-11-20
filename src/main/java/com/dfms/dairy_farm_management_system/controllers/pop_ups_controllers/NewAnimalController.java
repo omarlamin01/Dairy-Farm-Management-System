@@ -2,47 +2,45 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Animal;
-import com.dfms.dairy_farm_management_system.models.Race;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
+
+import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class NewAnimalController implements Initializable {
 
     @FXML
-   private  ComboBox<String> typeCombo;
+    private ComboBox<String> typeCombo;
     @FXML
     private ComboBox<String> raceCombo;
     @FXML
-   private  DatePicker birthDate;
+    private DatePicker birthDate;
     @FXML
     private DatePicker purchaseDate;
     @FXML
-    private ComboBox <String> routineCombo;
+    private ComboBox<String> routineCombo;
     @FXML
     private Button btn_add_animal;
-    PreparedStatement st = null;
-    ResultSet rs = null;
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
 
-     String animal_ID ;
-   private Connection con = DBConfig.getConnection();
+    String animal_ID;
+    private Connection connection = DBConfig.getConnection();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            setRaceComboItems();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        setRaceComboItems();
         try {
             setRoutineComboItems();
         } catch (SQLException e) {
@@ -55,69 +53,83 @@ public class NewAnimalController implements Initializable {
         this.typeCombo.setItems(FXCollections.observableArrayList("Cow", "Bull", "Calf"));
     }
 
-    public void setRaceComboItems() throws SQLException {
-        //get races from db
-        ObservableList<String> races = FXCollections.observableArrayList();
-
-        String select_query = "SELECT name from race;";
-
-        st = con.prepareStatement(select_query);
-        rs = st.executeQuery();
-        while (rs.next()) {
-
-            races.add(rs.getString("name"));
+    public HashMap<String, Integer> getRaces() {
+        HashMap<String, Integer> races = new HashMap<>();
+        String query = "SELECT `name`, `id` FROM `races`";
+        try {
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                races.put(resultSet.getString("name"), resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return races;
+    }
 
+    public void setRaceComboItems() {
+        ObservableList<String> races = FXCollections.observableArrayList();
+        String[] names = getRaces().keySet().toArray(new String[0]);
+        for (String race : names) {
+            races.add(race);
+        }
         raceCombo.setItems(races);
     }
-    public void setRoutineComboItems() throws SQLException {
-        //get races from db
-        ObservableList<String> routines = FXCollections.observableArrayList();
 
-        String select_query = "SELECT name from routine;";
-
-        st = con.prepareStatement(select_query);
-        rs = st.executeQuery();
-        while (rs.next()) {
-
-            routines.add(rs.getString("name"));
+    public HashMap<String, Integer> getRoutines() {
+        HashMap<String, Integer> routines = new HashMap<>();
+        String query = "SELECT `name`, `id` FROM `routines`";
+        try {
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                routines.put(resultSet.getString("name"), resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return routines;
+    }
 
+    public void setRoutineComboItems() throws SQLException {
+        ObservableList<String> routines = FXCollections.observableArrayList();
+        String[] names = getRoutines().keySet().toArray(new String[0]);
+        for (String routine : names) {
+            routines.add(routine);
+        }
         routineCombo.setItems(routines);
     }
 
-    private void clair() {
+    private void clear() {
         typeCombo.getSelectionModel().clearSelection();
         routineCombo.getSelectionModel().clearSelection();
         raceCombo.getSelectionModel().clearSelection();
         purchaseDate.setValue(null);
         birthDate.setValue(null);
-
-          btn_add_animal.setDisable(false);
-
+        btn_add_animal.setDisable(false);
     }
+
     @FXML
     void addAnimal(MouseEvent event) {
         Random random = new Random();
         int rand = random.nextInt();
-        animal_ID = "Cow-"+rand;
+        animal_ID = "Cow-" + rand;
 
+        Animal animal = new Animal();
 
-        String insert_query = "INSERT INTO animal (id,type,birth_date,purchase_date,routine_id,race_id) VALUES (?,?,?,?,(select id from routine where name ='"+routineCombo.getSelectionModel().getSelectedItem()+"'),(select id from race where name ='"+raceCombo.getSelectionModel().getSelectedItem()+"'))";
+        animal.setId(animal_ID);
+        animal.setBirth_date(Date.valueOf(birthDate.getValue()));
+        animal.setPurchase_date(Date.valueOf(purchaseDate.getValue()));
+        animal.setRace(getRaces().get(raceCombo.getValue()) == null ? 0 : getRaces().get(raceCombo.getValue()));
+        animal.setRoutine(getRoutines().get(routineCombo.getValue()) == null ? 0 : getRoutines().get(routineCombo.getValue()));
+        animal.setType(typeCombo.getValue());
 
-        try {
-            st = con.prepareStatement(insert_query);
-            st.setString(1,animal_ID);
-            st.setString(2, typeCombo.getSelectionModel().getSelectedItem());
-            st.setDate(3, Date.valueOf(birthDate.getValue()));
-            st.setDate(4, Date.valueOf(purchaseDate.getValue()));
-            st.executeUpdate();
-            clair();
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        if (animal.save()) {
+            closePopUp(event);
+            displayAlert("Success", "New animal added successfully.", Alert.AlertType.INFORMATION);
+        } else {
+            displayAlert("Error", "Some error happened while saving!", Alert.AlertType.ERROR);
         }
-
     }
-
 }
