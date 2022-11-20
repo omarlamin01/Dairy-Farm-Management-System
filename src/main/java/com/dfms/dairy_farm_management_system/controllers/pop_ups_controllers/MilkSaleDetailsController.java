@@ -15,6 +15,7 @@ public class MilkSaleDetailsController implements Initializable {
     @FXML
     private Label Price;
 
+
     @FXML
     private Label quantity;
 
@@ -34,7 +35,6 @@ public class MilkSaleDetailsController implements Initializable {
 
         header.setText("Here's all the information about MilkSale Num: " + id);
         quantity.setText(quantityy+"");
-
         Price.setText(price+"");
         name.setText(naame+"");
         Operationdate.setText(Opdate+" ");

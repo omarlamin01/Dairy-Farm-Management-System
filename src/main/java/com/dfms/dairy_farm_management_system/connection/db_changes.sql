@@ -337,3 +337,7 @@ COMMIT;
 /*ALTER TABLE `milk_sale`
     CHANGE `quantity` `quantity` Float CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `salary`;
 COMMIT;*/
+/*ALTER TABLE `milk_sale`
+    CHANGE `id` `id` int(11) AUTO_INCREMENT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `salary`;
+COMMIT;*/
+

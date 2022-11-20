@@ -76,7 +76,7 @@
                                         <Image url="@../../../../icons/cow_input.png" />
                                     </image>
                                 </ImageView>
-                                <Label fx:id="cow_id" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Cow-7489590" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                                <Label fx:id="quantity" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Cow-7489590" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                             </children>
                         </GridPane>
                     </children>

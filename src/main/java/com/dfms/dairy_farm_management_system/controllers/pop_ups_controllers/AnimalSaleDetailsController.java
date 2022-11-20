@@ -35,7 +35,6 @@ public class AnimalSaleDetailsController implements Initializable {
 
         header.setText("Here's all the information about AnimalSale Num: " + id);
         cow_id.setText(cow+"");
-
         Price.setText(price+"");
         name.setText(naame+"");
         Operationdate.setText(Opdate+" ");

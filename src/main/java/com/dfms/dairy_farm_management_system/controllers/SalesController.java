@@ -51,6 +51,7 @@ public class SalesController implements Initializable {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        liveSearch2(search_inpu, MilkSaleTable);
     }
     @FXML
     private TableView<MilkSale> MilkSaleTable;
@@ -522,6 +523,29 @@ public class SalesController implements Initializable {
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public void liveSearch2(TextField search_input, TableView table) {
+        search_inpu.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                refreshTableMilkSales();
+            } else {
+                ObservableList<MilkSale> filteredList = FXCollections.observableArrayList();
+                ObservableList<MilkSale> milkSale = null;
+                try {
+                    milkSale = getMilkSale();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                for (MilkSale milk: milkSale) {
+                    if (milk.getId_client().toLowerCase().contains(newValue.toLowerCase()) ) {
+                        filteredList.add(milk);
+                    }
+                }
+                MilkSaleTable.setItems(filteredList);
+            }
+        });
     }
 
 }
