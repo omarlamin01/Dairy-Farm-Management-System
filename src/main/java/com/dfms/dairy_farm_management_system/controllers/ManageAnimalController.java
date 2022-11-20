@@ -3,27 +3,22 @@ package com.dfms.dairy_farm_management_system.controllers;
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.models.Animal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -36,8 +31,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
@@ -68,10 +61,10 @@ public class ManageAnimalController implements Initializable {
     private TextField textField_search;
 
 
-    Connection con = DBConfig.getConnection();
+    Connection connection = DBConfig.getConnection();
 
-    PreparedStatement st = null;
-    ResultSet rs = null;
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
     Animal animal;
 
     @Override
@@ -95,40 +88,36 @@ public class ManageAnimalController implements Initializable {
 
     ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
 
-    public ObservableList<Animal> getAnimal() throws SQLException, ClassNotFoundException {
+    public ObservableList<Animal> getAnimal() {
+        String select_query = "SELECT * from `animals`";
 
+        try {
+            statement = connection.prepareStatement(select_query);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Animal animal = new Animal();
 
-        String select_query = "SELECT a.id,a.type,a.birth_date, r.name,ro.name from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=ro.id ";
+                animal.setId(resultSet.getString("id"));
+                animal.setBirth_date(resultSet.getDate("birth_date"));
+                animal.setPurchase_date(resultSet.getDate("purchase_date"));
+                animal.setRoutine(resultSet.getInt("routine"));
+                animal.setRace(resultSet.getInt("race"));
+                animal.setType(resultSet.getString("type"));
+                animal.setCreated_at(resultSet.getTimestamp("created_at"));
+                animal.setUpdated_at(resultSet.getTimestamp("updated_at"));
 
-        st = con.prepareStatement(select_query);
-        rs = st.executeQuery();
-        while (rs.next()) {
-            Animal animal = new Animal();
-            animal.setId(rs.getString("id"));
-            animal.setType(rs.getString("type"));
-            animal.setBirth_date(rs.getDate("birth_date"));
-            animal.setRace(rs.getString("r.name"));
-            animal.setRoutine(rs.getString("ro.name"));
-
-            listAnimal.add(animal);
+                listAnimal.add(animal);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return listAnimal;
     }
 
-    public void refreshTableAnimal() throws SQLException {
-
+    public void refreshTableAnimal() {
         listAnimal.clear();
-        String query_refresh = "SELECT a.id,a.type,a.birth_date, r.name,ro.name from routine ro,race r, animal a where a.race_id = r.id and a.routine_id=  ro.id ";
-        st = con.prepareStatement(query_refresh);
-        rs = st.executeQuery();
-
-        while (rs.next()) {
-            listAnimal.add(new Animal(rs.getString("id"), rs.getString("type"), rs.getDate("birth_date"), rs.getString("r.name"), rs.getString("ro.name")));
-            animals.setItems(listAnimal);
-
-
-        }
-
+        listAnimal = getAnimal();
+        animals.setItems(listAnimal);
     }
 
     public void dispalyAnimals() throws SQLException, ClassNotFoundException {
@@ -217,8 +206,8 @@ public class ManageAnimalController implements Initializable {
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
-                                    st = con.prepareStatement(delete_query);
-                                    st.execute();
+                                    statement = connection.prepareStatement(delete_query);
+                                    statement.execute();
                                     refreshTableAnimal();
                                 } catch (SQLException e) {
                                     throw new RuntimeException(e);
@@ -237,7 +226,7 @@ public class ManageAnimalController implements Initializable {
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 AnimalDetailsController controller = fxmlLoader.getController();
-                                controller.fetchAnimal(animal.getId(), animal.getRace(), animal.getBirth_date(), animal.getRoutine(), animal.getPurchase_date(), animal.getType());
+                                controller.fetchAnimal(animal.getId(), animal.getRaceName(), animal.getBirth_date(), animal.getRoutineName(), animal.getPurchase_date(), animal.getType());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -279,7 +268,7 @@ public class ManageAnimalController implements Initializable {
 
                 if (animal.getType().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
-                } else if (animal.getRace().toLowerCase().contains(lowerCaseFilter)) {
+                } else if (animal.getRaceName().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
                 } else if (animal.getId().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
