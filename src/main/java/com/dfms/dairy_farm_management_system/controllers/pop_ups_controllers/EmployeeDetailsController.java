@@ -67,7 +67,7 @@ public class EmployeeDetailsController implements Initializable {
         ResultSet rs = null;
 
         try {
-            st = con.prepareStatement("SELECT * FROM employee WHERE id = " + employee.getId());
+            st = con.prepareStatement("SELECT * FROM `employees` WHERE id = " + employee.getId());
             rs = st.executeQuery();
             if (rs.next()) {
                 address.setText(rs.getString("address"));
@@ -92,7 +92,7 @@ public class EmployeeDetailsController implements Initializable {
         try {
             Connection con = getConnection();
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT name FROM role WHERE id = " + id);
+            ResultSet rs = st.executeQuery("SELECT name FROM `roles` WHERE id = " + id);
             while (rs.next()) {
                 role = rs.getString("name");
             }
