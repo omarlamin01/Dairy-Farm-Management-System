@@ -108,7 +108,7 @@ public class LoginController implements Initializable {
 
                 if (validateLogin(email, password)) {
                     //store logged in user in session
-                    String query = "SELECT * FROM user WHERE email = '" + email + "' AND password = '" + password + "'";
+                    String query = "SELECT * FROM `users` WHERE email = '" + email + "' AND password = '" + password + "'";
                     st = con.createStatement();
                     ResultSet rs = st.executeQuery(query);
                     if (rs.next()) {
@@ -158,7 +158,7 @@ public class LoginController implements Initializable {
     public boolean validateLogin(String email, String password) throws SQLException {
         //check if user exists limit 1
         st = con.createStatement();
-        String query = "SELECT email, password FROM user WHERE email = '" + email + "' AND password = '" + password + "' LIMIT 1";
+        String query = "SELECT email, password FROM `users` WHERE email = '" + email + "' AND password = '" + password + "' LIMIT 1";
         st.executeQuery(query);
         return st.getResultSet().next();
     }
