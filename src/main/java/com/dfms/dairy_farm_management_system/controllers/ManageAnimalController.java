@@ -101,7 +101,7 @@ public class ManageAnimalController implements Initializable {
                 animal.setBirth_date(resultSet.getDate("birth_date"));
                 animal.setPurchase_date(resultSet.getDate("purchase_date"));
                 animal.setRoutine(resultSet.getInt("routine"));
-                animal.setRace(resultSet.getInt("race"));
+                animal.setRaceId(resultSet.getInt("race"));
                 animal.setType(resultSet.getString("type"));
                 animal.setCreated_at(resultSet.getTimestamp("created_at"));
                 animal.setUpdated_at(resultSet.getTimestamp("updated_at"));
@@ -125,8 +125,8 @@ public class ManageAnimalController implements Initializable {
         colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
         coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
         colbirth.setCellValueFactory(new PropertyValueFactory<Animal, Date>("birth_date"));
-        colrace.setCellValueFactory(new PropertyValueFactory<Animal, String>("race"));
-        colroutine.setCellValueFactory(new PropertyValueFactory<Animal, String>("routine"));
+        colrace.setCellValueFactory(new PropertyValueFactory<Animal, String>("raceName"));
+        colroutine.setCellValueFactory(new PropertyValueFactory<Animal, String>("routineName"));
 
         Callback<TableColumn<Animal, String>, TableCell<Animal, String>> cellFoctory = (TableColumn<Animal, String> param) -> {
             // make cell containing buttons

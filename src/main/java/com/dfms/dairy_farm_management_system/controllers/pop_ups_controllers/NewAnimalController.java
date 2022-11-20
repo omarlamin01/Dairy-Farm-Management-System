@@ -121,7 +121,7 @@ public class NewAnimalController implements Initializable {
         animal.setId(animal_ID);
         animal.setBirth_date(Date.valueOf(birthDate.getValue()));
         animal.setPurchase_date(Date.valueOf(purchaseDate.getValue()));
-        animal.setRace(getRaces().get(raceCombo.getValue()) == null ? 0 : getRaces().get(raceCombo.getValue()));
+        animal.setRaceId(getRaces().get(raceCombo.getValue()) == null ? 0 : getRaces().get(raceCombo.getValue()));
         animal.setRoutine(getRoutines().get(routineCombo.getValue()) == null ? 0 : getRoutines().get(routineCombo.getValue()));
         animal.setType(typeCombo.getValue());
 

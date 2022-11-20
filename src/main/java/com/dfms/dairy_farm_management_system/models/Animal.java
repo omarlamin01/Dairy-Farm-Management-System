@@ -1,7 +1,6 @@
 package com.dfms.dairy_farm_management_system.models;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
@@ -10,8 +9,10 @@ public class Animal implements Model {
     private String id;
     private Date birth_date;
     private Date purchase_date;
-    private int routine;
-    private int race;
+    private int routineId;
+    private String routinName;
+    private int raceId;
+    private String raceName;
     private String type;
     private Timestamp created_at;
     private Timestamp updated_at;
@@ -46,11 +47,11 @@ public class Animal implements Model {
     }
 
     public int getRoutine() {
-        return routine;
+        return routineId;
     }
 
     public String getRoutineName() {
-        String query = "SELECT `name` FROM `routines` WHERE `id` = " + routine;
+        String query = "SELECT `name` FROM `routines` WHERE `id` = " + routineId;
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -65,15 +66,16 @@ public class Animal implements Model {
     }
 
     public void setRoutine(int routine) {
-        this.routine = routine;
+        this.routineId = routine;
+        this.routinName = getRoutineName();
     }
 
-    public int getRace() {
-        return race;
+    public int getRaceId() {
+        return raceId;
     }
 
     public String getRaceName() {
-        String query = "SELECT `name` FROM `races` WHERE `id` = " + race;
+        String query = "SELECT `name` FROM `races` WHERE `id` = " + raceId;
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -87,8 +89,9 @@ public class Animal implements Model {
         return null;
     }
 
-    public void setRace(int race) {
-        this.race = race;
+    public void setRaceId(int raceId) {
+        this.raceId = raceId;
+        this.raceName = getRaceName();
     }
 
     public String getType() {
@@ -125,8 +128,8 @@ public class Animal implements Model {
             statement.setString(1, id);
             statement.setDate(2, birth_date);
             statement.setDate(3, purchase_date);
-            statement.setInt(4, routine);
-            statement.setInt(5, race);
+            statement.setInt(4, routineId);
+            statement.setInt(5, raceId);
             statement.setString(6, type);
             statement.setTimestamp(7, created_at);
             statement.setTimestamp(8, updated_at);
@@ -144,8 +147,8 @@ public class Animal implements Model {
         String query = "UPDATE `animals` SET " +
                 "`birth_date` = '" + birth_date +"', " +
                 "`purchase_date` = '" + purchase_date + "', " +
-                "`routine` = '" + routine + "', " +
-                "`race` = '" + race + "', " +
+                "`routine` = '" + routineId + "', " +
+                "`race` = '" + raceId + "', " +
                 "`type` = '" + type + "', " +
                 "`updated_at` = '" + updated_at + "' " +
                 "WHERE `animals`.`id` = '" + id + "'";
