@@ -3,6 +3,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalSaleDetailsController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.MilkSaleDetailsController;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.MilkSale;
 import javafx.collections.FXCollections;
@@ -50,6 +51,7 @@ public class SalesController implements Initializable {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        liveSearch2(search_inpu, MilkSaleTable);
     }
     @FXML
     private TableView<MilkSale> MilkSaleTable;
@@ -438,19 +440,16 @@ public class SalesController implements Initializable {
 
                         btnDelete.setOnMouseClicked((MouseEvent event) -> {
 
-//                            AnimalSale mc = AnimalSalesTable.getSelectionModel().getSelectedItem();
-//                            if (mc.delete()) {
-//
-//                                displayAlert("success", "Animal Sale deleted successfully", Alert.AlertType.INFORMATION);
-//                                try {
-//                                    refreshTableAnimalSales();
-//                                } catch (SQLException e) {
-//                                    e.printStackTrace();
-//                                    throw new RuntimeException(e);
-//                                }
-//                            } else {
-//                                displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
-//                            }
+
+                            MilkSale mc = MilkSaleTable.getSelectionModel().getSelectedItem();
+                            if (mc.delete()) {
+
+                                displayAlert("success", "Milk Sale deleted successfully", Alert.AlertType.INFORMATION);
+                                refreshTableMilkSales();
+                            } else {
+                                displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
+                            }
+
 
 
                             //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
@@ -485,24 +484,24 @@ public class SalesController implements Initializable {
 
                         });
                         btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
-//                            AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
-//                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_sale_details.fxml"));
-//                            Scene scene = null;
-//                            try {
-//                                scene = new Scene(fxmlLoader.load());
-//                                AnimalSaleDetailsController controller = fxmlLoader.getController();
-//                                controller.fetchAnimalSale( animalSale.getId(),animalSale.getId_animal(), animalSale.getPrice(), animalSale.getId_client(), animalSale.getOperationDate());
-//                            } catch (IOException e) {
-//                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                                e.printStackTrace();
-//                            }
-//                            Stage stage = new Stage();
-//                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-//                            stage.setTitle("Animal Sale Details");
-//                            stage.setResizable(false);
-//                            stage.setScene(scene);
-//                            centerScreen(stage);
-//                            stage.show();
+                            MilkSale milkSale = MilkSaleTable.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/milk_sale_details.fxml"));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                                MilkSaleDetailsController controller = fxmlLoader.getController();
+                                controller.fetchMilkSale( milkSale.getId(),milkSale.getQuantity(), milkSale.getPrice(), milkSale.getId_client(), milkSale.getOperationDate());
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
+                            }
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Animal Sale Details");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
                     }
                 }
@@ -515,6 +514,38 @@ public class SalesController implements Initializable {
         action_c.setCellFactory(cellFoctory);
         MilkSaleTable.setItems(list);
 
+    }
+
+    private void refreshTableMilkSales() {
+       MilkSaleTable.getItems().clear();
+        try {
+           afficheer();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void liveSearch2(TextField search_input, TableView table) {
+        search_inpu.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                refreshTableMilkSales();
+            } else {
+                ObservableList<MilkSale> filteredList = FXCollections.observableArrayList();
+                ObservableList<MilkSale> milkSale = null;
+                try {
+                    milkSale = getMilkSale();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                for (MilkSale milk: milkSale) {
+                    if (milk.getId_client().toLowerCase().contains(newValue.toLowerCase()) ) {
+                        filteredList.add(milk);
+                    }
+                }
+                MilkSaleTable.setItems(filteredList);
+            }
+        });
     }
 
 }

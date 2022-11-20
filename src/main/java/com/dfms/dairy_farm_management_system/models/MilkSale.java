@@ -1,5 +1,11 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class MilkSale implements Model{
@@ -62,7 +68,21 @@ public class MilkSale implements Model{
 
     @Override
     public boolean save() {
-        return false;
+        String insertQuery = "INSERT INTO milk_sale (quantity,price,client_id,sale_date) VALUES (?,?,(select id from client where name ='"+getId_client()+"'),?)";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setFloat(1, quantity);
+            preparedStatement.setFloat(2, price);
+
+            preparedStatement.setDate(3, Date.valueOf(operationDate));
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
     @Override
@@ -72,6 +92,14 @@ public class MilkSale implements Model{
 
     @Override
     public boolean delete() {
-        return false;
+        String deleteQuery = "DELETE FROM `milk_sale` WHERE `milk_sale`.`id` = " + this.id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

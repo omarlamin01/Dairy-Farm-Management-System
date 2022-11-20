@@ -8,15 +8,16 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class AnimalSaleDetailsController implements Initializable {
+public class MilkSaleDetailsController implements Initializable {
     @FXML
     private Label Operationdate;
 
     @FXML
     private Label Price;
 
+
     @FXML
-    private Label cow_id;
+    private Label quantity;
 
     @FXML
     private Label header;
@@ -26,15 +27,14 @@ public class AnimalSaleDetailsController implements Initializable {
 
     @FXML
     private Label name;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-    public void fetchAnimalSale(int id, String cow, Float price, String naame, LocalDate Opdate)  {
+    public void fetchMilkSale(int id, Float quantityy, Float price, String naame, LocalDate Opdate)  {
 
-        header.setText("Here's all the information about AnimalSale Num: " + id);
-        cow_id.setText(cow+"");
+        header.setText("Here's all the information about MilkSale Num: " + id);
+        quantity.setText(quantityy+"");
         Price.setText(price+"");
         name.setText(naame+"");
         Operationdate.setText(Opdate+" ");
