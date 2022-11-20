@@ -1,41 +1,23 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public class Animal {
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
-
+public class Animal implements Model {
     private String id;
-    private String type;
     private Date birth_date;
     private Date purchase_date;
-    private Date created_at;
-    private Date updated_at;
-    private String routine;
-    private String race;
-
-
-    public Animal(String id, String type, Date birth_date, Date purchase_date, Date created_at, Date updated_at, String routine, String race) {
-        this.id = id;
-        this.type = type;
-        this.birth_date = birth_date;
-        this.purchase_date = purchase_date;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.routine = routine;
-        this.race = race;
-    }
-
-    public Animal() {}
-
-    public Animal(String id, String type, Date birth_date,String routine, String race) {
-        this.id = id;
-        this.type = type;
-        this.birth_date = birth_date;
-
-        this.routine = routine;
-        this.race = race;
-    }
+    private int routine;
+    private int race;
+    private String type;
+    private Timestamp created_at;
+    private Timestamp updated_at;
 
     public String getId() {
         return id;
@@ -43,14 +25,6 @@ public class Animal {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Date getBirth_date() {
@@ -69,35 +43,75 @@ public class Animal {
         this.purchase_date = purchase_date;
     }
 
-    public Date getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
-    }
-
-    public Date getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(Date updated_at) {
-        this.updated_at = updated_at;
-    }
-
-    public String getRoutine() {
+    public int getRoutine() {
         return routine;
     }
 
-    public void setRoutine(String routine) {
+    public void setRoutine(int routine) {
         this.routine = routine;
     }
 
-    public String getRace() {
+    public int getRace() {
         return race;
     }
 
-    public void setRace(String race) {
+    public void setRace(int race) {
         this.race = race;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    @Override
+    public boolean save() {
+        String query = "INSERT INTO `animals` (`birth_date`, `purchase_date`, `routine`, `race`, `type`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setDate(1, birth_date);
+            statement.setDate(2, purchase_date);
+            statement.setInt(3, routine);
+            statement.setInt(4, race);
+            statement.setString(5, type);
+            statement.setTimestamp(6, created_at);
+            statement.setTimestamp(7, updated_at);
+
+            return statement.executeUpdate() != 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
     }
 }
