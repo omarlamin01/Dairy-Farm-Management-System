@@ -49,12 +49,42 @@ public class Animal implements Model {
         return routine;
     }
 
+    public String getRoutineName() {
+        String query = "SELECT `name` FROM `routines` WHERE `id` = " + routine;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public void setRoutine(int routine) {
         this.routine = routine;
     }
 
     public int getRace() {
         return race;
+    }
+
+    public String getRaceName() {
+        String query = "SELECT `name` FROM `races` WHERE `id` = " + race;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void setRace(int race) {
