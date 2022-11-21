@@ -2,7 +2,6 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Animal;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -11,12 +10,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Date;
-import java.util.Objects;
 import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class AnimalDetailsController implements Initializable {
     @FXML
@@ -73,7 +68,7 @@ public class AnimalDetailsController implements Initializable {
 //        return animal;
 //    }
 
-     public void fetchAnimal(String id_animal, String race_animal,Date birthdate,String routine_animal,Date purchasedate,String type_animal)  {
+     public void fetchAnimal(String id_animal, String race_animal, Date birthdate, String routine_animal, Date purchasedate, String type_animal)  {
 //        animal = getAnimal(AnimalDetailsController.id_animal);
          header.setText("Here's all the information about Cow Num: " + id_animal);
          birth_date.setText(birthdate+"");
