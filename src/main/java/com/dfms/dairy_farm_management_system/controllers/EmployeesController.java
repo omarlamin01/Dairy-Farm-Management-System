@@ -79,7 +79,7 @@ public class EmployeesController implements Initializable {
     //get all the employees
     public ObservableList<Employee> getEmployees() {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
-        String query = "SELECT * FROM employee";
+        String query = "SELECT * FROM `employees`";
         try {
             st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
