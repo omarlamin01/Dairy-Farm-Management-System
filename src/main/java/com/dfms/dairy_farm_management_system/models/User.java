@@ -34,14 +34,6 @@ public class User extends Employee {
         this.id_user = id;
     }
 
-    public int getId_user() {
-        return id_user;
-    }
-
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
-    }
-
     public String getPassword() {
         return password;
     }
