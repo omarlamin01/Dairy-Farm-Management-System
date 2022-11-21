@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Employee implements Model {
-    private int id;
     private String first_name;
     private String last_name;
     private String gender;
@@ -25,8 +24,7 @@ public class Employee implements Model {
     public Employee() {
     }
 
-    public Employee(int id, String first_name, String last_name, String gender, String cin, String email, String phone, String adresse, float salary, Date recruitment_date, String contract_type, Date updated_at, Date created_at) {
-        this.id = id;
+    public Employee(String first_name, String last_name, String gender, String cin, String email, String phone, String adresse, float salary, Date recruitment_date, String contract_type, Date updated_at, Date created_at) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.gender = gender;
@@ -39,14 +37,6 @@ public class Employee implements Model {
         this.contract_type = contract_type;
         this.updated_at = updated_at;
         this.created_at = created_at;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -191,7 +181,7 @@ public class Employee implements Model {
                 "', `recruitment_date` = '" + "2022-11-12" +
                 "', `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) + "' " +
-                "WHERE `employees`.`id` = " + this.id;
+                "WHERE `employees`.`cin` = " + this.cin;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
@@ -204,7 +194,7 @@ public class Employee implements Model {
 
     @Override
     public boolean delete() {
-        String deleteQuery = "DELETE FROM `employees` WHERE `employees`.`id` = " + this.id;
+        String deleteQuery = "DELETE FROM `employees` WHERE `employees`.`cin` = " + this.cin;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
@@ -218,7 +208,6 @@ public class Employee implements Model {
     @Override
     public String toString() {
         return "Employee{" +
-                "id=" + id +
                 ", first_name='" + first_name + '\'' +
                 ", last_name='" + last_name + '\'' +
                 ", gender='" + gender + '\'' +
