@@ -27,7 +27,7 @@ public class Session {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 current_user = new User(
-                        rs.getInt("employee_id"),
+                        rs.getInt("id"),
                         rs.getString("first_name"),
                         rs.getString("last_name"),
                         rs.getString("gender"),
@@ -42,7 +42,7 @@ public class Session {
                         rs.getDate("updated_at"),
                         rs.getDate("created_at")
                 );
-                current_user.setId_user(1);
+                current_user.setId(1);
                 current_user.setRoleId(1);
             }
         } catch (Exception e) {

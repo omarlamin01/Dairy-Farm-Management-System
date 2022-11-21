@@ -1,9 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.connection.Session;
 import com.dfms.dairy_farm_management_system.models.Employee;
-import com.dfms.dairy_farm_management_system.models.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,7 +19,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
@@ -74,7 +71,7 @@ public class UpdateEmployeeController implements Initializable {
     private TextField salaryInput;
 
     ObservableList<String> rolesList;
-    int employee_id = -1;
+    String employee_cin = null;
 
     @FXML
     void updateEmployee(MouseEvent event) {
@@ -86,7 +83,7 @@ public class UpdateEmployeeController implements Initializable {
         String email = emailInput.getText();
         String phone = phoneNumberInput.getText();
 
-        Employee employee = getEmployee(this.employee_id);
+        Employee employee = getEmployee(this.employee_cin);
         employee.setFirstName(firstNameInput.getText());
         employee.setLastName(lastNameInput.getText());
         employee.setCin(cinInput.getText());
@@ -113,10 +110,10 @@ public class UpdateEmployeeController implements Initializable {
         Connection con = getConnection();
         PreparedStatement st = null;
         ResultSet rs = null;
-        this.employee_id = employee.getId();
+        this.employee_cin = employee.getCin();
 
         try {
-            st = con.prepareStatement("SELECT * FROM employee WHERE id = " + employee.getId());
+            st = con.prepareStatement("SELECT * FROM `employees` WHERE cin = " + employee.getCin());
             rs = st.executeQuery();
             if (rs.next()) {
                 addressInput.setText(rs.getString("address"));
@@ -154,15 +151,15 @@ public class UpdateEmployeeController implements Initializable {
         return roleName;
     }
 
-    public Employee getEmployee(int id) {
+    public Employee getEmployee(String employee_cin) {
         Employee employee = new Employee();
-        String query = "SELECT * FROM employee WHERE id = " + id;
+        String query = "SELECT * FROM `employees` WHERE cin = " + employee_cin;
         Connection con = getConnection();
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                employee.setId(rs.getInt("id"));
+                //employee.setId(rs.getInt("id"));
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
                 employee.setEmail(rs.getString("email"));
