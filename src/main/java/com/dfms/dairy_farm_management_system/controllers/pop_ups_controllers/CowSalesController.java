@@ -2,14 +2,12 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
-import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -86,10 +84,10 @@ public class CowSalesController implements Initializable {
             displayAlert("Error", "Price can't be null ", Alert.AlertType.ERROR);
         } else {
             AnimalSale animalSale = new AnimalSale();
-            animalSale.setId_animal(animalsCombo.getValue());
+            animalSale.setAnimalId(animalsCombo.getValue());
             animalSale.setPrice(Float.parseFloat(priceOfSale.getText()));
-            animalSale.setId_client(clientsCombo.getValue());
-            animalSale.setOperationDate(operationDate.getValue());
+            animalSale.setClientId(clientsCombo.getValue());
+            animalSale.setSale_date(operationDate.getValue());
             if (animalSale.save()) {
                 closePopUp(mouseEvent);
                 displayAlert("success", "Sale added successfully", Alert.AlertType.INFORMATION);

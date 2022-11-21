@@ -137,12 +137,12 @@ public class SalesController implements Initializable {
         rs = st.executeQuery();
         while (rs.next()) {
             AnimalSale animalSale = new AnimalSale();
+            
             animalSale.setId(rs.getInt("id"));
-            animalSale.setId_animal(rs.getString("animal_id"));
+            animalSale.setAnimalId(rs.getString("animal_id"));
             animalSale.setPrice(rs.getFloat("price"));
-            animalSale.setId_client(rs.getString("name"));
-            animalSale.setOperationDate(rs.getDate("sale_date").toLocalDate());
-
+            animalSale.setClientId(rs.getString("name"));
+            animalSale.setSale_date(rs.getDate("sale_date").toLocalDate());
 
             list.add(animalSale);
         }
@@ -289,7 +289,7 @@ public class SalesController implements Initializable {
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                AnimalSaleDetailsController controller = fxmlLoader.getController();
-                                controller.fetchAnimalSale( animalSale.getId(),animalSale.getId_animal(), animalSale.getPrice(), animalSale.getId_client(), animalSale.getOperationDate());
+                                controller.fetchAnimalSale( animalSale.getId(),animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientId(), animalSale.getSale_date());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -333,7 +333,7 @@ public class SalesController implements Initializable {
                     throw new RuntimeException(e);
                 }
                 for (AnimalSale Animal: animalSale) {
-                    if (Animal.getId_client().toLowerCase().contains(newValue.toLowerCase()) || Animal.getId_animal().toLowerCase().contains(newValue.toLowerCase())) {
+                    if (Animal.getClientId().toLowerCase().contains(newValue.toLowerCase()) || Animal.getAnimalId().toLowerCase().contains(newValue.toLowerCase())) {
                         filteredList.add(Animal);
                     }
                 }
