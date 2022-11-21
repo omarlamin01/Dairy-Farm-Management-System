@@ -57,7 +57,7 @@ public class User extends Employee {
             return false;
         } else {
             try {
-                String query = "SELECT id FROM `employee` WHERE `cin` = '" + super.getCin() + "'";
+                String query = "SELECT id FROM `employees` WHERE `cin` = '" + super.getCin() + "'";
                 Connection connection = DBConfig.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
                 ResultSet resultSet = preparedStatement.executeQuery();
@@ -68,7 +68,7 @@ public class User extends Employee {
                 e.printStackTrace();
             }
         }
-        String insertQuery = "INSERT INTO `user` (`role_id`, `employee_id`, `password`, `first_name`, `last_name`, `gender`, `cin`, `phone`, `salary`, `email`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO `users` (`role_id`, `employee_id`, `password`, `first_name`, `last_name`, `gender`, `cin`, `phone`, `salary`, `email`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
