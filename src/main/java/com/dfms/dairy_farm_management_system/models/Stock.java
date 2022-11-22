@@ -105,7 +105,22 @@ public class Stock implements Model {
 
     @Override
     public boolean save() {
-        return false;
+        String insertQuery = "INSERT INTO `stocks` (name, type, unit, added_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, type);
+            preparedStatement.setString(3, unit);
+            preparedStatement.setDate(4, new java.sql.Date(added_date.getTime()));
+            preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+            preparedStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
