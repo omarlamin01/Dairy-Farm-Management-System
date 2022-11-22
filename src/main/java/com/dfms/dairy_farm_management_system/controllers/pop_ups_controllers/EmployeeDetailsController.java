@@ -67,9 +67,14 @@ public class EmployeeDetailsController implements Initializable {
         ResultSet rs = null;
 
         try {
-            st = con.prepareStatement("SELECT * FROM `employees` WHERE cin = " + employee.getCin());
+            st = con.prepareStatement("SELECT * FROM `employees` WHERE cin = '" + employee.getCin() + "' LIMIT 1");
             rs = st.executeQuery();
             if (rs.next()) {
+                header.setText(rs.getString("first_name") + " " + rs.getString("last_name"));
+                email.setText(rs.getString("email"));
+                first_name.setText(rs.getString("first_name"));
+                last_name.setText(rs.getString("last_name"));
+                salary.setText(String.valueOf(rs.getInt("salary")));
                 address.setText(rs.getString("address"));
                 cin.setText(rs.getString("cin"));
                 phone.setText(rs.getString("phone"));
@@ -79,12 +84,6 @@ public class EmployeeDetailsController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        header.setText(employee.getFirstName() + " " + employee.getLastName());
-        email.setText(employee.getEmail());
-        first_name.setText(employee.getFirstName());
-        last_name.setText(employee.getLastName());
-        salary.setText(String.valueOf(employee.getSalary()));
     }
 
     public String getRole(int id) {
@@ -100,5 +99,19 @@ public class EmployeeDetailsController implements Initializable {
             e.printStackTrace();
         }
         return role;
+    }
+
+    //print the employee details
+    public void printEmployeeToConsole(Employee employee) {
+        System.out.println("Employee Details");
+        System.out.println("First Name: " + employee.getFirstName());
+        System.out.println("Last Name: " + employee.getLastName());
+        System.out.println("Email: " + employee.getEmail());
+        System.out.println("Phone: " + employee.getPhone());
+        System.out.println("Address: " + employee.getAdress());
+        System.out.println("CIN: " + employee.getCin());
+        System.out.println("Salary: " + employee.getSalary());
+        System.out.println("Recruitment Date: " + employee.getHireDate());
+        System.out.println("Contract Type: " + employee.getContractType());
     }
 }
