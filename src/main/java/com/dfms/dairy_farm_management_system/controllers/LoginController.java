@@ -81,14 +81,14 @@ public class LoginController implements Initializable {
                 user.setLastName(rs.getString("last_name"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
-                user.setRoleId(rs.getInt("role"));
+                user.setRole(rs.getInt("role"));
                 user.setSalary(rs.getFloat("salary"));
                 user.setGender(rs.getString("gender"));
                 user.setPhone(rs.getString("phone"));
                 user.setAdress(rs.getString("address"));
                 user.setCin(rs.getString("cin"));
-                user.setCreatedAt(rs.getDate("created_at"));
-                user.setUpdatedAt(rs.getDate("updated_at"));
+                user.setCreatedAt(rs.getTimestamp("created_at"));
+                user.setUpdatedAt(rs.getTimestamp("updated_at"));
 
                 Session.setCurrentUser(user);
             }
@@ -118,14 +118,14 @@ public class LoginController implements Initializable {
                         user.setLastName(rs.getString("last_name"));
                         user.setEmail(rs.getString("email"));
                         user.setPassword(rs.getString("password"));
-                        user.setRoleId(rs.getInt("role_id"));
+                        user.setRole(rs.getInt("role_id"));
                         user.setSalary(rs.getFloat("salary"));
                         user.setGender(rs.getString("gender"));
                         user.setPhone(rs.getString("phone"));
                         user.setAdress(rs.getString("address"));
                         user.setCin(rs.getString("cin"));
-                        user.setCreatedAt(rs.getDate("created_at"));
-                        user.setUpdatedAt(rs.getDate("updated_at"));
+                        user.setCreatedAt(rs.getTimestamp("created_at"));
+                        user.setUpdatedAt(rs.getTimestamp("updated_at"));
 
                         Session.setCurrentUser(user);
                     }
