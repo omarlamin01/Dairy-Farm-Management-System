@@ -10,13 +10,13 @@ public class Stock {
     private String addedDate;
 
 
-    public Stock(int id, String name,String unit, String type, float quantity, String addedDate) {
+    public Stock(int id, String name, String unit, String type, float quantity, String addedDate) {
         this.id_stock = id;
         this.name = name;
         this.type = type;
         this.quantity = quantity;
         this.addedDate = addedDate;
-        this.unit=unit;
+        this.unit = unit;
 
     }
 
