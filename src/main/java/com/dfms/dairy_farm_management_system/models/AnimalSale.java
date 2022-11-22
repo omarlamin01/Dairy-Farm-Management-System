@@ -118,6 +118,20 @@ public class AnimalSale implements Model {
 
     @Override
     public boolean update() {
+        String query = "UPDATE `animals_sales` SET " +
+                "`client_id` = '" + clientId + "', " +
+                "`animal_id` = '" + animalId + "', " +
+                "`price` = '" + price + "', " +
+                "`sale_date` = '" + sale_date + "', " +
+                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
+                " WHERE `animals_sales`.`id` = " + id;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
