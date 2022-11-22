@@ -1,9 +1,6 @@
 package com.dfms.dairy_farm_management_system.connection;
-
-import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.scene.control.Alert;
 
-import java.util.ArrayList;
 import java.sql.*;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
@@ -21,7 +18,8 @@ public class DBConfig {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+            //displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
         return conn;
     }

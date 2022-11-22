@@ -73,13 +73,11 @@ public class ManageAnimalController implements Initializable {
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         combo.setItems(list);
         try {
-            dispalyAnimals();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+            displayAnimals();
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        goSearch(textField_search, animals);
+        liveSearch();
     }
 
 
@@ -111,17 +109,9 @@ public class ManageAnimalController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+
         }
         return listAnimal;
-    }
-
-    public void refreshTable() {
-        animals.getItems().clear();
-        try {
-            dispalyAnimals();
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void refreshTableAnimal() {
@@ -130,7 +120,7 @@ public class ManageAnimalController implements Initializable {
         animals.setItems(listAnimal);
     }
 
-    public void dispalyAnimals() throws SQLException, ClassNotFoundException {
+    public void displayAnimals() throws SQLException, ClassNotFoundException {
         ObservableList<Animal> list = getAnimal();
         colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
         coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
@@ -270,38 +260,37 @@ public class ManageAnimalController implements Initializable {
                             stage.setScene(scene);
                             centerScreen(stage);
                             stage.show();
-
-
                         });
-
-
                     }
                 }
-
-
             };
             return cell;
         };
 
         colactions.setCellFactory(cellFoctory);
         animals.setItems(list);
-
     }
 
-    public void goSearch(TextField search_input, TableView table) {
-        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty()) {
-                refreshTable();
-            } else {
-                ObservableList<Animal> filteredList = FXCollections.observableArrayList();
-                ObservableList<Animal> employees = getAnimal();
-                for (Animal animal : employees) {
-                    if (animal.getId().toLowerCase().contains(newValue.toLowerCase()) || animal.getType().toLowerCase().contains(newValue.toLowerCase())) {
-                        filteredList.add(animal);
-                    }
+    public void liveSearch() {
+        FilteredList<Animal> filteredData = new FilteredList<>(listAnimal, p -> true);
+        textField_search.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(animal -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
                 }
-                table.setItems(filteredList);
-            }
+
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (animal.getType().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (animal.getRaceName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else return animal.getId().toLowerCase().contains(lowerCaseFilter);// Does not match.
+            });
         });
+        SortedList<Animal> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(animals.comparatorProperty());
+        animals.setItems(sortedData);
     }
 }
