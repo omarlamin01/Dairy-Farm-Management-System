@@ -67,7 +67,7 @@ public class EmployeeDetailsController implements Initializable {
         ResultSet rs = null;
 
         try {
-            st = con.prepareStatement("SELECT * FROM `employees` WHERE id = " + employee.getId());
+            st = con.prepareStatement("SELECT * FROM `employees` WHERE cin = " + employee.getCin());
             rs = st.executeQuery();
             if (rs.next()) {
                 address.setText(rs.getString("address"));
