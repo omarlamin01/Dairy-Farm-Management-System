@@ -66,7 +66,7 @@
                 </HBox.margin>
             </Button>
             <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                <ComboBox fx:id="export_cb" promptText="Export" styleClass="combo_box" />
+                <ComboBox fx:id="export_combo" promptText="Export" styleClass="combo_box" />
                 <Button fx:id="openAddNewEmployeeBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddEmployee" styleClass="button-add" text="New employee" textAlignment="CENTER">
                     <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
