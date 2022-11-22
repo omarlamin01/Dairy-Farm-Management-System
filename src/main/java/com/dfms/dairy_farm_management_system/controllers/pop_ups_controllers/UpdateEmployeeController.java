@@ -113,7 +113,7 @@ public class UpdateEmployeeController implements Initializable {
         this.employee_cin = employee.getCin();
 
         try {
-            statement = connection.prepareStatement("SELECT * FROM employee WHERE id = " + employee_cin);
+            statement = connection.prepareStatement("SELECT * FROM employees WHERE id = " + employee_cin);
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 addressInput.setText(resultSet.getString("address"));
