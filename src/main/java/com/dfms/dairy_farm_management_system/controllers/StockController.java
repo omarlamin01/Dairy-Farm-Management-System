@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
@@ -67,19 +68,19 @@ public class StockController implements Initializable {
     private TableView<Stock> stock_table;
 
     public ObservableList<Stock> getProducts() {
-        ObservableList<Employee> products = FXCollections.observableArrayList();
+        ObservableList<Stock> products = FXCollections.observableArrayList();
         String query = "SELECT * FROM stock";
         try {
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 Stock product = new Stock();
-                product.setName(rs.getString("cin"));
-                product.setType(rs.getString("first_name"));
-                product.setQuantity(rs.getString("last_name"));
-                product.setUnit(rs.getString("phone"));
-                product.setAddedDate(rs.getString("email"));
-                product.setA(rs.getString("address"));
+                product.setId(rs.getInt("id"));
+                product.setName(rs.getString("name"));
+                product.setType(rs.getString("type"));
+                product.setQuantity(rs.getFloat("quantity"));
+                product.setUnit(rs.getString("unit"));
+                product.setAddedDate(Date.from(rs.getDate("added_date").toInstant()));
                 products.add(product);
             }
         } catch (Exception e) {
@@ -89,12 +90,10 @@ public class StockController implements Initializable {
     }
 
     public void displayStock() {
-        ObservableList<Stock> products = getEmployees();
-        col_cin.setCellValueFactory(new PropertyValueFactory<>("cin"));
-        first_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        last_name_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
-        salary_col.setCellValueFactory(new PropertyValueFactory<>("salary"));
+        ObservableList<Stock> products = getProducts();
+        id_col.setCellValueFactory(new PropertyValueFactory<>("cin"));
+        product_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        product_type_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<Employee, String> param) -> {
             final TableCell<Employee, String> cell = new TableCell<Employee, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
