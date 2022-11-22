@@ -14,13 +14,16 @@ import java.util.ResourceBundle;
 
 public class NewProductController implements Initializable {
     @FXML
-    TextField productName;
+    private TextField product_measure_unit;
+
     @FXML
-    TextField productQuantity;
+    private TextField product_name;
+
     @FXML
-    TextField productType;
+    private TextField product_quantity;
+
     @FXML
-    TextField productMeasureUnit;
+    private TextField product_type;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -31,10 +34,10 @@ public class NewProductController implements Initializable {
     public void addProduct(MouseEvent mouseEvent) {
         Stock product = new Stock();
         product.setId(new Random().nextInt());
-        product.setName(this.productName.getText());
-        product.setQuantity(Float.parseFloat(this.productQuantity.getText()));
-        product.setType(this.productType.getText());
-        product.setUnit(this.productMeasureUnit.getText());
+        product.setName(this.product_name.getText());
+        product.setQuantity(Float.parseFloat(this.product_quantity.getText()));
+        product.setType(this.product_type.getText());
+        product.setUnit(this.product_measure_unit.getText());
         System.out.println(product.toString());
 
         ((Stage)(((Button)mouseEvent.getSource()).getScene().getWindow())).close();

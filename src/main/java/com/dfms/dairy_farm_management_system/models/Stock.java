@@ -1,23 +1,25 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Stock {
-    private int id_stock;
+import java.sql.Timestamp;
+import java.util.Date;
+
+public class Stock implements Model {
+    private int id;
     private String name;
     private String type;
-
     private String unit;
     private float quantity;
-    private String addedDate;
+    private Date added_date;
+    private Timestamp created_at;
+    private Timestamp updated_at;
 
-
-    public Stock(int id, String name,String unit, String type, float quantity, String addedDate) {
-        this.id_stock = id;
+    public Stock(int id, String name, String unit, String type, float quantity, Date added_date) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.quantity = quantity;
-        this.addedDate = addedDate;
-        this.unit=unit;
-
+        this.added_date = added_date;
+        this.unit = unit;
     }
 
     public Stock() {
@@ -33,11 +35,11 @@ public class Stock {
     }
 
     public int getId() {
-        return id_stock;
+        return id;
     }
 
     public void setId(int id) {
-        this.id_stock = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -64,23 +66,50 @@ public class Stock {
         this.quantity = quantity;
     }
 
-    public String getAddedDate() {
-        return addedDate;
+    public void setAddedDate(Date added_date) {
+        this.added_date = added_date;
     }
 
-    public void setAddedDate(String addedDate) {
-        this.addedDate = addedDate;
+    public Timestamp getCreatedAt() {
+        return created_at;
+    }
+
+    public void setCreatedAt(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updated_at;
+    }
+
+    public void setUpdatedAt(Timestamp updated_at) {
+        this.updated_at = updated_at;
     }
 
     @Override
     public String toString() {
         return "Stock{" +
-                "id_stock=" + id_stock +
+                "id_stock=" + id +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", unit='" + unit + '\'' +
                 ", quantity=" + quantity +
-                ", addedDate='" + addedDate + '\'' +
+                ", addedDate='" + added_date + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean save() {
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
     }
 }
