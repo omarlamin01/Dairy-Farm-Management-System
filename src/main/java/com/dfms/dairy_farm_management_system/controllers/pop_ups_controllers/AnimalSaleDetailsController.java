@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.net.URL;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ResourceBundle;
 
 public class AnimalSaleDetailsController implements Initializable {
@@ -31,7 +31,7 @@ public class AnimalSaleDetailsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-    public void fetchAnimalSale(int id, String cow, Float price, String naame, LocalDate Opdate)  {
+    public void fetchAnimalSale(int id, String cow, Float price, String naame, Date Opdate)  {
 
         header.setText("Here's all the information about AnimalSale Num: " + id);
         cow_id.setText(cow+"");

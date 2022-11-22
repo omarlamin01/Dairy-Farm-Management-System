@@ -19,35 +19,6 @@ public class Session {
     }
 
     public static User getCurrentUser() {
-        //get user from database
-        String query = "SELECT * FROM `users` WHERE id = ?";
-        try {
-            PreparedStatement pst = con.prepareStatement(query);
-            pst.setString(1, "1");
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                current_user = new User(
-                        rs.getInt("id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
-                        rs.getString("gender"),
-                        rs.getString("cin"),
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("phone"),
-                        rs.getString("address"),
-                        rs.getFloat("salary"),
-                        new Date(),
-                        "CDD",
-                        rs.getDate("updated_at"),
-                        rs.getDate("created_at")
-                );
-                current_user.setId(1);
-                current_user.setRoleId(1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return current_user;
     }
 
