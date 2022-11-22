@@ -78,7 +78,6 @@
         </HBox>
         <TableView fx:id="employees_table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
             <columns>
-                <TableColumn fx:id="col_cin" prefWidth="67.66667175292969" text="ID" />
                 <TableColumn fx:id="first_name_col" prefWidth="163.0" text="First name" />
                 <TableColumn fx:id="last_name_col" prefWidth="116.0" text="Last name" />
                 <TableColumn fx:id="email_col" prefWidth="120.33334350585938" text="Email" />
