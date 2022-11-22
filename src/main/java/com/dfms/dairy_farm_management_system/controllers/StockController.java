@@ -1,8 +1,8 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.ProductDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateStockController;
-import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -170,7 +170,7 @@ public class StockController implements Initializable {
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 UpdateStockController controller = fxmlLoader.getController();
-                                controller.fetchEmployee(product);
+                                controller.fetchProduct(product);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -186,20 +186,20 @@ public class StockController implements Initializable {
 
                         //view employee details
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
-                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
+                            Stock product = stock_table.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
-                                EmployeeDetailsController controller = fxmlLoader.getController();
-                                controller.fetchEmployee(employee);
+                                ProductDetailsController controller = fxmlLoader.getController();
+                                controller.fetchProduct(product);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
                             }
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                            stage.setTitle("Employee Details");
+                            stage.setTitle("Product Details");
                             stage.setResizable(false);
                             stage.setScene(scene);
                             centerScreen(stage);
