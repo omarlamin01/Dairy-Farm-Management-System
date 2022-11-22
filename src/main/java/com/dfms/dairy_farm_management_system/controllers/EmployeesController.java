@@ -1,10 +1,8 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
-import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -51,7 +48,7 @@ public class EmployeesController implements Initializable {
     private TableColumn<Employee, String> actions_col;
 
     @FXML
-    private TableColumn<Employee, String> col_id;
+    private TableColumn<Employee, String> col_cin;
 
     @FXML
     private TableColumn<Employee, String> email_col;
@@ -79,13 +76,13 @@ public class EmployeesController implements Initializable {
     //get all the employees
     public ObservableList<Employee> getEmployees() {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
-        String query = "SELECT * FROM employee";
+        String query = "SELECT * FROM employees";
         try {
             st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 Employee employee = new Employee();
-                employee.setId(rs.getInt("id"));
+                employee.setCin(rs.getString("cin"));
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
                 employee.setEmail(rs.getString("email"));
@@ -101,7 +98,7 @@ public class EmployeesController implements Initializable {
     //display all the employees in the table
     public void displayEmployees() {
         ObservableList<Employee> employees = getEmployees();
-        col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        col_cin.setCellValueFactory(new PropertyValueFactory<>("cin"));
         first_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         last_name_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -176,7 +173,7 @@ public class EmployeesController implements Initializable {
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 UpdateEmployeeController controller = fxmlLoader.getController();
-                                int employee_id = employee.getId();
+                                String employee_cin = employee.getCin();
                                 controller.fetchEmployee(employee);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
@@ -266,7 +263,6 @@ public class EmployeesController implements Initializable {
     }
 
     public void displayEmployeeConsole(Employee employee) {
-        System.out.println("Employee ID: " + employee.getId());
         System.out.println("Employee First Name: " + employee.getFirstName());
         System.out.println("Employee Last Name: " + employee.getLastName());
         System.out.println("Employee Email: " + employee.getEmail());
@@ -274,7 +270,7 @@ public class EmployeesController implements Initializable {
         System.out.println("Employee Address: " + employee.getAdress());
         System.out.println("Employee Cin: " + employee.getCin());
         System.out.println("Employee gender: " + employee.getGender());
-        System.out.println("Employee Recrutement Date: " + employee.getRecruitmentDate());
+        System.out.println("Employee Recrutement Date: " + employee.getHireDate());
     }
 
 //    public Employee getEmployee(int id) {
