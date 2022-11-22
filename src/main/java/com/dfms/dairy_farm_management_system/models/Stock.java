@@ -3,7 +3,7 @@ package com.dfms.dairy_farm_management_system.models;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class Stock {
+public class Stock implements Model {
     private int id;
     private String name;
     private String type;
@@ -96,5 +96,20 @@ public class Stock {
                 ", quantity=" + quantity +
                 ", addedDate='" + added_date + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean save() {
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        return false;
     }
 }
