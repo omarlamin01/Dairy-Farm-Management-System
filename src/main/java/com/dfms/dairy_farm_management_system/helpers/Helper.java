@@ -163,7 +163,8 @@ public class Helper {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
                                 String newValue) {
-                if (!newValue.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+                if (!newValue.matches("^(?=.{1,64}@)[\\p{L}0-9_-]+(\\.[\\p{L}0-9_-]+)*@"
+                        + "[^-][\\p{L}0-9-]+(\\.[\\p{L}0-9-]+)*(\\.[\\p{L}]{2,})$")) {
                     textField.setStyle("-fx-border-color: red");
                 } else {
                     textField.setStyle("-fx-border-color: transparent");
