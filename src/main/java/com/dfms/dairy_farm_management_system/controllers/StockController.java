@@ -1,18 +1,23 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateStockController;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -22,6 +27,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
@@ -141,63 +147,63 @@ public class StockController implements Initializable {
 
                         //delete employee
                         iv_delete.setOnMouseClicked((MouseEvent event) -> {
-//                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//                            alert.setTitle("Delete Employee");
-//                            alert.setHeaderText("Are you sure you want to delete this employee?");
-//                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
-//                            Optional<ButtonType> result = alert.showAndWait();
-//                            if (result.get() == ButtonType.OK) {
-//                                try {
-//                                    employee.delete();
-//                                    displayEmployees();
-//                                } catch (Exception e) {
-//                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                                }
-//                            }
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete Product");
+                            alert.setHeaderText("Are you sure you want to delete this product?");
+                            Stock product = stock_table.getSelectionModel().getSelectedItem();
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    product.delete();
+                                    displayStock();
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+                            }
                         });
 
                         //update employee
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
-//                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
-//                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/update_employee.fxml"));
-//                            Scene scene = null;
-//                            try {
-//                                scene = new Scene(fxmlLoader.load());
-//                                UpdateEmployeeController controller = fxmlLoader.getController();
-//                                controller.fetchEmployee(employee);
-//                            } catch (IOException e) {
-//                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                                e.printStackTrace();
-//                            }
-//                            Stage stage = new Stage();
-//                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-//                            stage.setTitle("Update Employee");
-//                            stage.setResizable(false);
-//                            stage.setScene(scene);
-//                            centerScreen(stage);
-//                            stage.show();
+                            Stock product = stock_table.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/update_product.fxml"));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                                UpdateStockController controller = fxmlLoader.getController();
+                                controller.fetchEmployee(product);
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
+                            }
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Update Product");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
 
                         //view employee details
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
-//                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
-//                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
-//                            Scene scene = null;
-//                            try {
-//                                scene = new Scene(fxmlLoader.load());
-//                                EmployeeDetailsController controller = fxmlLoader.getController();
-//                                controller.fetchEmployee(employee);
-//                            } catch (IOException e) {
-//                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                                e.printStackTrace();
-//                            }
-//                            Stage stage = new Stage();
-//                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-//                            stage.setTitle("Employee Details");
-//                            stage.setResizable(false);
-//                            stage.setScene(scene);
-//                            centerScreen(stage);
-//                            stage.show();
+                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                                EmployeeDetailsController controller = fxmlLoader.getController();
+                                controller.fetchEmployee(employee);
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
+                            }
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Employee Details");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
                     }
                 }
