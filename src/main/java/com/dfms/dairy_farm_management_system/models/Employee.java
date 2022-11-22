@@ -16,27 +16,14 @@ public class Employee implements Model {
     private String phone;
     private String adress;
     private float salary;
-    private Date recruitment_date;
+    private Date hire_date;
     private String contract_type;
-    private Date updated_at;
-    private Date created_at;
+    private Timestamp created_at;
+    private Timestamp updated_at;
 
     public Employee() {
-    }
-
-    public Employee(String first_name, String last_name, String gender, String cin, String email, String phone, String adresse, float salary, Date recruitment_date, String contract_type, Date updated_at, Date created_at) {
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.gender = gender;
-        this.cin = cin;
-        this.email = email;
-        this.phone = phone;
-        this.adress = adresse;
-        this.salary = salary;
-        this.recruitment_date = recruitment_date;
-        this.contract_type = contract_type;
-        this.updated_at = updated_at;
-        this.created_at = created_at;
+        this.created_at = Timestamp.valueOf(LocalDateTime.now());
+        this.updated_at = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public String getFirstName() {
@@ -103,12 +90,12 @@ public class Employee implements Model {
         this.salary = salary;
     }
 
-    public Date getRecruitmentDate() {
-        return recruitment_date;
+    public Date getHireDate() {
+        return hire_date;
     }
 
-    public void setRecruitmentDate(Date recruitment_date) {
-        this.recruitment_date = recruitment_date;
+    public void setHireDate(Date recruitment_date) {
+        this.hire_date = recruitment_date;
     }
 
     public String getContractType() {
@@ -119,25 +106,25 @@ public class Employee implements Model {
         this.contract_type = contract_type;
     }
 
-    public Date getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updated_at;
     }
 
-    public void setUpdatedAt(Date updated_at) {
+    public void setUpdatedAt(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return created_at;
     }
 
-    public void setCreatedAt(Date created_at) {
+    public void setCreatedAt(Timestamp created_at) {
         this.created_at = created_at;
     }
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO `employees` (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO `employees` (first_name, last_name, gender, cin, email, phone, address, salary, hire_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -150,12 +137,12 @@ public class Employee implements Model {
             } else {
                 preparedStatement.setString(3, "F");
             }
-            preparedStatement.setString(4, cin);
+            preparedStatement.setString(4, cin.toUpperCase());
             preparedStatement.setString(5, email);
             preparedStatement.setString(6, phone);
             preparedStatement.setString(7, adress);
             preparedStatement.setString(8, String.valueOf(salary));
-            preparedStatement.setString(9, recruitment_date.toString());
+            preparedStatement.setString(9, hire_date.toString());
             preparedStatement.setString(10, contract_type);
 
             return preparedStatement.executeUpdate() != 0;
@@ -181,7 +168,7 @@ public class Employee implements Model {
                 "', `recruitment_date` = '" + "2022-11-12" +
                 "', `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) + "' " +
-                "WHERE `employees`.`cin` = " + this.cin;
+                "WHERE `employees`.`cin` = " + this.cin.toUpperCase();
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
@@ -194,7 +181,7 @@ public class Employee implements Model {
 
     @Override
     public boolean delete() {
-        String deleteQuery = "DELETE FROM `employees` WHERE `employees`.`cin` = " + this.cin;
+        String deleteQuery = "DELETE FROM `employees` WHERE `employees`.`cin` = " + this.cin.toUpperCase();
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
@@ -203,23 +190,5 @@ public class Employee implements Model {
             e.printStackTrace();
             return false;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                ", first_name='" + first_name + '\'' +
-                ", last_name='" + last_name + '\'' +
-                ", gender='" + gender + '\'' +
-                ", cin='" + cin + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", adress='" + adress + '\'' +
-                ", salary=" + salary +
-                ", recruitment_date=" + recruitment_date +
-                ", contract_type='" + contract_type + '\'' +
-                ", updated_at=" + updated_at +
-                ", created_at=" + created_at +
-                '}';
     }
 }

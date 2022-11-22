@@ -2,36 +2,27 @@ package com.dfms.dairy_farm_management_system.models;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class User extends Employee {
-    private int id_user;
+    private int id;
     private String password;
-    private int roleId;
-
-
-    public User(int id, String firstName, String lastName, String gender, String cin, String email, String password, String phone, String address, float salary, Date recruitmentDate, String contractType, Date updated_at, Date created_at) {
-        super(firstName, lastName, gender, cin, email, phone, address, salary, recruitmentDate, contractType, updated_at, created_at);
-        this.id_user = id;
-        this.password = password;
-    }
+    private int role;
 
     public User() {
         super();
     }
 
     public int getId() {
-        return this.id_user;
+        return id;
     }
 
     public void setId(int id) {
-        this.id_user = id;
+        this.id = id;
     }
 
     public String getPassword() {
@@ -42,68 +33,62 @@ public class User extends Employee {
         this.password = password;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public int getRole() {
+        return role;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setRole(int role) {
+        this.role = role;
     }
 
     @Override
     public boolean save() {
-        boolean empIsSaved = super.save();
-        if (!empIsSaved) {
+        if(!super.save()) {
             return false;
-        }
-        String insertQuery = "INSERT INTO `users` (`role_id`, `password`, `first_name`, `last_name`, `gender`, `cin`, `phone`, `salary`, `email`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try {
-            Connection connection = DBConfig.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+        } else {
+            String insertQuery = "INSERT INTO `users` (`first_name`, `last_name`, `cin`, `email`, `password`, `gender`, `phone`, `salary`, `address`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Connection connection = getConnection();
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
-            preparedStatement.setString(1, String.valueOf(roleId));
-            preparedStatement.setString(3, password);
-            preparedStatement.setString(4, super.getFirstName());
-            preparedStatement.setString(5, super.getLastName());
+                preparedStatement.setString(1, super.getFirstName());
+                preparedStatement.setString(2, super.getLastName());
+                preparedStatement.setString(3, super.getCin());
+                preparedStatement.setString(4, super.getEmail());
+                preparedStatement.setString(5, password);
+                preparedStatement.setString(6, super.getGender().equalsIgnoreCase("Male") ? "M" : "F");
+                preparedStatement.setString(7, super.getPhone());
+                preparedStatement.setFloat(8, super.getSalary());
+                preparedStatement.setString(9, super.getAdress());
+                preparedStatement.setInt(10, role);
+                preparedStatement.setTimestamp(11, super.getCreatedAt());
+                preparedStatement.setTimestamp(12, super.getUpdatedAt());
 
-            if (super.getGender().equalsIgnoreCase("Male")) {
-                preparedStatement.setString(6, "M");
-            } else {
-                preparedStatement.setString(6, "F");
+                return preparedStatement.executeUpdate() != 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            preparedStatement.setString(7, super.getCin());
-            preparedStatement.setString(8, super.getPhone());
-            preparedStatement.setString(9, String.valueOf(super.getSalary()));
-            preparedStatement.setString(10, super.getEmail());
-            preparedStatement.setString(11, super.getAdress());
-
-            return preparedStatement.executeUpdate() != 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     @Override
     public boolean update() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-
-        String updateQuery = "UPDATE `users` SET `password` = '" + password +
-                "', `role_id` = '" + roleId +
-                "', `updated_at` = '" + dtf.format(now) +
-                "', `first_name` = '" + super.getFirstName() +
+        String query = "UPDATE `user` SET" +
+                " `first_name` = '" + super.getFirstName() +
                 "', `last_name` = '" + super.getLastName() +
-                "', `gender` = '" + (super.getGender().equalsIgnoreCase("Male") ? 'M' : 'F') +
                 "', `cin` = '" + super.getCin() +
+                "', `email` = '" + super.getEmail() +
+                "', `password` = '" + password +
+                "', `gender` = '" + (super.getGender().equalsIgnoreCase("Male") ? 'M' : 'F') +
                 "', `phone` = '" + super.getPhone() +
                 "', `salary` = '" + super.getSalary() +
-                "', `email` = '" + super.getEmail() +
                 "', `address` = '" + super.getAdress() +
-                "' WHERE `users`.`id` = " + this.id_user;
+                "', `updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) +
+                "' WHERE `user`.`id` = " + this.id;
         try {
-            Connection connection = DBConfig.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             return (preparedStatement.executeUpdate() != 0) && super.update();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,9 +98,9 @@ public class User extends Employee {
 
     @Override
     public boolean delete() {
-        String deleteQuery = "DELETE FROM `users` WHERE `users`.`id` = " + this.id_user;
+        String deleteQuery = "DELETE FROM `users` WHERE `id` = " + this.id;
         try {
-            Connection connection = DBConfig.getConnection();
+            Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {

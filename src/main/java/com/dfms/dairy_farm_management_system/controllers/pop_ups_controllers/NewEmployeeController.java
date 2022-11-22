@@ -1,7 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.controllers.EmployeesController;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.*;
@@ -106,7 +104,7 @@ public class NewEmployeeController implements Initializable {
         employee.setCin(cin);
         employee.setSalary(Float.parseFloat(salary));
         Date date = Date.valueOf(hireDate);
-        employee.setRecruitmentDate(date);
+        employee.setHireDate(date);
         employee.setContractType(contractType);
         employee.setGender(gender);
 
