@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Stock implements Model {
@@ -125,7 +127,23 @@ public class Stock implements Model {
 
     @Override
     public boolean update() {
-        return false;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        String updateQuery = "UPDATE `stocks` SET `name` = '" + name +
+                "', `type` = '" + type +
+                "', `unit` = '" + unit +
+                "', `added_date` = '" + added_date +
+                "', `updated_at` = '" + dtf.format(now) +
+                "' WHERE `stocks`.`id` = " + id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
