@@ -203,7 +203,7 @@ public class Helper {
         try {
             con = DBConfig.getConnection();
             st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM role");
+            ResultSet rs = st.executeQuery("SELECT * FROM `roles`");
             while (rs.next()) {
                 rolesList.add(rs.getString("name"));
             }
