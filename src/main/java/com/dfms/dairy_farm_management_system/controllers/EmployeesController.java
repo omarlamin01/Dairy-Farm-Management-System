@@ -44,20 +44,24 @@ public class EmployeesController implements Initializable {
 
     @FXML
     private TableView<Employee> employees_table;
+
     @FXML
     private TableColumn<Employee, String> actions_col;
+
+    @FXML
+    private TableColumn<Employee, String> col_cin;
 
     @FXML
     private TableColumn<Employee, String> col_gender;
 
     @FXML
     private TableColumn<Employee, String> email_col;
+
     @FXML
     private TableColumn<Employee, String> first_name_col;
 
     @FXML
     private TableColumn<Employee, String> last_name_col;
-
 
     @FXML
     private TableColumn<Employee, String> salary_col;
@@ -82,7 +86,7 @@ public class EmployeesController implements Initializable {
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 Employee employee = new Employee();
-                //employee.setId(rs.getInt("id"));k
+                employee.setCin(rs.getString("cin"));
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
                 employee.setEmail(rs.getString("email"));
@@ -99,6 +103,7 @@ public class EmployeesController implements Initializable {
     //display all the employees in the table
     public void displayEmployees() {
         ObservableList<Employee> employees = getEmployees();
+        col_cin.setCellValueFactory(new PropertyValueFactory<>("cin"));
         first_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         last_name_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -270,7 +275,7 @@ public class EmployeesController implements Initializable {
         System.out.println("Employee Address: " + employee.getAdress());
         System.out.println("Employee Cin: " + employee.getCin());
         System.out.println("Employee gender: " + employee.getGender());
-        System.out.println("Employee Recrutement Date: " + employee.getRecruitmentDate());
+        System.out.println("Employee Recrutement Date: " + employee.getHireDate());
     }
 
 //    public Employee getEmployee(int id) {

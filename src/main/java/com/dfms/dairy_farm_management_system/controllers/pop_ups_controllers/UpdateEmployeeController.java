@@ -93,7 +93,7 @@ public class UpdateEmployeeController implements Initializable {
         employee.setSalary(Float.parseFloat(salaryInput.getText()));
         employee.setGender(genderCombo.getValue());
         employee.setContractType(contractCombo.getValue());
-        employee.setRecruitmentDate(java.sql.Date.valueOf(hireDate.getValue()));
+        employee.setHireDate(java.sql.Date.valueOf(hireDate.getValue()));
 
         if (employee.update()) {
             displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
@@ -107,25 +107,25 @@ public class UpdateEmployeeController implements Initializable {
     public void fetchEmployee(Employee employee) {
 
         //get the employee from the database
-        Connection con = getConnection();
-        PreparedStatement st = null;
-        ResultSet rs = null;
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
         this.employee_cin = employee.getCin();
 
         try {
-            st = con.prepareStatement("SELECT * FROM `employees` WHERE cin = " + employee.getCin());
-            rs = st.executeQuery();
-            if (rs.next()) {
-                addressInput.setText(rs.getString("address"));
-                cinInput.setText(rs.getString("cin"));
-                phoneNumberInput.setText(rs.getString("phone"));
-                contractCombo.setValue(rs.getString("contract_type"));
-                if (rs.getString("gender").equals("M")) {
+            statement = connection.prepareStatement("SELECT * FROM employee WHERE id = " + employee_cin);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                addressInput.setText(resultSet.getString("address"));
+                cinInput.setText(resultSet.getString("cin"));
+                phoneNumberInput.setText(resultSet.getString("phone"));
+                contractCombo.setValue(resultSet.getString("contract_type"));
+                if (resultSet.getString("gender").equals("M")) {
                     genderCombo.setValue("male");
                 } else {
                     genderCombo.setValue("Female");
                 }
-                LocalDate date = LocalDate.parse(rs.getString("recruitment_date"));
+                LocalDate date = LocalDate.parse(resultSet.getString("recruitment_date"));
                 hireDate.setValue(date);
             }
         } catch (Exception e) {
@@ -167,7 +167,7 @@ public class UpdateEmployeeController implements Initializable {
                 employee.setAdress(rs.getString("address"));
                 employee.setCin(rs.getString("cin"));
                 employee.setGender(rs.getString("gender"));
-                employee.setRecruitmentDate(rs.getDate("recruitment_date"));
+                employee.setHireDate(rs.getDate("recruitment_date"));
                 employee.setSalary(rs.getFloat("salary"));
             }
         } catch (Exception e) {

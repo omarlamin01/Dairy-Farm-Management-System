@@ -1,29 +1,33 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Client {
-    private int id_client;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+
+public class Client implements Model {
+    private int id;
     private String name;
     private String type;
+    private String phone;
     private String email;
-    private int phone;
+    private Timestamp created_at;
+    private Timestamp updated_at;
 
-    public Client(int id_client, String name, String type, String email, int phone) {
-        this.id_client = id_client;
-        this.name = name;
-        this.type = type;
-        this.email = email;
-        this.phone = phone;
+    public Client() {
+        this.created_at = Timestamp.valueOf(LocalDateTime.now());
+        this.updated_at = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public Client() {}
-
-    public int getId_client() {
-        return id_client;
+    public int getId() {
+        return id;
     }
 
-    public void setId_client(int id_client) {
-        this.id_client = id_client;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -50,11 +54,64 @@ public class Client {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public boolean save() {
+        String query = "INSERT INTO `clients` (name, type, phone, email, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?)";
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setString(1, name);
+            statement.setString(2, type);
+            statement.setString(3, phone);
+            statement.setString(4, email);
+            statement.setTimestamp(5, created_at);
+            statement.setTimestamp(6, updated_at);
+
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        String query = "UPDATE `clients` SET " +
+                "`name` = '" + name + "', " +
+                "`type` = '" + type + "', " +
+                "`phone` = '" + phone + "', " +
+                "`email` = '" + email + "', " +
+                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "' " +
+                "WHERE `id` = " + id;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        String query = "DELETE FROM `clients` WHERE `id` = " + id;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

@@ -4,6 +4,7 @@ import com.dfms.dairy_farm_management_system.models.Client;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -13,8 +14,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.validateNumericInput;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.validatePhoneInput;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class NewClientController implements Initializable {
     @Override
@@ -39,12 +39,17 @@ public class NewClientController implements Initializable {
     @FXML
     public void addNewClient(MouseEvent mouseEvent) {
         Client client = new Client();
+
         client.setName(this.clientName.getText());
-        client.setPhone(Integer.parseInt(this.phoneNumberInput.getText()));
+        client.setPhone(this.phoneNumberInput.getText());
         client.setEmail(this.emailInput.getText());
         client.setType(this.typeCombo.getValue());
-        System.out.println(client.toString());
 
-        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
+        if (client.save()) {
+            closePopUp(mouseEvent);
+            displayAlert("SUCESS", "Client added successfully.", Alert.AlertType.INFORMATION);
+        } else {
+            displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
+        }
     }
 }

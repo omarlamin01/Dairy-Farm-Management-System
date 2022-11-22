@@ -24,6 +24,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,16 +40,12 @@ public class SalesController implements Initializable {
         liveSearch(search_input, AnimalSalesTable);
         try {
             afficher();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         try {
             afficheer();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         liveSearch2(search_inpu, MilkSaleTable);
@@ -59,11 +56,8 @@ public class SalesController implements Initializable {
     @FXML
     private TableColumn<MilkSale, String> action_c;
 
-
-
     @FXML
     private TableColumn<MilkSale, String> client_c;
-
 
     @FXML
     private ComboBox<?> combo1;
@@ -71,12 +65,8 @@ public class SalesController implements Initializable {
     @FXML
     private TableColumn<MilkSale, LocalDate> date_c;
 
-
-
     @FXML
     private TableColumn<MilkSale, Float> price_c;
-
-
 
     @FXML
     private TableColumn<MilkSale, Float> quantity_c;
@@ -93,31 +83,31 @@ public class SalesController implements Initializable {
 
     ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
 
-
     @FXML
     private TableColumn<AnimalSale, String> animalis_col;
 
     @FXML
     private TableColumn<AnimalSale,String > client_col;
 
-
     @FXML
     private TableColumn<AnimalSale, String> action_col;
+
     @FXML
     private TableView<AnimalSale> AnimalSalesTable;
 
     @FXML
-    private TableColumn<AnimalSale, LocalDate> operationdate_col;
+    private TableColumn<AnimalSale, Date> operationdate_col;
 
     @FXML
     private TableColumn<AnimalSale, Float> price_col;
 
-
-
     @FXML
     private TextField search_input;
-    PreparedStatement st = null;
-    ResultSet rs = null;
+
+    PreparedStatement statement = null;
+
+    ResultSet resultSet = null;
+
     @FXML
     public void openAddNewAnimalSale(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add New Sale", "add_new_cow_sale");
@@ -131,25 +121,27 @@ public class SalesController implements Initializable {
     public ObservableList<AnimalSale> getAnimalSale() throws SQLException, ClassNotFoundException {
         ObservableList<AnimalSale> list = FXCollections.observableArrayList();
 
-        String select_query = "SELECT ass.id, ass.animal_id, price ,c.name,ass.sale_date from  animal_sale ass ,animal a,client c where ass.animal_id= a.id and ass.client_id= c.id ";
+        String query = "SELECT * FROM `animals_sales`";
 
-        st = DBConfig.getConnection().prepareStatement(select_query);
-        rs = st.executeQuery();
-        while (rs.next()) {
+        statement = DBConfig.getConnection().prepareStatement(query);
+        resultSet = statement.executeQuery();
+        while (resultSet.next()) {
             AnimalSale animalSale = new AnimalSale();
-            animalSale.setId(rs.getInt("id"));
-            animalSale.setId_animal(rs.getString("animal_id"));
-            animalSale.setPrice(rs.getFloat("price"));
-            animalSale.setId_client(rs.getString("name"));
-            animalSale.setOperationDate(rs.getDate("sale_date").toLocalDate());
-
+            
+            animalSale.setId(resultSet.getInt("id"));
+            animalSale.setClientId(resultSet.getInt("client_id"));
+            animalSale.setAnimalId(resultSet.getString("animal_id"));
+            animalSale.setPrice(resultSet.getFloat("price"));
+            animalSale.setSale_date(resultSet.getDate("sale_date"));
+            animalSale.setCreated_at(resultSet.getTimestamp("created_at"));
+            animalSale.setUpdated_at(resultSet.getTimestamp("updated_at"));
 
             list.add(animalSale);
         }
         return list;
     }
-    public void refreshTableAnimalSales() throws SQLException {
 
+    public void refreshTableAnimalSales() throws SQLException {
         AnimalSalesTable.getItems().clear();
         try {
             afficher();
@@ -160,10 +152,10 @@ public class SalesController implements Initializable {
 
     private void afficher() throws SQLException, ClassNotFoundException {
         ObservableList<AnimalSale> list = getAnimalSale();
-        animalis_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("id_animal"));
+        animalis_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("animalId"));
         price_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, Float>("price"));
-        client_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("id_client"));
-        operationdate_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, LocalDate>("operationDate"));
+        client_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("clientName"));
+        operationdate_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, Date>("sale_date"));
 
 
         Callback<TableColumn<AnimalSale, String>, TableCell<AnimalSale, String>> cellFoctory = (TableColumn<AnimalSale, String> param) -> {
@@ -289,7 +281,7 @@ public class SalesController implements Initializable {
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                AnimalSaleDetailsController controller = fxmlLoader.getController();
-                                controller.fetchAnimalSale( animalSale.getId(),animalSale.getId_animal(), animalSale.getPrice(), animalSale.getId_client(), animalSale.getOperationDate());
+                                controller.fetchAnimalSale( animalSale.getId(),animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -333,7 +325,7 @@ public class SalesController implements Initializable {
                     throw new RuntimeException(e);
                 }
                 for (AnimalSale Animal: animalSale) {
-                    if (Animal.getId_client().toLowerCase().contains(newValue.toLowerCase()) || Animal.getId_animal().toLowerCase().contains(newValue.toLowerCase())) {
+                    if (Animal.getClientName().toLowerCase().contains(newValue.toLowerCase()) || Animal.getAnimalId().toLowerCase().contains(newValue.toLowerCase())) {
                         filteredList.add(Animal);
                     }
                 }
@@ -341,33 +333,32 @@ public class SalesController implements Initializable {
             }
         });
     }
-    public ObservableList<MilkSale> getMilkSale() throws SQLException, ClassNotFoundException {
+    public ObservableList<MilkSale> getMilkSale() throws SQLException {
         ObservableList<MilkSale> list = FXCollections.observableArrayList();
 
-        String select_query = "SELECT ms.id, price ,quantity,c.name,ms.sale_date from  milk_sale ms ,client c where   ms.client_id= c.id ";
+        String select_query = "SELECT * FROM milk_sales";
 
-        st = DBConfig.getConnection().prepareStatement(select_query);
-        rs = st.executeQuery();
-        while (rs.next()) {
+        statement = DBConfig.getConnection().prepareStatement(select_query);
+        resultSet = statement.executeQuery();
+        while (resultSet.next()) {
             MilkSale milkSale = new MilkSale();
-            milkSale.setId(rs.getInt("id"));
 
-            milkSale.setPrice(rs.getFloat("price"));
-            milkSale.setQuantity(rs.getFloat("quantity"));
-            milkSale.setId_client(rs.getString("name"));
-            milkSale.setOperationDate(rs.getDate("sale_date").toLocalDate());
-
+            milkSale.setId(resultSet.getInt("id"));
+            milkSale.setPrice(resultSet.getFloat("price"));
+            milkSale.setQuantity(resultSet.getFloat("quantity"));
+            milkSale.setClientId(resultSet.getInt("client_id"));
+            milkSale.setSale_date(resultSet.getDate("sale_date"));
 
             list.add(milkSale);
         }
         return list;
     }
-    private void afficheer() throws SQLException, ClassNotFoundException {
+    private void afficheer() throws SQLException {
         ObservableList<MilkSale> list = getMilkSale();
         quantity_c.setCellValueFactory(new PropertyValueFactory<MilkSale, Float>("quantity"));
         price_c.setCellValueFactory(new PropertyValueFactory<MilkSale, Float>("price"));
-        client_c.setCellValueFactory(new PropertyValueFactory<MilkSale, String>("id_client"));
-        date_c.setCellValueFactory(new PropertyValueFactory<MilkSale, LocalDate>("operationDate"));
+        client_c.setCellValueFactory(new PropertyValueFactory<MilkSale, String>("clientName"));
+        date_c.setCellValueFactory(new PropertyValueFactory<MilkSale, LocalDate>("sale_date"));
 
 
         Callback<TableColumn<MilkSale, String>, TableCell<MilkSale, String>> cellFoctory = (TableColumn<MilkSale, String> param) -> {
@@ -490,7 +481,7 @@ public class SalesController implements Initializable {
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 MilkSaleDetailsController controller = fxmlLoader.getController();
-                                controller.fetchMilkSale( milkSale.getId(),milkSale.getQuantity(), milkSale.getPrice(), milkSale.getId_client(), milkSale.getOperationDate());
+                                controller.fetchMilkSale( milkSale.getId(),milkSale.getQuantity(), milkSale.getPrice(), milkSale.getClientName(), milkSale.getSale_date());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -520,7 +511,7 @@ public class SalesController implements Initializable {
        MilkSaleTable.getItems().clear();
         try {
            afficheer();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -535,11 +526,9 @@ public class SalesController implements Initializable {
                     milkSale = getMilkSale();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
                 }
                 for (MilkSale milk: milkSale) {
-                    if (milk.getId_client().toLowerCase().contains(newValue.toLowerCase()) ) {
+                    if (milk.getClientName().toLowerCase().contains(newValue.toLowerCase()) ) {
                         filteredList.add(milk);
                     }
                 }

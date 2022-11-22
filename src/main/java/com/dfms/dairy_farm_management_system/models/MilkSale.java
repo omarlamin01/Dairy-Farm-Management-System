@@ -2,20 +2,24 @@ package com.dfms.dairy_farm_management_system.models;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class MilkSale implements Model{
     private int id;
-    private String id_client;
+    private int clientId;
+    private String clientName;
     private Float quantity;
     private float price;
-    private LocalDate operationDate;
+    private Date sale_date;
+    private Timestamp created_at;
+    private Timestamp updated_at;
     public MilkSale(){
-
+        this.created_at = Timestamp.valueOf(LocalDateTime.now());
+        this.updated_at = Timestamp.valueOf(LocalDateTime.now());
     }
 
     public int getId() {
@@ -26,12 +30,48 @@ public class MilkSale implements Model{
         this.id = id;
     }
 
-    public String getId_client() {
-        return id_client;
+    public int getClientId() {
+        return clientId;
     }
 
-    public void setId_client(String id_client) {
-        this.id_client = id_client;
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+        this.clientName = getClientName();
+    }
+
+    public String getClientName() {
+        String query = "SELECT name FROM clients WHERE id = " + clientId;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return clientName;
+    }
+
+    public void setSale_date(Date sale_date) {
+        this.sale_date = sale_date;
+    }
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
     }
 
     public Float getQuantity() {
@@ -50,34 +90,25 @@ public class MilkSale implements Model{
         this.price = price;
     }
 
-    public LocalDate getOperationDate() {
-        return operationDate;
-    }
-
-    public void setOperationDate(LocalDate operationDate) {
-        this.operationDate = operationDate;
-    }
-
-    public MilkSale(int id, String id_client, Float quantity, float price, LocalDate operationDate) {
-        this.id = id;
-        this.id_client = id_client;
-        this.quantity = quantity;
-        this.price = price;
-        this.operationDate = operationDate;
+    public Date getSale_date() {
+        return sale_date;
     }
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO milk_sale (quantity,price,client_id,sale_date) VALUES (?,?,(select id from client where name ='"+getId_client()+"'),?)";
+        String query = "INSERT INTO milk_sales (quantity, price, client_id, sale_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
+        Connection connection = getConnection();
         try {
-            Connection connection = DBConfig.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+            PreparedStatement statement = connection.prepareStatement(query);
 
-            preparedStatement.setFloat(1, quantity);
-            preparedStatement.setFloat(2, price);
+            statement.setFloat(1, quantity);
+            statement.setFloat(2, price);
+            statement.setInt(3, clientId);
+            statement.setDate(4, sale_date);
+            statement.setTimestamp(5, created_at);
+            statement.setTimestamp(6, updated_at);
 
-            preparedStatement.setDate(3, Date.valueOf(operationDate));
-            return preparedStatement.executeUpdate() != 0;
+            return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -87,14 +118,28 @@ public class MilkSale implements Model{
 
     @Override
     public boolean update() {
+        String query = "UPDATE `milk_sales` SET " +
+                "`client_id` = '" + clientId + "', " +
+                "`quantiy` = " + quantity + "', " +
+                "`price` = '" + price + "', " +
+                "`sale_date` = '" + sale_date + "', " +
+                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
+                " WHERE `milk_sales`.`id` = " + id;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean delete() {
-        String deleteQuery = "DELETE FROM `milk_sale` WHERE `milk_sale`.`id` = " + this.id;
+        String deleteQuery = "DELETE FROM `milk_sales` WHERE `milk_sale`.`id` = " + this.id;
         try {
-            Connection connection = DBConfig.getConnection();
+            Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {

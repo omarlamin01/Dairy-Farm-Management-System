@@ -1,7 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.MilkSale;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,12 +8,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
@@ -42,19 +42,21 @@ public class MilkSalesController implements Initializable {
 
     ObservableList<String> clientsList;
 
-    PreparedStatement st = null;
-    ResultSet rs = null;
+    HashMap<String, Integer> clients = new HashMap<>();
+
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
 
         public void setClientsList() throws SQLException {
             ObservableList<String> client = FXCollections.observableArrayList();
 
-            String select_query = "SELECT name from client ";
+            String select_query = "SELECT name, id from clients ";
 
-            st = DBConfig.getConnection().prepareStatement(select_query);
-            rs = st.executeQuery();
-            while (rs.next()) {
-
-                client.add(rs.getString("name"));
+            statement = DBConfig.getConnection().prepareStatement(select_query);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                clients.put(resultSet.getString("name"), resultSet.getInt("id"));
+                client.add(resultSet.getString("name"));
             }
 
             clientsCombo.setItems(client);
@@ -71,17 +73,14 @@ public class MilkSalesController implements Initializable {
             MilkSale milkSale = new MilkSale();
             milkSale.setQuantity(Float.parseFloat(quantityInput.getText()));
             milkSale.setPrice(Float.parseFloat(priceOfSale.getText()));
-            milkSale.setId_client(clientsCombo.getValue());
-            milkSale.setOperationDate(operationDate.getValue());
+            milkSale.setClientId(clients.get(clientsCombo.getValue()));
+            milkSale.setSale_date(Date.valueOf(operationDate.getValue()));
             if (milkSale.save()) {
                 closePopUp(mouseEvent);
                 displayAlert("success", "Sale added successfully", Alert.AlertType.INFORMATION);
-
             } else {
                 displayAlert("Error", "Error while saving!!!", Alert.AlertType.ERROR);
             }
-
-
         }
     }
 }
