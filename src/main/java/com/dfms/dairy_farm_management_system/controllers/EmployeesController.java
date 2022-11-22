@@ -50,10 +50,7 @@ public class EmployeesController implements Initializable {
 
     @FXML
     private TableColumn<Employee, String> col_cin;
-
-    @FXML
-    private TableColumn<Employee, String> col_gender;
-
+    
     @FXML
     private TableColumn<Employee, String> email_col;
 
@@ -107,7 +104,6 @@ public class EmployeesController implements Initializable {
         first_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         last_name_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
-        col_gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         salary_col.setCellValueFactory(new PropertyValueFactory<>("salary"));
         Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<Employee, String> param) -> {
             final TableCell<Employee, String> cell = new TableCell<Employee, String>() {
