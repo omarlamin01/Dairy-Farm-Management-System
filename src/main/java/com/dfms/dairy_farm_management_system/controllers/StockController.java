@@ -94,8 +94,8 @@ public class StockController implements Initializable {
         id_col.setCellValueFactory(new PropertyValueFactory<>("cin"));
         product_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         product_type_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<Employee, String> param) -> {
-            final TableCell<Employee, String> cell = new TableCell<Employee, String>() {
+        Callback<TableColumn<Stock, String>, TableCell<Stock, String>> cellFoctory = (TableColumn<Stock, String> param) -> {
+            final TableCell<Stock, String> cell = new TableCell<Stock, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
                 Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
@@ -205,7 +205,7 @@ public class StockController implements Initializable {
             return cell;
         };
         actions_col.setCellFactory(cellFoctory);
-        employees_table.setItems(employees);
+        stock_table.setItems(products);
     }
 
     @FXML
