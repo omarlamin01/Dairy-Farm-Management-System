@@ -38,9 +38,9 @@ public class EmployeesController implements Initializable {
         liveSearch(search_employee_input, employees_table);
     }
 
-    private Statement st;
-    private PreparedStatement pst;
-    private Connection con = getConnection();
+    private Statement statement;
+    private PreparedStatement preparedStatement;
+    private Connection connection = getConnection();
 
     @FXML
     private TableView<Employee> employees_table;
@@ -79,8 +79,8 @@ public class EmployeesController implements Initializable {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
         String query = "SELECT * FROM `employees`";
         try {
-            st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 Employee employee = new Employee();
                 employee.setCin(rs.getString("cin"));
@@ -222,8 +222,8 @@ public class EmployeesController implements Initializable {
     private void deleteEmployee(String cin) {
         String query = "DELETE FROM `employees` WHERE cin = " + cin;
         try {
-            st = con.createStatement();
-            st.executeUpdate(query);
+            statement = connection.createStatement();
+            statement.executeUpdate(query);
             displayAlert("Success", "Employee deleted successfully", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
