@@ -1,5 +1,10 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -110,6 +115,14 @@ public class Stock implements Model {
 
     @Override
     public boolean delete() {
-        return false;
+        String deleteQuery = "DELETE FROM `stocks` WHERE `stocks`.`id` = '" + id + "'";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
