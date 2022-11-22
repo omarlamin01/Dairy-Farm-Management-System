@@ -111,7 +111,6 @@ public class UpdateEmployeeController implements Initializable {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         this.employee_cin = employee.getCin();
-        System.out.println("CIN >>> " + employee_cin);
 
         try {
             statement = connection.prepareStatement("SELECT * FROM employees WHERE cin = '" + employee_cin + "' LIMIT 1");
@@ -155,12 +154,13 @@ public class UpdateEmployeeController implements Initializable {
 
     public Employee getEmployee(String employee_cin) {
         Employee employee = new Employee();
-        String query = "SELECT * FROM `employees` WHERE cin = " + employee_cin;
+        String query = "SELECT * FROM `employees` WHERE cin = '" + employee_cin.toUpperCase() + "' LIMIT 1";
         Connection con = getConnection();
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
+                //TODO: get role name
                 //employee.setId(rs.getInt("id"));
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
@@ -174,6 +174,7 @@ public class UpdateEmployeeController implements Initializable {
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
         }
         return employee;
     }
