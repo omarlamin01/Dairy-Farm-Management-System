@@ -1,5 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -19,28 +20,28 @@ public class StockController implements Initializable {
     }
 
     @FXML
-    private TableColumn<?, ?> actions_col;
+    private TableColumn<Stock, String> actions_col;
 
     @FXML
-    private TableColumn<?, ?> added_date_col;
+    private TableColumn<Stock, String> added_date_col;
 
     @FXML
-    private TableColumn<?, ?> availability_col;
+    private TableColumn<Stock, String> availability_col;
 
     @FXML
-    private ComboBox<?> combo;
+    private ComboBox<String> export_combo;
 
     @FXML
-    private TableColumn<?, ?> id_col;
+    private TableColumn<Stock, String> id_col;
 
     @FXML
     private Button openAddNewEmployeeBtn;
 
     @FXML
-    private TableColumn<?, ?> product_name_col;
+    private TableColumn<Stock, String> product_name_col;
 
     @FXML
-    private TableColumn<?, ?> product_type_col;
+    private TableColumn<Stock, String> product_type_col;
 
     @FXML
     private TextField search_stock_input;
