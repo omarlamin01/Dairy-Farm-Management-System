@@ -62,24 +62,24 @@ public class EmployeeDetailsController implements Initializable {
     public void fetchEmployee(Employee employee) {
 
         //get the employee from the database
-        Connection con = getConnection();
-        PreparedStatement st = null;
-        ResultSet rs = null;
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
-            st = con.prepareStatement("SELECT * FROM `employees` WHERE cin = '" + employee.getCin() + "' LIMIT 1");
-            rs = st.executeQuery();
-            if (rs.next()) {
-                header.setText(rs.getString("first_name") + " " + rs.getString("last_name"));
-                email.setText(rs.getString("email"));
-                first_name.setText(rs.getString("first_name"));
-                last_name.setText(rs.getString("last_name"));
-                salary.setText(String.valueOf(rs.getInt("salary")));
-                address.setText(rs.getString("address"));
-                cin.setText(rs.getString("cin"));
-                phone.setText(rs.getString("phone"));
-                contract_type.setText(rs.getString("contract_type"));
-                recruitment_date.setText(rs.getString("recruitment_date"));
+            preparedStatement = connection.prepareStatement("SELECT * FROM `employees` WHERE cin = '" + employee.getCin() + "' LIMIT 1");
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                header.setText(resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
+                email.setText(resultSet.getString("email"));
+                first_name.setText(resultSet.getString("first_name"));
+                last_name.setText(resultSet.getString("last_name"));
+                salary.setText(String.valueOf(resultSet.getInt("salary")));
+                address.setText(resultSet.getString("address"));
+                cin.setText(resultSet.getString("cin"));
+                phone.setText(resultSet.getString("phone"));
+                contract_type.setText(resultSet.getString("contract_type"));
+                recruitment_date.setText(resultSet.getString("recruitment_date"));
 
                 //TODO: get the role name from the database
             }
