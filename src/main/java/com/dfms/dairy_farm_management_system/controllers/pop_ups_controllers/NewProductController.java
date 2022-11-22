@@ -12,7 +12,14 @@ import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.validateNumericInput;
+
 public class NewProductController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        validateNumericInput(product_quantity);
+    }
+
     @FXML
     private TextField product_measure_unit;
 
@@ -25,11 +32,6 @@ public class NewProductController implements Initializable {
     @FXML
     private TextField product_type;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
-
     @FXML
     public void addProduct(MouseEvent mouseEvent) {
         Stock product = new Stock();
@@ -40,6 +42,6 @@ public class NewProductController implements Initializable {
         product.setUnit(this.product_measure_unit.getText());
         System.out.println(product.toString());
 
-        ((Stage)(((Button)mouseEvent.getSource()).getScene().getWindow())).close();
+        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
     }
 }
