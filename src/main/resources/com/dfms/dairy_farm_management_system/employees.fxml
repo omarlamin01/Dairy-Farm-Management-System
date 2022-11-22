@@ -82,7 +82,6 @@
                 <TableColumn fx:id="first_name_col" prefWidth="152.0" text="First name" />
                 <TableColumn fx:id="last_name_col" prefWidth="142.0" text="Last name" />
                 <TableColumn fx:id="email_col" prefWidth="149.0" text="Email" />
-                <TableColumn fx:id="col_gender" prefWidth="48.0" text="Gender" />
                 <TableColumn fx:id="salary_col" prefWidth="144.0" text="Salary" />
                 <TableColumn fx:id="actions_col" prefWidth="190.66668701171875" text="Actions" />
             </columns>
