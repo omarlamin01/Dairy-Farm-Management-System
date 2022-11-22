@@ -33,7 +33,7 @@ public class EmployeesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
-        export_cb.setItems(list);
+        export_combo.setItems(list);
         displayEmployees();
         liveSearch(search_employee_input, employees_table);
     }
@@ -69,7 +69,7 @@ public class EmployeesController implements Initializable {
     @FXML
     private TextField search_employee_input;
     @FXML
-    private ComboBox<String> export_cb;
+    private ComboBox<String> export_combo;
 
     @FXML
     private Button openAddNewEmployeeBtn;
