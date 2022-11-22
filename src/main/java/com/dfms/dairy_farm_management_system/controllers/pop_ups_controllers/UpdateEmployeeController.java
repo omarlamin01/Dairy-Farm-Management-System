@@ -160,6 +160,7 @@ public class UpdateEmployeeController implements Initializable {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
+                //TODO: get role name
                 //employee.setId(rs.getInt("id"));
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
