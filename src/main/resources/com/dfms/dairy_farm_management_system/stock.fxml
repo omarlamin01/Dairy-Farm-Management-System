@@ -17,7 +17,6 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.StockController">
  <stylesheets>
      <URL value="@../../../style/style.css" />
@@ -51,7 +50,7 @@
          <VBox.margin>
              <Insets bottom="10.0" />
          </VBox.margin>
-         <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for a product..." styleClass="text-field-search">
+         <TextField fx:id="search_stock_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for a product..." styleClass="text-field-search">
              <padding>
                  <Insets left="10.0" />
              </padding>
@@ -77,14 +76,14 @@
              </Button>
          </HBox>
      </HBox>
-     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+     <TableView fx:id="stock_table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <columns>
-             <TableColumn prefWidth="67.66667175292969" text="ID" />
-             <TableColumn prefWidth="163.0" text="Product name" />
-             <TableColumn prefWidth="116.0" text="Product type" />
-             <TableColumn prefWidth="120.33334350585938" text="Added date" />
-             <TableColumn prefWidth="144.0" text="Availability" />
-             <TableColumn prefWidth="190.66668701171875" text="Actions" />
+             <TableColumn fx:id="id_col" prefWidth="67.66667175292969" text="ID" />
+             <TableColumn fx:id="product_name_col" prefWidth="163.0" text="Product name" />
+             <TableColumn fx:id="product_type_col" prefWidth="116.0" text="Product type" />
+             <TableColumn fx:id="added_date_col" prefWidth="120.33334350585938" text="Added date" />
+             <TableColumn fx:id="availability_col" prefWidth="144.0" text="Availability" />
+             <TableColumn fx:id="actions_col" prefWidth="190.66668701171875" text="Actions" />
          </columns>
      </TableView>
  </VBox>
