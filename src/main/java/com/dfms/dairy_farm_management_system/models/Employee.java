@@ -182,7 +182,7 @@ public class Employee implements Model {
 
     @Override
     public boolean delete() {
-        String deleteQuery = "DELETE FROM `employees` WHERE `employees`.`cin` = " + this.cin.toUpperCase();
+        String deleteQuery = "DELETE FROM `employees` WHERE `employees`.`cin` = '" + cin + "'";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
