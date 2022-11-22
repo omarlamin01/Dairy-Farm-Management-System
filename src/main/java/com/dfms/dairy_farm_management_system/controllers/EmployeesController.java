@@ -44,6 +44,7 @@ public class EmployeesController implements Initializable {
 
     @FXML
     private TableView<Employee> employees_table;
+
     @FXML
     private TableColumn<Employee, String> actions_col;
 
@@ -51,13 +52,16 @@ public class EmployeesController implements Initializable {
     private TableColumn<Employee, String> col_cin;
 
     @FXML
+    private TableColumn<Employee, String> col_gender;
+
+    @FXML
     private TableColumn<Employee, String> email_col;
+
     @FXML
     private TableColumn<Employee, String> first_name_col;
 
     @FXML
     private TableColumn<Employee, String> last_name_col;
-
 
     @FXML
     private TableColumn<Employee, String> salary_col;
@@ -76,7 +80,7 @@ public class EmployeesController implements Initializable {
     //get all the employees
     public ObservableList<Employee> getEmployees() {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
-        String query = "SELECT * FROM employees";
+        String query = "SELECT * FROM `employees`";
         try {
             st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
@@ -86,6 +90,7 @@ public class EmployeesController implements Initializable {
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
                 employee.setEmail(rs.getString("email"));
+                employee.setGender(rs.getString("gender"));
                 employee.setSalary(rs.getInt("salary"));
                 employees.add(employee);
             }
@@ -102,6 +107,7 @@ public class EmployeesController implements Initializable {
         first_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         last_name_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
+        col_gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         salary_col.setCellValueFactory(new PropertyValueFactory<>("salary"));
         Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<Employee, String> param) -> {
             final TableCell<Employee, String> cell = new TableCell<Employee, String>() {
@@ -173,7 +179,6 @@ public class EmployeesController implements Initializable {
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 UpdateEmployeeController controller = fxmlLoader.getController();
-                                String employee_cin = employee.getCin();
                                 controller.fetchEmployee(employee);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
@@ -218,8 +223,8 @@ public class EmployeesController implements Initializable {
         employees_table.setItems(employees);
     }
 
-    private void deleteEmployee(int id) {
-        String query = "DELETE FROM `employees` WHERE id = " + id;
+    private void deleteEmployee(String cin) {
+        String query = "DELETE FROM `employees` WHERE cin = " + cin;
         try {
             st = con.createStatement();
             st.executeUpdate(query);

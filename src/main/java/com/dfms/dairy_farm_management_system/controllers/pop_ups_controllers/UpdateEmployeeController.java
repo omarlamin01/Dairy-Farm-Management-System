@@ -151,14 +151,15 @@ public class UpdateEmployeeController implements Initializable {
         return roleName;
     }
 
-    public Employee getEmployee(String id) {
+    public Employee getEmployee(String employee_cin) {
         Employee employee = new Employee();
-        String query = "SELECT * FROM employee WHERE id = " + id;
+        String query = "SELECT * FROM `employees` WHERE cin = " + employee_cin;
         Connection con = getConnection();
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
+                //employee.setId(rs.getInt("id"));
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
                 employee.setEmail(rs.getString("email"));

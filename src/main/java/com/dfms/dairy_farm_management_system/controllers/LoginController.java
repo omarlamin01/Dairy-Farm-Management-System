@@ -66,6 +66,12 @@ public class LoginController implements Initializable {
 
     @FXML
     private void login(MouseEvent event) throws SQLException {
+
+        if (email_input.getText() == null || password_input.getText() == null){
+            displayAlert("Error", "Please fill the required fields!", Alert.AlertType.ERROR);
+            return;
+        }
+
         String email = email_input.getText().trim();
         String password = password_input.getText().trim();
 
