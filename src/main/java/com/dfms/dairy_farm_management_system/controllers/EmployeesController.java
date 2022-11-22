@@ -50,7 +50,7 @@ public class EmployeesController implements Initializable {
 
     @FXML
     private TableColumn<Employee, String> col_cin;
-    
+
     @FXML
     private TableColumn<Employee, String> email_col;
 
