@@ -124,7 +124,7 @@ public class Employee implements Model {
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO `employees` (first_name, last_name, gender, cin, email, phone, address, salary, hire_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO `employees` (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -144,6 +144,8 @@ public class Employee implements Model {
             preparedStatement.setString(8, String.valueOf(salary));
             preparedStatement.setString(9, hire_date.toString());
             preparedStatement.setString(10, contract_type);
+
+            //TODO: add created_at and updated_at and ROLE
 
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
@@ -168,7 +170,7 @@ public class Employee implements Model {
                 "', `recruitment_date` = '" + "2022-11-12" +
                 "', `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) + "' " +
-                "WHERE `employees`.`cin` = " + this.cin.toUpperCase();
+                "WHERE `employees`.`cin` = '" + cin.toUpperCase() + "'";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
@@ -181,7 +183,7 @@ public class Employee implements Model {
 
     @Override
     public boolean delete() {
-        String deleteQuery = "DELETE FROM `employees` WHERE `employees`.`cin` = " + this.cin.toUpperCase();
+        String deleteQuery = "DELETE FROM `employees` WHERE `employees`.`cin` = '" + cin.toUpperCase() + "'";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
