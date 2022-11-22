@@ -62,29 +62,30 @@ public class EmployeeDetailsController implements Initializable {
     public void fetchEmployee(Employee employee) {
 
         //get the employee from the database
-        Connection con = getConnection();
-        PreparedStatement st = null;
-        ResultSet rs = null;
+        Connection connection = getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         try {
-            st = con.prepareStatement("SELECT * FROM `employees` WHERE cin = " + employee.getCin());
-            rs = st.executeQuery();
-            if (rs.next()) {
-                address.setText(rs.getString("address"));
-                cin.setText(rs.getString("cin"));
-                phone.setText(rs.getString("phone"));
-                contract_type.setText(rs.getString("contract_type"));
-                recruitment_date.setText(rs.getString("recruitment_date"));
+            preparedStatement = connection.prepareStatement("SELECT * FROM `employees` WHERE cin = '" + employee.getCin() + "' LIMIT 1");
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                header.setText(resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
+                email.setText(resultSet.getString("email"));
+                first_name.setText(resultSet.getString("first_name"));
+                last_name.setText(resultSet.getString("last_name"));
+                salary.setText(String.valueOf(resultSet.getInt("salary")));
+                address.setText(resultSet.getString("address"));
+                cin.setText(resultSet.getString("cin"));
+                phone.setText(resultSet.getString("phone"));
+                contract_type.setText(resultSet.getString("contract_type"));
+                recruitment_date.setText(resultSet.getString("recruitment_date"));
+
+                //TODO: get the role name from the database
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        header.setText(employee.getFirstName() + " " + employee.getLastName());
-        email.setText(employee.getEmail());
-        first_name.setText(employee.getFirstName());
-        last_name.setText(employee.getLastName());
-        salary.setText(String.valueOf(employee.getSalary()));
     }
 
     public String getRole(int id) {
@@ -100,5 +101,19 @@ public class EmployeeDetailsController implements Initializable {
             e.printStackTrace();
         }
         return role;
+    }
+
+    //print the employee details
+    public void printEmployeeToConsole(Employee employee) {
+        System.out.println("Employee Details");
+        System.out.println("First Name: " + employee.getFirstName());
+        System.out.println("Last Name: " + employee.getLastName());
+        System.out.println("Email: " + employee.getEmail());
+        System.out.println("Phone: " + employee.getPhone());
+        System.out.println("Address: " + employee.getAdress());
+        System.out.println("CIN: " + employee.getCin());
+        System.out.println("Salary: " + employee.getSalary());
+        System.out.println("Recruitment Date: " + employee.getHireDate());
+        System.out.println("Contract Type: " + employee.getContractType());
     }
 }

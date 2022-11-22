@@ -1,7 +1,7 @@
 package com.dfms.dairy_farm_management_system;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.models.Employee;
+//import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

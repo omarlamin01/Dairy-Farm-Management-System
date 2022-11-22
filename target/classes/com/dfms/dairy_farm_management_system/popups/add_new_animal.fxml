@@ -20,7 +20,7 @@
     <children>
         <HBox alignment="CENTER_LEFT" spacing="10.0">
             <children>
-                <Label styleClass="header" text="Add" textAlignment="CENTER">
+                <Label fx:id="Add_Update" styleClass="header" text="Add" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -44,7 +44,7 @@
                 <Insets bottom="10.0" />
             </VBox.margin>
         </Pane>
-        <Label styleClass="sub_header" text="Add a new aniaml to the system" textAlignment="CENTER">
+        <Label fx:id="Head" styleClass="sub_header" text="Add a new aniaml to the system" textAlignment="CENTER">
             <font>
                 <Font size="18.0" />
             </font>

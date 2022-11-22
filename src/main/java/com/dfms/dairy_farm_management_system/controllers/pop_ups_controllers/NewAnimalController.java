@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -19,7 +20,11 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class NewAnimalController implements Initializable {
+    @FXML
+    private Label Add_Update;
 
+    @FXML
+    private Label Head;
     @FXML
     private ComboBox<String> typeCombo;
     @FXML
@@ -37,6 +42,9 @@ public class NewAnimalController implements Initializable {
 
     String animal_ID;
     private Connection connection = DBConfig.getConnection();
+    private boolean update;
+    String query = null;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -112,24 +120,56 @@ public class NewAnimalController implements Initializable {
 
     @FXML
     void addAnimal(MouseEvent event) {
-        Random random = new Random();
-        int rand = random.nextInt();
-        animal_ID = "Cow-" + rand;
-
         Animal animal = new Animal();
-
-        animal.setId(animal_ID);
-        animal.setBirth_date(Date.valueOf(birthDate.getValue()));
-        animal.setPurchase_date(Date.valueOf(purchaseDate.getValue()));
-        animal.setRaceId(getRaces().get(raceCombo.getValue()) == null ? 0 : getRaces().get(raceCombo.getValue()));
-        animal.setRoutine(getRoutines().get(routineCombo.getValue()) == null ? 0 : getRoutines().get(routineCombo.getValue()));
-        animal.setType(typeCombo.getValue());
-
-        if (animal.save()) {
-            closePopUp(event);
-            displayAlert("Success", "New animal added successfully.", Alert.AlertType.INFORMATION);
+        if (this.update) {
+            animal.setId(this.animal_ID);
+            animal.setBirth_date(Date.valueOf(birthDate.getValue()));
+            animal.setPurchase_date(Date.valueOf(purchaseDate.getValue()));
+            animal.setRaceId(getRaces().get(raceCombo.getValue()) == null ? 0 : getRaces().get(raceCombo.getValue()));
+            animal.setRoutineId(getRoutines().get(routineCombo.getValue()) == null ? 0 : getRoutines().get(routineCombo.getValue()));
+            animal.setType(typeCombo.getValue());
+            if (animal.update()) {
+                clear();
+                closePopUp(event);
+                displayAlert("Success", "animal updated successfully.", Alert.AlertType.INFORMATION);
+            } else {
+                displayAlert("Warning", "animal not updated", Alert.AlertType.WARNING);
+            }
         } else {
-            displayAlert("Error", "Some error happened while saving!", Alert.AlertType.ERROR);
+            Random random = new Random();
+            animal.setBirth_date(Date.valueOf(birthDate.getValue()));
+            animal.setPurchase_date(Date.valueOf(purchaseDate.getValue()));
+            animal.setRaceId(getRaces().get(raceCombo.getValue()) == null ? 0 : getRaces().get(raceCombo.getValue()));
+            animal.setRoutineId(getRoutines().get(routineCombo.getValue()) == null ? 0 : getRoutines().get(routineCombo.getValue()));
+            animal.setType(typeCombo.getValue());
+            String id = animal.getType() + random.nextInt();
+            animal.setId(id);
+            if (animal.add()) {
+                clear();
+                //closePopUp(event);
+                displayAlert("Success", "New animal added successfully.", Alert.AlertType.INFORMATION);
+            } else {
+                displayAlert("Error", "Some error happened while saving!", Alert.AlertType.ERROR);
+            }
         }
+
+    }
+
+    public void setUpdate(boolean b) {
+        this.update = b;
+    }
+
+    public void fetchAnimal(String id_animal, String race_animal, LocalDate birthdate, String
+            routine_animal, LocalDate purchasedate, String type_animal) {
+        this.animal_ID = id_animal;
+        Head.setText("Update Cow Num: " + id_animal);
+        birthDate.setValue(birthdate);
+        raceCombo.setValue(race_animal);
+        routineCombo.setValue(routine_animal);
+        typeCombo.setValue(type_animal);
+        purchaseDate.setValue(purchasedate);
+        btn_add_animal.setText("Update");
+        Add_Update.setText("Update");
+
     }
 }

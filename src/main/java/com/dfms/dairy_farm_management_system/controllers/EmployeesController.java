@@ -52,9 +52,6 @@ public class EmployeesController implements Initializable {
     private TableColumn<Employee, String> col_cin;
 
     @FXML
-    private TableColumn<Employee, String> col_gender;
-
-    @FXML
     private TableColumn<Employee, String> email_col;
 
     @FXML
@@ -107,7 +104,6 @@ public class EmployeesController implements Initializable {
         first_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         last_name_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
-        col_gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         salary_col.setCellValueFactory(new PropertyValueFactory<>("salary"));
         Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<Employee, String> param) -> {
             final TableCell<Employee, String> cell = new TableCell<Employee, String>() {
@@ -277,29 +273,4 @@ public class EmployeesController implements Initializable {
         System.out.println("Employee gender: " + employee.getGender());
         System.out.println("Employee Recrutement Date: " + employee.getHireDate());
     }
-
-//    public Employee getEmployee(int id) {
-//        Employee employee = new Employee();
-//        String query = "SELECT * FROM employee WHERE id = " + id;
-//        con = getConnection();
-//        try {
-//            st = con.createStatement();
-//            ResultSet rs = st.executeQuery(query);
-//            while (rs.next()) {
-//                employee.setId(rs.getInt("id"));
-//                employee.setFirstName(rs.getString("first_name"));
-//                employee.setLastName(rs.getString("last_name"));
-//                employee.setEmail(rs.getString("email"));
-//                employee.setPhone(rs.getString("phone"));
-//                employee.setAdress(rs.getString("address"));
-//                employee.setCin(rs.getString("cin"));
-//                employee.setGender(rs.getString("gender"));
-//                employee.setRecruitmentDate(rs.getDate("recruitment_date"));
-//                employee.setSalary(rs.getFloat("salary"));
-//            }
-//        } catch (Exception e) {
-//            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//        }
-//        return employee;
-//    }
 }
