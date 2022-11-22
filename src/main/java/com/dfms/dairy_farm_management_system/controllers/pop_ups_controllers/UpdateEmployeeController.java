@@ -1,9 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.connection.Session;
 import com.dfms.dairy_farm_management_system.models.Employee;
-import com.dfms.dairy_farm_management_system.models.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,7 +19,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
@@ -74,7 +71,7 @@ public class UpdateEmployeeController implements Initializable {
     private TextField salaryInput;
 
     ObservableList<String> rolesList;
-    int employee_id = -1;
+    String employee_cin = null;
 
     @FXML
     void updateEmployee(MouseEvent event) {
@@ -86,7 +83,7 @@ public class UpdateEmployeeController implements Initializable {
         String email = emailInput.getText();
         String phone = phoneNumberInput.getText();
 
-        Employee employee = getEmployee(this.employee_id);
+        Employee employee = getEmployee(this.employee_cin);
         employee.setFirstName(firstNameInput.getText());
         employee.setLastName(lastNameInput.getText());
         employee.setCin(cinInput.getText());
@@ -96,7 +93,7 @@ public class UpdateEmployeeController implements Initializable {
         employee.setSalary(Float.parseFloat(salaryInput.getText()));
         employee.setGender(genderCombo.getValue());
         employee.setContractType(contractCombo.getValue());
-        employee.setRecruitmentDate(java.sql.Date.valueOf(hireDate.getValue()));
+        employee.setHireDate(java.sql.Date.valueOf(hireDate.getValue()));
 
         if (employee.update()) {
             displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
@@ -110,25 +107,25 @@ public class UpdateEmployeeController implements Initializable {
     public void fetchEmployee(Employee employee) {
 
         //get the employee from the database
-        Connection con = getConnection();
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        this.employee_id = employee.getId();
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        this.employee_cin = employee.getCin();
 
         try {
-            st = con.prepareStatement("SELECT * FROM employee WHERE id = " + employee.getId());
-            rs = st.executeQuery();
-            if (rs.next()) {
-                addressInput.setText(rs.getString("address"));
-                cinInput.setText(rs.getString("cin"));
-                phoneNumberInput.setText(rs.getString("phone"));
-                contractCombo.setValue(rs.getString("contract_type"));
-                if (rs.getString("gender").equals("M")) {
+            statement = connection.prepareStatement("SELECT * FROM employee WHERE id = " + employee_cin);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                addressInput.setText(resultSet.getString("address"));
+                cinInput.setText(resultSet.getString("cin"));
+                phoneNumberInput.setText(resultSet.getString("phone"));
+                contractCombo.setValue(resultSet.getString("contract_type"));
+                if (resultSet.getString("gender").equals("M")) {
                     genderCombo.setValue("male");
                 } else {
                     genderCombo.setValue("Female");
                 }
-                LocalDate date = LocalDate.parse(rs.getString("recruitment_date"));
+                LocalDate date = LocalDate.parse(resultSet.getString("recruitment_date"));
                 hireDate.setValue(date);
             }
         } catch (Exception e) {
@@ -154,7 +151,7 @@ public class UpdateEmployeeController implements Initializable {
         return roleName;
     }
 
-    public Employee getEmployee(int id) {
+    public Employee getEmployee(String id) {
         Employee employee = new Employee();
         String query = "SELECT * FROM employee WHERE id = " + id;
         Connection con = getConnection();
@@ -162,7 +159,6 @@ public class UpdateEmployeeController implements Initializable {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                employee.setId(rs.getInt("id"));
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
                 employee.setEmail(rs.getString("email"));
@@ -170,7 +166,7 @@ public class UpdateEmployeeController implements Initializable {
                 employee.setAdress(rs.getString("address"));
                 employee.setCin(rs.getString("cin"));
                 employee.setGender(rs.getString("gender"));
-                employee.setRecruitmentDate(rs.getDate("recruitment_date"));
+                employee.setHireDate(rs.getDate("recruitment_date"));
                 employee.setSalary(rs.getFloat("salary"));
             }
         } catch (Exception e) {
