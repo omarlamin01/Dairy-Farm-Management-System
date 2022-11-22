@@ -78,12 +78,12 @@
         </HBox>
         <TableView fx:id="employees_table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
             <columns>
-            <TableColumn fx:id="col_cin" prefWidth="140.0" text="CIN" />
-                <TableColumn fx:id="first_name_col" prefWidth="152.0" text="First name" />
-                <TableColumn fx:id="last_name_col" prefWidth="142.0" text="Last name" />
-                <TableColumn fx:id="email_col" prefWidth="149.0" text="Email" />
-                <TableColumn fx:id="salary_col" prefWidth="144.0" text="Salary" />
-                <TableColumn fx:id="actions_col" prefWidth="190.66668701171875" text="Actions" />
+            <TableColumn fx:id="col_cin" prefWidth="116.0" text="CIN" />
+                <TableColumn fx:id="first_name_col" prefWidth="146.66665649414062" text="First name" />
+                <TableColumn fx:id="last_name_col" prefWidth="142.66668701171875" text="Last name" />
+                <TableColumn fx:id="email_col" prefWidth="141.66668701171875" text="Email" />
+                <TableColumn fx:id="salary_col" prefWidth="136.66668701171875" text="Salary" />
+                <TableColumn fx:id="actions_col" prefWidth="165.0" text="Actions" />
             </columns>
         </TableView>
     </VBox>
