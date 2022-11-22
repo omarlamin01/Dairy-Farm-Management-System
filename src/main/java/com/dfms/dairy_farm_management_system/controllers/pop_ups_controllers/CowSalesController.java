@@ -10,9 +10,11 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
@@ -43,34 +45,34 @@ public class CowSalesController implements Initializable {
     @FXML
     TextField priceOfSale;
 
+    HashMap<String, Integer> clients = new HashMap<>();
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
 
-    PreparedStatement st = null;
-    ResultSet rs = null;
     public void setClientsList() throws SQLException {
-        ObservableList<String> client = FXCollections.observableArrayList();
+        ObservableList<String> clientNames = FXCollections.observableArrayList();
 
-        String select_query = "SELECT name from client ";
+        String query = "SELECT id, name from clients ";
 
-        st = DBConfig.getConnection().prepareStatement(select_query);
-        rs = st.executeQuery();
-        while (rs.next()) {
-
-            client.add(rs.getString("name"));
+        statement = DBConfig.getConnection().prepareStatement(query);
+        resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            clients.put(resultSet.getString("name"), resultSet.getInt("id"));
+            clientNames.add(resultSet.getString("name"));
         }
-
-        clientsCombo.setItems(client);
+        clientsCombo.setItems(clientNames);
     }
 
     public void setAnimalsList() throws SQLException {
         ObservableList<String> animals = FXCollections.observableArrayList();
 
-        String select_query = "SELECT id from animal ";
+        String select_query = "SELECT id from animals ";
 
-        st = DBConfig.getConnection().prepareStatement(select_query);
-        rs = st.executeQuery();
-        while (rs.next()) {
+        statement = DBConfig.getConnection().prepareStatement(select_query);
+        resultSet = statement.executeQuery();
+        while (resultSet.next()) {
 
-            animals.add(rs.getString("id"));
+            animals.add(resultSet.getString("id"));
         }
 
         animalsCombo.setItems(animals);
@@ -86,8 +88,8 @@ public class CowSalesController implements Initializable {
             AnimalSale animalSale = new AnimalSale();
             animalSale.setAnimalId(animalsCombo.getValue());
             animalSale.setPrice(Float.parseFloat(priceOfSale.getText()));
-            animalSale.setClientId(clientsCombo.getValue());
-            animalSale.setSale_date(operationDate.getValue());
+            animalSale.setClientId(clients.get(clientsCombo.getValue()));
+            animalSale.setSale_date(Date.valueOf(operationDate.getValue()));
             if (animalSale.save()) {
                 closePopUp(mouseEvent);
                 displayAlert("success", "Sale added successfully", Alert.AlertType.INFORMATION);
