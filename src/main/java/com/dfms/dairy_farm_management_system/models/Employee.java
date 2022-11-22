@@ -157,7 +157,8 @@ public class Employee implements Model {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
-        String updateQuery = "UPDATE `employees` SET `first_name` = '" + first_name +
+        String updateQuery = "UPDATE `employees` SET " +
+                "`first_name` = '" + first_name +
                 "', `last_name` = '" + last_name +
                 "', `gender` = '" + (gender.equalsIgnoreCase("Male") ? 'M' : 'F') +
                 "', `cin` = '" + cin +
@@ -168,7 +169,7 @@ public class Employee implements Model {
                 "', `recruitment_date` = '" + "2022-11-12" +
                 "', `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) + "' " +
-                "WHERE `employees`.`cin` = " + this.cin.toUpperCase();
+                "WHERE `employees`.`cin` = '" + cin + "'";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
