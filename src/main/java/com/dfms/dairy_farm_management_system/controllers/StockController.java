@@ -47,7 +47,7 @@ public class StockController implements Initializable {
     private TextField search_stock_input;
 
     @FXML
-    private TableView<?> stock_table;
+    private TableView<Stock> stock_table;
 
     @FXML
     void openAddProduct(MouseEvent event) throws IOException {
