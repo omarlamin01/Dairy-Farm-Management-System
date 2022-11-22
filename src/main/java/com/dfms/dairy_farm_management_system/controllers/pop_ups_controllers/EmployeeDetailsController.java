@@ -80,6 +80,8 @@ public class EmployeeDetailsController implements Initializable {
                 phone.setText(rs.getString("phone"));
                 contract_type.setText(rs.getString("contract_type"));
                 recruitment_date.setText(rs.getString("recruitment_date"));
+
+                //TODO: get the role name from the database
             }
         } catch (Exception e) {
             e.printStackTrace();
