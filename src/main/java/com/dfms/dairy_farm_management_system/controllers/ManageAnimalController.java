@@ -3,6 +3,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewAnimalController;
 import com.dfms.dairy_farm_management_system.models.Animal;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -78,7 +79,7 @@ public class ManageAnimalController implements Initializable {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        goSearch();
+        goSearch(textField_search, animals);
     }
 
 
@@ -100,7 +101,7 @@ public class ManageAnimalController implements Initializable {
                 animal.setId(resultSet.getString("id"));
                 animal.setBirth_date(resultSet.getDate("birth_date"));
                 animal.setPurchase_date(resultSet.getDate("purchase_date"));
-                animal.setRoutine(resultSet.getInt("routine"));
+                animal.setRoutineId(resultSet.getInt("routine"));
                 animal.setRaceId(resultSet.getInt("race"));
                 animal.setType(resultSet.getString("type"));
                 animal.setCreated_at(resultSet.getTimestamp("created_at"));
@@ -112,6 +113,15 @@ public class ManageAnimalController implements Initializable {
             e.printStackTrace();
         }
         return listAnimal;
+    }
+
+    public void refreshTable() {
+        animals.getItems().clear();
+        try {
+            dispalyAnimals();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void refreshTableAnimal() {
@@ -202,7 +212,7 @@ public class ManageAnimalController implements Initializable {
                             alert.setTitle("Delete Confirmation");
                             alert.setHeaderText("Are you sure you want to delete this Cow?");
                             animal = animals.getSelectionModel().getSelectedItem();
-                            String delete_query = "DELETE FROM animal WHERE id='" + animal.getId() + "'";
+                            String delete_query = "DELETE FROM animals WHERE id='" + animal.getId() + "'";
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
@@ -242,19 +252,20 @@ public class ManageAnimalController implements Initializable {
 
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
                             Animal animal = animals.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_details.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_animal.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
-                                AnimalDetailsController controller = fxmlLoader.getController();
-                                controller.fetchAnimal(animal.getId(), animal.getRace(), animal.getBirth_date(), animal.getRoutine(), animal.getPurchase_date(), animal.getType());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
                             }
+                            NewAnimalController newAnimalController = fxmlLoader.getController();
+                            newAnimalController.setUpdate(true);
+                            newAnimalController.fetchAnimal(animal.getId(), animal.getRaceName(), animal.getBirth_date().toLocalDate(), animal.getRoutineName(), animal.getPurchase_date().toLocalDate(), animal.getType());
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                            stage.setTitle("Animal Details");
+                            stage.setTitle("Update Animal");
                             stage.setResizable(false);
                             stage.setScene(scene);
                             centerScreen(stage);
@@ -262,8 +273,6 @@ public class ManageAnimalController implements Initializable {
 
 
                         });
-
-
 
 
                     }
@@ -279,33 +288,20 @@ public class ManageAnimalController implements Initializable {
 
     }
 
-    public void goSearch() {
-        String search_text = textField_search.getText();
-        FilteredList<Animal> filteredData = new FilteredList<>(listAnimal, p -> true);
-        textField_search.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(animal -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
+    public void goSearch(TextField search_input, TableView table) {
+        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                refreshTable();
+            } else {
+                ObservableList<Animal> filteredList = FXCollections.observableArrayList();
+                ObservableList<Animal> employees = getAnimal();
+                for (Animal animal : employees) {
+                    if (animal.getId().toLowerCase().contains(newValue.toLowerCase()) || animal.getType().toLowerCase().contains(newValue.toLowerCase())) {
+                        filteredList.add(animal);
+                    }
                 }
-
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (animal.getType().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (animal.getRaceName().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (animal.getId().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                }
-                return false; // Does not match.
-            });
+                table.setItems(filteredList);
+            }
         });
-        SortedList<Animal> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(animals.comparatorProperty());
-        animals.setItems(sortedData);
-
     }
-
-
 }
