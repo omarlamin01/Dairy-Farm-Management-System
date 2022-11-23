@@ -44,6 +44,10 @@ public class StockController implements Initializable {
     @FXML
     private TableColumn<Stock, String> actions_col;
 
+
+    @FXML
+    private TableColumn<Stock, String> product_qunatity_col;
+
     @FXML
     private TableColumn<Stock, String> availability_col;
 
@@ -95,7 +99,8 @@ public class StockController implements Initializable {
         id_col.setCellValueFactory(new PropertyValueFactory<>("id"));
         product_name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         product_type_col.setCellValueFactory(new PropertyValueFactory<>("type"));
-        availability_col.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        product_qunatity_col.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        availability_col.setCellValueFactory(new PropertyValueFactory<>("availability"));
         Callback<TableColumn<Stock, String>, TableCell<Stock, String>> cellFoctory = (TableColumn<Stock, String> param) -> {
             final TableCell<Stock, String> cell = new TableCell<Stock, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));

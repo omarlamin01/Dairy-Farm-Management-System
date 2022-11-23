@@ -22,7 +22,7 @@
      <URL value="@../../../style/style.css" />
      <URL value="@../../../style/table_view.css" />
  </stylesheets>
- <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="761.0" styleClass="main_content" stylesheets="@../../../style/style.css">
+ <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="850.0" styleClass="main_content" stylesheets="@../../../style/style.css">
      <Label styleClass="header" text="Stock" textAlignment="CENTER">
          <font>
              <Font name="System Bold" size="24.0" />
@@ -82,8 +82,8 @@
              <TableColumn fx:id="product_name_col" prefWidth="127.0" text="Product name" />
              <TableColumn fx:id="product_type_col" prefWidth="145.33331298828125" text="Product type" />
             <TableColumn fx:id="product_qunatity_col" prefWidth="117.66665649414062" text="Product quantity" />
-             <TableColumn fx:id="availability_col" prefWidth="111.66668701171875" text="Availability" />
-             <TableColumn fx:id="actions_col" prefWidth="149.0" text="Actions" />
+             <TableColumn fx:id="availability_col" prefWidth="169.3333740234375" text="Availability" />
+             <TableColumn fx:id="actions_col" prefWidth="180.6666259765625" text="Actions" />
          </columns>
      </TableView>
  </VBox>
