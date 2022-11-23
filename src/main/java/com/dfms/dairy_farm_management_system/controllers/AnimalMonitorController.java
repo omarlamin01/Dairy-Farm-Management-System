@@ -228,11 +228,11 @@ public class AnimalMonitorController implements Initializable {
             while (resultSet.next()) {
                 Pregnancy pregnancy = new Pregnancy();
                 pregnancy.setId(resultSet.getInt("id"));
-                pregnancy.setCow_id(resultSet.getInt("cow_id"));
-                pregnancy.setStart_date(resultSet.getDate("start_date").toLocalDate());
-                pregnancy.setEnd_date(resultSet.getDate("delivery_date"));
-                pregnancy.setType(resultSet.getString("pregnancy_type"));
-                pregnancy.setStatus(resultSet.getString("pregnancy_status"));
+                pregnancy.setCow_id(resultSet.getString("cow_id"));
+                pregnancy.setStart_date(resultSet.getDate("start_date"));
+                pregnancy.setDelivery_date(resultSet.getDate("delivery_date"));
+                pregnancy.setPregnancy_status(resultSet.getString("pregnancy_status"));
+                pregnancy.setNotes(resultSet.getString("notes"));
                 pregnancies.add(pregnancy);
             }
         } catch (Exception e) {
@@ -248,8 +248,8 @@ public class AnimalMonitorController implements Initializable {
         ObservableList<Pregnancy> pregnancies = getPregnancies();
         cow_id_col.setCellValueFactory(new PropertyValueFactory<>("cow_id"));
         pregnancyStartDateCol.setCellValueFactory(new PropertyValueFactory<>("start_date"));
-        pregnancyEndCol.setCellValueFactory(new PropertyValueFactory<>("end_date"));
-        pregnancyTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        pregnancyEndCol.setCellValueFactory(new PropertyValueFactory<>("delivery_date"));
+        pregnancyTypeCol.setCellValueFactory(new PropertyValueFactory<>("pregnancy_status"));
         Callback<TableColumn<Pregnancy, String>, TableCell<Pregnancy, String>> cellFoctory = (TableColumn<Pregnancy, String> param) -> {
             final TableCell<Pregnancy, String> cell = new TableCell<Pregnancy, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
