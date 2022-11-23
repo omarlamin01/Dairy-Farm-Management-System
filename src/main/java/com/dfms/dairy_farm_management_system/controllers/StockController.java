@@ -83,6 +83,11 @@ public class StockController implements Initializable {
                 product.setId(rs.getInt("id"));
                 product.setName(rs.getString("name"));
                 product.setType(rs.getString("type"));
+                if (rs.getInt("quantity") > 0) {
+                    product.setAvailability("1");
+                } else {
+                    product.setAvailability("0");
+                }
                 product.setQuantity(rs.getFloat("quantity"));
                 product.setUnit(rs.getString("unit"));
                 products.add(product);
