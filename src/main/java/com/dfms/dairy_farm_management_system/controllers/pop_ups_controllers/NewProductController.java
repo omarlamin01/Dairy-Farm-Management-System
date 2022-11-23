@@ -47,9 +47,9 @@ public class NewProductController implements Initializable {
 
         //check availability of product
         if (product.getQuantity() > 0) {
-            product.setAvailability(1);
+            product.setAvailability("1");
         } else {
-            product.setAvailability(0);
+            product.setAvailability("0");
         }
 
         product.setUnit(this.mesure_unit_combo.getValue());
