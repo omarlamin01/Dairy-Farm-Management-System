@@ -1,27 +1,37 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Stock {
-    private int id_stock;
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
+public class Stock implements Model {
+    private int id;
     private String name;
     private String type;
-
-    private String unit;
     private float quantity;
-    private String addedDate;
+    private String availability;
+    private String unit;
+    private Timestamp created_at;
+    private Timestamp updated_at;
 
+    public Stock() {
+    }
 
-    public Stock(int id, String name,String unit, String type, float quantity, String addedDate) {
-        this.id_stock = id;
+    public Stock(int id, String name, String type, float quantity, String availability, String unit, Timestamp created_at, Timestamp updated_at) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.quantity = quantity;
-        this.addedDate = addedDate;
-        this.unit=unit;
-
-    }
-
-    public Stock() {
-
+        this.availability = availability;
+        this.unit = unit;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 
     public String getUnit() {
@@ -33,11 +43,11 @@ public class Stock {
     }
 
     public int getId() {
-        return id_stock;
+        return id;
     }
 
     public void setId(int id) {
-        this.id_stock = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -64,23 +74,107 @@ public class Stock {
         this.quantity = quantity;
     }
 
-    public String getAddedDate() {
-        return addedDate;
+    public Timestamp getCreatedAt() {
+        return created_at;
     }
 
-    public void setAddedDate(String addedDate) {
-        this.addedDate = addedDate;
+    public void setCreatedAt(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updated_at;
+    }
+
+    public void setUpdatedAt(Timestamp updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public String getAvailability() {
+        String availability = "";
+        if (this.quantity > 0) {
+            availability = "Available";
+        } else {
+            availability = "Not Available";
+        }
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        if (availability.equals("Available")) {
+            this.availability = "1";
+        } else {
+            this.availability = "0";
+        }
     }
 
     @Override
     public String toString() {
         return "Stock{" +
-                "id_stock=" + id_stock +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
-                ", unit='" + unit + '\'' +
                 ", quantity=" + quantity +
-                ", addedDate='" + addedDate + '\'' +
+                ", availability=" + availability +
+                ", unit='" + unit + '\'' +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
                 '}';
+    }
+
+    @Override
+    public boolean save() {
+        String insertQuery = "INSERT INTO `stocks` (name, type, quantity, availability, unit, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, type);
+            preparedStatement.setFloat(3, quantity);
+            preparedStatement.setString(4, getAvailability());
+            preparedStatement.setString(5, unit);
+            preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        String updateQuery = "UPDATE `stocks` SET `name` = '" + name +
+                "', `type` = '" + type +
+                "', `quantity` = '" + quantity +
+                "', `availability` = '" + availability +
+                "', `unit` = '" + unit +
+                "', `updated_at` = '" + dtf.format(now) +
+                "' WHERE `stocks`.`id` = " + id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean delete() {
+        String deleteQuery = "DELETE FROM `stocks` WHERE `stocks`.`id` = '" + id + "'";
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

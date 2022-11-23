@@ -33,9 +33,9 @@ public class UpdateEmployeeController implements Initializable {
         setContractComboItems();
     }
 
-    private Statement st;
-    private PreparedStatement pst;
-    private Connection con = DBConfig.getConnection();
+    private Statement statement;
+    private PreparedStatement preparedStatement;
+    private Connection connection = DBConfig.getConnection();
 
     @FXML
     private TextField addressInput;
@@ -75,7 +75,7 @@ public class UpdateEmployeeController implements Initializable {
 
     @FXML
     void updateEmployee(MouseEvent event) {
-        if (inputesAreEmpty()) {
+        if (inputsAreEmpty()) {
             displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
             return;
         }
@@ -113,38 +113,39 @@ public class UpdateEmployeeController implements Initializable {
         this.employee_cin = employee.getCin();
 
         try {
-            statement = connection.prepareStatement("SELECT * FROM employee WHERE id = " + employee_cin);
+            statement = connection.prepareStatement("SELECT * FROM employees WHERE cin = '" + employee_cin + "' LIMIT 1");
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
+                emailInput.setText(resultSet.getString("email"));
+                firstNameInput.setText(resultSet.getString("first_name"));
+                lastNameInput.setText(resultSet.getString("last_name"));
+                salaryInput.setText(String.valueOf(resultSet.getFloat("salary")));
                 addressInput.setText(resultSet.getString("address"));
                 cinInput.setText(resultSet.getString("cin"));
                 phoneNumberInput.setText(resultSet.getString("phone"));
                 contractCombo.setValue(resultSet.getString("contract_type"));
                 if (resultSet.getString("gender").equals("M")) {
-                    genderCombo.setValue("male");
+                    genderCombo.setValue("Male");
                 } else {
                     genderCombo.setValue("Female");
                 }
                 LocalDate date = LocalDate.parse(resultSet.getString("recruitment_date"));
                 hireDate.setValue(date);
+
+                //TODO: set role combo value
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        emailInput.setText(employee.getEmail());
-        firstNameInput.setText(employee.getFirstName());
-        lastNameInput.setText(employee.getLastName());
-        salaryInput.setText(String.valueOf(employee.getSalary()));
     }
 
     public String getRoleName(int id) {
         String roleName = "";
         try {
-            st = con.createStatement();
-            pst = con.prepareStatement("SELECT * FROM role WHERE id = ?");
-            pst.setInt(1, id);
-            pst.execute();
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("SELECT * FROM role WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,12 +154,13 @@ public class UpdateEmployeeController implements Initializable {
 
     public Employee getEmployee(String employee_cin) {
         Employee employee = new Employee();
-        String query = "SELECT * FROM `employees` WHERE cin = " + employee_cin;
+        String query = "SELECT * FROM `employees` WHERE cin = '" + employee_cin.toUpperCase() + "' LIMIT 1";
         Connection con = getConnection();
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
+                //TODO: get role name
                 //employee.setId(rs.getInt("id"));
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
@@ -172,6 +174,7 @@ public class UpdateEmployeeController implements Initializable {
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
         }
         return employee;
     }
@@ -190,7 +193,7 @@ public class UpdateEmployeeController implements Initializable {
     }
 
 
-    public boolean inputesAreEmpty() {
+    public boolean inputsAreEmpty() {
         if (this.firstNameInput.getText().isEmpty() || this.lastNameInput.getText().isEmpty() || this.emailInput.getText().isEmpty() || this.phoneNumberInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.cinInput.getText().isEmpty() || this.salaryInput.getText().isEmpty() || this.hireDate.getValue() == null || this.contractCombo.getValue() == null || this.genderCombo.getValue() == null)
             return true;
         return false;

@@ -33,14 +33,14 @@ public class EmployeesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
-        export_cb.setItems(list);
+        export_combo.setItems(list);
         displayEmployees();
         liveSearch(search_employee_input, employees_table);
     }
 
-    private Statement st;
-    private PreparedStatement pst;
-    private Connection con = getConnection();
+    private Statement statement;
+    private PreparedStatement preparedStatement;
+    private Connection connection = getConnection();
 
     @FXML
     private TableView<Employee> employees_table;
@@ -50,9 +50,6 @@ public class EmployeesController implements Initializable {
 
     @FXML
     private TableColumn<Employee, String> col_cin;
-
-    @FXML
-    private TableColumn<Employee, String> col_gender;
 
     @FXML
     private TableColumn<Employee, String> email_col;
@@ -72,7 +69,7 @@ public class EmployeesController implements Initializable {
     @FXML
     private TextField search_employee_input;
     @FXML
-    private ComboBox<String> export_cb;
+    private ComboBox<String> export_combo;
 
     @FXML
     private Button openAddNewEmployeeBtn;
@@ -82,8 +79,8 @@ public class EmployeesController implements Initializable {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
         String query = "SELECT * FROM `employees`";
         try {
-            st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
             while (rs.next()) {
                 Employee employee = new Employee();
                 employee.setCin(rs.getString("cin"));
@@ -107,7 +104,6 @@ public class EmployeesController implements Initializable {
         first_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         last_name_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
-        col_gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         salary_col.setCellValueFactory(new PropertyValueFactory<>("salary"));
         Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<Employee, String> param) -> {
             final TableCell<Employee, String> cell = new TableCell<Employee, String>() {
@@ -226,8 +222,8 @@ public class EmployeesController implements Initializable {
     private void deleteEmployee(String cin) {
         String query = "DELETE FROM `employees` WHERE cin = " + cin;
         try {
-            st = con.createStatement();
-            st.executeUpdate(query);
+            statement = connection.createStatement();
+            statement.executeUpdate(query);
             displayAlert("Success", "Employee deleted successfully", Alert.AlertType.INFORMATION);
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
@@ -240,6 +236,7 @@ public class EmployeesController implements Initializable {
         openNewWindow("Add Employee", "add_new_employee");
     }
 
+    @FXML
     public void refreshTable() {
         employees_table.getItems().clear();
         displayEmployees();
@@ -277,29 +274,4 @@ public class EmployeesController implements Initializable {
         System.out.println("Employee gender: " + employee.getGender());
         System.out.println("Employee Recrutement Date: " + employee.getHireDate());
     }
-
-//    public Employee getEmployee(int id) {
-//        Employee employee = new Employee();
-//        String query = "SELECT * FROM employee WHERE id = " + id;
-//        con = getConnection();
-//        try {
-//            st = con.createStatement();
-//            ResultSet rs = st.executeQuery(query);
-//            while (rs.next()) {
-//                employee.setId(rs.getInt("id"));
-//                employee.setFirstName(rs.getString("first_name"));
-//                employee.setLastName(rs.getString("last_name"));
-//                employee.setEmail(rs.getString("email"));
-//                employee.setPhone(rs.getString("phone"));
-//                employee.setAdress(rs.getString("address"));
-//                employee.setCin(rs.getString("cin"));
-//                employee.setGender(rs.getString("gender"));
-//                employee.setRecruitmentDate(rs.getDate("recruitment_date"));
-//                employee.setSalary(rs.getFloat("salary"));
-//            }
-//        } catch (Exception e) {
-//            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//        }
-//        return employee;
-//    }
 }

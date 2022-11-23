@@ -2,20 +2,64 @@ package com.dfms.dairy_farm_management_system.models;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Pregnancy implements Model {
     private int id;
-    private int cow_id;
-    private LocalDate start_date;
-    private Date end_date;
-    private String type;
-    private String status;
+    private String cow_id;
+    private Date start_date;
+    private Date delivery_date;
+    private String pregnancy_status;
     private String notes;
+    private Timestamp created_at;
+    private Timestamp updated_at;
+
+    public Pregnancy() {
+        created_at = Timestamp.valueOf(LocalDateTime.now());
+        updated_at = Timestamp.valueOf(LocalDateTime.now());
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCow_id() {
+        return cow_id;
+    }
+
+    public void setCow_id(String cow_id) {
+        this.cow_id = cow_id;
+    }
+
+    public Date getStart_date() {
+        return start_date;
+    }
+
+    public void setStart_date(Date start_date) {
+        this.start_date = start_date;
+    }
+
+    public Date getDelivery_date() {
+        return delivery_date;
+    }
+
+    public void setDelivery_date(Date delivery_date) {
+        this.delivery_date = delivery_date;
+    }
+
+    public String getPregnancy_status() {
+        return pregnancy_status;
+    }
+
+    public void setPregnancy_status(String pregnancy_status) {
+        this.pregnancy_status = pregnancy_status;
+    }
 
     public String getNotes() {
         return notes;
@@ -25,70 +69,36 @@ public class Pregnancy implements Model {
         this.notes = notes;
     }
 
-    public String getStatus() {
-        return status;
+    public Timestamp getCreated_at() {
+        return created_at;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Timestamp getUpdated_at() {
+        return updated_at;
     }
 
-    public void setCow_id(int cow_id) {
-        this.cow_id = cow_id;
-    }
-
-    public void setStart_date(LocalDate start_date) {
-        this.start_date = start_date;
-    }
-
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getCow_id() {
-        return cow_id;
-    }
-
-    public LocalDate getStart_date() {
-        return start_date;
-    }
-
-    public Date getEnd_date() {
-        return end_date;
-    }
-
-    public String getType() {
-        return type;
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
     }
 
     @Override
     public boolean save() {
-        String query = "INSERT INTO `pregnancy` (`cow_id`, `start_date`, `delivery_date`, `pregnancy_type`, `pregnancy_status`) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO `pregnancies` (`cow_id`, `start_date`, `delivery_date`, `pregnancy_status`, `notes`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-            preparedStatement.setString(1, String.valueOf(this.cow_id));
-            preparedStatement.setString(2, String.valueOf(this.start_date));
-            preparedStatement.setDate(3, (java.sql.Date) this.end_date);
-            if (this.type.equalsIgnoreCase("Natural Service")) {
-                preparedStatement.setString(4, "Natural Service");
-            } else {
-                preparedStatement.setString(4, "By Collecting Semen");
-            }
-            preparedStatement.setString(5, "pending");
+            preparedStatement.setString(1, cow_id);
+            preparedStatement.setDate(2, start_date);
+            preparedStatement.setDate(3, null);
+            preparedStatement.setString(4, "Ongoing");
+            preparedStatement.setString(5, notes);
+            preparedStatement.setTimestamp(6, created_at);
+            preparedStatement.setTimestamp(7, updated_at);
 
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
@@ -99,11 +109,36 @@ public class Pregnancy implements Model {
 
     @Override
     public boolean update() {
+        this.updated_at = Timestamp.valueOf(LocalDateTime.now());
+        String query = "UPDATE `pregnancies` SET " +
+                "`cow_id` = '" + cow_id + "'," +
+                " `start_date` = " + start_date + "," +
+                " `delivery_date` = " + delivery_date + "," +
+                " `pregnancy_status` = '" + pregnancy_status + "'," +
+                " `notes` = '" + notes + "'," +
+                " `updated_at` = " + updated_at +
+                " WHERE id = " + id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean delete() {
+        this.updated_at = Timestamp.valueOf(LocalDateTime.now());
+        String query = "DELETE FROM `pregnancies` WHERE id = " + id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }
