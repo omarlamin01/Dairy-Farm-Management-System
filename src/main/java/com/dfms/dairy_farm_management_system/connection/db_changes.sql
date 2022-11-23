@@ -8,11 +8,7 @@ ALTER TABLE employees
 ALTER TABLE stocks
     ADD quantity INT NOT NULL;
 ALTER TABLE stocks
-    ADD availability TINYINT;
-
-# change availability column type to boolean
-ALTER TABLE stocks
-    MODIFY availability VARCHAR(20);
+    ADD availability VARCHAR(20);
 
 # change type column data type in stocks table
 ALTER TABLE stocks
@@ -21,3 +17,7 @@ ALTER TABLE stocks
 # remove added date
 ALTER TABLE stocks
     DROP added_date;
+
+# remove unique constraint from name column in stocks table
+ALTER TABLE stocks
+    DROP INDEX name;
