@@ -37,6 +37,14 @@
     -fx-border-width: 2px;
     -fx-transition: 0.5s;
     -fx-cursor: hand;
+}
+
+.btn:hover {
+    -fx-background-color: -dark-green-color;
+    -fx-cursor: hand;
+}
+
+.combo-box {
     -fx-background-radius: 5px;
     -fx-background-position: left center;
     -fx-padding-left: 20px;
@@ -46,9 +54,8 @@
     -fx-background-image: url("../icons/export.png");
 }
 
-.btn:hover {
-    -fx-background-color: -dark-green-color;
-    -fx-cursor: hand;
+.combo-box label {
+    -fx-text-fill: WHITE;
 }
 
 .input {
@@ -62,12 +69,6 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: 28px 28px;
     -fx-background-insets: 0px 0px 0px -8px;
-}
-
-.error {
-    -fx-border-color: red;
-    -fx-border-width: 1px;
-    -fx-border-radius: 5px;
 }
 
 .email_input {
@@ -98,14 +99,6 @@
     -fx-background-image: url("../icons/search.png");
 }
 
-.gender_input {
-    -fx-background-image: url("../icons/gender.png");
-}
-
-.cin_input {
-    -fx-background-image: url("../icons/cin.png");
-}
-
 .box_input {
     -fx-background-image: url("../icons/box.png");
 }
@@ -115,54 +108,18 @@
 }
 
 .category_input {
-    -fx-background-insets: 0px 0px 0px -8px;
     -fx-background-image: url("../icons/category.png");
 }
 
 .unit_input {
     -fx-background-image: url("../icons/unit.png");
 }
-
 .feed_input {
-    -fx-background-image: url("../icons/feedgris.png");
+    -fx-background-image: url("../icons/feed.png");
 }
-
-.note_input {
-    -fx-background-image: url("../icons/note.png");
+.notee_input {
+    -fx-background-image: url("../icons/notee.png");
 }
-
-.date_input {
-    -fx-background-image: url("../icons/calender.png");
-}
-
-.cow_input {
-    -fx-background-image: url("../icons/cow_input.png");
-}
-
-.money_input {
-    -fx-background-image: url("../icons/money.png");
-}
-
-.role_input {
-    -fx-background-image: url("../icons/role.png");
-}
-
-.weight_input {
-    -fx-background-image: url("../icons/weight.png");
-}
-
-.routine_input {
-    -fx-background-image: url("../icons/routine.png");
-}
-
-.clock_input {
-    -fx-background-image: url("../icons/clock.png");
-}
-
-.milk_input {
-    -fx-background-image: url("../icons/milk.png");
-}
-
 .nav_bar {
     -fx-background-color: -dark-blue-color;
 }
@@ -188,8 +145,8 @@
 }
 
 .nav_link:hover {
-    /*-fx-background-color: -yellow-color, -green-color;*/
-    /*-fx-background-insets: 0, 0 0 0 4;*/
+    -fx-background-color: -yellow-color, -green-color;
+    -fx-background-insets: 0, 0 0 0 4;
     -fx-cursor: hand;
 }
 
@@ -257,7 +214,6 @@
 }
 
 .btn-search {
-    position: right;
     -fx-background-radius: 10px;
     -fx-background-color: transparent;
 }
@@ -276,60 +232,4 @@
 .table-view .column-header-background {
     -fx-pref-height: 32px;
     -fx-background-radius: 10px 10px 0 0;
-}
-
-/*Checkbox*/
-.check-box .box {
-    -fx-background-color: white;
-    -fx-font-size: 18px;
-    -fx-border-color: grey;
-    -fx-border-radius: 3px;
-}
-
-.check-box:selected .mark {
-    -fx-background-color: white;
-}
-
-.check-box:selected .box {
-    -fx-background-color: #28a3f4;
-}
-
-/* Report */
-.report_item {
-    -fx-background-color: transparent;
-    -fx-border-radius: 10px;
-    -fx-font-size: 1em;
-    -fx-text-fill: white;
-    -fx-background-radius: 10px;
-    -fx-padding: 10px 20px 20px 20px;
-    -fx-border-color: -header-color;
-    -fx-border-width: 2px;
-}
-
-.report_item .label {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-
-/* view detail popup */
-.detail-item {
-    -fx-background-color: -light-gray-color;
-    -fx-border-radius: 10px;
-    -fx-font-size: 1em;
-    -fx-text-fill: white;
-    -fx-background-radius: 10px;
-    -fx-padding: 20px;
-}
-
-.detail-label {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-}
-
-.detail-label-value {
-    -fx-font-size: 14px;
-}
-
-.scroll-pane {
-    -fx-background-color: transparent;
 }
