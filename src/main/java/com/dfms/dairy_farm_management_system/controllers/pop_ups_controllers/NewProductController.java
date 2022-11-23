@@ -1,5 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,7 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
-import java.sql.Date;
+import java.sql.*;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -20,6 +21,9 @@ public class NewProductController implements Initializable {
         validateNumericInput(product_quantity);
     }
 
+    private Statement statement;
+    private PreparedStatement preparedStatement;
+    private Connection connection = DBConfig.getConnection();
     @FXML
     private ComboBox<String> mesure_unit_combo;
 

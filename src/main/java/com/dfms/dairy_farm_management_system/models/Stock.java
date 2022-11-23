@@ -93,18 +93,18 @@ public class Stock implements Model {
     public String getAvailability() {
         String availability = "";
         if (this.quantity > 0) {
-            availability = "1";
+            availability = "Available";
         } else {
-            availability = "0";
+            availability = "Not Available";
         }
         return availability;
     }
 
     public void setAvailability(String availability) {
-        if (availability.equals("1")) {
-            this.availability = "Available";
+        if (availability.equals("Available")) {
+            this.availability = "1";
         } else {
-            this.availability = "Out of stock";
+            this.availability = "0";
         }
     }
 
@@ -132,7 +132,7 @@ public class Stock implements Model {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, type);
             preparedStatement.setFloat(3, quantity);
-            preparedStatement.setString(4, String.valueOf(availability));
+            preparedStatement.setString(4, getAvailability());
             preparedStatement.setString(5, unit);
             preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             preparedStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
