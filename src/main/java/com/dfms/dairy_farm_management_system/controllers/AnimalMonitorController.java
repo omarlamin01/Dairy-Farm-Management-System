@@ -335,10 +335,10 @@ public class AnimalMonitorController implements Initializable {
             while (resultSet.next()) {
                 Vaccination vaccination = new Vaccination();
                 vaccination.setId(resultSet.getInt("id"));
-                vaccination.setName(resultSet.getString("name"));
-                vaccination.setDose(resultSet.getString("dose"));
-                vaccination.setDate(resultSet.getString("created_at"));
-                vaccination.setNote(resultSet.getString("note"));
+                vaccination.setAnimal_id(resultSet.getString("animal_id"));
+                vaccination.setResponsible_id(resultSet.getInt("responsible_id"));
+                vaccination.setVaccine_id(resultSet.getInt("vaccine_id"));
+                vaccination.setVaccination_date(resultSet.getDate("vaccination_date"));
                 vaccinations.add(vaccination);
             }
         } catch (Exception e) {
@@ -352,10 +352,10 @@ public class AnimalMonitorController implements Initializable {
     //display all the vaccinations in the table
     public void displayVaccinations() {
         ObservableList<Vaccination> vaccinations = getVaccinations();
-        vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        vaccineDoseCol.setCellValueFactory(new PropertyValueFactory<>("dose"));
-        vaccinationNotesCol.setCellValueFactory(new PropertyValueFactory<>("note"));
-        vaccinationDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
+        vaccineDoseCol.setCellValueFactory(new PropertyValueFactory<>("responsible_name"));
+        vaccinationNotesCol.setCellValueFactory(new PropertyValueFactory<>("vaccine_name"));
+        vaccinationDateCol.setCellValueFactory(new PropertyValueFactory<>("vaccination_date"));
         Callback<TableColumn<Vaccination, String>, TableCell<Vaccination, String>> cellFoctory = (TableColumn<Vaccination, String> param) -> {
             final TableCell<Vaccination, String> cell = new TableCell<Vaccination, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
