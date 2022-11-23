@@ -37,7 +37,9 @@ public class StockController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
+        export_combo.setItems(list);
+        displayStock();
     }
 
     private Statement statement;
@@ -97,9 +99,11 @@ public class StockController implements Initializable {
 
     public void displayStock() {
         ObservableList<Stock> products = getProducts();
-        id_col.setCellValueFactory(new PropertyValueFactory<>("cin"));
-        product_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        product_type_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        id_col.setCellValueFactory(new PropertyValueFactory<>("id"));
+        product_name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
+        product_type_col.setCellValueFactory(new PropertyValueFactory<>("type"));
+        availability_col.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        added_date_col.setCellValueFactory(new PropertyValueFactory<>("addedDate"));
         Callback<TableColumn<Stock, String>, TableCell<Stock, String>> cellFoctory = (TableColumn<Stock, String> param) -> {
             final TableCell<Stock, String> cell = new TableCell<Stock, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
