@@ -121,12 +121,12 @@ public class AnimalMonitorController implements Initializable {
             while (resultSet.next()) {
                 HealthStatus monitor = new HealthStatus();
                 monitor.setId(resultSet.getInt("id"));
-                monitor.setAnimal_id(resultSet.getInt("animal_id"));
-                monitor.setVaccin_id(resultSet.getInt("vaccine_id"));
-                monitor.setWeight(resultSet.getFloat("weight"));
-                monitor.setBreathing(resultSet.getFloat("breading"));
-                monitor.setAge(resultSet.getFloat("age"));
-                monitor.setControl_date(resultSet.getDate("control_date").toLocalDate());
+                monitor.setAnimal_id(resultSet.getString("animal_id"));
+                monitor.setWeight(resultSet.getInt("weight"));
+                monitor.setBreathing(resultSet.getInt("breathing"));
+                monitor.setControl_date(resultSet.getDate("control_date"));
+                monitor.setHealth_score(resultSet.getString("health_score"));
+                monitor.setNotes(resultSet.getString("notes"));
                 monitors.add(monitor);
             }
         } catch (Exception e) {
@@ -220,7 +220,7 @@ public class AnimalMonitorController implements Initializable {
     //get all the pregnancies
     public ObservableList<Pregnancy> getPregnancies() {
         ObservableList<Pregnancy> pregnancies = FXCollections.observableArrayList();
-        String query = "SELECT * FROM `pregnancy`";
+        String query = "SELECT * FROM `pregnancies`";
         try {
             Connection connection = DBConfig.getConnection();
             Statement statement = connection.createStatement();
@@ -327,7 +327,7 @@ public class AnimalMonitorController implements Initializable {
     //get all the vaccinations
     public ObservableList<Vaccination> getVaccinations() {
         ObservableList<Vaccination> vaccinations = FXCollections.observableArrayList();
-        String query = "SELECT * FROM `vaccine`";
+        String query = "SELECT * FROM `vaccination`";
         try {
             Connection connection = DBConfig.getConnection();
             Statement statement = connection.createStatement();
@@ -433,7 +433,7 @@ public class AnimalMonitorController implements Initializable {
     //get all the routines
     public ObservableList<Routine> getRoutines() {
         ObservableList<Routine> routines = FXCollections.observableArrayList();
-        String query = "SELECT * FROM `routine`";
+        String query = "SELECT * FROM `routines`";
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
