@@ -75,13 +75,16 @@ public class NewProductController implements Initializable {
     }
 
     public boolean inputsAreEmpty() {
-        return this.product_name.getText().isEmpty() || this.product_quantity.getText().isEmpty() || this.mesure_unit_combo.getValue().isEmpty() || this.product_type_combo.getValue().isEmpty();
+        return (this.product_name.getText().isEmpty()
+                || this.product_quantity.getText().isEmpty()
+                || this.mesure_unit_combo.getValue() == null
+                || this.product_type_combo.getValue() == null);
     }
 
     public void clearInputs() {
         this.product_name.clear();
         this.product_quantity.clear();
-        this.mesure_unit_combo.setValue(null);
-        this.product_type_combo.setValue(null);
+        this.mesure_unit_combo.setValue("Mesure unit");
+        this.product_type_combo.setValue("Product type");
     }
 }

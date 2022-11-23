@@ -110,7 +110,7 @@ public class StockController implements Initializable {
             final TableCell<Stock, String> cell = new TableCell<Stock, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
+                //Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -120,12 +120,12 @@ public class StockController implements Initializable {
                         setGraphic(null);
                         setText(null);
                     } else {
-                        ImageView iv_view_details = new ImageView();
-                        iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        iv_view_details.setImage(view_details_img);
-                        iv_view_details.setPreserveRatio(true);
-                        iv_view_details.setSmooth(true);
-                        iv_view_details.setCache(true);
+                        //ImageView iv_view_details = new ImageView();
+                        //iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        //iv_view_details.setImage(view_details_img);
+                        //iv_view_details.setPreserveRatio(true);
+                        //iv_view_details.setSmooth(true);
+                        //iv_view_details.setCache(true);
 
 
                         ImageView iv_edit = new ImageView();
@@ -143,9 +143,9 @@ public class StockController implements Initializable {
                         iv_delete.setSmooth(true);
                         iv_delete.setCache(true);
 
-                        HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
+                        HBox managebtn = new HBox(iv_edit, iv_delete);
                         managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
+                        //HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
                         HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
                         HBox.setMargin(iv_edit, new Insets(1, 1, 0, 3));
 
@@ -191,26 +191,26 @@ public class StockController implements Initializable {
                         });
 
                         //view employee details
-                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
-                            Stock product = stock_table.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
-                            Scene scene = null;
-                            try {
-                                scene = new Scene(fxmlLoader.load());
-                                ProductDetailsController controller = fxmlLoader.getController();
-                                controller.fetchProduct(product);
-                            } catch (IOException e) {
-                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                                e.printStackTrace();
-                            }
-                            Stage stage = new Stage();
-                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                            stage.setTitle("Product Details");
-                            stage.setResizable(false);
-                            stage.setScene(scene);
-                            centerScreen(stage);
-                            stage.show();
-                        });
+//                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
+//                            Stock product = stock_table.getSelectionModel().getSelectedItem();
+//                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
+//                            Scene scene = null;
+//                            try {
+//                                scene = new Scene(fxmlLoader.load());
+//                                ProductDetailsController controller = fxmlLoader.getController();
+//                                controller.fetchProduct(product);
+//                            } catch (IOException e) {
+//                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//                                e.printStackTrace();
+//                            }
+//                            Stage stage = new Stage();
+//                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+//                            stage.setTitle("Product Details");
+//                            stage.setResizable(false);
+//                            stage.setScene(scene);
+//                            centerScreen(stage);
+//                            stage.show();
+//                        });
                     }
                 }
             };
