@@ -86,7 +86,7 @@ public class MilkCollectionController implements Initializable {
     public ObservableList<MilkCollection> getMilkCollection() throws SQLException, ClassNotFoundException {
         ObservableList<MilkCollection> list = FXCollections.observableArrayList();
 
-        String select_query = "SELECT  mc.id, mc.cow_id, quantity ,period,mc.created_at from  milk_collection mc ,animal a where mc.cow_id= a.id and a.type='cow' ";
+        String select_query = "SELECT  mc.id, mc.cow_id, quantity ,period,mc.created_at from  milk_collections mc ,animals a where mc.cow_id= a.id and a.type='cow' ";
 
         statement = DBConfig.getConnection().prepareStatement(select_query);
         resultSet = statement.executeQuery();
