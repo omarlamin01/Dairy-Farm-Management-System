@@ -443,7 +443,7 @@ public class AnimalMonitorController implements Initializable {
                 routine.setId(resultSet.getInt("id"));
                 routine.setName(resultSet.getString("name"));
                 routine.setNote(resultSet.getString("note"));
-                routine.setDate(resultSet.getDate("created_at"));
+                routine.setCreated_at(resultSet.getTimestamp("created_at"));
                 routines.add(routine);
             }
         } catch (Exception e) {
@@ -459,7 +459,7 @@ public class AnimalMonitorController implements Initializable {
         ObservableList<Routine> routines = getRoutines();
         routineNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         routineNotesCol.setCellValueFactory(new PropertyValueFactory<>("note"));
-        routineAdditionDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        routineAdditionDateCol.setCellValueFactory(new PropertyValueFactory<>("created_at"));
         Callback<TableColumn<Routine, String>, TableCell<Routine, String>> cellFoctory = (TableColumn<Routine, String> param) -> {
             final TableCell<Routine, String> cell = new TableCell<Routine, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
