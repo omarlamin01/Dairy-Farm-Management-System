@@ -48,8 +48,8 @@ public class Vaccination implements Model {
         Connection connection = getConnection();
         try {
             Statement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.getResultSet();
-            while (resultSet.first()) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
                 full_name = resultSet.getString(1) + " " + resultSet.getString(2);
                 setResponsible_name(full_name);
             }
@@ -79,8 +79,8 @@ public class Vaccination implements Model {
         Connection connection = getConnection();
         try {
             Statement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.getResultSet();
-            while (resultSet.first()) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
                 name = resultSet.getString(1);
                 setVaccine_name(name);
             }
