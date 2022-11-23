@@ -9,3 +9,7 @@ ALTER TABLE stocks
     ADD quantity INT NOT NULL;
 ALTER TABLE stocks
     ADD availability ENUM ('available', 'out of stock') NOT NULL;
+
+# change type column data type in stocks table
+ALTER TABLE stocks
+    MODIFY type ENUM ('Machine', 'Vaccine', 'Feed', 'Drug') NOT NULL;
