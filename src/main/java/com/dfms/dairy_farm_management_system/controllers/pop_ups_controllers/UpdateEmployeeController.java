@@ -33,9 +33,9 @@ public class UpdateEmployeeController implements Initializable {
         setContractComboItems();
     }
 
-    private Statement st;
-    private PreparedStatement pst;
-    private Connection con = DBConfig.getConnection();
+    private Statement statement;
+    private PreparedStatement preparedStatement;
+    private Connection connection = DBConfig.getConnection();
 
     @FXML
     private TextField addressInput;
@@ -75,7 +75,7 @@ public class UpdateEmployeeController implements Initializable {
 
     @FXML
     void updateEmployee(MouseEvent event) {
-        if (inputesAreEmpty()) {
+        if (inputsAreEmpty()) {
             displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
             return;
         }
@@ -142,10 +142,10 @@ public class UpdateEmployeeController implements Initializable {
     public String getRoleName(int id) {
         String roleName = "";
         try {
-            st = con.createStatement();
-            pst = con.prepareStatement("SELECT * FROM role WHERE id = ?");
-            pst.setInt(1, id);
-            pst.execute();
+            statement = connection.createStatement();
+            preparedStatement = connection.prepareStatement("SELECT * FROM role WHERE id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -193,7 +193,7 @@ public class UpdateEmployeeController implements Initializable {
     }
 
 
-    public boolean inputesAreEmpty() {
+    public boolean inputsAreEmpty() {
         if (this.firstNameInput.getText().isEmpty() || this.lastNameInput.getText().isEmpty() || this.emailInput.getText().isEmpty() || this.phoneNumberInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.cinInput.getText().isEmpty() || this.salaryInput.getText().isEmpty() || this.hireDate.getValue() == null || this.contractCombo.getValue() == null || this.genderCombo.getValue() == null)
             return true;
         return false;
