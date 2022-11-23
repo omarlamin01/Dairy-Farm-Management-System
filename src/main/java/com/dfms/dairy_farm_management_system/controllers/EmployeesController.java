@@ -236,6 +236,7 @@ public class EmployeesController implements Initializable {
         openNewWindow("Add Employee", "add_new_employee");
     }
 
+    @FXML
     public void refreshTable() {
         employees_table.getItems().clear();
         displayEmployees();

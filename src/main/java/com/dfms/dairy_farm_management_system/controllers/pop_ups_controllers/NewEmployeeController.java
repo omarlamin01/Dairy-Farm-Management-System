@@ -27,9 +27,9 @@ public class NewEmployeeController implements Initializable {
         validateEmailInput(emailInput);
     }
 
-    private Statement st;
-    private PreparedStatement pst;
-    private Connection con = DBConfig.getConnection();
+    private Statement statement;
+    private PreparedStatement preparedStatement;
+    private Connection connection = DBConfig.getConnection();
     @FXML
     TextField lastNameInput;
     @FXML
@@ -70,7 +70,7 @@ public class NewEmployeeController implements Initializable {
 
     @FXML
     public void addEmployee(MouseEvent mouseEvent) throws SQLException {
-        this.con = DBConfig.getConnection();
+        this.connection = DBConfig.getConnection();
         System.out.println("Employee: { " + "First name: \"" + this.firstNameInput.getText() + "\", " + "Last name: \"" + this.lastNameInput.getText() + "\", " + "Email: \"" + this.emailInput.getText() + "\", " + "Phone: \"" + this.phoneNumberInput.getText() + "\", " + "Adress: \"" + this.adressInput.getText() + "\", " + "CIN: \"" + this.cininput.getText() + "\", " + "Salary: \"" + this.salaryInput.getText() + "\", " + "Hire date: \"" + this.hireDate.getValue() + "\", " + "Contract type: \"" + this.contractCombo.getValue() + "\", " + "Gender: \"" + this.genderCombo.getValue() + "\", " + "Role: \"" + this.roleCombo.getValue() + "\"" + " }");
 
         if (inputesAreEmpty()) {
@@ -119,9 +119,9 @@ public class NewEmployeeController implements Initializable {
 
     public int getRoleID(String role) {
         try {
-            this.con = DBConfig.getConnection();
-            this.st = this.con.createStatement();
-            ResultSet rs = this.st.executeQuery("SELECT id FROM `roles` WHERE name = '" + role + "'");
+            this.connection = DBConfig.getConnection();
+            this.statement = this.connection.createStatement();
+            ResultSet rs = this.statement.executeQuery("SELECT id FROM `roles` WHERE name = '" + role + "'");
             rs.next();
             return rs.getInt(1);
         } catch (SQLException e) {
@@ -151,9 +151,9 @@ public class NewEmployeeController implements Initializable {
     public boolean isUnique(String email, String cin, String phone) {
         String query = "SELECT * FROM `employees` WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
         try {
-            st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            if (rs.next()) {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            if (resultSet.next()) {
                 return false;
             }
         } catch (Exception e) {

@@ -1,8 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.ProductDetailsController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateStockController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateProductController;
 import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,11 +21,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Date;
+import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -37,7 +32,9 @@ public class StockController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
+        export_combo.setItems(list);
+        displayStock();
     }
 
     private Statement statement;
@@ -46,8 +43,9 @@ public class StockController implements Initializable {
     @FXML
     private TableColumn<Stock, String> actions_col;
 
+
     @FXML
-    private TableColumn<Stock, String> added_date_col;
+    private TableColumn<Stock, String> product_qunatity_col;
 
     @FXML
     private TableColumn<Stock, String> availability_col;
@@ -75,7 +73,7 @@ public class StockController implements Initializable {
 
     public ObservableList<Stock> getProducts() {
         ObservableList<Stock> products = FXCollections.observableArrayList();
-        String query = "SELECT * FROM stock";
+        String query = "SELECT * FROM stocks";
         try {
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(query);
@@ -84,27 +82,34 @@ public class StockController implements Initializable {
                 product.setId(rs.getInt("id"));
                 product.setName(rs.getString("name"));
                 product.setType(rs.getString("type"));
+                if (rs.getInt("quantity") > 0) {
+                    product.setAvailability("1");
+                } else {
+                    product.setAvailability("0");
+                }
                 product.setQuantity(rs.getFloat("quantity"));
                 product.setUnit(rs.getString("unit"));
-                product.setAddedDate(Date.from(rs.getDate("added_date").toInstant()));
                 products.add(product);
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
         }
         return products;
     }
 
     public void displayStock() {
         ObservableList<Stock> products = getProducts();
-        id_col.setCellValueFactory(new PropertyValueFactory<>("cin"));
-        product_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        product_type_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        id_col.setCellValueFactory(new PropertyValueFactory<>("id"));
+        product_name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
+        product_type_col.setCellValueFactory(new PropertyValueFactory<>("type"));
+        product_qunatity_col.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        availability_col.setCellValueFactory(new PropertyValueFactory<>("availability"));
         Callback<TableColumn<Stock, String>, TableCell<Stock, String>> cellFoctory = (TableColumn<Stock, String> param) -> {
             final TableCell<Stock, String> cell = new TableCell<Stock, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
+                //Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -114,12 +119,12 @@ public class StockController implements Initializable {
                         setGraphic(null);
                         setText(null);
                     } else {
-                        ImageView iv_view_details = new ImageView();
-                        iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        iv_view_details.setImage(view_details_img);
-                        iv_view_details.setPreserveRatio(true);
-                        iv_view_details.setSmooth(true);
-                        iv_view_details.setCache(true);
+                        //ImageView iv_view_details = new ImageView();
+                        //iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        //iv_view_details.setImage(view_details_img);
+                        //iv_view_details.setPreserveRatio(true);
+                        //iv_view_details.setSmooth(true);
+                        //iv_view_details.setCache(true);
 
 
                         ImageView iv_edit = new ImageView();
@@ -137,9 +142,9 @@ public class StockController implements Initializable {
                         iv_delete.setSmooth(true);
                         iv_delete.setCache(true);
 
-                        HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
+                        HBox managebtn = new HBox(iv_edit, iv_delete);
                         managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
+                        //HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
                         HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
                         HBox.setMargin(iv_edit, new Insets(1, 1, 0, 3));
 
@@ -169,7 +174,7 @@ public class StockController implements Initializable {
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
-                                UpdateStockController controller = fxmlLoader.getController();
+                                UpdateProductController controller = fxmlLoader.getController();
                                 controller.fetchProduct(product);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
@@ -185,26 +190,26 @@ public class StockController implements Initializable {
                         });
 
                         //view employee details
-                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
-                            Stock product = stock_table.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
-                            Scene scene = null;
-                            try {
-                                scene = new Scene(fxmlLoader.load());
-                                ProductDetailsController controller = fxmlLoader.getController();
-                                controller.fetchProduct(product);
-                            } catch (IOException e) {
-                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                                e.printStackTrace();
-                            }
-                            Stage stage = new Stage();
-                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                            stage.setTitle("Product Details");
-                            stage.setResizable(false);
-                            stage.setScene(scene);
-                            centerScreen(stage);
-                            stage.show();
-                        });
+//                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
+//                            Stock product = stock_table.getSelectionModel().getSelectedItem();
+//                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
+//                            Scene scene = null;
+//                            try {
+//                                scene = new Scene(fxmlLoader.load());
+//                                ProductDetailsController controller = fxmlLoader.getController();
+//                                controller.fetchProduct(product);
+//                            } catch (IOException e) {
+//                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//                                e.printStackTrace();
+//                            }
+//                            Stage stage = new Stage();
+//                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+//                            stage.setTitle("Product Details");
+//                            stage.setResizable(false);
+//                            stage.setScene(scene);
+//                            centerScreen(stage);
+//                            stage.show();
+//                        });
                     }
                 }
             };
@@ -217,5 +222,11 @@ public class StockController implements Initializable {
     @FXML
     void openAddProduct(MouseEvent event) throws IOException {
         openNewWindow("Add Product", "add_new_product");
+    }
+
+    @FXML
+    public void refreshTable() {
+        stock_table.getItems().clear();
+        displayStock();
     }
 }
