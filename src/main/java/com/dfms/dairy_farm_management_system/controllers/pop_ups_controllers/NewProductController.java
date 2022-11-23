@@ -1,5 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import com.dfms.dairy_farm_management_system.models.Availability;
 import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,6 +19,7 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.validateNumer
 public class NewProductController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        initializeComboBoxes();
         validateNumericInput(product_quantity);
     }
 
@@ -39,10 +41,22 @@ public class NewProductController implements Initializable {
         product.setId(new Random().nextInt());
         product.setName(this.product_name.getText());
         product.setQuantity(Float.parseFloat(this.product_quantity.getText()));
-        product.setType(this.product_type.getText());
-        product.setUnit(this.product_measure_unit.getText());
-        System.out.println(product.toString());
+        product.setUnit(this.mesure_unit_combo.getValue());
+        product.setType(this.product_type_combo.getValue());
 
-        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
+        //check availability of product
+        if (product.getQuantity() > 0) {
+            product.setAvailability(Availability.AVAILABLE);
+        } else {
+            product.setAvailability(Availability.NOT_AVAILABLE);
+        }
+
+        product.setUnit(this.mesure_unit_combo.getValue());
+        System.out.println(product.toString());
+    }
+
+    public void initializeComboBoxes() {
+        this.product_type_combo.getItems().addAll("Machine", "Vaccine", "Feed", "Drug");
+        this.mesure_unit_combo.getItems().addAll("Kg", "Litre", "Unit");
     }
 }
