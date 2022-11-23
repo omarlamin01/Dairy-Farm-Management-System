@@ -22,11 +22,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Date;
+import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -77,7 +73,7 @@ public class StockController implements Initializable {
 
     public ObservableList<Stock> getProducts() {
         ObservableList<Stock> products = FXCollections.observableArrayList();
-        String query = "SELECT * FROM stock";
+        String query = "SELECT * FROM stocks";
         try {
             statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(query);
@@ -88,11 +84,12 @@ public class StockController implements Initializable {
                 product.setType(rs.getString("type"));
                 product.setQuantity(rs.getFloat("quantity"));
                 product.setUnit(rs.getString("unit"));
-                product.setAddedDate(Date.from(rs.getDate("added_date").toInstant()));
+                product.setAddedDate(Date.valueOf(rs.getString("added_date")));
                 products.add(product);
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
         }
         return products;
     }
@@ -103,7 +100,7 @@ public class StockController implements Initializable {
         product_name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         product_type_col.setCellValueFactory(new PropertyValueFactory<>("type"));
         availability_col.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        added_date_col.setCellValueFactory(new PropertyValueFactory<>("addedDate"));
+        added_date_col.setCellValueFactory(new PropertyValueFactory<>("added_date"));
         Callback<TableColumn<Stock, String>, TableCell<Stock, String>> cellFoctory = (TableColumn<Stock, String> param) -> {
             final TableCell<Stock, String> cell = new TableCell<Stock, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
