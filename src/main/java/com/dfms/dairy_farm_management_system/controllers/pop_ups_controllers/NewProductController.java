@@ -4,14 +4,12 @@ import com.dfms.dairy_farm_management_system.models.Availability;
 import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.Date;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -31,6 +29,8 @@ public class NewProductController implements Initializable {
     private TextField product_name;
 
     @FXML
+    private DatePicker added_date;
+    @FXML
     private TextField product_quantity;
 
     @FXML
@@ -49,6 +49,8 @@ public class NewProductController implements Initializable {
         product.setQuantity(Float.parseFloat(this.product_quantity.getText()));
         product.setUnit(this.mesure_unit_combo.getValue());
         product.setType(this.product_type_combo.getValue());
+        Date date = Date.valueOf(this.added_date.getValue());
+        product.setAddedDate(date);
 
         //check availability of product
         if (product.getQuantity() > 0) {
