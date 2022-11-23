@@ -10,10 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -49,7 +46,7 @@ public class PregnancyController implements Initializable {
 
     public ArrayList<String> getCows() {
         ArrayList<String> cows = new ArrayList<String>();
-        String query = "SELECT id FROM `animal` WHERE `type` = 'cow' ORDER BY created_at DESC";
+        String query = "SELECT id FROM `animals` WHERE `type` = 'cow' ORDER BY created_at DESC";
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -66,10 +63,9 @@ public class PregnancyController implements Initializable {
     @FXML
     public void addPregnancy(MouseEvent mouseEvent) {
         Pregnancy pregnancy = new Pregnancy();
-        pregnancy.setCow_id(Integer.parseInt(cowPregnancyID.getValue()));
-        pregnancy.setStart_date(pregnancyStartDate.getValue());
+        pregnancy.setCow_id(cowPregnancyID.getValue());
+        pregnancy.setStart_date(Date.valueOf(pregnancyStartDate.getValue()));
         pregnancy.setNotes(pregnancyNotes.getText());
-        pregnancy.setType("natural");
         if (pregnancy.save()) {
             closePopUp(mouseEvent);
             displayAlert("Success", "Pregnancy added successfully.", Alert.AlertType.INFORMATION);

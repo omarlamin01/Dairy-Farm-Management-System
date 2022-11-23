@@ -11,12 +11,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import com.dfms.dairy_farm_management_system.helpers.Helper.*;
@@ -59,7 +55,7 @@ public class HealthStatusController implements Initializable {
 
     public ArrayList<String> getAnimalsIds() {
         ArrayList<String> ids = new ArrayList<String>();
-        String query = "SELECT id FROM animal ORDER BY created_at DESC";
+        String query = "SELECT id FROM animals ORDER BY created_at DESC";
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -76,8 +72,8 @@ public class HealthStatusController implements Initializable {
     @FXML
     public void addHealthStatus(MouseEvent mouseEvent) {
         HealthStatus monitor = new HealthStatus();
-        monitor.setAnimal_id(Integer.parseInt(animalId.getValue()));
-        monitor.setControl_date(monitorDate.getValue());
+        monitor.setAnimal_id(animalId.getValue());
+        monitor.setControl_date(Date.valueOf(monitorDate.getValue()));
         monitor.setHealth_score(healthStatus.getValue());
         monitor.setNotes(healthStatusNotes.getText());
         if (monitor.save()) {

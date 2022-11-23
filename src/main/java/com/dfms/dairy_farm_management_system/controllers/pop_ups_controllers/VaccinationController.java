@@ -5,24 +5,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.connection.Session.getCurrentUser;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class VaccinationController implements Initializable {
     @FXML
@@ -53,7 +49,7 @@ public class VaccinationController implements Initializable {
 
     public ArrayList<String> getAnimalsIds() {
         ArrayList<String> ids = new ArrayList<String>();
-        String query = "SELECT id FROM animal ORDER BY created_at DESC";
+        String query = "SELECT id FROM animals ORDER BY created_at DESC";
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -73,21 +69,20 @@ public class VaccinationController implements Initializable {
         System.out.println(strings);
         int i = 0;
         for (Object vaccine_name : strings) {
-            System.out.println(i++ + " => " + vaccine_name);
             this.vaccines.add((String) vaccine_name);
         }
         vaccineId.setItems(this.vaccines);
     }
 
-    public HashMap<String, String> getVaccinesIds() {
-        HashMap<String, String> vaccinesIds = new HashMap<String, String>();
-        String query = "SELECT id, name FROM `stock` WHERE `type` = 'Vaccine' ORDER BY created_at DESC";
+    public HashMap<String, Integer> getVaccinesIds() {
+        HashMap<String, Integer> vaccinesIds = new HashMap<>();
+        String query = "SELECT id, name FROM `stocks` WHERE `type` = 'Vaccine' ORDER BY created_at DESC";
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                vaccinesIds.put(resultSet.getString("name"), resultSet.getString("id"));
+                vaccinesIds.put(resultSet.getString("name"), resultSet.getInt("id"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,14 +94,14 @@ public class VaccinationController implements Initializable {
     @FXML
     public void addVaccination(MouseEvent mouseEvent) {
         Vaccination vaccination = new Vaccination();
-        vaccination.setDate(String.valueOf(vaccinationDate.getValue()));
-        System.out.println("Vaccination { " +
-                "Animal id: \"" + animalVaccine.getValue() + "\", " +
-                "Vaccine id: \"" + vaccineId.getValue() + "\", " +
-                "Vaccination date: \"" + vaccinationDate.getValue() + "\", " +
-                "Notes: \"" + vaccineNotes.getText() + "\" " +
-                "},"
-        );
-        closePopUp(mouseEvent);
+        vaccination.setAnimal_id(animalVaccine.getValue());
+        vaccination.setVaccine_id(getVaccinesIds().get(vaccineId.getValue()));
+        vaccination.setVaccination_date(Date.valueOf(vaccinationDate.getValue()));
+        vaccination.setResponsible_id(getCurrentUser().getId());
+        if (vaccination.save()) {
+            displayAlert("SUCCESS", "vaccination saved successfully.", Alert.AlertType.INFORMATION);
+            closePopUp(mouseEvent);
+        } else
+            displayAlert("ERROR", "some error happened while saving!", Alert.AlertType.ERROR);
     }
 }

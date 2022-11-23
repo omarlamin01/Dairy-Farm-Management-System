@@ -121,12 +121,12 @@ public class AnimalMonitorController implements Initializable {
             while (resultSet.next()) {
                 HealthStatus monitor = new HealthStatus();
                 monitor.setId(resultSet.getInt("id"));
-                monitor.setAnimal_id(resultSet.getInt("animal_id"));
-                monitor.setVaccin_id(resultSet.getInt("vaccine_id"));
-                monitor.setWeight(resultSet.getFloat("weight"));
-                monitor.setBreathing(resultSet.getFloat("breading"));
-                monitor.setAge(resultSet.getFloat("age"));
-                monitor.setControl_date(resultSet.getDate("control_date").toLocalDate());
+                monitor.setAnimal_id(resultSet.getString("animal_id"));
+                monitor.setWeight(resultSet.getInt("weight"));
+                monitor.setBreathing(resultSet.getInt("breathing"));
+                monitor.setControl_date(resultSet.getDate("control_date"));
+                monitor.setHealth_score(resultSet.getString("health_score"));
+                monitor.setNotes(resultSet.getString("notes"));
                 monitors.add(monitor);
             }
         } catch (Exception e) {
@@ -220,7 +220,7 @@ public class AnimalMonitorController implements Initializable {
     //get all the pregnancies
     public ObservableList<Pregnancy> getPregnancies() {
         ObservableList<Pregnancy> pregnancies = FXCollections.observableArrayList();
-        String query = "SELECT * FROM `pregnancy`";
+        String query = "SELECT * FROM `pregnancies`";
         try {
             Connection connection = DBConfig.getConnection();
             Statement statement = connection.createStatement();
@@ -228,11 +228,11 @@ public class AnimalMonitorController implements Initializable {
             while (resultSet.next()) {
                 Pregnancy pregnancy = new Pregnancy();
                 pregnancy.setId(resultSet.getInt("id"));
-                pregnancy.setCow_id(resultSet.getInt("cow_id"));
-                pregnancy.setStart_date(resultSet.getDate("start_date").toLocalDate());
-                pregnancy.setEnd_date(resultSet.getDate("delivery_date"));
-                pregnancy.setType(resultSet.getString("pregnancy_type"));
-                pregnancy.setStatus(resultSet.getString("pregnancy_status"));
+                pregnancy.setCow_id(resultSet.getString("cow_id"));
+                pregnancy.setStart_date(resultSet.getDate("start_date"));
+                pregnancy.setDelivery_date(resultSet.getDate("delivery_date"));
+                pregnancy.setPregnancy_status(resultSet.getString("pregnancy_status"));
+                pregnancy.setNotes(resultSet.getString("notes"));
                 pregnancies.add(pregnancy);
             }
         } catch (Exception e) {
@@ -248,8 +248,8 @@ public class AnimalMonitorController implements Initializable {
         ObservableList<Pregnancy> pregnancies = getPregnancies();
         cow_id_col.setCellValueFactory(new PropertyValueFactory<>("cow_id"));
         pregnancyStartDateCol.setCellValueFactory(new PropertyValueFactory<>("start_date"));
-        pregnancyEndCol.setCellValueFactory(new PropertyValueFactory<>("end_date"));
-        pregnancyTypeCol.setCellValueFactory(new PropertyValueFactory<>("type"));
+        pregnancyEndCol.setCellValueFactory(new PropertyValueFactory<>("delivery_date"));
+        pregnancyTypeCol.setCellValueFactory(new PropertyValueFactory<>("pregnancy_status"));
         Callback<TableColumn<Pregnancy, String>, TableCell<Pregnancy, String>> cellFoctory = (TableColumn<Pregnancy, String> param) -> {
             final TableCell<Pregnancy, String> cell = new TableCell<Pregnancy, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
@@ -327,7 +327,7 @@ public class AnimalMonitorController implements Initializable {
     //get all the vaccinations
     public ObservableList<Vaccination> getVaccinations() {
         ObservableList<Vaccination> vaccinations = FXCollections.observableArrayList();
-        String query = "SELECT * FROM `vaccine`";
+        String query = "SELECT * FROM `vaccination`";
         try {
             Connection connection = DBConfig.getConnection();
             Statement statement = connection.createStatement();
@@ -335,10 +335,10 @@ public class AnimalMonitorController implements Initializable {
             while (resultSet.next()) {
                 Vaccination vaccination = new Vaccination();
                 vaccination.setId(resultSet.getInt("id"));
-                vaccination.setName(resultSet.getString("name"));
-                vaccination.setDose(resultSet.getString("dose"));
-                vaccination.setDate(resultSet.getString("created_at"));
-                vaccination.setNote(resultSet.getString("note"));
+                vaccination.setAnimal_id(resultSet.getString("animal_id"));
+                vaccination.setResponsible_id(resultSet.getInt("responsible_id"));
+                vaccination.setVaccine_id(resultSet.getInt("vaccine_id"));
+                vaccination.setVaccination_date(resultSet.getDate("vaccination_date"));
                 vaccinations.add(vaccination);
             }
         } catch (Exception e) {
@@ -352,10 +352,10 @@ public class AnimalMonitorController implements Initializable {
     //display all the vaccinations in the table
     public void displayVaccinations() {
         ObservableList<Vaccination> vaccinations = getVaccinations();
-        vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        vaccineDoseCol.setCellValueFactory(new PropertyValueFactory<>("dose"));
-        vaccinationNotesCol.setCellValueFactory(new PropertyValueFactory<>("note"));
-        vaccinationDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
+        vaccineDoseCol.setCellValueFactory(new PropertyValueFactory<>("responsible_name"));
+        vaccinationNotesCol.setCellValueFactory(new PropertyValueFactory<>("vaccine_name"));
+        vaccinationDateCol.setCellValueFactory(new PropertyValueFactory<>("vaccination_date"));
         Callback<TableColumn<Vaccination, String>, TableCell<Vaccination, String>> cellFoctory = (TableColumn<Vaccination, String> param) -> {
             final TableCell<Vaccination, String> cell = new TableCell<Vaccination, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
@@ -433,7 +433,7 @@ public class AnimalMonitorController implements Initializable {
     //get all the routines
     public ObservableList<Routine> getRoutines() {
         ObservableList<Routine> routines = FXCollections.observableArrayList();
-        String query = "SELECT * FROM `routine`";
+        String query = "SELECT * FROM `routines`";
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
@@ -443,7 +443,7 @@ public class AnimalMonitorController implements Initializable {
                 routine.setId(resultSet.getInt("id"));
                 routine.setName(resultSet.getString("name"));
                 routine.setNote(resultSet.getString("note"));
-                routine.setDate(resultSet.getDate("created_at"));
+                routine.setCreated_at(resultSet.getTimestamp("created_at"));
                 routines.add(routine);
             }
         } catch (Exception e) {
@@ -459,7 +459,7 @@ public class AnimalMonitorController implements Initializable {
         ObservableList<Routine> routines = getRoutines();
         routineNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         routineNotesCol.setCellValueFactory(new PropertyValueFactory<>("note"));
-        routineAdditionDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        routineAdditionDateCol.setCellValueFactory(new PropertyValueFactory<>("created_at"));
         Callback<TableColumn<Routine, String>, TableCell<Routine, String>> cellFoctory = (TableColumn<Routine, String> param) -> {
             final TableCell<Routine, String> cell = new TableCell<Routine, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));

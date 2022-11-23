@@ -46,7 +46,9 @@ public class User extends Employee {
         if(!super.save()) {
             return false;
         } else {
-            String insertQuery = "INSERT INTO `users` (`first_name`, `last_name`, `cin`, `email`, `password`, `gender`, `phone`, `salary`, `address`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO `users` " +
+                    "(`first_name`, `last_name`, `cin`, `email`, `password`, `gender`, `phone`, `salary`, `address`, `role`, ``created_at`, `updated_at`) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             Connection connection = getConnection();
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
