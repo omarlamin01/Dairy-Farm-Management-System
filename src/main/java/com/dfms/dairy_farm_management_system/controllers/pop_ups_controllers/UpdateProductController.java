@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
@@ -45,7 +46,22 @@ public class UpdateProductController implements Initializable {
     private ComboBox<String> product_type_combo;
 
     public void fetchProduct(Stock product) {
+        //get the employee from the database
+        ResultSet resultSet = null;
+        this.product_id = product.getId();
 
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM stocks WHERE id = '" + product_id + "' LIMIT 1");
+            if (resultSet.next()) {
+                product_name.setText(resultSet.getString("name"));
+                product_quantity.setText(resultSet.getString("quantity"));
+                mesure_unit_combo.setValue(resultSet.getString("mesure_unit"));
+                product_type_combo.setValue(resultSet.getString("type"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Stock getProduct(int product_id) {
