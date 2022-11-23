@@ -4,6 +4,7 @@ import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -21,7 +22,7 @@ public class NewProductController implements Initializable {
     }
 
     @FXML
-    private TextField product_measure_unit;
+    private ComboBox<String> mesure_unit_combo;
 
     @FXML
     private TextField product_name;
@@ -30,7 +31,7 @@ public class NewProductController implements Initializable {
     private TextField product_quantity;
 
     @FXML
-    private TextField product_type;
+    private ComboBox<String> product_type_combo;
 
     @FXML
     public void addProduct(MouseEvent mouseEvent) {
