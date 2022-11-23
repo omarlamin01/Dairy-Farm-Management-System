@@ -54,7 +54,7 @@ public class NewMilkCollectionController implements Initializable {
 
         ObservableList<String> cows = FXCollections.observableArrayList();
 
-        String select_query = "SELECT id from animal  where type='cow';";
+        String select_query = "SELECT id from animals  where type='cow';";
 
         st = DBConfig.getConnection().prepareStatement(select_query);
         rs = st.executeQuery();

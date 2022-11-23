@@ -5,6 +5,11 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import java.util.Date;
 
 public class MilkCollection  implements Model{
@@ -12,18 +17,29 @@ public class MilkCollection  implements Model{
     private String cow_id;
     private float quantity;
     private String period;
-    private Date collection_date;
+    private Timestamp created_at;
+    private Timestamp updated_at;
 
-    public MilkCollection( String cow_id,float quantity,String period ,Date d) {
-        this.cow_id = cow_id;
-        this.quantity = quantity;
-        this.period = period;
-        this.collection_date=d;
+    public MilkCollection() {
+        this.created_at = Timestamp.valueOf(LocalDateTime.now());
+        this.updated_at = Timestamp.valueOf(LocalDateTime.now());
+
     }
-    public MilkCollection(String period ,float quantity, String cow_id) {
-        this.cow_id = cow_id;
-        this.quantity = quantity;
-        this.period = period;
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
     }
 
     public String getPeriod() {
@@ -34,16 +50,9 @@ public class MilkCollection  implements Model{
         this.period = period;
     }
 
-    public MilkCollection() {
 
-    }
 
-    public MilkCollection(int id, String id_cow, float quantity, Date collection_date) {
-        this.id = id;
-        this.cow_id = id_cow;
-        this.quantity = quantity;
-        this.collection_date = collection_date;
-    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -56,9 +65,7 @@ public class MilkCollection  implements Model{
         this.quantity = quantity;
     }
 
-    public void setCollection_date(Date collection_date) {
-        this.collection_date = collection_date;
-    }
+
 
     public int getId() {
         return id;
@@ -72,19 +79,20 @@ public class MilkCollection  implements Model{
         return quantity;
     }
 
-    public Date getCollection_date() {
-        return collection_date;
-    }
+
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO milk_collection (period,quantity,cow_id) VALUES (?,?,?)";
+        String insertQuery = "INSERT INTO milk_collections (period,quantity,cow_id,created_at, updated_at) VALUES (?,?,?,?,?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
+
             preparedStatement.setString(1, period);
             preparedStatement.setFloat(2, quantity);
             preparedStatement.setString(3, cow_id);
+            preparedStatement.setTimestamp(4, created_at);
+            preparedStatement.setTimestamp(5, updated_at);
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,11 +104,12 @@ public class MilkCollection  implements Model{
     public boolean update() {
 
 
-        String updateQuery = "UPDATE `milk_collection` SET `cow_id` = '" + cow_id +
+        String updateQuery = "UPDATE `milk_collections`" +
+                " SET `cow_id` = '" + cow_id +
                 "', `period` = '" + period +
                 "', ` quantity` = '" + quantity +
-
-                "WHERE `milk_collection`.`id` = " + this.id;
+                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
+                "WHERE `milk_collections`.`id` = " + this.id;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
@@ -112,7 +121,7 @@ public class MilkCollection  implements Model{
 
         @Override
         public boolean delete () {
-            String deleteQuery = "DELETE FROM `milk_collection` WHERE `milk_collection`.`id` = " + this.id;
+            String deleteQuery = "DELETE FROM `milk_collections` WHERE `milk_collections`.`id` = " + this.id;
             try {
                 Connection connection = DBConfig.getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);

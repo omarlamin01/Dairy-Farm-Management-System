@@ -73,7 +73,7 @@
                                 <Label fx:id="id" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                                 <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                                     <image>
-                                        <Image url="@../../../../icons/cow_input.png" />
+                                        <Image url="@../../../../icons/lata.png" />
                                     </image>
                                 </ImageView>
                                 <Label fx:id="quantity" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Cow-7489590" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
@@ -134,7 +134,7 @@
                                 <Label fx:id="Price" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="JT09813" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                                 <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../../icons/category.png" />
+                                        <Image url="@../../../../icons/money.png" />
                                     </image>
                                 </ImageView>
                             </children>
@@ -166,7 +166,7 @@
                         <Label fx:id="name" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="2022-04-07" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../../icons/category.png" />
+                                <Image url="@../../../../icons/user_name.png" />
                             </image>
                         </ImageView>
                     </children>
