@@ -15,23 +15,21 @@ public class Stock implements Model {
     private String name;
     private String type;
     private float quantity;
-    private Availability availability;
+    private int availability;
     private String unit;
-    private Date added_date;
     private Timestamp created_at;
     private Timestamp updated_at;
 
     public Stock() {
     }
 
-    public Stock(int id, String name, String type, float quantity, Availability availability, String unit, Date added_date, Timestamp created_at, Timestamp updated_at) {
+    public Stock(int id, String name, String type, float quantity, int availability, String unit, Timestamp created_at, Timestamp updated_at) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.quantity = quantity;
         this.availability = availability;
         this.unit = unit;
-        this.added_date = added_date;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
@@ -76,10 +74,6 @@ public class Stock implements Model {
         this.quantity = quantity;
     }
 
-    public void setAddedDate(Date added_date) {
-        this.added_date = added_date;
-    }
-
     public Timestamp getCreatedAt() {
         return created_at;
     }
@@ -96,11 +90,11 @@ public class Stock implements Model {
         this.updated_at = updated_at;
     }
 
-    public Availability getAvailability() {
+    public int getAvailability() {
         return availability;
     }
 
-    public void setAvailability(Availability availability) {
+    public void setAvailability(int availability) {
         this.availability = availability;
     }
 
@@ -113,7 +107,6 @@ public class Stock implements Model {
                 ", quantity=" + quantity +
                 ", availability=" + availability +
                 ", unit='" + unit + '\'' +
-                ", added_date=" + added_date +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';
@@ -121,7 +114,7 @@ public class Stock implements Model {
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO `stocks` (name, type, quantity, availability, unit, added_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO `stocks` (name, type, quantity, availability, unit, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -129,11 +122,10 @@ public class Stock implements Model {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, type);
             preparedStatement.setFloat(3, quantity);
-            preparedStatement.setString(4, availability.getAvailability());
+            preparedStatement.setString(4, String.valueOf(availability));
             preparedStatement.setString(5, unit);
-            preparedStatement.setDate(6, new java.sql.Date(added_date.getTime()));
+            preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             preparedStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
-            preparedStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -149,9 +141,8 @@ public class Stock implements Model {
         String updateQuery = "UPDATE `stocks` SET `name` = '" + name +
                 "', `type` = '" + type +
                 "', `quantity` = '" + quantity +
-                "', `availability` = '" + availability.getAvailability() +
+                "', `availability` = '" + availability +
                 "', `unit` = '" + unit +
-                "', `added_date` = '" + added_date +
                 "', `updated_at` = '" + dtf.format(now) +
                 "' WHERE `stocks`.`id` = " + id;
         try {
