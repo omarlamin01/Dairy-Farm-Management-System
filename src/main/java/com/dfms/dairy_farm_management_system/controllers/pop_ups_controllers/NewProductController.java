@@ -64,7 +64,6 @@ public class NewProductController implements Initializable {
         //save product to database
         if (product.save()) {
             displayAlert("Success", "Product added successfully", Alert.AlertType.INFORMATION);
-            closeWindow(mouseEvent);
         } else {
             displayAlert("Error", "An error occurred while adding the product", Alert.AlertType.ERROR);
         }
