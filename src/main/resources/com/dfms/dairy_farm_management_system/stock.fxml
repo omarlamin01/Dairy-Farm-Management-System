@@ -67,13 +67,25 @@
          </Button>
          <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
              <ComboBox fx:id="export_combo" promptText="Export" styleClass="combo_box" />
-             <Button fx:id="openAddNewEmployeeBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddProduct" styleClass="button-add" text="New product" textAlignment="CENTER">
+             <Button fx:id="openAddNewEmployeeBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" text="Refresh" textAlignment="CENTER">
                  <graphic>
-                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                         <Image url="@../../../icons/add_user.png" />
+                     <ImageView fx:id="refresh_table_table" fitHeight="30.0" fitWidth="30.0" onMousePressed="#refreshTable" pickOnBounds="true" preserveRatio="true">
+                         <Image url="@../../../icons/refresh.png" />
                      </ImageView>
                  </graphic>
              </Button>
+            <Button fx:id="openAddNewEmployeeBtn1" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddProduct" styleClass="button-add" text="New product" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/add_user.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Button>
          </HBox>
      </HBox>
      <TableView fx:id="stock_table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="689.0">
