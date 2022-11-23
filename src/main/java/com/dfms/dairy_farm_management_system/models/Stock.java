@@ -15,7 +15,7 @@ public class Stock implements Model {
     private String name;
     private String type;
     private float quantity;
-    private String availability;
+    private Availability availability;
     private String unit;
     private Date added_date;
     private Timestamp created_at;
@@ -24,7 +24,7 @@ public class Stock implements Model {
     public Stock() {
     }
 
-    public Stock(int id, String name, String type, float quantity, String availability, String unit, Date added_date, Timestamp created_at, Timestamp updated_at) {
+    public Stock(int id, String name, String type, float quantity, Availability availability, String unit, Date added_date, Timestamp created_at, Timestamp updated_at) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -96,11 +96,11 @@ public class Stock implements Model {
         this.updated_at = updated_at;
     }
 
-    public String getAvailability() {
+    public Availability getAvailability() {
         return availability;
     }
 
-    public void setAvailability(String availability) {
+    public void setAvailability(Availability availability) {
         this.availability = availability;
     }
 
