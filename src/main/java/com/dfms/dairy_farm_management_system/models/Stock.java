@@ -107,28 +107,33 @@ public class Stock implements Model {
     @Override
     public String toString() {
         return "Stock{" +
-                "id_stock=" + id +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
-                ", unit='" + unit + '\'' +
                 ", quantity=" + quantity +
-                ", addedDate='" + added_date + '\'' +
+                ", availability=" + availability +
+                ", unit='" + unit + '\'' +
+                ", added_date=" + added_date +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
                 '}';
     }
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO `stocks` (name, type, unit, added_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO `stocks` (name, type, quantity, availability, unit, added_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, type);
-            preparedStatement.setString(3, unit);
-            preparedStatement.setDate(4, new java.sql.Date(added_date.getTime()));
-            preparedStatement.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-            preparedStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+            preparedStatement.setFloat(3, quantity);
+            preparedStatement.setString(4, availability.getAvailability());
+            preparedStatement.setString(5, unit);
+            preparedStatement.setDate(6, new java.sql.Date(added_date.getTime()));
+            preparedStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+            preparedStatement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -143,6 +148,8 @@ public class Stock implements Model {
 
         String updateQuery = "UPDATE `stocks` SET `name` = '" + name +
                 "', `type` = '" + type +
+                "', `quantity` = '" + quantity +
+                "', `availability` = '" + availability.getAvailability() +
                 "', `unit` = '" + unit +
                 "', `added_date` = '" + added_date +
                 "', `updated_at` = '" + dtf.format(now) +
