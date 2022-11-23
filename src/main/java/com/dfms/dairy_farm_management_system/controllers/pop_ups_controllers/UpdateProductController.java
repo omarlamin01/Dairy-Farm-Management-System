@@ -71,6 +71,7 @@ public class UpdateProductController implements Initializable {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
+                product.setId(resultSet.getInt("id"));
                 product.setType(resultSet.getString("type"));
                 product.setName(resultSet.getString("name"));
                 product.setQuantity(resultSet.getFloat("quantity"));
@@ -103,10 +104,10 @@ public class UpdateProductController implements Initializable {
         }
 
         if (product.update()) {
-            displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
+            displayAlert("Success", "Product updated successfully", Alert.AlertType.INFORMATION);
             ((Node) (event.getSource())).getScene().getWindow().hide();
         } else {
-            displayAlert("Error", "Error while updating employee", Alert.AlertType.ERROR);
+            displayAlert("Error", "Error while updating product", Alert.AlertType.ERROR);
         }
     }
 
