@@ -12,31 +12,36 @@ import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class NewProductController implements Initializable {
-    @FXML
-    TextField productName;
-    @FXML
-    TextField productQuantity;
-    @FXML
-    TextField productType;
-    @FXML
-    TextField productMeasureUnit;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.validateNumericInput;
 
+public class NewProductController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        validateNumericInput(product_quantity);
     }
+
+    @FXML
+    private TextField product_measure_unit;
+
+    @FXML
+    private TextField product_name;
+
+    @FXML
+    private TextField product_quantity;
+
+    @FXML
+    private TextField product_type;
 
     @FXML
     public void addProduct(MouseEvent mouseEvent) {
         Stock product = new Stock();
         product.setId(new Random().nextInt());
-        product.setName(this.productName.getText());
-        product.setQuantity(Float.parseFloat(this.productQuantity.getText()));
-        product.setType(this.productType.getText());
-        product.setUnit(this.productMeasureUnit.getText());
+        product.setName(this.product_name.getText());
+        product.setQuantity(Float.parseFloat(this.product_quantity.getText()));
+        product.setType(this.product_type.getText());
+        product.setUnit(this.product_measure_unit.getText());
         System.out.println(product.toString());
 
-        ((Stage)(((Button)mouseEvent.getSource()).getScene().getWindow())).close();
+        ((Stage) (((Button) mouseEvent.getSource()).getScene().getWindow())).close();
     }
 }
