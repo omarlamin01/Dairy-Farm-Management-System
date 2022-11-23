@@ -14,23 +14,26 @@ public class Stock implements Model {
     private int id;
     private String name;
     private String type;
-    private String unit;
     private float quantity;
+    private String availability;
+    private String unit;
     private Date added_date;
     private Timestamp created_at;
     private Timestamp updated_at;
 
-    public Stock(int id, String name, String unit, String type, float quantity, Date added_date) {
+    public Stock() {
+    }
+
+    public Stock(int id, String name, String type, float quantity, String availability, String unit, Date added_date, Timestamp created_at, Timestamp updated_at) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.quantity = quantity;
-        this.added_date = added_date;
+        this.availability = availability;
         this.unit = unit;
-    }
-
-    public Stock() {
-
+        this.added_date = added_date;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
     }
 
     public String getUnit() {
@@ -91,6 +94,14 @@ public class Stock implements Model {
 
     public void setUpdatedAt(Timestamp updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
     }
 
     @Override
