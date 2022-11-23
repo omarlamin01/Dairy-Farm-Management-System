@@ -15,7 +15,6 @@ public class MilkCollection  implements Model{
     private String cow_id;
     private float quantity;
     private String period;
-    private Date collection_date;
     private Timestamp created_at;
     private Timestamp updated_at;
 
@@ -64,9 +63,7 @@ public class MilkCollection  implements Model{
         this.quantity = quantity;
     }
 
-    public void setCollection_date(Date collection_date) {
-        this.collection_date = collection_date;
-    }
+
 
     public int getId() {
         return id;
@@ -80,9 +77,7 @@ public class MilkCollection  implements Model{
         return quantity;
     }
 
-    public Date getCollection_date() {
-        return collection_date;
-    }
+
     @Override
     public boolean save() {
         String insertQuery = "INSERT INTO milk_collections (period,quantity,cow_id,created_at, updated_at) VALUES (?,?,?,?,?)";
