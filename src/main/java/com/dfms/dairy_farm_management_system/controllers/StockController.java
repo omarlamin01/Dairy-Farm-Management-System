@@ -1,8 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.ProductDetailsController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateStockController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateProductController;
 import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -175,7 +174,7 @@ public class StockController implements Initializable {
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
-                                UpdateStockController controller = fxmlLoader.getController();
+                                UpdateProductController controller = fxmlLoader.getController();
                                 controller.fetchProduct(product);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
