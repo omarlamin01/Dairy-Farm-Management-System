@@ -43,11 +43,11 @@ public class User extends Employee {
 
     @Override
     public boolean save() {
-        if(!super.save()) {
+        if (!super.save()) {
             return false;
         } else {
             String insertQuery = "INSERT INTO `users` " +
-                    "(`first_name`, `last_name`, `cin`, `email`, `password`, `gender`, `phone`, `salary`, `address`, `role`, ``created_at`, `updated_at`) " +
+                    "(`first_name`, `last_name`, `cin`, `email`, `password`, `gender`, `phone`, `salary`, `address`, `role`, `created_at`, `updated_at`) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             Connection connection = getConnection();
             try {
