@@ -107,7 +107,7 @@ public class MilkCollection  implements Model{
                 "', `period` = '" + period +
                 "', ` quantity` = '" + quantity +
                 "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
-                "WHERE `milk_collections`.`id` = " + this.id;
+                "WHERE `milk_collections`.`id` = " + id;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);

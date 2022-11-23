@@ -4,6 +4,8 @@ import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.MilkCollectionlDetailsController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewAnimalController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewMilkCollectionController;
 import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
@@ -212,31 +214,25 @@ public class MilkCollectionController implements Initializable {
                         });
                         btnEdit.setOnMouseClicked((MouseEvent event) -> {
 
-                            MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
-                            String path = "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml";
-                            FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
+                            MilkCollection milkcollection = MilkCollectionTable.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_milk_collection.fxml"));
+                            Scene scene = null;
                             try {
-                                loader.load();
-                            } catch (IOException ex) {
-                                displayAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
-                                ex.printStackTrace();
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
                             }
-                            if (mc.update()) {
-
-                                displayAlert("success", "Milk Collection Updated successfully", Alert.AlertType.INFORMATION);
-                                try {
-                                    refreshTableMilkCollection();
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                    throw new RuntimeException(e);
-                                }
-                            } else {
-                                displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
-                            }
-
-
-                            //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
-
+                            NewMilkCollectionController newMilkCollectionController = fxmlLoader.getController();
+                            newMilkCollectionController.setUpdate(true);
+                            newMilkCollectionController.fetchMilkCollection( milkcollection.getId(),milkcollection.getCow_id(), milkcollection.getPeriod(), milkcollection.getQuantity());
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Update MilkCollection");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
                         btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
                             MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
