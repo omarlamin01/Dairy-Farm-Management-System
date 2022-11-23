@@ -25,7 +25,7 @@ public class UpdateProductController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        setComboBoxes();
     }
 
     private int product_id;
@@ -56,7 +56,7 @@ public class UpdateProductController implements Initializable {
             if (resultSet.next()) {
                 product_name.setText(resultSet.getString("name"));
                 product_quantity.setText(resultSet.getString("quantity"));
-                mesure_unit_combo.setValue(resultSet.getString("mesure_unit"));
+                mesure_unit_combo.setValue(resultSet.getString("unit"));
                 product_type_combo.setValue(resultSet.getString("type"));
             }
         } catch (Exception e) {
@@ -115,5 +115,10 @@ public class UpdateProductController implements Initializable {
                 || this.product_quantity.getText().isEmpty()
                 || this.mesure_unit_combo.getValue() == null
                 || this.product_type_combo.getValue() == null);
+    }
+
+    public void setComboBoxes() {
+        this.product_type_combo.getItems().addAll("Machine", "Vaccine", "Feed", "Drug");
+        this.mesure_unit_combo.getItems().addAll("Kg", "Litre", "Unit");
     }
 }
