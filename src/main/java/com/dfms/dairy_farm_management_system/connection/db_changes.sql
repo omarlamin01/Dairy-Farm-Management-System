@@ -10,6 +10,10 @@ ALTER TABLE stocks
 ALTER TABLE stocks
     ADD availability TINYINT;
 
+# change availability column type to boolean
+ALTER TABLE stocks
+    MODIFY availability VARCHAR(20);
+
 # change type column data type in stocks table
 ALTER TABLE stocks
     MODIFY type ENUM ('Machine', 'Vaccine', 'Feed', 'Drug') NOT NULL;
