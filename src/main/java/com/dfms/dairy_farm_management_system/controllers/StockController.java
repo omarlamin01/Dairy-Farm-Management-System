@@ -223,4 +223,10 @@ public class StockController implements Initializable {
     void openAddProduct(MouseEvent event) throws IOException {
         openNewWindow("Add Product", "add_new_product");
     }
+
+    @FXML
+    public void refreshTable() {
+        stock_table.getItems().clear();
+        displayStock();
+    }
 }
