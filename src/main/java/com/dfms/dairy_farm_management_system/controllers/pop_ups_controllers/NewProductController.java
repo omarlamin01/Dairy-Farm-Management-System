@@ -25,9 +25,6 @@ public class NewProductController implements Initializable {
 
     @FXML
     private TextField product_name;
-
-    @FXML
-    private DatePicker added_date;
     @FXML
     private TextField product_quantity;
 
@@ -47,14 +44,12 @@ public class NewProductController implements Initializable {
         product.setQuantity(Float.parseFloat(this.product_quantity.getText()));
         product.setUnit(this.mesure_unit_combo.getValue());
         product.setType(this.product_type_combo.getValue());
-        Date date = Date.valueOf(this.added_date.getValue());
-        product.setAddedDate(date);
 
         //check availability of product
         if (product.getQuantity() > 0) {
-            product.setAvailability(Availability.AVAILABLE);
+            product.setAvailability(1);
         } else {
-            product.setAvailability(Availability.NOT_AVAILABLE);
+            product.setAvailability(0);
         }
 
         product.setUnit(this.mesure_unit_combo.getValue());

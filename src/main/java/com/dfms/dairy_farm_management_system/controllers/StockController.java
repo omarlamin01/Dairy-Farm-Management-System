@@ -45,9 +45,6 @@ public class StockController implements Initializable {
     private TableColumn<Stock, String> actions_col;
 
     @FXML
-    private TableColumn<Stock, String> added_date_col;
-
-    @FXML
     private TableColumn<Stock, String> availability_col;
 
     @FXML
@@ -84,7 +81,6 @@ public class StockController implements Initializable {
                 product.setType(rs.getString("type"));
                 product.setQuantity(rs.getFloat("quantity"));
                 product.setUnit(rs.getString("unit"));
-                product.setAddedDate(Date.valueOf(rs.getString("added_date")));
                 products.add(product);
             }
         } catch (Exception e) {
@@ -100,7 +96,6 @@ public class StockController implements Initializable {
         product_name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         product_type_col.setCellValueFactory(new PropertyValueFactory<>("type"));
         availability_col.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        added_date_col.setCellValueFactory(new PropertyValueFactory<>("added_date"));
         Callback<TableColumn<Stock, String>, TableCell<Stock, String>> cellFoctory = (TableColumn<Stock, String> param) -> {
             final TableCell<Stock, String> cell = new TableCell<Stock, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
