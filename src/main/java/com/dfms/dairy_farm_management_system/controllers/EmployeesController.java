@@ -6,6 +6,7 @@ import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.Upd
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,12 +18,23 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -32,6 +44,7 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 public class EmployeesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        BasicConfigurator.configure();
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         export_combo.setItems(list);
         displayEmployees();
@@ -273,5 +286,63 @@ public class EmployeesController implements Initializable {
         System.out.println("Employee Cin: " + employee.getCin());
         System.out.println("Employee gender: " + employee.getGender());
         System.out.println("Employee Recrutement Date: " + employee.getHireDate());
+    }
+
+    @FXML
+    void export(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+        );
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Employees");
+                Row header = sheet.createRow(0);
+                header.createCell(0).setCellValue("First Name");
+                header.createCell(1).setCellValue("Last Name");
+                header.createCell(2).setCellValue("Email");
+                header.createCell(3).setCellValue("Phone");
+                header.createCell(4).setCellValue("Address");
+                header.createCell(5).setCellValue("CIN");
+                header.createCell(6).setCellValue("Gender");
+                header.createCell(7).setCellValue("Hire Date");
+                header.createCell(8).setCellValue("Salary");
+
+                //get all employees from database
+                String query = "SELECT * FROM `employees`";
+                try {
+                    statement = connection.createStatement();
+                    ResultSet rs = statement.executeQuery(query);
+                    while (rs.next()) {
+                        int rowNum = rs.getRow();
+                        Row row = sheet.createRow(rowNum);
+                        row.createCell(0).setCellValue(rs.getString("first_name"));
+                        row.createCell(1).setCellValue(rs.getString("last_name"));
+                        row.createCell(2).setCellValue(rs.getString("email"));
+                        row.createCell(3).setCellValue(rs.getString("phone"));
+                        row.createCell(4).setCellValue(rs.getString("address"));
+                        row.createCell(5).setCellValue(rs.getString("cin"));
+                        row.createCell(6).setCellValue(rs.getString("gender"));
+                        row.createCell(7).setCellValue(rs.getString("recruitment_date"));
+                        row.createCell(8).setCellValue(rs.getString("salary"));
+                    }
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
     }
 }
