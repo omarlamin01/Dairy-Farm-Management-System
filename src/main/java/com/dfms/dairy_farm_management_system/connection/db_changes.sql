@@ -21,3 +21,7 @@ ALTER TABLE stocks
 # remove unique constraint from name column in stocks table
 ALTER TABLE stocks
     DROP INDEX name;
+
+# update the password type in users table
+ALTER TABLE users
+    MODIFY password VARCHAR(255) NOT NULL;
