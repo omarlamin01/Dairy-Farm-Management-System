@@ -326,7 +326,11 @@ public class EmployeesController implements Initializable {
                         row.createCell(3).setCellValue(rs.getString("phone"));
                         row.createCell(4).setCellValue(rs.getString("address"));
                         row.createCell(5).setCellValue(rs.getString("cin"));
-                        row.createCell(6).setCellValue(rs.getString("gender"));
+                        if (rs.getString("gender").equals("M")) {
+                            row.createCell(6).setCellValue("Male");
+                        } else {
+                            row.createCell(6).setCellValue("Female");
+                        }
                         row.createCell(7).setCellValue(rs.getString("recruitment_date"));
                         row.createCell(8).setCellValue(rs.getString("salary"));
                     }
