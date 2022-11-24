@@ -13,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.print.*;
-
 import java.awt.print.*;
 
 import javafx.print.Paper;
@@ -25,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -367,16 +367,12 @@ public class StockController implements Initializable {
 //        }
 //    }
         Printer printer = Printer.getDefaultPrinter();
-        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.REVERSE_LANDSCAPE, Printer.MarginType.EQUAL);
-        //rotate the page
-        PageOrientation orientation = pageLayout.getPageOrientation();
-        orientation = orientation == PageOrientation.LANDSCAPE ? PageOrientation.REVERSE_LANDSCAPE : PageOrientation.LANDSCAPE;
-        pageLayout = printer.createPageLayout(Paper.A4, orientation, Printer.MarginType.EQUAL);
+        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.EQUAL);
 
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
-
             job.getJobSettings().setPageLayout(pageLayout);
+            //rotate stock table
             boolean success = job.printPage(stock_table);
             // set orientation to landscape
             if (success) {
