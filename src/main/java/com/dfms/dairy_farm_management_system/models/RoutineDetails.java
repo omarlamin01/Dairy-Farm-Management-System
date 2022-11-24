@@ -91,15 +91,16 @@ public class RoutineDetails implements Model{
     public boolean save() {
         created_at = Timestamp.valueOf(LocalDateTime.now());
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        String query = "INSERT INTO `routine_has_feeds` (stock_id, routine_id, feeding_time, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO `routine_has_feeds` (stock_id, routine_id, quantity, feeding_time, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = getConnection().prepareStatement(query);
 
             statement.setInt(1, stock_id);
             statement.setInt(2, routine_id);
-            statement.setString(3, feeding_time);
-            statement.setTimestamp(4, created_at);
-            statement.setTimestamp(5, updated_at);
+            statement.setFloat(3, quantity);
+            statement.setString(4, feeding_time);
+            statement.setTimestamp(5, created_at);
+            statement.setTimestamp(6, updated_at);
 
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
@@ -111,14 +112,15 @@ public class RoutineDetails implements Model{
     @Override
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        String query = "UPDATE `routine_has_feeds` SET stock_id = ?, routine_id = ?, feeding_time = ?, updated_at = ? WHERE id = " + id;
+        String query = "UPDATE `routine_has_feeds` SET stock_id = ?, routine_id = ?, quantity = ?, feeding_time = ?, updated_at = ? WHERE id = " + id;
         try {
             PreparedStatement statement = getConnection().prepareStatement(query);
 
             statement.setInt(1, stock_id);
             statement.setInt(2, routine_id);
-            statement.setString(3, feeding_time);
-            statement.setTimestamp(4, updated_at);
+            statement.setFloat(3, quantity);
+            statement.setString(4, feeding_time);
+            statement.setTimestamp(5, updated_at);
 
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
