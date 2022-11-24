@@ -33,21 +33,16 @@ public class VaccinationController implements Initializable {
     ObservableList<String> vaccines;
     ObservableList<String> animals;
 
-    Vaccination vaccination = null;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setVaccines();
         this.setAnimals();
-        if (vaccination != null) {
-            animalVaccine.setValue(vaccination.getAnimal_id());
-            vaccineId.setValue(vaccination.getVaccine_name());
-            vaccinationDate.setValue(vaccination.getVaccination_date().toLocalDate());
-        }
     }
 
     public void initData(Vaccination vaccination) {
-        this.vaccination = vaccination;
+        animalVaccine.setValue(vaccination.getAnimal_id());
+        vaccineId.setValue(vaccination.getVaccine_name());
+        vaccinationDate.setValue(vaccination.getVaccination_date().toLocalDate());
     }
 
     public void setAnimals() {
