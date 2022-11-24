@@ -129,7 +129,7 @@ public class UpdateEmployeeController implements Initializable {
                 } else {
                     genderCombo.setValue("Female");
                 }
-                LocalDate date = LocalDate.parse(resultSet.getString("recruitment_date"));
+                LocalDate date = LocalDate.parse(resultSet.getString("hire_date"));
                 hireDate.setValue(date);
 
                 //TODO: set role combo value
@@ -169,7 +169,7 @@ public class UpdateEmployeeController implements Initializable {
                 employee.setAdress(rs.getString("address"));
                 employee.setCin(rs.getString("cin"));
                 employee.setGender(rs.getString("gender"));
-                employee.setHireDate(rs.getDate("recruitment_date"));
+                employee.setHireDate(rs.getDate("hire_date"));
                 employee.setSalary(rs.getFloat("salary"));
             }
         } catch (Exception e) {
