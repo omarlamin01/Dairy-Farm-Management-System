@@ -55,7 +55,7 @@
                     <String fx:value="dashboard_item_text" />
                 </styleClass>
                 <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total users" />
-                <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                <Text fx:id="total_users" fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -73,7 +73,7 @@
                     <Insets right="10.0" />
                 </HBox.margin>
                 <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total clients" />
-                <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                <Text fx:id="total_clients" fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -91,7 +91,7 @@
                     <Insets right="10.0" />
                 </HBox.margin>
                 <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total suppliers" />
-                <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                <Text fx:id="total_suppliers" fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -111,7 +111,7 @@
                     <String fx:value="dashboard_item_text" />
                 </styleClass>
                 <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total products" />
-                <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                <Text fx:id="total_products" fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -120,7 +120,7 @@
                     <Image url="@../../../icons/stock.png" />
                 </ImageView>
             </Pane>
-            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #540b0e;">
+            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #7209b7;">
                 <styleClass>
                     <String fx:value="dashboard_item" />
                     <String fx:value="dashboard_item_text" />
@@ -129,7 +129,7 @@
                     <Insets right="10.0" />
                 </HBox.margin>
                 <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total cows" />
-                <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                <Text fx:id="total_cows" fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -147,13 +147,13 @@
                     <Insets right="10.0" />
                 </HBox.margin>
                 <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total bulls" />
-                <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                <Text fx:id="total_bulls" fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
                 </Text>
                 <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="164.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../../../icons/sales.png" />
+                    <Image url="@../../../icons/bull.png" />
                 </ImageView>
             </Pane>
          <VBox.margin>
@@ -172,19 +172,19 @@
                </styleClass>
                <children>
                   <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total calfs" />
-                  <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                  <Text fx:id="total_calfs" fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Text>
                   <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="170.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/stock.png" />
+                        <Image url="@../../../icons/calf.png" />
                      </image>
                   </ImageView>
                </children>
             </Pane>
-            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #6a994e;">
+            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #ffd500;">
                <styleClass>
                   <String fx:value="dashboard_item" />
                   <String fx:value="dashboard_item_text" />
@@ -194,14 +194,14 @@
                </HBox.margin>
                <children>
                   <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Today sales" />
-                  <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                  <Text fx:id="today_sales" fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Text>
                   <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="164.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/animal.png" />
+                        <Image url="@../../../icons/sales.png" />
                      </image>
                   </ImageView>
                </children>
@@ -216,14 +216,14 @@
                </HBox.margin>
                <children>
                   <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Today earnings" />
-                  <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                  <Text fx:id="today_earnings" fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Text>
                   <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="164.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../icons/sales.png" />
+                        <Image url="@../../../icons/dollar.png" />
                      </image>
                   </ImageView>
                </children>

@@ -3,14 +3,12 @@ package com.dfms.dairy_farm_management_system.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
-
-    public DashboardController() {
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -47,6 +45,32 @@ public class DashboardController implements Initializable {
         barChart.getData().add(dataSeries2);
     }
 
+    @FXML
+    private Text today_earnings;
+
+    @FXML
+    private Text today_sales;
+
+    @FXML
+    private Text total_bulls;
+
+    @FXML
+    private Text total_calfs;
+
+    @FXML
+    private Text total_clients;
+
+    @FXML
+    private Text total_cows;
+
+    @FXML
+    private Text total_products;
+
+    @FXML
+    private Text total_suppliers;
+
+    @FXML
+    private Text total_users;
     @FXML
     private BarChart<String, Number> barChart;
 
