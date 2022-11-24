@@ -574,7 +574,7 @@ public class SalesController implements Initializable {
                 workbook.write(fileOutputStream);
                 workbook.close();
 
-                displayAlert("Success", "Milk Collection exported successfully", Alert.AlertType.INFORMATION);
+                displayAlert("Success", "Animal Sales exported successfully", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
@@ -675,6 +675,56 @@ public class SalesController implements Initializable {
             }
         });
     }
+    void exportToExcel2() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Milk Sales");
+                Row header = sheet.createRow(0);
+                header.createCell(0).setCellValue("Sale ID");
+                header.createCell(1).setCellValue("Quantity");
+                header.createCell(2).setCellValue("Price");
+                header.createCell(3).setCellValue("Client");
+                header.createCell(4).setCellValue("Date");
+
+
+
+                //get all employees from database
+                String query = "SELECT ms.id,ms.quantity,ms.price,c.name,ms.sale_date FROM `milk_sales` ms ,`clients` c where ms.client_id=c.id ";
+                try {
+
+                    statemeent = connection.createStatement();
+                    ResultSet rs = statemeent.executeQuery(query);
+                    while (rs.next()) {
+                        int rowNum = rs.getRow();
+                        Row row = sheet.createRow(rowNum);
+                        row.createCell(0).setCellValue(rs.getString("ms.id"));
+                        row.createCell(1).setCellValue(rs.getString("ms.quantity"));
+                        row.createCell(2).setCellValue(rs.getString("ms.price"));
+                        row.createCell(3).setCellValue(rs.getString("c.name"));
+                        row.createCell(4).setCellValue(rs.getString("ms.sale_date"));
+
+                    }
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Milk Sales exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
 
 }
 
