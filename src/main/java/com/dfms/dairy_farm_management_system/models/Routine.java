@@ -1,9 +1,6 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -15,6 +12,19 @@ public class Routine implements Model {
     private String note;
     private Timestamp created_at;
     private Timestamp updated_at;
+
+    public static int getLastId() {
+        String query = "SELECT id FROM routines ORDER BY created_at DESC LIMIT 1";
+        try {
+            ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
+    }
 
     public int getId() {
         return id;
