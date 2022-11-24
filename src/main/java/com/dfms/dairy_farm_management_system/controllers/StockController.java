@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateProductController;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.Stock;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -13,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.print.*;
+
 import java.awt.print.*;
 
 import javafx.print.Paper;
@@ -65,6 +67,8 @@ public class StockController implements Initializable {
                 exportToExcel();
             }
         });
+
+        liveSearch(search_stock_input, stock_table);
     }
 
     private Statement statement;
@@ -381,5 +385,22 @@ public class StockController implements Initializable {
                 displayAlert("Error", "Failed to print", Alert.AlertType.ERROR);
             }
         }
+    }
+
+    public void liveSearch(TextField search_input, TableView table) {
+        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                refreshTable();
+            } else {
+                ObservableList<Stock> filteredList = FXCollections.observableArrayList();
+                ObservableList<Stock> products = getProducts();
+                for (Stock product : products) {
+                    if (product.getName().toLowerCase().contains(newValue.toLowerCase()) || product.getType().toLowerCase().contains(newValue.toLowerCase())) {
+                        filteredList.add(product);
+                    }
+                }
+                table.setItems(filteredList);
+            }
+        });
     }
 }
