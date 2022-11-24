@@ -29,23 +29,18 @@ public class HealthStatusController implements Initializable {
     ObservableList<String> healthStatusOptions = FXCollections.observableArrayList("excellent", "good", "bad", "very bad");
     ObservableList<String> animals;
 
-    HealthStatus healthStatus = null;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setAnimals();
         healthStatusCombo.setItems(healthStatusOptions);
         animalId.setItems(animals);
-        if (healthStatus != null) {
-            animalId.setValue(healthStatus.getAnimal_id());
-            monitorDate.setValue(healthStatus.getControl_date().toLocalDate());
-            healthStatusCombo.setValue(healthStatus.getHealth_score());
-            healthStatusNotes.setText(healthStatus.getNotes());
-        }
     }
 
     public void initData(HealthStatus healthStatus) {
-        this.healthStatus = healthStatus;
+        animalId.setValue(healthStatus.getAnimal_id());
+        monitorDate.setValue(healthStatus.getControl_date().toLocalDate());
+        healthStatusCombo.setValue(healthStatus.getHealth_score());
+        healthStatusNotes.setText(healthStatus.getNotes());
     }
 
     public void setAnimals() {
