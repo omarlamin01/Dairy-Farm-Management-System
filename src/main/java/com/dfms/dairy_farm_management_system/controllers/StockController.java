@@ -19,6 +19,7 @@ import java.awt.print.*;
 
 import javafx.print.Paper;
 import javafx.print.PrinterJob;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -62,7 +63,7 @@ public class StockController implements Initializable {
         //check what user select in the combo box
         export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
-                exportToPDF();
+                exportToPDF(stock_table);
             } else {
                 exportToExcel();
             }
@@ -314,7 +315,7 @@ public class StockController implements Initializable {
         }
     }
 
-    void exportToPDF() {
+    void exportToPDF(Node node_to_print) {
 //        FileChooser fileChooser = new FileChooser();
 //        fileChooser.setTitle("Save As");
 //        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
@@ -377,7 +378,7 @@ public class StockController implements Initializable {
         if (job != null) {
             job.getJobSettings().setPageLayout(pageLayout);
             //rotate stock table
-            boolean success = job.printPage(stock_table);
+            boolean success = job.printPage(node_to_print);
             // set orientation to landscape
             if (success) {
                 job.endJob();

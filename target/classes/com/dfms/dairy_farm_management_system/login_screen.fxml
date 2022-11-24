@@ -57,15 +57,7 @@
             <String fx:value="password_input" />
         </styleClass>
     </PasswordField>
-    <Button fx:id="login_btn" layoutX="371.0" layoutY="310.0" mnemonicParsing="false" onMousePressed="#login" prefHeight="47.0" prefWidth="423.0" styleClass="btn" text="LOGIN" />
-    <Label fx:id="forget_password" layoutX="372.0" layoutY="280.0" text="Forget password ?" textFill="#1e293b">
-        <cursor>
-            <Cursor fx:constant="HAND" />
-        </cursor>
-        <font>
-            <Font size="14.0" />
-        </font>
-    </Label>
+    <Button fx:id="login_btn" layoutX="371.0" layoutY="288.0" mnemonicParsing="false" onMousePressed="#login" prefHeight="47.0" prefWidth="423.0" styleClass="btn" text="LOGIN" />
     <Label layoutX="515.0" layoutY="129.0" text="Login to enter the system" />
     <HBox alignment="CENTER" layoutX="715.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
         <Circle fill="#ffbe21" radius="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">

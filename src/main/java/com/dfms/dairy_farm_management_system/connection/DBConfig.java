@@ -19,7 +19,7 @@ public class DBConfig {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            //displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
         return conn;
     }
