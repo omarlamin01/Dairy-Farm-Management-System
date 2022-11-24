@@ -3,8 +3,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateProductController;
 import com.dfms.dairy_farm_management_system.models.Stock;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
@@ -13,6 +12,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.print.*;
+import java.awt.print.*;
+
+import javafx.print.Paper;
+import javafx.print.PrinterJob;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.transform.Scale;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -305,61 +310,74 @@ public class StockController implements Initializable {
     }
 
     void exportToPDF() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-        File file = fileChooser.showSaveDialog(null);
-        if (file != null) {
-            try {
-                Document document = new Document();
-                PdfWriter.getInstance(document, new FileOutputStream(file));
-                document.open();
-                try {
-                    document.add(new Paragraph("Employees List"));
-                    document.add(new Paragraph(" "));
-                } catch (Exception e) {
-                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                }
-                PdfPTable table = new PdfPTable(9);
-                table.addCell("First Name");
-                table.addCell("Last Name");
-                table.addCell("Email");
-                table.addCell("Phone");
-                table.addCell("Address");
-                table.addCell("CIN");
-                table.addCell("Gender");
-                table.addCell("Hire Date");
-                table.addCell("Salary");
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Save As");
+//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+//        File file = fileChooser.showSaveDialog(null);
+//        if (file != null) {
+//            try {
+//                Document document = new Document();
+//                PdfWriter.getInstance(document, new FileOutputStream(file));
+//                document.open();
+//                try {
+//                    document.add(new Paragraph(Element.ALIGN_CENTER, "Stock Report", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
+//                    document.add(new Paragraph(" "));
+//                } catch (Exception e) {
+//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//                }
+//                PdfPTable table = new PdfPTable(9);
+//                table.addCell("Product ID");
+//                table.addCell("Product Name");
+//                table.addCell("Product Type");
+//                table.addCell("Quantity");
+//                table.addCell("Availability");
+//                table.addCell("Unit");
+//                table.addCell("Added Date");
+//
+//                //make pdf page width bigger
+//                table.setWidthPercentage(100);
+//                table.setSpacingBefore(10f);
+//                table.setSpacingAfter(10f);
+//
+//                //get all employees from database
+//                String query = "SELECT * FROM `stocks`";
+//                try {
+//                    statement = connection.createStatement();
+//                    ResultSet rs = statement.executeQuery(query);
+//                    while (rs.next()) {
+//                        table.addCell(rs.getString("id"));
+//                        table.addCell(rs.getString("name"));
+//                        table.addCell(rs.getString("type"));
+//                        table.addCell(rs.getString("quantity"));
+//                        table.addCell(rs.getString("availability"));
+//                        table.addCell(rs.getString("unit"));
+//                        table.addCell(rs.getString("created_at"));
+//                    }
+//
+//                    document.add(table);
+//                    document.close();
+//                    displayAlert("Success", "Stcok exported successfully", Alert.AlertType.INFORMATION);
+//                } catch (Exception e) {
+//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//                }
+//            } catch (Exception e) {
+//                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//            }
+//        }
+//    }
+        Printer printer = Printer.getDefaultPrinter();
+        PageLayout pageLayout = printer.createPageLayout(Paper.A6, PageOrientation.REVERSE_LANDSCAPE, Printer.MarginType.EQUAL);
 
-                //get all employees from database
-                String query = "SELECT * FROM `employees`";
-                try {
-                    statement = connection.createStatement();
-                    ResultSet rs = statement.executeQuery(query);
-                    while (rs.next()) {
-                        table.addCell(rs.getString("first_name"));
-                        table.addCell(rs.getString("last_name"));
-                        table.addCell(rs.getString("email"));
-                        table.addCell(rs.getString("phone"));
-                        table.addCell(rs.getString("address"));
-                        table.addCell(rs.getString("cin"));
-                        if (rs.getString("gender").equals("M")) {
-                            table.addCell("Male");
-                        } else {
-                            table.addCell("Female");
-                        }
-                        table.addCell(rs.getString("recruitment_date"));
-                        table.addCell(rs.getString("salary"));
-                    }
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
 
-                    document.add(table);
-                    document.close();
-                    displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
-                } catch (Exception e) {
-                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                }
-            } catch (Exception e) {
-                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            job.getJobSettings().setPageLayout(pageLayout);
+            boolean success = job.printPage(stock_table);
+            // set orientation to landscape
+            if (success) {
+                job.endJob();
+            } else {
+                displayAlert("Error", "Failed to print", Alert.AlertType.ERROR);
             }
         }
     }
