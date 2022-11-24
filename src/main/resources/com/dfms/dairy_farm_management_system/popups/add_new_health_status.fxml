@@ -88,7 +88,7 @@
                         <String fx:value="date_input" />
                     </styleClass>
                 </DatePicker>
-                <ComboBox fx:id="healthStatus" maxWidth="1.7976931348623157E308" promptText="Status" GridPane.rowIndex="8">
+                <ComboBox fx:id="healthStatusCombo" maxWidth="1.7976931348623157E308" promptText="Status" GridPane.rowIndex="8">
                     <styleClass>
                         <String fx:value="combo_box" />
                         <String fx:value="weight_input" />
