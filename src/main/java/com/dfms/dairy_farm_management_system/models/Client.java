@@ -10,10 +10,10 @@ import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConne
 
 public class Client implements Model {
     private int id;
-    private String name;
-    private String type;
-    private String phone;
-    private String email;
+    private String nameClient;
+    private String typeClient;
+    private String phoneCllient;
+    private String emailClient;
     private Timestamp created_at;
     private Timestamp updated_at;
 
@@ -31,35 +31,35 @@ public class Client implements Model {
     }
 
     public String getName() {
-        return name;
+        return nameClient;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nameClient = name;
     }
 
     public String getType() {
-        return type;
+        return typeClient;
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.typeClient = type;
     }
 
     public String getEmail() {
-        return email;
+        return emailClient;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.emailClient = email;
     }
 
     public String getPhone() {
-        return phone;
+        return phoneCllient;
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phoneCllient = phone;
     }
 
     @Override
@@ -69,10 +69,10 @@ public class Client implements Model {
         try {
             PreparedStatement statement = connection.prepareStatement(query);
 
-            statement.setString(1, name);
-            statement.setString(2, type);
-            statement.setString(3, phone);
-            statement.setString(4, email);
+            statement.setString(1, nameClient);
+            statement.setString(2, typeClient);
+            statement.setString(3, phoneCllient);
+            statement.setString(4, emailClient);
             statement.setTimestamp(5, created_at);
             statement.setTimestamp(6, updated_at);
 
@@ -86,11 +86,11 @@ public class Client implements Model {
     @Override
     public boolean update() {
         String query = "UPDATE `clients` SET " +
-                "`name` = '" + name + "', " +
-                "`type` = '" + type + "', " +
-                "`phone` = '" + phone + "', " +
-                "`email` = '" + email + "', " +
-                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "' " +
+                "`name` =?,"+
+                "`type` = ?," +
+                "`phone` = ?," +
+                "`email` = ?," +
+                "`updated_at` =?" +
                 "WHERE `id` = " + id;
         Connection connection = getConnection();
         try {

@@ -19,8 +19,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ClientsSuppliersController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ClientsSuppliersController">
  <stylesheets>
      <URL value="@../../../style/style.css" />
      <URL value="@../../../style/tab_pane.css" />
@@ -82,7 +81,7 @@
                          </Button>
                      </HBox>
                  </HBox>
-                 <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                 <TableView fx:id="TableClient" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                      <columns>
                          <TableColumn prefWidth="60.0" text="ID" />
                          <TableColumn prefWidth="150.0" text="Name" />
