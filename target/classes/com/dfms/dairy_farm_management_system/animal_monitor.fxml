@@ -90,10 +90,10 @@
                     </HBox>
                     <TableView fx:id="healthMonitorTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
-                            <TableColumn fx:id="animal_id_col" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" text="Animal ID" />
-                            <TableColumn fx:id="healthMonitorNoteCol" minWidth="100.0" prefWidth="-1.0" text="Note" />
-                            <TableColumn fx:id="health_score_col" minWidth="100.0" prefWidth="-1.0" text="Health score" />
-                     <TableColumn fx:id="control_date_col" minWidth="100.0" prefWidth="-1.0" text="Control date" />
+                            <TableColumn fx:id="animal_id_col" maxWidth="1.7976931348623157E308" minWidth="140.0" prefWidth="-1.0" text="Animal ID" />
+                            <TableColumn fx:id="healthMonitorNoteCol" minWidth="240.0" prefWidth="-1.0" text="Note" />
+                            <TableColumn fx:id="health_score_col" minWidth="140.0" prefWidth="-1.0" text="Health score" />
+                     <TableColumn fx:id="control_date_col" minWidth="140.0" prefWidth="-1.0" text="Control date" />
                             <TableColumn fx:id="healthMonitorActionsCol" minWidth="100.0" prefWidth="-1.0" text="Actions" />
                         </columns>
                     </TableView>
@@ -141,9 +141,9 @@
                     <TableView fx:id="pregnancyTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
                             <TableColumn fx:id="cow_id_col" prefWidth="125.33333587646484" text="Cow ID" />
-                            <TableColumn fx:id="pregnancyStartDateCol" prefWidth="159.0" text="Start Date" />
-                            <TableColumn fx:id="pregnancyEndCol" prefWidth="154.0" text="End Date" />
-                            <TableColumn fx:id="pregnancyTypeCol" prefWidth="164.0" text="Pregnancy Type" />
+                            <TableColumn fx:id="pregnancyStartDateCol" prefWidth="159.0" text="Start date" />
+                            <TableColumn fx:id="pregnancyEndCol" prefWidth="154.0" text="Delivery date" />
+                            <TableColumn fx:id="pregnancyTypeCol" prefWidth="164.0" text="Pregnancy status" />
                             <TableColumn fx:id="pregnancyActionsCol" prefWidth="155.33331298828125" text="Actions" />
                         </columns>
                     </TableView>
@@ -190,11 +190,11 @@
                     </HBox>
                     <TableView fx:id="vaccinationTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
-                            <TableColumn fx:id="vaccineNameCol" prefWidth="125.33333587646484" text="Name" />
-                            <TableColumn fx:id="vaccineDoseCol" prefWidth="105.66666412353516" text="Dose" />
-                            <TableColumn fx:id="vaccinationNotesCol" prefWidth="233.33334350585938" text="Note" />
-                            <TableColumn fx:id="vaccinationDateCol" prefWidth="136.66668701171875" text="Date" />
-                            <TableColumn fx:id="vaccinationActions" prefWidth="155.33331298828125" text="Actions" />
+                            <TableColumn fx:id="animalIdCol" prefWidth="140.0" text="Animal id" />
+                            <TableColumn fx:id="vaccineNameCol" prefWidth="160.0" text="Vaccine" />
+                     <TableColumn fx:id="ResponsibleNameCol" prefWidth="160.0" text="Responsible" />
+                            <TableColumn fx:id="vaccinationDateCol" prefWidth="160.0" text="Date" />
+                            <TableColumn fx:id="vaccinationActions" prefWidth="140.0" text="Actions" />
                         </columns>
                     </TableView>
                 </VBox>
@@ -252,7 +252,7 @@
                                 <columns>
                                     <TableColumn fx:id="routineNameCol" prefWidth="125.33333587646484" text="Routine name" />
                                     <TableColumn fx:id="routineNotesCol" prefWidth="311.0" text="Note" />
-                                    <TableColumn fx:id="routineAdditionDateCol" prefWidth="172.0" text="Added date" />
+                                    <TableColumn fx:id="routineAdditionDateCol" prefWidth="172.0" text="Add date" />
                                     <TableColumn fx:id="routineActionsCol" prefWidth="149.0" text="Actions" />
                                 </columns>
                             </TableView>
