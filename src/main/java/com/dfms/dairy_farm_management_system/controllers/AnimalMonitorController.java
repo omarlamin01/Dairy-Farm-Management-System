@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -566,23 +565,156 @@ public class AnimalMonitorController implements Initializable {
         openNewWindow("Add vaccination", "add_new_vaccination");
     }
 
+    public ObservableList<HealthStatus> searchForHealthStatus(String searchClause) {
+        ObservableList<HealthStatus> monitors = FXCollections.observableArrayList();
+        String query = "SELECT * FROM `health_status` WHERE `animal_id` LIKE '%" + searchClause +"%' OR `health_score` LIKE '%" + searchClause + "%' OR `notes` LIKE '%" + searchClause + "%' ORDER BY `created_at` DESC ";
+        System.out.println(query);
+        try {
+            ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
+            while (resultSet.next()) {
+                HealthStatus healthStatus = new HealthStatus();
+
+                healthStatus.setId(resultSet.getInt("id"));
+                healthStatus.setAnimal_id(resultSet.getString("animal_id"));
+                healthStatus.setWeight(resultSet.getInt("weight"));
+                healthStatus.setBreathing(resultSet.getInt("breathing"));
+                healthStatus.setHealth_score(resultSet.getString("health_score"));
+                healthStatus.setControl_date(resultSet.getDate("control_date"));
+                healthStatus.setNotes(resultSet.getString("notes"));
+                healthStatus.setCreated_at(resultSet.getTimestamp("created_at"));
+                healthStatus.setUpdated_at(resultSet.getTimestamp("updated_at"));
+
+                monitors.add(healthStatus);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return monitors;
+    }
+
+    public ObservableList<Pregnancy> searchForPregnancies(String searchClause) {
+        ObservableList<Pregnancy> pregnancies = FXCollections.observableArrayList();
+        String query = "SELECT * FROM `pregnancies` WHERE `cow_id` LIKE '%" + searchClause +"%' OR `notes` LIKE '%" + searchClause + "%' ORDER BY `created_at` DESC ";
+        System.out.println(query);
+        try {
+            ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
+            while (resultSet.next()) {
+                Pregnancy pregnancy = new Pregnancy();
+
+                pregnancy.setId(resultSet.getInt("id"));
+                pregnancy.setCow_id(resultSet.getString("cow_id"));
+                pregnancy.setStart_date(resultSet.getDate("start_date"));
+                pregnancy.setDelivery_date(resultSet.getDate("delivery_date"));
+                pregnancy.setPregnancy_status(resultSet.getString("pregnancy_status"));
+                pregnancy.setNotes(resultSet.getString("notes"));
+                pregnancy.setCreated_at(resultSet.getTimestamp("created_at"));
+                pregnancy.setUpdated_at(resultSet.getTimestamp("updated_at"));
+
+                pregnancies.add(pregnancy);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pregnancies;
+    }
+
+    public ObservableList<Vaccination> searchForVaccinations(String searchClause) {
+        ObservableList<Vaccination> vaccinations = FXCollections.observableArrayList();
+        String query = "SELECT * FROM `vaccination` WHERE `animal_id` LIKE '%" + searchClause + "%' OR `vaccine_id` IN (SELECT id FROM stocks WHERE name LIKE '%" + searchClause + "%') OR `responsible_id` IN (SELECT id FROM users WHERE first_name LIKE '%" + searchClause + "%' OR last_name LIKE '%" + searchClause + "%')";
+        System.out.println(query);
+        try {
+            ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
+            while (resultSet.next()) {
+                Vaccination vaccination = new Vaccination();
+
+                vaccination.setId(resultSet.getInt("id"));
+                vaccination.setAnimal_id(resultSet.getString("animal_id"));
+                vaccination.setResponsible_id(resultSet.getInt("responsible_id"));
+                vaccination.setVaccine_id(resultSet.getInt("vaccine_id"));
+                vaccination.setVaccination_date(resultSet.getDate("vaccination_date"));
+                vaccination.setUpdated_at(resultSet.getTimestamp("updated_at"));
+                vaccination.setCreated_at(resultSet.getTimestamp("created_at"));
+
+                vaccinations.add(vaccination);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vaccinations;
+    }
+
+    public ObservableList<Routine> searchForRoutines(String searchClause) {
+        ObservableList<Routine> routines = FXCollections.observableArrayList();
+        String query = "SELECT * FROM `routines` WHERE `name` LIKE '%" + searchClause + "%' OR `note` LIKE '%" + searchClause + "'";
+        System.out.println(query);
+        try {
+            ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
+            while (resultSet.next()) {
+                Routine routine = new Routine();
+
+                routine.setId(resultSet.getInt("id"));
+                routine.setName(resultSet.getString("name"));
+                routine.setNote(resultSet.getString("note"));
+                routine.setCreated_at(resultSet.getTimestamp("created_at"));
+                routine.setUpdated_at(resultSet.getTimestamp("updated_at"));
+
+                routines.add(routine);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return routines;
+    }
+
     @FXML
     public void healthStatusSearch(MouseEvent mouseEvent) {
-        System.out.println("healthStatusSearch");
+        String searchClause = healthStatusSearch.getText().trim();
+        System.out.println(searchClause);
+        if (!searchClause.isEmpty() && searchClause != "") {
+            isSearchingForMonitors = true;
+            displayMonitors(searchForHealthStatus(searchClause));
+        } else {
+            isSearchingForMonitors = false;
+            displayMonitors(getHealthStatus());
+        }
     }
 
     @FXML
     public void pregnancySearch(MouseEvent mouseEvent) {
-        System.out.println("pregnancySearch");
+        String searchClause = pregnancySearch.getText().trim();
+        System.out.println(searchClause);
+        if (!searchClause.isEmpty() && searchClause != "") {
+            isSearchingForPregnancies = true;
+            displayPregnancies(searchForPregnancies(searchClause));
+        } else {
+            isSearchingForPregnancies = false;
+            displayPregnancies(getPregnancies());
+        }
     }
 
     @FXML
     public void vaccinationSearch(MouseEvent mouseEvent) {
-        System.out.println("vaccinationSearch");
+        String searchClause = vaccineSearch.getText().trim();
+        System.out.println(searchClause);
+        if (!searchClause.isEmpty() && searchClause != "") {
+            isSearchingForVaccinations = true;
+            displayVaccinations(searchForVaccinations(searchClause));
+        } else {
+            isSearchingForVaccinations = false;
+            displayVaccinations(getVaccinations());
+        }
     }
 
     @FXML
     public void routineSearch(MouseEvent mouseEvent) {
-        System.out.println("routineSearch");
+        String searchClause = routineSearch.getText().trim();
+        System.out.println(searchClause);
+        if (!searchClause.isEmpty() && searchClause != "") {
+            isSearchingForRoutines = true;
+            displayRoutines(searchForRoutines(searchClause));
+        } else {
+            isSearchingForRoutines = false;
+            displayRoutines(getRoutines());
+        }
     }
 }
