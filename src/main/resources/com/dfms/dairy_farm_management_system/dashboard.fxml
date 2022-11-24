@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.DashboardController">
+<ScrollPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.DashboardController">
     <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
         <Label styleClass="header" text="Dashboard" textAlignment="CENTER">
             <font>
@@ -72,7 +72,7 @@
                 <HBox.margin>
                     <Insets right="10.0" />
                 </HBox.margin>
-                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total users" />
+                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total clients" />
                 <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
@@ -90,7 +90,7 @@
                 <HBox.margin>
                     <Insets right="10.0" />
                 </HBox.margin>
-                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total users" />
+                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total suppliers" />
                 <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
@@ -110,7 +110,7 @@
                     <String fx:value="dashboard_item" />
                     <String fx:value="dashboard_item_text" />
                 </styleClass>
-                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total users" />
+                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total products" />
                 <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
@@ -128,7 +128,7 @@
                 <HBox.margin>
                     <Insets right="10.0" />
                 </HBox.margin>
-                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total users" />
+                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total animals" />
                 <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
@@ -166,7 +166,7 @@
             </VBox.margin>
         </Label>
         <HBox alignment="CENTER_LEFT" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" styleClass="dashboard_row">
-            <BarChart fx:id="barChart">
+            <BarChart fx:id="barChart" prefHeight="371.0" prefWidth="438.0">
                 <xAxis>
                     <CategoryAxis side="BOTTOM" fx:id="xAxis" />
                 </xAxis>
@@ -177,7 +177,7 @@
                     <Insets right="10.0" />
                 </HBox.margin>
             </BarChart>
-            <PieChart fx:id="pieChart" />
+            <PieChart fx:id="pieChart" prefHeight="371.0" prefWidth="366.0" />
         </HBox>
     </VBox>
 </ScrollPane>
