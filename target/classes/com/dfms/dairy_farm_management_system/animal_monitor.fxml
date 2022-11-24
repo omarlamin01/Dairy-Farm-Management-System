@@ -90,10 +90,11 @@
                     </HBox>
                     <TableView fx:id="healthMonitorTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
-                            <TableColumn fx:id="animal_id_col" prefWidth="125.33333587646484" text="Animal ID" />
-                            <TableColumn fx:id="healthMonitorNoteCol" prefWidth="236.0" text="Note" />
-                            <TableColumn fx:id="healthMonitorAddedDateCol" prefWidth="243.0" text="Added date" />
-                            <TableColumn fx:id="healthMonitorActionsCol" prefWidth="154.0" text="Actions" />
+                            <TableColumn fx:id="animal_id_col" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" text="Animal ID" />
+                            <TableColumn fx:id="healthMonitorNoteCol" minWidth="100.0" prefWidth="-1.0" text="Note" />
+                            <TableColumn fx:id="health_score_col" minWidth="100.0" prefWidth="-1.0" text="Health score" />
+                     <TableColumn fx:id="control_date_col" minWidth="100.0" prefWidth="-1.0" text="Control date" />
+                            <TableColumn fx:id="healthMonitorActionsCol" minWidth="100.0" prefWidth="-1.0" text="Actions" />
                         </columns>
                     </TableView>
                 </VBox>
