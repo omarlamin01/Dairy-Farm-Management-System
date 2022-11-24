@@ -102,7 +102,7 @@
             </Pane>
         </HBox>
         <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" styleClass="dashboard_row">
-            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #72ED12;">
+            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #3a86ff;">
                 <HBox.margin>
                     <Insets right="10.0" />
                 </HBox.margin>
@@ -120,7 +120,7 @@
                     <Image url="@../../../icons/stock.png" />
                 </ImageView>
             </Pane>
-            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #1E1E1E;">
+            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #7209b7;">
                 <styleClass>
                     <String fx:value="dashboard_item" />
                     <String fx:value="dashboard_item_text" />
@@ -128,7 +128,7 @@
                 <HBox.margin>
                     <Insets right="10.0" />
                 </HBox.margin>
-                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total animals" />
+                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total cows" />
                 <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
@@ -138,7 +138,7 @@
                     <Image url="@../../../icons/animal.png" />
                 </ImageView>
             </Pane>
-            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #713DC7;">
+            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #1E1E1E;">
                 <styleClass>
                     <String fx:value="dashboard_item" />
                     <String fx:value="dashboard_item_text" />
@@ -146,7 +146,7 @@
                 <HBox.margin>
                     <Insets right="10.0" />
                 </HBox.margin>
-                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total sales" />
+                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total bulls" />
                 <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
@@ -156,7 +156,80 @@
                     <Image url="@../../../icons/sales.png" />
                 </ImageView>
             </Pane>
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
         </HBox>
+      <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" styleClass="dashboard_row">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #dc2f02;">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="dashboard_item" />
+                  <String fx:value="dashboard_item_text" />
+               </styleClass>
+               <children>
+                  <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total calfs" />
+                  <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="170.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/stock.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #6a994e;">
+               <styleClass>
+                  <String fx:value="dashboard_item" />
+                  <String fx:value="dashboard_item_text" />
+               </styleClass>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+               <children>
+                  <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Today sales" />
+                  <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="164.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/animal.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #72ED12;">
+               <styleClass>
+                  <String fx:value="dashboard_item" />
+                  <String fx:value="dashboard_item_text" />
+               </styleClass>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+               <children>
+                  <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Today earnings" />
+                  <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="164.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/sales.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
         <Label styleClass="header" text="Latest Sales" textAlignment="CENTER">
             <font>
                 <Font name="System Bold" size="24.0" />
