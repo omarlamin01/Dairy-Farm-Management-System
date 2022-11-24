@@ -4,8 +4,13 @@ import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
 import com.dfms.dairy_farm_management_system.models.Employee;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,12 +22,23 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -32,10 +48,22 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 public class EmployeesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //this line of code is so important for the export !!!!
+        BasicConfigurator.configure();
+
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         export_combo.setItems(list);
         displayEmployees();
         liveSearch(search_employee_input, employees_table);
+
+        //check what user select in the combo box
+        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF();
+            } else {
+                exportToExcel();
+            }
+        });
     }
 
     private Statement statement;
@@ -273,5 +301,123 @@ public class EmployeesController implements Initializable {
         System.out.println("Employee Cin: " + employee.getCin());
         System.out.println("Employee gender: " + employee.getGender());
         System.out.println("Employee Recrutement Date: " + employee.getHireDate());
+    }
+
+    void exportToExcel() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Employees");
+                Row header = sheet.createRow(0);
+                header.createCell(0).setCellValue("First Name");
+                header.createCell(1).setCellValue("Last Name");
+                header.createCell(2).setCellValue("Email");
+                header.createCell(3).setCellValue("Phone");
+                header.createCell(4).setCellValue("Address");
+                header.createCell(5).setCellValue("CIN");
+                header.createCell(6).setCellValue("Gender");
+                header.createCell(7).setCellValue("Hire Date");
+                header.createCell(8).setCellValue("Salary");
+
+                //get all employees from database
+                String query = "SELECT * FROM `employees`";
+                try {
+                    statement = connection.createStatement();
+                    ResultSet rs = statement.executeQuery(query);
+                    while (rs.next()) {
+                        int rowNum = rs.getRow();
+                        Row row = sheet.createRow(rowNum);
+                        row.createCell(0).setCellValue(rs.getString("first_name"));
+                        row.createCell(1).setCellValue(rs.getString("last_name"));
+                        row.createCell(2).setCellValue(rs.getString("email"));
+                        row.createCell(3).setCellValue(rs.getString("phone"));
+                        row.createCell(4).setCellValue(rs.getString("address"));
+                        row.createCell(5).setCellValue(rs.getString("cin"));
+                        if (rs.getString("gender").equals("M")) {
+                            row.createCell(6).setCellValue("Male");
+                        } else {
+                            row.createCell(6).setCellValue("Female");
+                        }
+                        row.createCell(7).setCellValue(rs.getString("recruitment_date"));
+                        row.createCell(8).setCellValue(rs.getString("salary"));
+                    }
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    void exportToPDF() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Document document = new Document();
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+                try {
+                    document.add(new Paragraph("Employees List"));
+                    document.add(new Paragraph(" "));
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+                PdfPTable table = new PdfPTable(9);
+                table.addCell("First Name");
+                table.addCell("Last Name");
+                table.addCell("Email");
+                table.addCell("Phone");
+                table.addCell("Address");
+                table.addCell("CIN");
+                table.addCell("Gender");
+                table.addCell("Hire Date");
+                table.addCell("Salary");
+
+                //get all employees from database
+                String query = "SELECT * FROM `employees`";
+                try {
+                    statement = connection.createStatement();
+                    ResultSet rs = statement.executeQuery(query);
+                    while (rs.next()) {
+                        table.addCell(rs.getString("first_name"));
+                        table.addCell(rs.getString("last_name"));
+                        table.addCell(rs.getString("email"));
+                        table.addCell(rs.getString("phone"));
+                        table.addCell(rs.getString("address"));
+                        table.addCell(rs.getString("cin"));
+                        if (rs.getString("gender").equals("M")) {
+                            table.addCell("Male");
+                        } else {
+                            table.addCell("Female");
+                        }
+                        table.addCell(rs.getString("recruitment_date"));
+                        table.addCell(rs.getString("salary"));
+                    }
+
+                    document.add(table);
+                    document.close();
+                    displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
     }
 }
