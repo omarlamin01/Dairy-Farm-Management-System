@@ -7,12 +7,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.executeQuery;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
@@ -61,6 +59,7 @@ public class DashboardController implements Initializable {
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = getConnection();
+    ResultSet resultSet = null;
 
     @FXML
     private Text today_earnings;
@@ -101,48 +100,57 @@ public class DashboardController implements Initializable {
 
     public void initDashboard() throws SQLException {
         //get total users
-        statement = connection.createStatement();
-        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM users");
-        total_users.setText(preparedStatement.executeQuery().toString());
+        resultSet = executeQuery("SELECT COUNT(*) FROM users");
+        if (resultSet.next()) {
+            total_users.setText(resultSet.getString(1));
+        }
 
         //get total suppliers
-        statement = connection.createStatement();
-        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM suppliers");
-        total_suppliers.setText(preparedStatement.executeQuery().toString());
+        resultSet = executeQuery("SELECT COUNT(*) FROM suppliers");
+        if (resultSet.next()) {
+            total_suppliers.setText(resultSet.getString(1));
+        }
 
         //get total products
-        statement = connection.createStatement();
-        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM products");
-        total_products.setText(preparedStatement.executeQuery().toString());
+        resultSet = executeQuery("SELECT COUNT(*) FROM stocks");
+        if (resultSet.next()) {
+            total_products.setText(resultSet.getString(1));
+        }
 
         //get total clients
-        statement = connection.createStatement();
-        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM clients");
-        total_clients.setText(preparedStatement.executeQuery().toString());
+        resultSet = executeQuery("SELECT COUNT(*) FROM clients");
+        if (resultSet.next()) {
+            total_clients.setText(resultSet.getString(1));
+        }
 
         //get total cows
-        statement = connection.createStatement();
-        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM animals WHERE type = 'cow'");
-        total_cows.setText(preparedStatement.executeQuery().toString());
+        resultSet = executeQuery("SELECT COUNT(*) FROM animals WHERE type = 'cow'");
+        if (resultSet.next()) {
+            total_cows.setText(resultSet.getString(1));
+        }
 
         //get total calfs
-        statement = connection.createStatement();
-        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM animals WHERE type = 'calf'");
-        total_calfs.setText(preparedStatement.executeQuery().toString());
+        resultSet = executeQuery("SELECT COUNT(*) FROM animals WHERE type = 'calf'");
+        if (resultSet.next()) {
+            total_calfs.setText(resultSet.getString(1));
+        }
 
         //get total bulls
-        statement = connection.createStatement();
-        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM animals WHERE type = 'bull'");
-        total_bulls.setText(preparedStatement.executeQuery().toString());
+        resultSet = executeQuery("SELECT COUNT(*) FROM animals WHERE type = 'bull'");
+        if (resultSet.next()) {
+            total_bulls.setText(resultSet.getString(1));
+        }
 
         //get today sales
-        statement = connection.createStatement();
-        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM sales WHERE date = CURDATE()");
-        today_sales.setText(preparedStatement.executeQuery().toString());
+        resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE date = CURDATE()");
+        if (resultSet.next()) {
+            today_sales.setText(resultSet.getString(1));
+        }
 
         //get today earnings
-        statement = connection.createStatement();
-        preparedStatement = connection.prepareStatement("SELECT SUM(total) FROM sales WHERE date = CURDATE()");
-        today_earnings.setText(preparedStatement.executeQuery().toString() + " $");
+        resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE date = CURDATE()");
+        if (resultSet.next()) {
+            today_earnings.setText(resultSet.getString(1));
+        }
     }
 }
