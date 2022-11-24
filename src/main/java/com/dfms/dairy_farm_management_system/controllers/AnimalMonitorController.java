@@ -10,9 +10,11 @@ import javafx.fxml.Initializable;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -105,10 +107,10 @@ public class AnimalMonitorController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        displayMonitors();
-        displayPregnancies();
-        displayVaccinations();
-        displayRoutines();
+        displayMonitors(getHealthStatus());
+        displayPregnancies(getPregnancies());
+        displayVaccinations(getVaccinations());
+        displayRoutines(getRoutines());
     }
 
     //get all the HealthStatus
@@ -139,8 +141,7 @@ public class AnimalMonitorController implements Initializable {
     }
 
     //display all the monitors in the table
-    public void displayMonitors() {
-        ObservableList<HealthStatus> monitors = getHealthStatus();
+    public void displayMonitors(ObservableList<HealthStatus> monitors) {
         animal_id_col.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
         healthMonitorNoteCol.setCellValueFactory(new PropertyValueFactory<>("notes"));
         health_score_col.setCellValueFactory(new PropertyValueFactory<>("health_score"));
@@ -208,7 +209,20 @@ public class AnimalMonitorController implements Initializable {
                         setGraphic(managebtn);
                         setText(null);
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            displayAlert("Delete", "Are you sure you want to delete this monitor?", Alert.AlertType.CONFIRMATION);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete");
+                            alert.setHeaderText("Are you sure you want to delete this monitor?");
+                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            HealthStatus monitor = monitors.get(index);
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    monitor.delete();
+                                    displayMonitors(monitors);
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+                            }
                         });
                     }
                 }
@@ -246,8 +260,7 @@ public class AnimalMonitorController implements Initializable {
     }
 
     //display all the pregnancies in the table
-    public void displayPregnancies() {
-        ObservableList<Pregnancy> pregnancies = getPregnancies();
+    public void displayPregnancies(ObservableList<Pregnancy> pregnancies) {
         cow_id_col.setCellValueFactory(new PropertyValueFactory<>("cow_id"));
         pregnancyStartDateCol.setCellValueFactory(new PropertyValueFactory<>("start_date"));
         pregnancyEndCol.setCellValueFactory(new PropertyValueFactory<>("delivery_date"));
@@ -300,7 +313,20 @@ public class AnimalMonitorController implements Initializable {
                         setGraphic(managebtn);
                         setText(null);
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            displayAlert("Delete", "Are you sure you want to delete this pregnancy?", Alert.AlertType.CONFIRMATION);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete");
+                            alert.setHeaderText("Are you sure you want to delete this pregnancy?");
+                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Pregnancy pregnancy = pregnancies.get(index);
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    pregnancy.delete();
+                                    displayPregnancies(pregnancies);
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+                            }
                         });
                     }
                 }
@@ -337,8 +363,7 @@ public class AnimalMonitorController implements Initializable {
     }
 
     //display all the vaccinations in the table
-    public void displayVaccinations() {
-        ObservableList<Vaccination> vaccinations = getVaccinations();
+    public void displayVaccinations(ObservableList<Vaccination> vaccinations) {
         animalIdCol.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
         vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("vaccine_name"));
         ResponsibleNameCol.setCellValueFactory(new PropertyValueFactory<>("responsible_name"));
@@ -391,7 +416,20 @@ public class AnimalMonitorController implements Initializable {
                         setGraphic(managebtn);
                         setText(null);
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            displayAlert("Delete", "Are you sure you want to delete this vaccination?", Alert.AlertType.CONFIRMATION);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete");
+                            alert.setHeaderText("Are you sure you want to delete this vaccination?");
+                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Vaccination vaccination = vaccinations.get(index);
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    vaccination.delete();
+                                    displayVaccinations(vaccinations);
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+                            }
                         });
                     }
                 }
@@ -427,8 +465,7 @@ public class AnimalMonitorController implements Initializable {
     }
 
     //display all the routines in the table
-    public void displayRoutines() {
-        ObservableList<Routine> routines = getRoutines();
+    public void displayRoutines(ObservableList<Routine> routines) {
         routineNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         routineNotesCol.setCellValueFactory(new PropertyValueFactory<>("note"));
         routineAdditionDateCol.setCellValueFactory(new PropertyValueFactory<>("created_at"));
@@ -480,7 +517,20 @@ public class AnimalMonitorController implements Initializable {
                         setGraphic(managebtn);
                         setText(null);
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            displayAlert("Delete", "Are you sure you want to delete this routine?", Alert.AlertType.CONFIRMATION);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete");
+                            alert.setHeaderText("Are you sure you want to delete this routine?");
+                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Routine routine = routines.get(index);
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    routine.delete();
+                                    displayRoutines(routines);
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+                            }
                         });
                     }
                 }
