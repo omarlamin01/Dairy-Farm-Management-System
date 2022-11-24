@@ -44,11 +44,20 @@ public class SalesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         combo.setItems(list);
+        combo1.setItems(list);
+
         combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
                 exportToPDF(AnimalSalesTable);
             } else {
                 exportToExcel();
+            }
+        });
+        combo1.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF(MilkSaleTable);
+            } else {
+                exportToExcel2();
             }
         });
         liveSearch(search_input, AnimalSalesTable);
@@ -74,7 +83,7 @@ public class SalesController implements Initializable {
     private TableColumn<MilkSale, String> client_c;
 
     @FXML
-    private ComboBox<?> combo1;
+    private ComboBox<String> combo1;
 
     @FXML
     private TableColumn<MilkSale, LocalDate> date_c;

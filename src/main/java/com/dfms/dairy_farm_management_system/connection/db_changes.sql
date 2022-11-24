@@ -29,3 +29,7 @@ ALTER TABLE users
 #change recruitment date column name in employees table
 ALTER TABLE employees
     CHANGE recruitment_date hire_date DATE NOT NULL;
+
+
+#change id column  in milk_sales table to be auto-increment
+ALTER TABLE milk_sales MODIFY id INTEGER NOT NULL AUTO_INCREMENT;
