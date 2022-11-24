@@ -1,30 +1,33 @@
 package com.dfms.dairy_farm_management_system.models;
 
-public class Supplier {
-    private int id_supplier;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+
+public class Supplier implements Model {
+    private int id;
     private String name;
     private String type;
+    private String phone;
     private String email;
-    private int phone;
-
-    public Supplier(int id_supplier, String name, String type, String email, int phone) {
-        this.id_supplier = id_supplier;
-        this.name = name;
-        this.type = type;
-        this.email = email;
-        this.phone = phone;
-    }
+    private Timestamp created_at;
+    private Timestamp updated_at;
 
     public Supplier() {
-
+        this.created_at = Timestamp.valueOf(LocalDateTime.now());
+        this.updated_at = Timestamp.valueOf(LocalDateTime.now());
     }
 
-    public int getId_supplier() {
-        return id_supplier;
+    public int getId() {
+        return id;
     }
 
-    public void setId_supplier(int id_supplier) {
-        this.id_supplier = id_supplier;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -51,11 +54,64 @@ public class Supplier {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public boolean save() {
+        String query = "INSERT INTO `suppliers` (name, type, phone, email, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?)";
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setString(1, name);
+            statement.setString(2, type);
+            statement.setString(3, phone);
+            statement.setString(4, email);
+            statement.setTimestamp(5, created_at);
+            statement.setTimestamp(6, updated_at);
+
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean update() {
+        String query = "UPDATE `suppliers` SET " +
+                "`name` = '" + name + "', " +
+                "`type` = '" + type + "', " +
+                "`phone` = '" + phone + "', " +
+                "`email` = '" + email + "', " +
+                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "' " +
+                "WHERE `id` = " + id;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        String query = "DELETE FROM `suppliers` WHERE `id` = " + id;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
