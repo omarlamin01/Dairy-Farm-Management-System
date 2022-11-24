@@ -568,7 +568,6 @@ public class AnimalMonitorController implements Initializable {
     public ObservableList<HealthStatus> searchForHealthStatus(String searchClause) {
         ObservableList<HealthStatus> monitors = FXCollections.observableArrayList();
         String query = "SELECT * FROM `health_status` WHERE `animal_id` LIKE '%" + searchClause +"%' OR `health_score` LIKE '%" + searchClause + "%' OR `notes` LIKE '%" + searchClause + "%' ORDER BY `created_at` DESC ";
-        System.out.println(query);
         try {
             ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
             while (resultSet.next()) {
@@ -595,7 +594,6 @@ public class AnimalMonitorController implements Initializable {
     public ObservableList<Pregnancy> searchForPregnancies(String searchClause) {
         ObservableList<Pregnancy> pregnancies = FXCollections.observableArrayList();
         String query = "SELECT * FROM `pregnancies` WHERE `cow_id` LIKE '%" + searchClause +"%' OR `notes` LIKE '%" + searchClause + "%' ORDER BY `created_at` DESC ";
-        System.out.println(query);
         try {
             ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
             while (resultSet.next()) {
@@ -621,7 +619,6 @@ public class AnimalMonitorController implements Initializable {
     public ObservableList<Vaccination> searchForVaccinations(String searchClause) {
         ObservableList<Vaccination> vaccinations = FXCollections.observableArrayList();
         String query = "SELECT * FROM `vaccination` WHERE `animal_id` LIKE '%" + searchClause + "%' OR `vaccine_id` IN (SELECT id FROM stocks WHERE name LIKE '%" + searchClause + "%') OR `responsible_id` IN (SELECT id FROM users WHERE first_name LIKE '%" + searchClause + "%' OR last_name LIKE '%" + searchClause + "%')";
-        System.out.println(query);
         try {
             ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
             while (resultSet.next()) {
@@ -646,7 +643,6 @@ public class AnimalMonitorController implements Initializable {
     public ObservableList<Routine> searchForRoutines(String searchClause) {
         ObservableList<Routine> routines = FXCollections.observableArrayList();
         String query = "SELECT * FROM `routines` WHERE `name` LIKE '%" + searchClause + "%' OR `note` LIKE '%" + searchClause + "'";
-        System.out.println(query);
         try {
             ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
             while (resultSet.next()) {
@@ -669,7 +665,6 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     public void healthStatusSearch(MouseEvent mouseEvent) {
         String searchClause = healthStatusSearch.getText().trim();
-        System.out.println(searchClause);
         if (!searchClause.isEmpty() && searchClause != "") {
             isSearchingForMonitors = true;
             displayMonitors(searchForHealthStatus(searchClause));
@@ -682,7 +677,6 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     public void pregnancySearch(MouseEvent mouseEvent) {
         String searchClause = pregnancySearch.getText().trim();
-        System.out.println(searchClause);
         if (!searchClause.isEmpty() && searchClause != "") {
             isSearchingForPregnancies = true;
             displayPregnancies(searchForPregnancies(searchClause));
@@ -695,7 +689,6 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     public void vaccinationSearch(MouseEvent mouseEvent) {
         String searchClause = vaccineSearch.getText().trim();
-        System.out.println(searchClause);
         if (!searchClause.isEmpty() && searchClause != "") {
             isSearchingForVaccinations = true;
             displayVaccinations(searchForVaccinations(searchClause));
@@ -708,7 +701,6 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     public void routineSearch(MouseEvent mouseEvent) {
         String searchClause = routineSearch.getText().trim();
-        System.out.println(searchClause);
         if (!searchClause.isEmpty() && searchClause != "") {
             isSearchingForRoutines = true;
             displayRoutines(searchForRoutines(searchClause));
