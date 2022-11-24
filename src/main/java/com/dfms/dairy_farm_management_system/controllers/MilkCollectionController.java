@@ -295,7 +295,7 @@ public class MilkCollectionController implements Initializable {
         if (file != null) {
             try {
                 Workbook workbook = new XSSFWorkbook();
-                Sheet sheet = workbook.createSheet("Stock");
+                Sheet sheet = workbook.createSheet("Milk Collection");
                 Row header = sheet.createRow(0);
                 header.createCell(0).setCellValue("Milk Collection ID");
                 header.createCell(1).setCellValue("Cow ID");
