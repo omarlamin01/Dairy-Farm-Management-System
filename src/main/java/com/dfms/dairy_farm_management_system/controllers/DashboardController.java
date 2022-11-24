@@ -3,17 +3,26 @@ package com.dfms.dairy_farm_management_system.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
+import javafx.scene.control.Alert;
+import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.sql.*;
 import java.util.ResourceBundle;
+
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.executeQuery;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class DashboardController implements Initializable {
 
-    public DashboardController() {
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            initDashboard();
+        } catch (SQLException e) {
+            displayAlert("Error", "Error occurred while loading dashboard", Alert.AlertType.ERROR);
+        }
         PieChart.Data slice1 = new PieChart.Data("Desktop", 213);
         PieChart.Data slice2 = new PieChart.Data("Phone", 67);
         PieChart.Data slice3 = new PieChart.Data("Tablet", 36);
@@ -47,6 +56,37 @@ public class DashboardController implements Initializable {
         barChart.getData().add(dataSeries2);
     }
 
+    private Statement statement;
+    private PreparedStatement preparedStatement;
+    private Connection connection = getConnection();
+    ResultSet resultSet = null;
+
+    @FXML
+    private Text today_earnings;
+
+    @FXML
+    private Text today_sales;
+
+    @FXML
+    private Text total_bulls;
+
+    @FXML
+    private Text total_calfs;
+
+    @FXML
+    private Text total_clients;
+
+    @FXML
+    private Text total_cows;
+
+    @FXML
+    private Text total_products;
+
+    @FXML
+    private Text total_suppliers;
+
+    @FXML
+    private Text total_users;
     @FXML
     private BarChart<String, Number> barChart;
 
@@ -57,4 +97,64 @@ public class DashboardController implements Initializable {
 
     @FXML
     private NumberAxis yAxis;
+
+    public void initDashboard() throws SQLException {
+        //get total users
+        resultSet = executeQuery("SELECT COUNT(*) FROM users");
+        if (resultSet.next()) {
+            total_users.setText(resultSet.getString(1));
+        }
+
+        //get total suppliers
+        resultSet = executeQuery("SELECT COUNT(*) FROM suppliers");
+        if (resultSet.next()) {
+            total_suppliers.setText(resultSet.getString(1));
+        }
+
+        //get total products
+        resultSet = executeQuery("SELECT COUNT(*) FROM stocks");
+        if (resultSet.next()) {
+            total_products.setText(resultSet.getString(1));
+        }
+
+        //get total clients
+        resultSet = executeQuery("SELECT COUNT(*) FROM clients");
+        if (resultSet.next()) {
+            total_clients.setText(resultSet.getString(1));
+        }
+
+        //get total cows
+        resultSet = executeQuery("SELECT COUNT(*) FROM animals WHERE type = 'cow'");
+        if (resultSet.next()) {
+            total_cows.setText(resultSet.getString(1));
+        }
+
+        //get total calfs
+        resultSet = executeQuery("SELECT COUNT(*) FROM animals WHERE type = 'calf'");
+        if (resultSet.next()) {
+            total_calfs.setText(resultSet.getString(1));
+        }
+
+        //get total bulls
+        resultSet = executeQuery("SELECT COUNT(*) FROM animals WHERE type = 'bull'");
+        if (resultSet.next()) {
+            total_bulls.setText(resultSet.getString(1));
+        }
+
+        //get today sales
+        resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE()");
+        if (resultSet.next()) {
+            today_sales.setText(resultSet.getString(1));
+        } else {
+            today_sales.setText("0");
+        }
+
+        //get today earnings
+        resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()");
+        if (resultSet.next()) {
+            today_earnings.setText(resultSet.getString(1));
+        } else {
+            today_earnings.setText("0");
+        }
+    }
 }

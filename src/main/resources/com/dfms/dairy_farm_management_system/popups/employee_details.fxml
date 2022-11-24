@@ -307,7 +307,7 @@
                                         <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <Label prefWidth="200.0" text="Rerecruitment datess" GridPane.columnIndex="1">
+                                        <Label prefWidth="200.0" text="Hire date" GridPane.columnIndex="1">
                                             <GridPane.margin>
                                                 <Insets left="10.0" />
                                             </GridPane.margin>

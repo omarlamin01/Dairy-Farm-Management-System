@@ -1,4 +1,5 @@
 package com.dfms.dairy_farm_management_system.connection;
+
 import javafx.scene.control.Alert;
 
 import java.sql.*;
@@ -19,7 +20,7 @@ public class DBConfig {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            //displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
         return conn;
     }

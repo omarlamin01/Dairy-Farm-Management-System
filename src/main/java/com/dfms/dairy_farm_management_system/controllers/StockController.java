@@ -2,13 +2,24 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateProductController;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.Stock;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.print.*;
+
+import java.awt.print.*;
+
+import javafx.print.Paper;
+import javafx.print.PrinterJob;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,9 +27,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -32,9 +53,23 @@ public class StockController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //this line of code is so important for the export !!!!
+        BasicConfigurator.configure();
+
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         export_combo.setItems(list);
         displayStock();
+
+        //check what user select in the combo box
+        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF(stock_table);
+            } else {
+                exportToExcel();
+            }
+        });
+
+        liveSearch(search_stock_input, stock_table);
     }
 
     private Statement statement;
@@ -222,5 +257,151 @@ public class StockController implements Initializable {
     @FXML
     void openAddProduct(MouseEvent event) throws IOException {
         openNewWindow("Add Product", "add_new_product");
+    }
+
+    @FXML
+    public void refreshTable() {
+        stock_table.getItems().clear();
+        displayStock();
+    }
+
+    void exportToExcel() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Stock");
+                Row header = sheet.createRow(0);
+                header.createCell(0).setCellValue("Product ID");
+                header.createCell(1).setCellValue("Product Name");
+                header.createCell(2).setCellValue("Product Type");
+                header.createCell(3).setCellValue("Quantity");
+                header.createCell(4).setCellValue("Availability");
+                header.createCell(5).setCellValue("Unit");
+                header.createCell(6).setCellValue("Added Date");
+
+                //get all employees from database
+                String query = "SELECT * FROM `stocks`";
+                try {
+                    statement = connection.createStatement();
+                    ResultSet rs = statement.executeQuery(query);
+                    while (rs.next()) {
+                        int rowNum = rs.getRow();
+                        Row row = sheet.createRow(rowNum);
+                        row.createCell(0).setCellValue(rs.getString("id"));
+                        row.createCell(1).setCellValue(rs.getString("name"));
+                        row.createCell(2).setCellValue(rs.getString("type"));
+                        row.createCell(3).setCellValue(rs.getString("quantity"));
+                        row.createCell(4).setCellValue(rs.getString("availability"));
+                        row.createCell(5).setCellValue(rs.getString("unit"));
+                        row.createCell(6).setCellValue(rs.getString("created_at"));
+                    }
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Stock exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    void exportToPDF(Node node_to_print) {
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Save As");
+//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+//        File file = fileChooser.showSaveDialog(null);
+//        if (file != null) {
+//            try {
+//                Document document = new Document();
+//                PdfWriter.getInstance(document, new FileOutputStream(file));
+//                document.open();
+//                try {
+//                    document.add(new Paragraph(Element.ALIGN_CENTER, "Stock Report", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
+//                    document.add(new Paragraph(" "));
+//                } catch (Exception e) {
+//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//                }
+//                PdfPTable table = new PdfPTable(9);
+//                table.addCell("Product ID");
+//                table.addCell("Product Name");
+//                table.addCell("Product Type");
+//                table.addCell("Quantity");
+//                table.addCell("Availability");
+//                table.addCell("Unit");
+//                table.addCell("Added Date");
+//
+//                //make pdf page width bigger
+//                table.setWidthPercentage(100);
+//                table.setSpacingBefore(10f);
+//                table.setSpacingAfter(10f);
+//
+//                //get all employees from database
+//                String query = "SELECT * FROM `stocks`";
+//                try {
+//                    statement = connection.createStatement();
+//                    ResultSet rs = statement.executeQuery(query);
+//                    while (rs.next()) {
+//                        table.addCell(rs.getString("id"));
+//                        table.addCell(rs.getString("name"));
+//                        table.addCell(rs.getString("type"));
+//                        table.addCell(rs.getString("quantity"));
+//                        table.addCell(rs.getString("availability"));
+//                        table.addCell(rs.getString("unit"));
+//                        table.addCell(rs.getString("created_at"));
+//                    }
+//
+//                    document.add(table);
+//                    document.close();
+//                    displayAlert("Success", "Stcok exported successfully", Alert.AlertType.INFORMATION);
+//                } catch (Exception e) {
+//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//                }
+//            } catch (Exception e) {
+//                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//            }
+//        }
+//    }
+        Printer printer = Printer.getDefaultPrinter();
+        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.EQUAL);
+
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            job.getJobSettings().setPageLayout(pageLayout);
+            //rotate stock table
+            boolean success = job.printPage(node_to_print);
+            // set orientation to landscape
+            if (success) {
+                job.endJob();
+            } else {
+                displayAlert("Error", "Failed to print", Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    public void liveSearch(TextField search_input, TableView table) {
+        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                refreshTable();
+            } else {
+                ObservableList<Stock> filteredList = FXCollections.observableArrayList();
+                ObservableList<Stock> products = getProducts();
+                for (Stock product : products) {
+                    if (product.getName().toLowerCase().contains(newValue.toLowerCase()) || product.getType().toLowerCase().contains(newValue.toLowerCase())) {
+                        filteredList.add(product);
+                    }
+                }
+                table.setItems(filteredList);
+            }
+        });
     }
 }

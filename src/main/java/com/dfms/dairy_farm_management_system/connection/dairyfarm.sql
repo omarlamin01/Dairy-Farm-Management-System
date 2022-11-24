@@ -133,7 +133,7 @@ CREATE TABLE `employee` (
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`id`, `first_name`, `last_name`, `gender`, `cin`, `email`, `phone`, `address`, `salary`, `recruitment_date`, `contract_type`, `created_at`, `updated_at`) VALUES
+INSERT INTO `employee` (`id`, `first_name`, `last_name`, `gender`, `cin`, `email`, `phone`, `address`, `salary`, `hire_date`, `contract_type`, `created_at`, `updated_at`) VALUES
 (1, 'Naima', 'Adardor', 'F', 'KJDKDIRT789', 'adardournaima@gmail.com', '098477895', 'jfjfu', 859595000, '2022-11-21', 'CDD', '2022-11-12', '2022-11-12');
 
 -- --------------------------------------------------------

@@ -79,7 +79,7 @@ public class EmployeeDetailsController implements Initializable {
                 cin.setText(resultSet.getString("cin"));
                 phone.setText(resultSet.getString("phone"));
                 contract_type.setText(resultSet.getString("contract_type"));
-                recruitment_date.setText(resultSet.getString("recruitment_date"));
+                recruitment_date.setText(resultSet.getString("hire_date"));
 
                 //TODO: get the role name from the database
             }

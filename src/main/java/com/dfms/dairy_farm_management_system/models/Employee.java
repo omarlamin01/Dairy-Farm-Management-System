@@ -5,7 +5,7 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.sql.Date;
 
 public class Employee implements Model {
     private String first_name;
@@ -94,8 +94,8 @@ public class Employee implements Model {
         return hire_date;
     }
 
-    public void setHireDate(Date recruitment_date) {
-        this.hire_date = recruitment_date;
+    public void setHireDate(Date hire_date) {
+        this.hire_date = hire_date;
     }
 
     public String getContractType() {
@@ -124,7 +124,7 @@ public class Employee implements Model {
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO `employees` (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO `employees` (first_name, last_name, gender, cin, email, phone, address, salary, hire_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -142,7 +142,7 @@ public class Employee implements Model {
             preparedStatement.setString(6, phone);
             preparedStatement.setString(7, adress);
             preparedStatement.setString(8, String.valueOf(salary));
-            preparedStatement.setString(9, hire_date.toString());
+            preparedStatement.setDate(9, hire_date);
             preparedStatement.setString(10, contract_type);
 
             //TODO: add created_at and updated_at and ROLE
@@ -167,7 +167,7 @@ public class Employee implements Model {
                 "', `phone` = '" + phone +
                 "', `address` = '" + adress +
                 "', `salary` = '" + salary +
-                "', `recruitment_date` = '" + "2022-11-12" +
+                "', `hire_date` = '" + hire_date +
                 "', `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) + "' " +
                 "WHERE `employees`.`cin` = '" + cin.toUpperCase() + "'";

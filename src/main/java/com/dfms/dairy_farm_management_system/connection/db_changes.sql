@@ -21,3 +21,11 @@ ALTER TABLE stocks
 # remove unique constraint from name column in stocks table
 ALTER TABLE stocks
     DROP INDEX name;
+
+# update the password type in users table
+ALTER TABLE users
+    MODIFY password VARCHAR(255) NOT NULL;
+
+#change recruitment date column name in employees table
+ALTER TABLE employees
+    CHANGE recruitment_date hire_date DATE NOT NULL;
