@@ -102,16 +102,19 @@ public class MilkCollection  implements Model{
     public boolean update() {
 
 
-        String updateQuery = "UPDATE `milk_collections`" +
-                " SET `cow_id` = '" + cow_id +
-                "', `period` = '" + period +
-                "', ` quantity` = '" + quantity +
-                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
-                "WHERE `milk_collections`.`id` = " + id;
+        String updateQuery = "UPDATE `milk_collections` SET " +
+                "`cow_id` = ?,"+
+                "`period` =?,"+
+                "`quantity` = ?," +
+ "`updated_at` = ? WHERE `milk_collections`.`id` = " + this.id;
         try {
             Connection connection = DBConfig.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
-            return preparedStatement.executeUpdate() != 0;
+            PreparedStatement statement = connection.prepareStatement(updateQuery);
+            statement.setString(1, cow_id);
+            statement.setString(2, period);
+            statement.setFloat(3, quantity);
+            statement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+            return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
