@@ -5,6 +5,10 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewAnimalController;
 import com.dfms.dairy_farm_management_system.models.Animal;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -20,15 +24,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -57,7 +65,7 @@ public class ManageAnimalController implements Initializable {
     @FXML
     private TableColumn<Animal, String> colactions;
     @FXML
-    private ComboBox<String> combo;
+    private ComboBox<String> export_combo;
     @FXML
     private TextField textField_search;
 
@@ -71,13 +79,20 @@ public class ManageAnimalController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
-        combo.setItems(list);
+        export_combo.setItems(list);
         try {
             displayAnimals();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         liveSearch();
+        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF();
+            } else {
+                exportToExcel();
+            }
+        });
     }
 
 
@@ -292,5 +307,106 @@ public class ManageAnimalController implements Initializable {
         SortedList<Animal> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(animals.comparatorProperty());
         animals.setItems(sortedData);
+    }
+    void exportToPDF() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Document document = new Document();
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+                try {
+                    document.add(new Paragraph("Animal List"));
+                    document.add(new Paragraph(" "));
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+                PdfPTable table = new PdfPTable(9);
+                table.addCell("Cow ID");
+                table.addCell("Race");
+                table.addCell("Birth Date");
+                table.addCell("Type");
+                table.addCell("Routine");
+                table.addCell("Purchase Date");
+                //get all animals from database
+                String query = "SELECT * FROM `animals`";
+                try {
+                    Statement statement = connection.createStatement();
+                    ResultSet rs = statement.executeQuery(query);
+                    while (rs.next()) {
+                        table.addCell(rs.getString("id"));
+                        table.addCell(rs.getString("birth_date"));
+                        table.addCell(rs.getString("purchase_date"));
+                        table.addCell(rs.getString("routine"));
+                        table.addCell(rs.getString("race"));
+                        table.addCell(rs.getString("type"));
+
+                    }
+
+                    document.add(table);
+                    document.close();
+                    displayAlert("Success", "Animals exported successfully", Alert.AlertType.INFORMATION);
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+    void exportToExcel() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Animals");
+                Row header = sheet.createRow(0);
+                header.createCell(0).setCellValue("Cow ID");
+                header.createCell(1).setCellValue("Race");
+                header.createCell(2).setCellValue("Birth Date");
+                header.createCell(3).setCellValue("Type");
+                header.createCell(4).setCellValue("Routine");
+                header.createCell(5).setCellValue("Purchase Date");
+
+                //get all employees from database
+                String query = "SELECT * FROM `animals`";
+                try {
+                    Statement statement = connection.createStatement();
+                    ResultSet rs = statement.executeQuery(query);
+                    while (rs.next()) {
+                        int rowNum = rs.getRow();
+                        Row row = sheet.createRow(rowNum);
+                        row.createCell(0).setCellValue(rs.getString("id"));
+                        row.createCell(1).setCellValue(rs.getString("birth_date"));
+                        row.createCell(2).setCellValue(rs.getString("purchase_date"));
+                        row.createCell(3).setCellValue(rs.getString("routine"));
+                        row.createCell(4).setCellValue(rs.getString("race"));
+                        row.createCell(5).setCellValue(rs.getString("type"));
+
+                    }
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Animals exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    public void refreshTable(MouseEvent mouseEvent) {
+        refreshTableAnimal();
     }
 }
