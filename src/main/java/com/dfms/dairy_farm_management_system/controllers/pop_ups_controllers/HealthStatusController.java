@@ -2,47 +2,51 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.models.HealthStatus;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class HealthStatusController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setAnimals();
-
-        //set health status options
-        healthStatus.setItems(healthStatusOptions);
-
-        //set health monitor & vaccine animals ids list
-        animalId.setItems(animals);
-    }
-
     @FXML
     ComboBox<String> animalId;
     @FXML
     DatePicker monitorDate;
     @FXML
-    ComboBox<String> healthStatus;
+    ComboBox<String> healthStatusCombo;
     @FXML
     TextArea healthStatusNotes;
 
     ObservableList<String> healthStatusOptions = FXCollections.observableArrayList("excellent", "good", "bad", "very bad");
     ObservableList<String> animals;
+
+    HealthStatus healthStatus = null;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setAnimals();
+        healthStatusCombo.setItems(healthStatusOptions);
+        animalId.setItems(animals);
+        if (healthStatus != null) {
+            animalId.setValue(healthStatus.getAnimal_id());
+            monitorDate.setValue(healthStatus.getControl_date().toLocalDate());
+            healthStatusCombo.setValue(healthStatus.getHealth_score());
+            healthStatusNotes.setText(healthStatus.getNotes());
+        }
+    }
+
+    public void initData(HealthStatus healthStatus) {
+        this.healthStatus = healthStatus;
+    }
 
     public void setAnimals() {
         //get animals ids from database
@@ -74,7 +78,7 @@ public class HealthStatusController implements Initializable {
         HealthStatus monitor = new HealthStatus();
         monitor.setAnimal_id(animalId.getValue());
         monitor.setControl_date(Date.valueOf(monitorDate.getValue()));
-        monitor.setHealth_score(healthStatus.getValue());
+        monitor.setHealth_score(healthStatusCombo.getValue());
         monitor.setNotes(healthStatusNotes.getText());
         if (monitor.save()) {
             closePopUp(mouseEvent);
