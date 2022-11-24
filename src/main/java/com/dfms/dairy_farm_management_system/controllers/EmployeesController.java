@@ -4,6 +4,10 @@ import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
 import com.dfms.dairy_farm_management_system.models.Employee;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,6 +53,15 @@ public class EmployeesController implements Initializable {
         export_combo.setItems(list);
         displayEmployees();
         liveSearch(search_employee_input, employees_table);
+
+        //check what user select in the combo box
+        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF();
+            } else {
+                exportToExcel();
+            }
+        });
     }
 
     private Statement statement;
@@ -288,8 +301,7 @@ public class EmployeesController implements Initializable {
         System.out.println("Employee Recrutement Date: " + employee.getHireDate());
     }
 
-    @FXML
-    void export(ActionEvent event) {
+    void exportToExcel() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
         fileChooser.getExtensionFilters().addAll(
@@ -344,6 +356,37 @@ public class EmployeesController implements Initializable {
                 workbook.close();
 
                 displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    void exportToPDF() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
+        );
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Document document = new Document();
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+                try {
+                    document.add(new Paragraph("Employees List"));
+                    document.add(new Paragraph(" "));
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+                PdfPTable table = new PdfPTable(9);
+                table.addCell("First Name");
+                table.addCell("Last Name");
+                table.addCell("Email");
+                table.addCell("Phone");
+                table.addCell("Address");
+                table.addCell("CIN");
             } catch (Exception e) {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
