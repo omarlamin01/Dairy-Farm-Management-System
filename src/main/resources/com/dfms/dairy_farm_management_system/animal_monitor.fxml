@@ -190,12 +190,11 @@
                     </HBox>
                     <TableView fx:id="vaccinationTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                         <columns>
-                            <TableColumn fx:id="vaccineNameCol" prefWidth="100.0" text="Animal id" />
-                            <TableColumn fx:id="vaccineDoseCol" prefWidth="120.0" text="Vaccine" />
-                     <TableColumn fx:id="vaccineDoseCol1" prefWidth="120.0" text="Responsible" />
-                            <TableColumn fx:id="vaccinationNotesCol" prefWidth="233.33334350585938" text="Note" />
-                            <TableColumn fx:id="vaccinationDateCol" prefWidth="120.0" text="Date" />
-                            <TableColumn fx:id="vaccinationActions" prefWidth="100.0" text="Actions" />
+                            <TableColumn fx:id="animalIdCol" prefWidth="140.0" text="Animal id" />
+                            <TableColumn fx:id="vaccineNameCol" prefWidth="160.0" text="Vaccine" />
+                     <TableColumn fx:id="ResponsibleNameCol" prefWidth="160.0" text="Responsible" />
+                            <TableColumn fx:id="vaccinationDateCol" prefWidth="160.0" text="Date" />
+                            <TableColumn fx:id="vaccinationActions" prefWidth="140.0" text="Actions" />
                         </columns>
                     </TableView>
                 </VBox>
