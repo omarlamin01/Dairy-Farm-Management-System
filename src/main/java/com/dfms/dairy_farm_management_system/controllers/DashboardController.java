@@ -3,15 +3,28 @@ package com.dfms.dairy_farm_management_system.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
+import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            initDashboard();
+        } catch (SQLException e) {
+            displayAlert("Error", "Error occurred while loading dashboard", Alert.AlertType.ERROR);
+        }
         PieChart.Data slice1 = new PieChart.Data("Desktop", 213);
         PieChart.Data slice2 = new PieChart.Data("Phone", 67);
         PieChart.Data slice3 = new PieChart.Data("Tablet", 36);
@@ -44,6 +57,10 @@ public class DashboardController implements Initializable {
         barChart.getData().add(dataSeries1);
         barChart.getData().add(dataSeries2);
     }
+
+    private Statement statement;
+    private PreparedStatement preparedStatement;
+    private Connection connection = getConnection();
 
     @FXML
     private Text today_earnings;
@@ -81,4 +98,51 @@ public class DashboardController implements Initializable {
 
     @FXML
     private NumberAxis yAxis;
+
+    public void initDashboard() throws SQLException {
+        //get total users
+        statement = connection.createStatement();
+        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM users");
+        total_users.setText(preparedStatement.executeQuery().toString());
+
+        //get total suppliers
+        statement = connection.createStatement();
+        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM suppliers");
+        total_suppliers.setText(preparedStatement.executeQuery().toString());
+
+        //get total products
+        statement = connection.createStatement();
+        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM products");
+        total_products.setText(preparedStatement.executeQuery().toString());
+
+        //get total clients
+        statement = connection.createStatement();
+        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM clients");
+        total_clients.setText(preparedStatement.executeQuery().toString());
+
+        //get total cows
+        statement = connection.createStatement();
+        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM animals WHERE type = 'cow'");
+        total_cows.setText(preparedStatement.executeQuery().toString());
+
+        //get total calfs
+        statement = connection.createStatement();
+        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM animals WHERE type = 'calf'");
+        total_calfs.setText(preparedStatement.executeQuery().toString());
+
+        //get total bulls
+        statement = connection.createStatement();
+        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM animals WHERE type = 'bull'");
+        total_bulls.setText(preparedStatement.executeQuery().toString());
+
+        //get today sales
+        statement = connection.createStatement();
+        preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM sales WHERE date = CURDATE()");
+        today_sales.setText(preparedStatement.executeQuery().toString());
+
+        //get today earnings
+        statement = connection.createStatement();
+        preparedStatement = connection.prepareStatement("SELECT SUM(total) FROM sales WHERE date = CURDATE()");
+        today_earnings.setText(preparedStatement.executeQuery().toString() + " $");
+    }
 }
