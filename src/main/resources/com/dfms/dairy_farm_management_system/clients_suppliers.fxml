@@ -55,7 +55,7 @@
                      <VBox.margin>
                          <Insets bottom="10.0" />
                      </VBox.margin>
-                     <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for client..." styleClass="text-field-search">
+                     <TextField fx:id="search_client_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" onMouseEntered="#search" prefHeight="40.0" prefWidth="360.0" promptText="Search for client..." styleClass="text-field-search">
                          <padding>
                              <Insets left="10.0" />
                          </padding>
@@ -72,6 +72,21 @@
                      </Button>
                      <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                          <ComboBox fx:id="combo" promptText="Export" styleClass="combo_box" />
+                     <Button fx:id="refresh_table_btn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" text="Refresh">
+                        <graphic>
+                           <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../icons/refresh.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                        <opaqueInsets>
+                           <Insets />
+                        </opaqueInsets>
+                        <HBox.margin>
+                           <Insets right="10.0" />
+                        </HBox.margin>
+                     </Button>
                          <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddClient" styleClass="button-add" text="New client" textAlignment="CENTER">
                              <graphic>
                                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -83,12 +98,12 @@
                  </HBox>
                  <TableView fx:id="TableClient" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                      <columns>
-                         <TableColumn prefWidth="60.0" text="ID" />
-                         <TableColumn prefWidth="150.0" text="Name" />
-                         <TableColumn prefWidth="150.0" text="Type" />
-                         <TableColumn prefWidth="150.0" text="Email" />
-                         <TableColumn prefWidth="150.0" text="Phone" />
-                         <TableColumn prefWidth="155.33331298828125" text="Actions" />
+                         <TableColumn fx:id="colidClient" prefWidth="60.0" text="ID" />
+                         <TableColumn fx:id="colnameClient" prefWidth="150.0" text="Name" />
+                         <TableColumn fx:id="coltypeClient" prefWidth="150.0" text="Type" />
+                         <TableColumn fx:id="colemailClient" prefWidth="150.0" text="Email" />
+                         <TableColumn fx:id="colphoneClient" prefWidth="150.0" text="Phone" />
+                         <TableColumn fx:id="actionClient" prefWidth="155.33331298828125" text="Actions" />
                      </columns>
                  </TableView>
              </VBox>

@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -36,7 +37,8 @@ public class NewClientController implements Initializable {
 
     @FXML
     private Button add_client_btn;
-    private String client_ID;
+    private int client_ID;
+    private boolean update;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,20 +54,32 @@ public class NewClientController implements Initializable {
     @FXML
     public void addNewClient(MouseEvent mouseEvent) {
         Client client = new Client();
-
+        if (this.update) {
+            client.setId(this.client_ID);
+            client.setName(this.clientName.getText());
+            client.setPhone(this.phoneNumberInput.getText());
+            client.setEmail(this.emailInput.getText());
+            client.setType(this.typeCombo.getValue());
+            if (client.update()) {
+                displayAlert("Success", "Client updated successfully.", Alert.AlertType.INFORMATION);
+                clear();
+            } else {
+                displayAlert("Warning", "Client not updated", Alert.AlertType.WARNING);
+            }
+        }else{
         client.setName(this.clientName.getText());
         client.setPhone(this.phoneNumberInput.getText());
         client.setEmail(this.emailInput.getText());
         client.setType(this.typeCombo.getValue());
 
         if (client.save()) {
-            clear();
             displayAlert("SUCESS", "Client added successfully.", Alert.AlertType.INFORMATION);
+            this.clear();
         } else {
             displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
         }
-    }
-    public void fetchClient(String id_client, String Clientname, String email, String clientPhoneNumber,String type) {
+    }}
+    public void fetchClient(int id_client, String Clientname, String email, String clientPhoneNumber,String type) {
         this.client_ID = id_client;
         head.setText("Update Client Num: " + id_client);
         clientName.setText(Clientname);
@@ -78,11 +92,13 @@ public class NewClientController implements Initializable {
     }
     private void clear() {
         typeCombo.getSelectionModel().clearSelection();
-        clientName.setText(null);
-       phoneNumberInput.setText(null);
-       emailInput.setText(null);
+        clientName.setText("");
+        phoneNumberInput.setText("");
+        emailInput.setText("");
 
 
     }
-
+    public void setUpdate(boolean b) {
+        this.update = b;
+    }
 }

@@ -152,7 +152,6 @@ public class Animal{
 
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        System.out.println("id === " + id);
         Connection connection = DBConfig.getConnection();
         String query_update = "UPDATE `animals` SET " +
                 "`birth_date` = ?,"+
