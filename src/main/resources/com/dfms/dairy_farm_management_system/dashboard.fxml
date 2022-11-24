@@ -79,7 +79,7 @@
                     </font>
                 </Text>
                 <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="164.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../../../icons/employees.png" />
+                    <Image url="@../../../icons/client.png" />
                 </ImageView>
             </Pane>
             <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #39DBFF;">
@@ -97,7 +97,7 @@
                     </font>
                 </Text>
                 <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="164.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../../../icons/employees.png" />
+                    <Image url="@../../../icons/supplier.png" />
                 </ImageView>
             </Pane>
         </HBox>
@@ -117,7 +117,7 @@
                     </font>
                 </Text>
                 <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="170.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../../../icons/employees.png" />
+                    <Image url="@../../../icons/stock.png" />
                 </ImageView>
             </Pane>
             <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #1E1E1E;">
@@ -135,7 +135,7 @@
                     </font>
                 </Text>
                 <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="164.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../../../icons/employees.png" />
+                    <Image url="@../../../icons/animal.png" />
                 </ImageView>
             </Pane>
             <Pane prefHeight="200.0" prefWidth="260.0" style="-fx-background-color: #713DC7;">
@@ -146,14 +146,14 @@
                 <HBox.margin>
                     <Insets right="10.0" />
                 </HBox.margin>
-                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total users" />
+                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total sales" />
                 <Text fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
                 </Text>
                 <ImageView fitHeight="82.0" fitWidth="82.0" layoutX="164.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../../../icons/employees.png" />
+                    <Image url="@../../../icons/sales.png" />
                 </ImageView>
             </Pane>
         </HBox>
