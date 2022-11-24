@@ -105,6 +105,11 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     TableColumn<Routine, String> routineActionsCol;
 
+    boolean isSearchingForMonitors = false;
+    boolean isSearchingForPregnancies = false;
+    boolean isSearchingForVaccinations = false;
+    boolean isSearchingForRoutines = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         displayMonitors(getHealthStatus());
@@ -218,7 +223,7 @@ public class AnimalMonitorController implements Initializable {
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     monitor.delete();
-                                    displayMonitors(monitors);
+                                    displayMonitors(isSearchingForMonitors ? monitors : getHealthStatus());
                                 } catch (Exception e) {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
@@ -322,7 +327,7 @@ public class AnimalMonitorController implements Initializable {
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     pregnancy.delete();
-                                    displayPregnancies(pregnancies);
+                                    displayPregnancies(isSearchingForPregnancies ? pregnancies : getPregnancies());
                                 } catch (Exception e) {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
@@ -425,7 +430,7 @@ public class AnimalMonitorController implements Initializable {
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     vaccination.delete();
-                                    displayVaccinations(vaccinations);
+                                    displayVaccinations(isSearchingForVaccinations ? vaccinations : getVaccinations());
                                 } catch (Exception e) {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
@@ -526,7 +531,7 @@ public class AnimalMonitorController implements Initializable {
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     routine.delete();
-                                    displayRoutines(routines);
+                                    displayRoutines(isSearchingForRoutines ? routines : getRoutines());
                                 } catch (Exception e) {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
