@@ -26,20 +26,15 @@ public class PregnancyController implements Initializable {
     TextArea pregnancyNotes;
     ObservableList<String> cows;
 
-    Pregnancy pregnancy = null;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setCows();
-        if (pregnancy != null) {
-            cowPregnancyID.setValue(pregnancy.getCow_id());
-            pregnancyStartDate.setValue(pregnancy.getStart_date().toLocalDate());
-            pregnancyNotes.setText(pregnancy.getNotes());
-        }
     }
 
     public void initData(Pregnancy pregnancy) {
-        this.pregnancy = pregnancy;
+        cowPregnancyID.setValue(pregnancy.getCow_id());
+        pregnancyStartDate.setValue(pregnancy.getStart_date().toLocalDate());
+        pregnancyNotes.setText(pregnancy.getNotes());
     }
 
     public void setCows() {
