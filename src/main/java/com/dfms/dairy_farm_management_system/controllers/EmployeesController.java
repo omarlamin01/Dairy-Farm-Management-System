@@ -304,10 +304,7 @@ public class EmployeesController implements Initializable {
     void exportToExcel() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
-                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
-        );
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
@@ -365,9 +362,7 @@ public class EmployeesController implements Initializable {
     void exportToPDF() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
-        );
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
@@ -387,6 +382,37 @@ public class EmployeesController implements Initializable {
                 table.addCell("Phone");
                 table.addCell("Address");
                 table.addCell("CIN");
+                table.addCell("Gender");
+                table.addCell("Hire Date");
+                table.addCell("Salary");
+
+                //get all employees from database
+                String query = "SELECT * FROM `employees`";
+                try {
+                    statement = connection.createStatement();
+                    ResultSet rs = statement.executeQuery(query);
+                    while (rs.next()) {
+                        table.addCell(rs.getString("first_name"));
+                        table.addCell(rs.getString("last_name"));
+                        table.addCell(rs.getString("email"));
+                        table.addCell(rs.getString("phone"));
+                        table.addCell(rs.getString("address"));
+                        table.addCell(rs.getString("cin"));
+                        if (rs.getString("gender").equals("M")) {
+                            table.addCell("Male");
+                        } else {
+                            table.addCell("Female");
+                        }
+                        table.addCell(rs.getString("recruitment_date"));
+                        table.addCell(rs.getString("salary"));
+                    }
+
+                    document.add(table);
+                    document.close();
+                    displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
             } catch (Exception e) {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
