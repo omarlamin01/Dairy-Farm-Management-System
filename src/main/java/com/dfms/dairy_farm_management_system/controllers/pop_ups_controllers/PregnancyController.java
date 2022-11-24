@@ -20,19 +20,26 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 public class PregnancyController implements Initializable {
     @FXML
     ComboBox<String> cowPregnancyID;
-
     @FXML
     DatePicker pregnancyStartDate;
     @FXML
     TextArea pregnancyNotes;
     ObservableList<String> cows;
 
+    Pregnancy pregnancy = null;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setCows();
+        if (pregnancy != null) {
+            cowPregnancyID.setValue(pregnancy.getCow_id());
+            pregnancyStartDate.setValue(pregnancy.getStart_date().toLocalDate());
+            pregnancyNotes.setText(pregnancy.getNotes());
+        }
+    }
 
-        //set cows list
-        cowPregnancyID.setItems(cows);
+    public void initData(Pregnancy pregnancy) {
+        this.pregnancy = pregnancy;
     }
 
     public void setCows() {
@@ -42,6 +49,7 @@ public class PregnancyController implements Initializable {
             collection.add(cow);
         }
         this.cows = collection;
+        cowPregnancyID.setItems(cows);
     }
 
     public ArrayList<String> getCows() {
