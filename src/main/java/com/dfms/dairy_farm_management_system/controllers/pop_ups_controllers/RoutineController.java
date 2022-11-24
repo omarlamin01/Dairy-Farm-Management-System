@@ -29,20 +29,27 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class RoutineController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setFoods();
-    }
-
-    public RoutineController() {
-    }
-
     @FXML
     TextField routineName;
     @FXML
     TextArea routineNotes;
     @FXML
     VBox foodList;
+
+    Routine routine = null;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setFoods();
+        if (routine != null) {
+            this.routineName.setText(routine.getName());
+            this.routineNotes.setText(routine.getNote());
+        }
+    }
+
+    public void initData(Routine routine) {
+        this.routine = routine;
+    }
 
     public void setFoods() {
         //get foods from db
