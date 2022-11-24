@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -17,6 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -83,7 +85,7 @@ public class RoutineController implements Initializable {
 
     public HashMap<String, Integer> getFoods() {
         HashMap<String, Integer> list = new HashMap<>();
-        String query = "SELECT id, name FROM stock WHERE type = 'feed'";
+        String query = "SELECT id, name FROM stocks WHERE type = 'feed'";
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -99,11 +101,15 @@ public class RoutineController implements Initializable {
 
     @FXML
     public void addRoutine(MouseEvent mouseEvent) {
-        System.out.println("Routine { " +
-                "Name: \"" + routineName.getText() + "\", " +
-                "Notes: \"" + routineNotes.getText() + "\" " +
-                "},"
-        );
+        for (Node box : foodList.getChildren()) {
+            CheckBox checkBox = (CheckBox) ((VBox) ((HBox) box).getChildren().get(0)).getChildren().get(1);
+            if (checkBox.isSelected()) {
+                String foodName = checkBox.getText();
+                String foodQuantity = ((TextField) (((VBox) ((HBox) box).getChildren().get(1)).getChildren().get(1))).getText();
+                String foodPeriod = ((ComboBox<String>) (((VBox) ((HBox) box).getChildren().get(2)).getChildren().get(1))).getValue();
+                System.out.println("Food => " + foodName + ", Quantity => " + foodQuantity + ", Period => " + foodPeriod);
+            }
+        }
 
         closePopUp(mouseEvent);
     }
