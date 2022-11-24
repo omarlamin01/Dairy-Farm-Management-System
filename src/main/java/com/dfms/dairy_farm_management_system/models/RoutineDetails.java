@@ -13,6 +13,7 @@ public class RoutineDetails implements Model{
     private int id;
     private int stock_id;
     private int routine_id;
+    private float quantity;
     private String feeding_time;
     private Timestamp created_at;
     private Timestamp updated_at;
@@ -52,6 +53,14 @@ public class RoutineDetails implements Model{
 
     public void setRoutine_id(int routine_id) {
         this.routine_id = routine_id;
+    }
+
+    public float getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(float quantity) {
+        this.quantity = quantity;
     }
 
     public String getFeeding_time() {
