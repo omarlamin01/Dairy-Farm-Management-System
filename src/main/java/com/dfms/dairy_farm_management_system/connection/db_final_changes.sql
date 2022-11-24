@@ -110,7 +110,7 @@ CREATE TABLE `employees`
     `phone`            varchar(20)              NOT NULL,
     `address`          varchar(30)              NOT NULL,
     `salary`           float                    NOT NULL,
-    `recruitment_date` date                     NOT NULL,
+    `hire_date` date                     NOT NULL,
     `contract_type`    enum ('CDI','CDD','CTT') NOT NULL,
     `created_at`       timestamp                NOT NULL DEFAULT current_timestamp(),
     `updated_at`       timestamp                NOT NULL DEFAULT current_timestamp()
