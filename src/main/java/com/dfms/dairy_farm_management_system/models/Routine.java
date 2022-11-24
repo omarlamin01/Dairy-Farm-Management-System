@@ -114,11 +114,6 @@ public class Routine implements Model {
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-
-            statement.setString(1, name);
-            statement.setString(2, note);
-            statement.setTimestamp(3, updated_at);
-
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
