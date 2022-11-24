@@ -75,11 +75,11 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     TableView<Vaccination> vaccinationTable;
     @FXML
+    TableColumn<Vaccination, String> animalIdCol;
+    @FXML
     TableColumn<Vaccination, String> vaccineNameCol;
     @FXML
-    TableColumn<Vaccination, String> vaccineDoseCol;
-    @FXML
-    TableColumn<Vaccination, String> vaccinationNotesCol;
+    TableColumn<Vaccination, String> ResponsibleNameCol;
     @FXML
     TableColumn<Vaccination, String> vaccinationDateCol;
     @FXML
@@ -354,9 +354,9 @@ public class AnimalMonitorController implements Initializable {
     //display all the vaccinations in the table
     public void displayVaccinations() {
         ObservableList<Vaccination> vaccinations = getVaccinations();
-        vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
-        vaccineDoseCol.setCellValueFactory(new PropertyValueFactory<>("responsible_name"));
-        vaccinationNotesCol.setCellValueFactory(new PropertyValueFactory<>("vaccine_name"));
+        animalIdCol.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
+        vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("vaccine_name"));
+        ResponsibleNameCol.setCellValueFactory(new PropertyValueFactory<>("responsible_name"));
         vaccinationDateCol.setCellValueFactory(new PropertyValueFactory<>("vaccination_date"));
         Callback<TableColumn<Vaccination, String>, TableCell<Vaccination, String>> cellFoctory = (TableColumn<Vaccination, String> param) -> {
             final TableCell<Vaccination, String> cell = new TableCell<Vaccination, String>() {
