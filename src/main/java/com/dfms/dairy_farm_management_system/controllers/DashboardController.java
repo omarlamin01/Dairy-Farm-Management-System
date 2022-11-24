@@ -142,15 +142,19 @@ public class DashboardController implements Initializable {
         }
 
         //get today sales
-        resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE date = CURDATE()");
+        resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE()");
         if (resultSet.next()) {
             today_sales.setText(resultSet.getString(1));
+        } else {
+            today_sales.setText("0");
         }
 
         //get today earnings
-        resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE date = CURDATE()");
+        resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()");
         if (resultSet.next()) {
             today_earnings.setText(resultSet.getString(1));
+        } else {
+            today_earnings.setText("0");
         }
     }
 }
