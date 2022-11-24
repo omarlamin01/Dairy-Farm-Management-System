@@ -94,8 +94,8 @@ public class Employee implements Model {
         return hire_date;
     }
 
-    public void setHireDate(Date recruitment_date) {
-        this.hire_date = recruitment_date;
+    public void setHireDate(Date hire_date) {
+        this.hire_date = hire_date;
     }
 
     public String getContractType() {
@@ -124,7 +124,7 @@ public class Employee implements Model {
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO `employees` (first_name, last_name, gender, cin, email, phone, address, salary, recruitment_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO `employees` (first_name, last_name, gender, cin, email, phone, address, salary, hire_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -167,7 +167,7 @@ public class Employee implements Model {
                 "', `phone` = '" + phone +
                 "', `address` = '" + adress +
                 "', `salary` = '" + salary +
-                "', `recruitment_date` = '" + hire_date +
+                "', `hire_date` = '" + hire_date +
                 "', `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) + "' " +
                 "WHERE `employees`.`cin` = '" + cin.toUpperCase() + "'";

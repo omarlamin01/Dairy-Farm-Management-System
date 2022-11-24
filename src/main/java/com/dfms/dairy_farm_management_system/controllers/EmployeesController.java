@@ -342,7 +342,7 @@ public class EmployeesController implements Initializable {
                         } else {
                             row.createCell(6).setCellValue("Female");
                         }
-                        row.createCell(7).setCellValue(rs.getString("recruitment_date"));
+                        row.createCell(7).setCellValue(rs.getString("hire_date"));
                         row.createCell(8).setCellValue(rs.getString("salary"));
                     }
                 } catch (Exception e) {
@@ -405,7 +405,7 @@ public class EmployeesController implements Initializable {
                         } else {
                             table.addCell("Female");
                         }
-                        table.addCell(rs.getString("recruitment_date"));
+                        table.addCell(rs.getString("hire_date"));
                         table.addCell(rs.getString("salary"));
                     }
 
