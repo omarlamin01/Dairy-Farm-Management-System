@@ -48,7 +48,9 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 public class EmployeesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        //this line of code is so important for the export !!!!
         BasicConfigurator.configure();
+
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         export_combo.setItems(list);
         displayEmployees();
