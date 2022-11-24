@@ -36,19 +36,14 @@ public class RoutineController implements Initializable {
     @FXML
     VBox foodList;
 
-    Routine routine = null;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setFoods();
-        if (routine != null) {
-            this.routineName.setText(routine.getName());
-            this.routineNotes.setText(routine.getNote());
-        }
     }
 
     public void initData(Routine routine) {
-        this.routine = routine;
+        this.routineName.setText(routine.getName());
+        this.routineNotes.setText(routine.getNote());
     }
 
     public void setFoods() {
