@@ -79,24 +79,24 @@ public class MilkCollectionController implements Initializable {
 
     @FXML
     private TextField search_input;
-    PreparedStatement st = null;
-    ResultSet rs = null;
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
     ObservableList<MilkCollection> list = FXCollections.observableArrayList();
 
     public ObservableList<MilkCollection> getMilkCollection() throws SQLException, ClassNotFoundException {
         ObservableList<MilkCollection> list = FXCollections.observableArrayList();
 
-        String select_query = "SELECT  mc.id, mc.cow_id, quantity ,period,mc.created_at from  milk_collection mc ,animal a where mc.cow_id= a.id and a.type='cow' ";
+        String select_query = "SELECT  mc.id, mc.cow_id, quantity ,period,mc.created_at from  milk_collections mc ,animals a where mc.cow_id= a.id and a.type='cow' ";
 
-        st = DBConfig.getConnection().prepareStatement(select_query);
-        rs = st.executeQuery();
-        while (rs.next()) {
+        statement = DBConfig.getConnection().prepareStatement(select_query);
+        resultSet = statement.executeQuery();
+        while (resultSet.next()) {
             MilkCollection milkCollection = new MilkCollection();
-            milkCollection.setId(rs.getInt("id"));
-            milkCollection.setCow_id(rs.getString("cow_id"));
-            milkCollection.setQuantity(rs.getFloat("quantity"));
-            milkCollection.setPeriod(rs.getString("period"));
-            milkCollection.setCollection_date(rs.getDate("created_at"));
+            milkCollection.setId(resultSet.getInt("id"));
+            milkCollection.setCow_id(resultSet.getString("cow_id"));
+            milkCollection.setQuantity(resultSet.getFloat("quantity"));
+            milkCollection.setPeriod(resultSet.getString("period"));
+            milkCollection.setCreated_at(resultSet.getTimestamp("created_at"));
 
 
             list.add(milkCollection);
@@ -119,7 +119,7 @@ public class MilkCollectionController implements Initializable {
         id_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, String>("cow_id"));
         milk_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, Float>("quantity"));
         period_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, String>("period"));
-        date_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, Date>("collection_date"));
+        date_col.setCellValueFactory(new PropertyValueFactory<MilkCollection, Date>("created_at"));
 
 
         Callback<TableColumn<MilkCollection, String>, TableCell<MilkCollection, String>> cellFoctory = (TableColumn<MilkCollection, String> param) -> {
@@ -245,7 +245,7 @@ public class MilkCollectionController implements Initializable {
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 MilkCollectionlDetailsController controller = fxmlLoader.getController();
-                                controller.fetchMilkCollection( mc.getId(),mc.getCow_id(), mc.getPeriod(), mc.getQuantity(), mc.getCollection_date());
+                                controller.fetchMilkCollection( mc.getId(),mc.getCow_id(), mc.getPeriod(), mc.getQuantity(), mc.getCreated_at());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -309,16 +309,5 @@ public class MilkCollectionController implements Initializable {
     private Connection con = DBConfig.getConnection();
     private Statement stt;
 
-    private void deleteMilkCollection(int id) {
-        String query = "DELETE FROM milk_collection WHERE id = " + id;
-        try {
 
-            stt = con.createStatement();
-            stt.executeUpdate(query);
-
-            displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
-        } catch (Exception e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
 }

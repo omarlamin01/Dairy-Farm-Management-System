@@ -137,7 +137,7 @@ public class MilkSale implements Model{
 
     @Override
     public boolean delete() {
-        String deleteQuery = "DELETE FROM `milk_sales` WHERE `milk_sale`.`id` = " + this.id;
+        String deleteQuery = "DELETE FROM `milk_sales` WHERE `milk_sales`.`id` = " + this.id;
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);

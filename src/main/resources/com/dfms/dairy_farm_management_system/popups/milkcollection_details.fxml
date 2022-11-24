@@ -166,7 +166,7 @@
                   <Label fx:id="collectiondate" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="2022-04-07" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                   <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../icons/category.png" />
+                        <Image url="@../../../../icons/calender.png" />
                      </image>
                   </ImageView>
                </children>

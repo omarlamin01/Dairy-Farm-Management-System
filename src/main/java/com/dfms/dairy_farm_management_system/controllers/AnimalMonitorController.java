@@ -25,7 +25,6 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.*;
 
 public class AnimalMonitorController implements Initializable {
-
     //Health status tab
     @FXML
     TextField healthStatusSearch;
@@ -40,7 +39,9 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     TableColumn<HealthStatus, String> healthMonitorNoteCol;
     @FXML
-    TableColumn<HealthStatus, String> healthMonitorAddedDateCol;
+    TableColumn<HealthStatus, String> health_score_col;
+    @FXML
+    TableColumn<HealthStatus, String> control_date_col;
     @FXML
     TableColumn<HealthStatus, String> healthMonitorActionsCol;
 
@@ -74,11 +75,11 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     TableView<Vaccination> vaccinationTable;
     @FXML
+    TableColumn<Vaccination, String> animalIdCol;
+    @FXML
     TableColumn<Vaccination, String> vaccineNameCol;
     @FXML
-    TableColumn<Vaccination, String> vaccineDoseCol;
-    @FXML
-    TableColumn<Vaccination, String> vaccinationNotesCol;
+    TableColumn<Vaccination, String> ResponsibleNameCol;
     @FXML
     TableColumn<Vaccination, String> vaccinationDateCol;
     @FXML
@@ -142,7 +143,8 @@ public class AnimalMonitorController implements Initializable {
         ObservableList<HealthStatus> monitors = getHealthStatus();
         animal_id_col.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
         healthMonitorNoteCol.setCellValueFactory(new PropertyValueFactory<>("notes"));
-        healthMonitorAddedDateCol.setCellValueFactory(new PropertyValueFactory<>("control_date"));
+        health_score_col.setCellValueFactory(new PropertyValueFactory<>("health_score"));
+        control_date_col.setCellValueFactory(new PropertyValueFactory<>("control_date"));
         Callback<TableColumn<HealthStatus, String>, TableCell<HealthStatus, String>> cellFoctory = (TableColumn<HealthStatus, String> param) -> {
             final TableCell<HealthStatus, String> cell = new TableCell<HealthStatus, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
@@ -352,9 +354,9 @@ public class AnimalMonitorController implements Initializable {
     //display all the vaccinations in the table
     public void displayVaccinations() {
         ObservableList<Vaccination> vaccinations = getVaccinations();
-        vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
-        vaccineDoseCol.setCellValueFactory(new PropertyValueFactory<>("responsible_name"));
-        vaccinationNotesCol.setCellValueFactory(new PropertyValueFactory<>("vaccine_name"));
+        animalIdCol.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
+        vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("vaccine_name"));
+        ResponsibleNameCol.setCellValueFactory(new PropertyValueFactory<>("responsible_name"));
         vaccinationDateCol.setCellValueFactory(new PropertyValueFactory<>("vaccination_date"));
         Callback<TableColumn<Vaccination, String>, TableCell<Vaccination, String>> cellFoctory = (TableColumn<Vaccination, String> param) -> {
             final TableCell<Vaccination, String> cell = new TableCell<Vaccination, String>() {
