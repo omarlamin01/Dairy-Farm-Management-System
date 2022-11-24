@@ -33,10 +33,21 @@ public class VaccinationController implements Initializable {
     ObservableList<String> vaccines;
     ObservableList<String> animals;
 
+    Vaccination vaccination = null;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setVaccines();
         this.setAnimals();
+        if (vaccination != null) {
+            animalVaccine.setValue(vaccination.getAnimal_id());
+            vaccineId.setValue(vaccination.getVaccine_name());
+            vaccinationDate.setValue(vaccination.getVaccination_date().toLocalDate());
+        }
+    }
+
+    public void initData(Vaccination vaccination) {
+        this.vaccination = vaccination;
     }
 
     public void setAnimals() {
@@ -66,7 +77,6 @@ public class VaccinationController implements Initializable {
     public void setVaccines() {
         this.vaccines = FXCollections.observableArrayList();
         Object[] strings = getVaccinesIds().keySet().toArray();
-        System.out.println(strings);
         int i = 0;
         for (Object vaccine_name : strings) {
             this.vaccines.add((String) vaccine_name);
@@ -87,7 +97,6 @@ public class VaccinationController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(vaccinesIds);
         return vaccinesIds;
     }
 
