@@ -1,10 +1,16 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.HealthStatusController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.PregnancyController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.RoutineController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.VaccinationController;
 import com.dfms.dairy_farm_management_system.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 import java.io.IOException;
@@ -14,12 +20,14 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
@@ -212,11 +220,12 @@ public class AnimalMonitorController implements Initializable {
 
                         setGraphic(managebtn);
                         setText(null);
+
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete");
                             alert.setHeaderText("Are you sure you want to delete this monitor?");
-                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            int index = ((TableCell<HealthStatus, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
                             HealthStatus monitor = monitors.get(index);
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
@@ -227,6 +236,26 @@ public class AnimalMonitorController implements Initializable {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
                             }
+                        });
+                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            int index = ((TableCell<HealthStatus, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            HealthStatus monitor = monitors.get(index);
+                            String url = "popups/add_new_health_status.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            HealthStatusController controller = fxmlLoader.getController();
+                            controller.initData(monitor);
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
                     }
                 }
@@ -320,7 +349,7 @@ public class AnimalMonitorController implements Initializable {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete");
                             alert.setHeaderText("Are you sure you want to delete this pregnancy?");
-                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            int index = ((TableCell<Pregnancy, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
                             Pregnancy pregnancy = pregnancies.get(index);
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
@@ -331,6 +360,26 @@ public class AnimalMonitorController implements Initializable {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
                             }
+                        });
+                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            int index = ((TableCell<HealthStatus, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Pregnancy pregnancy = pregnancies.get(index);
+                            String url = "popups/add_new_pregnancy.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            PregnancyController controller = fxmlLoader.getController();
+                            controller.initData(pregnancy);
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
                     }
                 }
@@ -435,6 +484,26 @@ public class AnimalMonitorController implements Initializable {
                                 }
                             }
                         });
+                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Vaccination vaccination = vaccinations.get(index);
+                            String url = "popups/add_new_vaccination.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            VaccinationController controller = fxmlLoader.getController();
+                            controller.initData(vaccination);
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
+                        });
                     }
                 }
             };
@@ -535,6 +604,26 @@ public class AnimalMonitorController implements Initializable {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
                             }
+                        });
+                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            int index = ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Routine routine = routines.get(index);
+                            String url = "popups/add_new_routine.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            RoutineController controller = fxmlLoader.getController();
+                            controller.initData(routine);
+                            stage.show();
                         });
                     }
                 }
