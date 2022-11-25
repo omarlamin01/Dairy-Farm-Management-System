@@ -324,7 +324,7 @@ public class ManageAnimalController implements Initializable {
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
-                PdfPTable table = new PdfPTable(9);
+                PdfPTable table = new PdfPTable(6);
                 table.addCell("Cow ID");
                 table.addCell("Race");
                 table.addCell("Birth Date");
