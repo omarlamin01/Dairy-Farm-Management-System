@@ -2,10 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalSaleDetailsController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.CowSalesController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.MilkSaleDetailsController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewMilkCollectionController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.*;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import com.dfms.dairy_farm_management_system.models.MilkSale;
@@ -467,32 +464,25 @@ public class SalesController implements Initializable {
 
                         });
                         btnEdit.setOnMouseClicked((MouseEvent event) -> {
-
-                          /*  MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
-                            String path = "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml";
-                            FXMLLoader loader = new FXMLLoader(Main.class.getResource(path));
+                            MilkSale milkSale = MilkSaleTable.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_milk_sale.fxml"));
+                            Scene scene = null;
                             try {
-                                loader.load();
-                            } catch (IOException ex) {
-                                displayAlert("Error", ex.getMessage(), Alert.AlertType.ERROR);
-                                ex.printStackTrace();
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
                             }
-                            if (mc.update()) {
-
-                                displayAlert("success", "Milk Collection Updated successfully", Alert.AlertType.INFORMATION);
-                                try {
-                                    refreshTableMilkCollection();
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                    throw new RuntimeException(e);
-                                }
-                            } else {
-                                displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
-                            }
-*/
-
-                            //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
-
+                            MilkSalesController milkSalesController = fxmlLoader.getController();
+                            milkSalesController.setUpdate(true);
+                            milkSalesController.fetchMilkSale(milkSale.getId(),milkSale.getQuantity(), milkSale.getPrice(), milkSale.getClientName(),milkSale.getSale_date());
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Update Milk Sale");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
                         btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
                             MilkSale milkSale = MilkSaleTable.getSelectionModel().getSelectedItem();

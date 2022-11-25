@@ -120,11 +120,13 @@ public class MilkSale implements Model{
     public boolean update() {
         String query = "UPDATE `milk_sales` SET " +
                 "`client_id` = '" + clientId + "', " +
-                "`quantiy` = " + quantity + "', " +
+                "`quantity` = " + quantity + "', " +
                 "`price` = '" + price + "', " +
                 "`sale_date` = '" + sale_date + "', " +
                 "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
                 " WHERE `milk_sales`.`id` = " + id;
+
+
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);

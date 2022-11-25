@@ -1,6 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.MilkSale;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -47,6 +49,17 @@ public class MilkSalesController implements Initializable {
     PreparedStatement statement = null;
     ResultSet resultSet = null;
 
+    @FXML
+    private Button add_update;
+
+
+    @FXML
+    private Label header;
+
+    @FXML
+    private Label key;
+    private  int MilkSale_ID;
+
         public void setClientsList() throws SQLException {
             ObservableList<String> client = FXCollections.observableArrayList();
 
@@ -62,15 +75,42 @@ public class MilkSalesController implements Initializable {
             clientsCombo.setItems(client);
         }
 
-
+    private boolean update;
+    public void setUpdate(boolean b) {
+        this.update = b;
+    }
     @FXML
     public void addMilkSale(MouseEvent mouseEvent) {
+        MilkSale milkSale = new MilkSale();
+        if (this.update) {
+            milkSale.setId(this.MilkSale_ID);
+            milkSale.setQuantity(Float.parseFloat(quantityInput.getText()));
+            milkSale.setPrice(Float.parseFloat(priceOfSale.getText()));
+            milkSale.setClientId(clients.get(clientsCombo.getValue()));
+            milkSale.setSale_date(Date.valueOf(operationDate.getValue()));
+            if (milkSale.update()) {
+
+                if (clientsCombo.getValue() == null || quantityInput.getText().isEmpty() || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
+                    displayAlert("Error", "Please Fill all fields ", Alert.AlertType.ERROR);
+                } else if (Float.parseFloat(priceOfSale.getText()) == 0) {
+                    displayAlert("Error", "Price can't be null ", Alert.AlertType.ERROR);
+                } else {
+
+                    clear();
+                    closePopUp(mouseEvent);
+                    displayAlert("success", "Milk Sale Updated successfully", Alert.AlertType.INFORMATION);
+
+                } }}else {
+            milkSale.setQuantity(Float.parseFloat(quantityInput.getText()));
+            milkSale.setPrice(Float.parseFloat(priceOfSale.getText()));
+            milkSale.setClientId(clients.get(clientsCombo.getValue()));
+            milkSale.setSale_date(Date.valueOf(operationDate.getValue()));
         if (clientsCombo.getValue() == null || quantityInput.getText().isEmpty() || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
             displayAlert("Error", "Please Fill all fields ", Alert.AlertType.ERROR);
         } else if (Float.parseFloat(priceOfSale.getText()) == 0||Float.parseFloat(quantityInput.getText()) == 0) {
             displayAlert("Error", "Price or quantity can not  be null ", Alert.AlertType.ERROR);
         } else {
-            MilkSale milkSale = new MilkSale();
+
             milkSale.setQuantity(Float.parseFloat(quantityInput.getText()));
             milkSale.setPrice(Float.parseFloat(priceOfSale.getText()));
             milkSale.setClientId(clients.get(clientsCombo.getValue()));
@@ -81,6 +121,26 @@ public class MilkSalesController implements Initializable {
             } else {
                 displayAlert("Error", "Error while saving!!!", Alert.AlertType.ERROR);
             }
-        }
+        }}
+    }
+    public  void fetchMilkSale(int ID, Float Quantity, Float price, String client, Date operationdate){
+//        animal = getAnimal(AnimalDetailsController.id_animal);
+        this.MilkSale_ID = ID;
+        header.setText("Update Milk Sale num :  " + ID);
+        quantityInput.setText(Quantity + "");
+        clientsCombo.setValue(client + "");
+        priceOfSale.setText(price + "");
+        operationDate.setValue(LocalDate.parse(operationdate + ""));
+        key.setText("Update");
+        add_update.setText("Update");
+
+
+    }
+    private void clear () {
+        quantityInput.clear();
+        clientsCombo.getSelectionModel().clearSelection();
+        priceOfSale.clear();
+        operationDate.setValue(null);
+        add_update.setDisable(false);
     }
 }
