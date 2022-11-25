@@ -9,6 +9,10 @@ import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.New
 import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.Client;
 import com.dfms.dairy_farm_management_system.models.Employee;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -25,16 +29,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.apache.poi.ss.formula.functions.T;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -64,16 +72,17 @@ public class ClientsSuppliersController implements Initializable {
     @FXML
     private TableColumn<Client,String> actionClient;
     @FXML
-    private ComboBox<String> combo;
+    private ComboBox<String> export_combo;
     @FXML
     private TextField search_client_input;
     PreparedStatement statement =null;
     ResultSet resultSet = null;
     Connection connection = DBConfig.getConnection();
+    ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        combo.setItems(list);
+        export_combo.setItems(list);
         try {
             displayClients();
         } catch (SQLException e) {
@@ -81,9 +90,16 @@ public class ClientsSuppliersController implements Initializable {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF();
+            } else {
+                exportToExcel();
+            }
+        });
 
     }
-    ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
+
     @FXML
     void openAddClient(MouseEvent event) throws IOException {
         openNewWindow("Add client", "add_new_client");
@@ -300,6 +316,102 @@ public class ClientsSuppliersController implements Initializable {
      liveSearch();
     }
 
+    void exportToPDF() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Document document = new Document();
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+                try {
+                    document.add(new Paragraph("Client List"));
+                    document.add(new Paragraph(" "));
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+                PdfPTable table = new PdfPTable(9);
+                table.addCell("Client ID");
+                table.addCell("Name");
+                table.addCell("Type");
+                table.addCell("Phone");
+                table.addCell("Email");
+
+                //get all clients from database
+                String query = "SELECT * FROM `clients`";
+                try {
+                    Statement statement = connection.createStatement();
+                    ResultSet rs = statement.executeQuery(query);
+                    while (rs.next()) {
+                        table.addCell(rs.getString("id"));
+                        table.addCell(rs.getString("name"));
+                        table.addCell(rs.getString("type"));
+                        table.addCell(rs.getString("phone"));
+                        table.addCell(rs.getString("email"));
+
+
+                    }
+
+                    document.add(table);
+                    document.close();
+                    displayAlert("Success", "Clients exported successfully", Alert.AlertType.INFORMATION);
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+    void exportToExcel() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Animals");
+                Row header = sheet.createRow(0);
+                header.createCell(0).setCellValue("Client ID");
+                header.createCell(1).setCellValue("Name");
+                header.createCell(2).setCellValue("Type");
+                header.createCell(3).setCellValue("Phone");
+                header.createCell(4).setCellValue("Email");
+
+                //get all clients from database
+                String query = "SELECT * FROM `clients`";
+                try {
+                    Statement statement = connection.createStatement();
+                    ResultSet rs = statement.executeQuery(query);
+                    while (rs.next()) {
+                        int rowNum = rs.getRow();
+                        Row row = sheet.createRow(rowNum);
+                        row.createCell(0).setCellValue(rs.getString("id"));
+                        row.createCell(1).setCellValue(rs.getString("name"));
+                        row.createCell(2).setCellValue(rs.getString("type"));
+                        row.createCell(3).setCellValue(rs.getString("phone"));
+                        row.createCell(4).setCellValue(rs.getString("email"));
+
+
+                    }
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Clients exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
 
 }
 
