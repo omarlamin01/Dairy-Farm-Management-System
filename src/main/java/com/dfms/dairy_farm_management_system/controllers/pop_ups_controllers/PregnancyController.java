@@ -24,17 +24,44 @@ public class PregnancyController implements Initializable {
     DatePicker pregnancyStartDate;
     @FXML
     TextArea pregnancyNotes;
+    @FXML
+    Button pregnancyBtn;
+
     ObservableList<String> cows;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setCows();
+        pregnancyBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
+            Pregnancy pregnancy = new Pregnancy();
+            pregnancy.setCow_id(cowPregnancyID.getValue());
+            pregnancy.setStart_date(Date.valueOf(pregnancyStartDate.getValue()));
+            pregnancy.setNotes(pregnancyNotes.getText());
+            if (pregnancy.save()) {
+                closePopUp(mouseEvent);
+                displayAlert("Success", "Pregnancy added successfully.", Alert.AlertType.INFORMATION);
+            } else {
+                displayAlert("Error", "Some error happened while saving!", Alert.AlertType.ERROR);
+            }
+        });
     }
 
     public void initData(Pregnancy pregnancy) {
         cowPregnancyID.setValue(pregnancy.getCow_id());
         pregnancyStartDate.setValue(pregnancy.getStart_date().toLocalDate());
         pregnancyNotes.setText(pregnancy.getNotes());
+        pregnancyBtn.setText("UPDATE");
+        pregnancyBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
+            pregnancy.setCow_id(cowPregnancyID.getValue());
+            pregnancy.setStart_date(Date.valueOf(pregnancyStartDate.getValue()));
+            pregnancy.setNotes(pregnancyNotes.getText());
+            if (pregnancy.save()) {
+                closePopUp(mouseEvent);
+                displayAlert("Success", "Pregnancy updated successfully.", Alert.AlertType.INFORMATION);
+            } else {
+                displayAlert("Error", "Some error happened while updating!", Alert.AlertType.ERROR);
+            }
+        });
     }
 
     public void setCows() {
@@ -61,19 +88,5 @@ public class PregnancyController implements Initializable {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
         return cows;
-    }
-
-    @FXML
-    public void addPregnancy(MouseEvent mouseEvent) {
-        Pregnancy pregnancy = new Pregnancy();
-        pregnancy.setCow_id(cowPregnancyID.getValue());
-        pregnancy.setStart_date(Date.valueOf(pregnancyStartDate.getValue()));
-        pregnancy.setNotes(pregnancyNotes.getText());
-        if (pregnancy.save()) {
-            closePopUp(mouseEvent);
-            displayAlert("Success", "Pregnancy added successfully.", Alert.AlertType.INFORMATION);
-        } else {
-            displayAlert("Error", "Some error happened while saving!", Alert.AlertType.ERROR);
-        }
     }
 }
