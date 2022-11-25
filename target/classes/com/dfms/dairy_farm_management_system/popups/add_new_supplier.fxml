@@ -15,11 +15,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewSupplierController">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../../style/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewSupplierController">
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
-            <Label styleClass="header" text="Add" textAlignment="CENTER">
+            <Label fx:id="add_update" styleClass="header" text="Add" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -43,7 +43,7 @@
                   <Insets bottom="10.0" />
               </VBox.margin>
           </Pane>
-          <Label styleClass="sub_header" text="Add a new supplier" textAlignment="CENTER">
+          <Label fx:id="head" styleClass="sub_header" text="Add a new supplier" textAlignment="CENTER">
               <font>
                   <Font size="18.0" />
               </font>
@@ -67,7 +67,7 @@
             <Insets top="10.0" />
          </VBox.margin>
          <children>
-            <TextField fx:id="supplierName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Supplier name" stylesheets="@../../../../style/style.css">
+            <TextField fx:id="SupplierName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Supplier name" stylesheets="@../../../../style/style.css">
                <styleClass>
                   <String fx:value="input" />
                   <String fx:value="name_input" />
@@ -94,7 +94,7 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addNewSupplier" styleClass="btn" text="Add" GridPane.rowIndex="5" />
+            <Button fx:id="add_supplier_btn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addNewSupplier" styleClass="btn" text="Add" GridPane.rowIndex="5" />
             <ComboBox fx:id="typeCombo" maxWidth="1.7976931348623157E308" promptText="Type" GridPane.rowIndex="2">
                <styleClass>
                   <String fx:value="combo_box" />
