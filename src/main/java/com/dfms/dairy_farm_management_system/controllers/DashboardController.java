@@ -23,6 +23,11 @@ public class DashboardController implements Initializable {
         } catch (SQLException e) {
             displayAlert("Error", "Error occurred while loading dashboard", Alert.AlertType.ERROR);
         }
+
+        //fill the chart with real data
+        //fillPieChart();
+        //fillPieChart();
+
         PieChart.Data slice1 = new PieChart.Data("Desktop", 213);
         PieChart.Data slice2 = new PieChart.Data("Phone", 67);
         PieChart.Data slice3 = new PieChart.Data("Tablet", 36);
@@ -155,6 +160,83 @@ public class DashboardController implements Initializable {
             today_earnings.setText(resultSet.getString(1));
         } else {
             today_earnings.setText("0");
+        }
+    }
+
+    //fill PieChart with data
+    public void fillPieChart() {
+        try {
+            String query = "SELECT COUNT(*) FROM animals WHERE type = 'cow'";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                total_cows.setText(resultSet.getString(1));
+            }
+
+            query = "SELECT COUNT(*) FROM animals WHERE type = 'calf'";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                total_calfs.setText(resultSet.getString(1));
+            }
+
+            query = "SELECT COUNT(*) FROM animals WHERE type = 'bull'";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                total_bulls.setText(resultSet.getString(1));
+            }
+
+            PieChart.Data cows = new PieChart.Data("Cows", Integer.parseInt(total_cows.getText()));
+            PieChart.Data clafs = new PieChart.Data("Calfs", Integer.parseInt(total_calfs.getText()));
+            PieChart.Data bulls = new PieChart.Data("Bulls", Integer.parseInt(total_bulls.getText()));
+
+            pieChart.getData().add(cows);
+            pieChart.getData().add(clafs);
+            pieChart.getData().add(bulls);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //fill BarChart with data
+    public void fillBarChart() {
+        try {
+            String query = "SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE()";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                today_sales.setText(resultSet.getString(1));
+            } else {
+                today_sales.setText("0");
+            }
+
+            query = "SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()";
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                today_earnings.setText(resultSet.getString(1));
+            } else {
+                today_earnings.setText("0");
+            }
+
+            xAxis.setLabel("Date");
+            yAxis.setLabel("Sales");
+
+            XYChart.Series<String, Number> sales = new XYChart.Series<String, Number>();
+            sales.setName("Sales");
+
+            sales.getData().add(new XYChart.Data<String, Number>("Today", Integer.parseInt(today_sales.getText())));
+
+            XYChart.Series<String, Number> earnings = new XYChart.Series<String, Number>();
+            earnings.setName("Earnings");
+
+            earnings.getData().add(new XYChart.Data<String, Number>("Today", Integer.parseInt(today_earnings.getText())));
+
+            barChart.getData().add(sales);
+            barChart.getData().add(earnings);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
