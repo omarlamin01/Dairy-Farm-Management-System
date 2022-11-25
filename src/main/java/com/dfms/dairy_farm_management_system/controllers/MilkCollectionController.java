@@ -244,7 +244,7 @@ public class MilkCollectionController implements Initializable {
                             }
                             NewMilkCollectionController newMilkCollectionController = fxmlLoader.getController();
                             newMilkCollectionController.setUpdate(true);
-                            newMilkCollectionController.fetchMilkCollection( milkcollection.getCow_id(), milkcollection.getPeriod(), milkcollection.getQuantity());
+                            newMilkCollectionController.fetchMilkCollection( milkcollection.getId(),milkcollection.getCow_id(), milkcollection.getPeriod(), milkcollection.getQuantity());
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update MilkCollection");

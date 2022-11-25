@@ -40,6 +40,7 @@ public class NewMilkCollectionController implements Initializable {
 
     @FXML
     private Button Add_Update;
+    private int MilkCollection_ID;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -133,70 +134,59 @@ public class NewMilkCollectionController implements Initializable {
 
         MilkCollection   milkCollection=new  MilkCollection();
        if (this.update) {
+            milkCollection.setId(this.MilkCollection_ID);
             milkCollection.setCow_id(cowid.getValue());
             milkCollection.setPeriod(period_input.getValue());
-
             milkCollection.setQuantity(Float.parseFloat(milkquantity_input.getText()));
             if (milkCollection.update()) {
-          /*      if (period_input.getValue() == null || cowid.getValue() == null || milkquantity_input.getText().isEmpty()) {
-                    displayAlert("Error", "Please Fill all field ", Alert.AlertType.ERROR);
-                } else if (Float.parseFloat(milkquantity_input.getText()) == 0) {
-                    displayAlert("Error", "Quantity can't be null ", Alert.AlertType.ERROR);
-                } else {*/
-
-                clear();
-                closePopUp(mouseEvent);
-                displayAlert("success", "Milk Collection Updated successfully", Alert.AlertType.INFORMATION);
-            }else{
-                displayAlert("Error", "Error while saving!!!", Alert.AlertType.ERROR);
-                 }}
-        } /*else {
-            milkCollection.setPeriod(period_input.getValue());
-            milkCollection.setQuantity(Float.parseFloat(milkquantity_input.getText()));
-            milkCollection.setCow_id(cowid.getValue());
-            if (milkCollection.save()) {
-                if (period_input.getValue() == null || cowid.getValue() == null || milkquantity_input.getText().isEmpty()) {
+              if (period_input.getValue() == null || cowid.getValue() == null || milkquantity_input.getText().isEmpty()) {
                     displayAlert("Error", "Please Fill all field ", Alert.AlertType.ERROR);
                 } else if (Float.parseFloat(milkquantity_input.getText()) == 0) {
                     displayAlert("Error", "Quantity can't be null ", Alert.AlertType.ERROR);
                 } else {
-                    milkCollection.setPeriod(period_input.getValue());
-                    milkCollection.setQuantity(Float.parseFloat(milkquantity_input.getText()));
-                    milkCollection.setCow_id(cowid.getValue());
-                    if (milkCollection.save()) {
-                        clear();
-                        closePopUp(mouseEvent);
-                        displayAlert("success", "Milk Collection Added successfully", Alert.AlertType.INFORMATION);
 
-                    } else {
-                        displayAlert("Error", "Error while saving!!!", Alert.AlertType.ERROR);
-                    }
-        }
-    }*/
+                clear();
+                closePopUp(mouseEvent);
+                displayAlert("success", "Milk Collection Updated successfully", Alert.AlertType.INFORMATION);
+
+        } }}else {
+        milkCollection.setPeriod(period_input.getValue());
+        milkCollection.setQuantity(Float.parseFloat(milkquantity_input.getText()));
+        milkCollection.setCow_id(cowid.getValue());
+           if (milkCollection.save()) {
+               if (period_input.getValue() == null || cowid.getValue() == null || milkquantity_input.getText().isEmpty()) {
+                   displayAlert("Error", "Please Fill all field ", Alert.AlertType.ERROR);
+               } else if (Float.parseFloat(milkquantity_input.getText()) == 0) {
+                   displayAlert("Error", "Quantity can't be null ", Alert.AlertType.ERROR);
+               } else {
+                   clear();
+                   closePopUp(mouseEvent);
+                   displayAlert("success", "Milk Collection Added successfully", Alert.AlertType.INFORMATION);
+
+               }
+               }}}
 
 
 
-
-
-
-    public void fetchMilkCollection(String cow, String periode, Float quantitymilk)  {
+           public void fetchMilkCollection ( int ID, String cow, String periode, Float quantitymilk){
 //        animal = getAnimal(AnimalDetailsController.id_animal);
-        header.setText("Update Milk collection Num:  " );
-        cowid.setValue(cow+"");
-        period_input.setValue(periode+"");
-        milkquantity_input.setText(quantitymilk+"");
-        key.setText("Update");
-        Add_Update.setText("Update");
+               this.MilkCollection_ID = ID;
+               header.setText("Update Milk collection :  " + ID);
+               cowid.setValue(cow + "");
+               period_input.setValue(periode + "");
+               milkquantity_input.setText(quantitymilk + "");
+               key.setText("Update");
+               Add_Update.setText("Update");
 
 
-    }
+           }
 
 
-    private void clear() {
-        cowid.getSelectionModel().clearSelection();
-        period_input.getSelectionModel().clearSelection();
-        milkquantity_input.clear();
-        Add_Update.setDisable(false);
-    }
-    }
+           private void clear () {
+               cowid.getSelectionModel().clearSelection();
+               period_input.getSelectionModel().clearSelection();
+               milkquantity_input.clear();
+               Add_Update.setDisable(false);
+           }
+       }
 
