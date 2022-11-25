@@ -122,7 +122,7 @@ public class Stock implements Model {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, type);
             preparedStatement.setFloat(3, quantity);
-            preparedStatement.setString(4, getAvailability());
+            preparedStatement.setString(4, availability ? "1" : "0");
             preparedStatement.setString(5, unit);
             preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
             preparedStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
