@@ -55,7 +55,7 @@
                      <VBox.margin>
                          <Insets bottom="10.0" />
                      </VBox.margin>
-                     <TextField fx:id="search_client_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" onMouseEntered="#search" prefHeight="40.0" prefWidth="360.0" promptText="Search for client..." styleClass="text-field-search">
+                     <TextField fx:id="search_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" onMouseEntered="#search_client" prefHeight="40.0" prefWidth="360.0" promptText="Search for client..." styleClass="text-field-search">
                          <padding>
                              <Insets left="10.0" />
                          </padding>
@@ -122,7 +122,7 @@
                      <VBox.margin>
                          <Insets bottom="10.0" />
                      </VBox.margin>
-                     <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for suppliers..." styleClass="text-field-search">
+                     <TextField fx:id="search_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" onMouseEntered="#search_supplier" prefHeight="40.0" prefWidth="360.0" promptText="Search for suppliers..." styleClass="text-field-search">
                          <padding>
                              <Insets left="10.0" />
                          </padding>
@@ -138,7 +138,22 @@
                          </HBox.margin>
                      </Button>
                      <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                         <ComboBox promptText="Export" styleClass="combo_box" />
+                         <ComboBox fx:id="export_combo_sup" promptText="Export" styleClass="combo_box" />
+                     <Button fx:id="refresh_tableSup_btn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTableSupplier" styleClass="button-add" text="Refresh">
+                        <graphic>
+                           <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../icons/refresh.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                        <opaqueInsets>
+                           <Insets />
+                        </opaqueInsets>
+                        <HBox.margin>
+                           <Insets right="10.0" />
+                        </HBox.margin>
+                     </Button>
                          <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddSupplier" styleClass="button-add" text="New supplier" textAlignment="CENTER">
                              <graphic>
                                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -148,14 +163,14 @@
                          </Button>
                      </HBox>
                  </HBox>
-                 <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                 <TableView fx:id="TableSupplier" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                      <columns>
-                         <TableColumn prefWidth="60.0" text="ID" />
-                         <TableColumn prefWidth="150.0" text="Name" />
-                         <TableColumn prefWidth="150.0" text="Type" />
-                         <TableColumn prefWidth="150.0" text="Email" />
-                         <TableColumn prefWidth="150.0" text="Phone" />
-                         <TableColumn prefWidth="155.33331298828125" text="Actions" />
+                         <TableColumn fx:id="colidSupplier" prefWidth="60.0" text="ID" />
+                         <TableColumn fx:id="colnameSupplier" prefWidth="150.0" text="Name" />
+                         <TableColumn fx:id="coltypeSupplier" prefWidth="150.0" text="Type" />
+                         <TableColumn fx:id="colemailSupplier" prefWidth="150.0" text="Email" />
+                         <TableColumn fx:id="colphoneSupplier" prefWidth="150.0" text="Phone" />
+                         <TableColumn fx:id="colactionSupplier" prefWidth="155.33331298828125" text="Actions" />
                      </columns>
                  </TableView>
              </VBox>

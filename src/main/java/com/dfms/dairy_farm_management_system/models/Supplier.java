@@ -104,7 +104,7 @@ public class Supplier implements Model {
     @Override
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        String query = "UPDATE `clients` SET " +
+        String query = "UPDATE `suppliers` SET " +
                 "`name` =?,"+
                 "`type` = ?," +
                 "`phone` = ?," +
