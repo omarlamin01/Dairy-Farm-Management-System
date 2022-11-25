@@ -15,7 +15,7 @@ public class Stock implements Model {
     private String name;
     private String type;
     private float quantity;
-    private String availability;
+    private boolean availability;
     private String unit;
     private Timestamp created_at;
     private Timestamp updated_at;
@@ -23,7 +23,7 @@ public class Stock implements Model {
     public Stock() {
     }
 
-    public Stock(int id, String name, String type, float quantity, String availability, String unit, Timestamp created_at, Timestamp updated_at) {
+    public Stock(int id, String name, String type, float quantity, boolean availability, String unit, Timestamp created_at, Timestamp updated_at) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -91,21 +91,11 @@ public class Stock implements Model {
     }
 
     public String getAvailability() {
-        String availability = "";
-        if (this.quantity > 0) {
-            availability = "Available";
-        } else {
-            availability = "Not Available";
-        }
-        return availability;
+        return availability ? "Available" : "Not Available";
     }
 
-    public void setAvailability(String availability) {
-        if (availability.equals("Available")) {
-            this.availability = "1";
-        } else {
-            this.availability = "0";
-        }
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
     }
 
     @Override

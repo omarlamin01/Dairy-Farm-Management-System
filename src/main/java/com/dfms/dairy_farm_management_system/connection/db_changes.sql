@@ -32,4 +32,9 @@ ALTER TABLE employees
 
 
 #change id column  in milk_sales table to be auto-increment
-ALTER TABLE milk_sales MODIFY id INTEGER NOT NULL AUTO_INCREMENT;
+ALTER TABLE milk_sales
+    MODIFY id INTEGER NOT NULL AUTO_INCREMENT;
+
+#change availability column in stocks table to boolean
+ALTER TABLE stocks
+    MODIFY availability BOOLEAN NOT NULL;
