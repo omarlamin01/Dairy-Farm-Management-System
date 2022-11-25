@@ -1,5 +1,10 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+
 public class Race{
     private int id_race;
     private String name;
@@ -28,4 +33,18 @@ public class Race{
         this.id_race = id;
         this.name = name;
     }
+
+    public boolean add() {
+        String query = "INSERT INTO `races` (`name`) VALUES (?)";
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, name);
+            return statement.executeUpdate() != 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
