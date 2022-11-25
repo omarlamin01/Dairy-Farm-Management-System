@@ -29,6 +29,8 @@ public class VaccinationController implements Initializable {
     DatePicker vaccinationDate;
     @FXML
     TextArea vaccineNotes;
+    @FXML
+    Button vaccinationBtn;
 
     ObservableList<String> vaccines;
     ObservableList<String> animals;
@@ -37,12 +39,36 @@ public class VaccinationController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setVaccines();
         this.setAnimals();
+        vaccinationBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
+            Vaccination vaccination = new Vaccination();
+            vaccination.setAnimal_id(animalVaccine.getValue());
+            vaccination.setVaccine_id(getVaccinesIds().get(vaccineId.getValue()));
+            vaccination.setVaccination_date(Date.valueOf(vaccinationDate.getValue()));
+            vaccination.setResponsible_id(getCurrentUser().getId());
+            if (vaccination.save()) {
+                displayAlert("SUCCESS", "vaccination saved successfully.", Alert.AlertType.INFORMATION);
+                closePopUp(mouseEvent);
+            } else
+                displayAlert("ERROR", "some error happened while saving!", Alert.AlertType.ERROR);
+        });
     }
 
     public void initData(Vaccination vaccination) {
         animalVaccine.setValue(vaccination.getAnimal_id());
         vaccineId.setValue(vaccination.getVaccine_name());
         vaccinationDate.setValue(vaccination.getVaccination_date().toLocalDate());
+        vaccinationBtn.setText("UPDATE");
+        vaccinationBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
+            vaccination.setAnimal_id(animalVaccine.getValue());
+            vaccination.setVaccine_id(getVaccinesIds().get(vaccineId.getValue()));
+            vaccination.setVaccination_date(Date.valueOf(vaccinationDate.getValue()));
+            vaccination.setResponsible_id(getCurrentUser().getId());
+            if (vaccination.update()) {
+                displayAlert("SUCCESS", "vaccination updated successfully.", Alert.AlertType.INFORMATION);
+                closePopUp(mouseEvent);
+            } else
+                displayAlert("ERROR", "some error happened while updating!", Alert.AlertType.ERROR);
+        });
     }
 
     public void setAnimals() {
@@ -93,19 +119,5 @@ public class VaccinationController implements Initializable {
             e.printStackTrace();
         }
         return vaccinesIds;
-    }
-
-    @FXML
-    public void addVaccination(MouseEvent mouseEvent) {
-        Vaccination vaccination = new Vaccination();
-        vaccination.setAnimal_id(animalVaccine.getValue());
-        vaccination.setVaccine_id(getVaccinesIds().get(vaccineId.getValue()));
-        vaccination.setVaccination_date(Date.valueOf(vaccinationDate.getValue()));
-        vaccination.setResponsible_id(getCurrentUser().getId());
-        if (vaccination.save()) {
-            displayAlert("SUCCESS", "vaccination saved successfully.", Alert.AlertType.INFORMATION);
-            closePopUp(mouseEvent);
-        } else
-            displayAlert("ERROR", "some error happened while saving!", Alert.AlertType.ERROR);
     }
 }
