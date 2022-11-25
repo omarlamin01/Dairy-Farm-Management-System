@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.print.*;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,24 +21,45 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class SalesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         combo.setItems(list);
+        combo1.setItems(list);
+
+        combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF(AnimalSalesTable);
+            } else {
+                exportToExcel();
+            }
+        });
+        combo1.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF(MilkSaleTable);
+            } else {
+                exportToExcel2();
+            }
+        });
         liveSearch(search_input, AnimalSalesTable);
         try {
             afficher();
@@ -60,7 +83,7 @@ public class SalesController implements Initializable {
     private TableColumn<MilkSale, String> client_c;
 
     @FXML
-    private ComboBox<?> combo1;
+    private ComboBox<String> combo1;
 
     @FXML
     private TableColumn<MilkSale, LocalDate> date_c;
@@ -515,6 +538,131 @@ public class SalesController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    private Statement statemeent;
+    private Connection connection = getConnection();
+    void exportToExcel() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Animal Sales");
+                Row header = sheet.createRow(0);
+                header.createCell(0).setCellValue("Sale ID");
+                header.createCell(1).setCellValue("Animal ID");
+                header.createCell(2).setCellValue("Price");
+                header.createCell(3).setCellValue("Client");
+                header.createCell(4).setCellValue("Date");
+
+
+
+                //get all employees from database
+                String query = "SELECT ms.id,ms.animal_id,ms.price,c.name,ms.sale_date FROM `animals_sales` ms ,`clients` c where ms.client_id=c.id ";
+                try {
+
+                    statemeent = connection.createStatement();
+                    ResultSet rs = statemeent.executeQuery(query);
+                    while (rs.next()) {
+                        int rowNum = rs.getRow();
+                        Row row = sheet.createRow(rowNum);
+                        row.createCell(0).setCellValue(rs.getString("ms.id"));
+                        row.createCell(1).setCellValue(rs.getString("ms.animal_id"));
+                        row.createCell(2).setCellValue(rs.getString("ms.price"));
+                        row.createCell(3).setCellValue(rs.getString("c.name"));
+                        row.createCell(4).setCellValue(rs.getString("ms.sale_date"));
+
+                    }
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Animal Sales exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    void exportToPDF(Node node_to_print) {
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Save As");
+//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+//        File file = fileChooser.showSaveDialog(null);
+//        if (file != null) {
+//            try {
+//                Document document = new Document();
+//                PdfWriter.getInstance(document, new FileOutputStream(file));
+//                document.open();
+//                try {
+//                    document.add(new Paragraph(Element.ALIGN_CENTER, "Stock Report", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
+//                    document.add(new Paragraph(" "));
+//                } catch (Exception e) {
+//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//                }
+//                PdfPTable table = new PdfPTable(9);
+//                table.addCell("Product ID");
+//                table.addCell("Product Name");
+//                table.addCell("Product Type");
+//                table.addCell("Quantity");
+//                table.addCell("Availability");
+//                table.addCell("Unit");
+//                table.addCell("Added Date");
+//
+//                //make pdf page width bigger
+//                table.setWidthPercentage(100);
+//                table.setSpacingBefore(10f);
+//                table.setSpacingAfter(10f);
+//
+//                //get all employees from database
+//                String query = "SELECT * FROM `stocks`";
+//                try {
+//                    statement = connection.createStatement();
+//                    ResultSet rs = statement.executeQuery(query);
+//                    while (rs.next()) {
+//                        table.addCell(rs.getString("id"));
+//                        table.addCell(rs.getString("name"));
+//                        table.addCell(rs.getString("type"));
+//                        table.addCell(rs.getString("quantity"));
+//                        table.addCell(rs.getString("availability"));
+//                        table.addCell(rs.getString("unit"));
+//                        table.addCell(rs.getString("created_at"));
+//                    }
+//
+//                    document.add(table);
+//                    document.close();
+//                    displayAlert("Success", "Stcok exported successfully", Alert.AlertType.INFORMATION);
+//                } catch (Exception e) {
+//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//                }
+//            } catch (Exception e) {
+//                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//            }
+//        }
+//    }
+        Printer printer = Printer.getDefaultPrinter();
+        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.EQUAL);
+
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            job.getJobSettings().setPageLayout(pageLayout);
+            //rotate stock table
+            boolean success = job.printPage(node_to_print);
+            // set orientation to landscape
+            if (success) {
+                job.endJob();
+            } else {
+                displayAlert("Error", "Failed to print", Alert.AlertType.ERROR);
+            }
+        }
+    }
+
     public void liveSearch2(TextField search_input, TableView table) {
         search_inpu.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
@@ -536,6 +684,56 @@ public class SalesController implements Initializable {
             }
         });
     }
+    void exportToExcel2() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Milk Sales");
+                Row header = sheet.createRow(0);
+                header.createCell(0).setCellValue("Sale ID");
+                header.createCell(1).setCellValue("Quantity");
+                header.createCell(2).setCellValue("Price");
+                header.createCell(3).setCellValue("Client");
+                header.createCell(4).setCellValue("Date");
+
+
+
+                //get all employees from database
+                String query = "SELECT ms.id,ms.quantity,ms.price,c.name,ms.sale_date FROM `milk_sales` ms ,`clients` c where ms.client_id=c.id ";
+                try {
+
+                    statemeent = connection.createStatement();
+                    ResultSet rs = statemeent.executeQuery(query);
+                    while (rs.next()) {
+                        int rowNum = rs.getRow();
+                        Row row = sheet.createRow(rowNum);
+                        row.createCell(0).setCellValue(rs.getString("ms.id"));
+                        row.createCell(1).setCellValue(rs.getString("ms.quantity"));
+                        row.createCell(2).setCellValue(rs.getString("ms.price"));
+                        row.createCell(3).setCellValue(rs.getString("c.name"));
+                        row.createCell(4).setCellValue(rs.getString("ms.sale_date"));
+
+                    }
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Milk Sales exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
 
 }
 

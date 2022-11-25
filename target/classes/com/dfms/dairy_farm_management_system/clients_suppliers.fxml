@@ -19,8 +19,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ClientsSuppliersController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ClientsSuppliersController">
  <stylesheets>
      <URL value="@../../../style/style.css" />
      <URL value="@../../../style/tab_pane.css" />
@@ -38,8 +37,8 @@
          <VBox.margin>
              <Insets bottom="10.0" />
          </VBox.margin>
-         <Rectangle arcHeight="5.0" fill="#72ed12" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
-         <Rectangle arcHeight="5.0" fill="#72ed12" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
+         <Rectangle arcHeight="5.0" fill="#2b9348" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
+         <Rectangle arcHeight="5.0" fill="#2b9348" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
      </Pane>
      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
          <Tab text="Clients">
@@ -56,7 +55,7 @@
                      <VBox.margin>
                          <Insets bottom="10.0" />
                      </VBox.margin>
-                     <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for client..." styleClass="text-field-search">
+                     <TextField fx:id="search_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" onMouseEntered="#search_client" prefHeight="40.0" prefWidth="360.0" promptText="Search for client..." styleClass="text-field-search">
                          <padding>
                              <Insets left="10.0" />
                          </padding>
@@ -72,7 +71,22 @@
                          </HBox.margin>
                      </Button>
                      <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                         <ComboBox fx:id="combo" promptText="Export" styleClass="combo_box" />
+                         <ComboBox fx:id="export_combo" promptText="Export" styleClass="combo_box" />
+                     <Button fx:id="refresh_table_btn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" text="Refresh">
+                        <graphic>
+                           <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../icons/refresh.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                        <opaqueInsets>
+                           <Insets />
+                        </opaqueInsets>
+                        <HBox.margin>
+                           <Insets right="10.0" />
+                        </HBox.margin>
+                     </Button>
                          <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddClient" styleClass="button-add" text="New client" textAlignment="CENTER">
                              <graphic>
                                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -82,14 +96,14 @@
                          </Button>
                      </HBox>
                  </HBox>
-                 <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                 <TableView fx:id="TableClient" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                      <columns>
-                         <TableColumn prefWidth="60.0" text="ID" />
-                         <TableColumn prefWidth="150.0" text="Name" />
-                         <TableColumn prefWidth="150.0" text="Type" />
-                         <TableColumn prefWidth="150.0" text="Email" />
-                         <TableColumn prefWidth="150.0" text="Phone" />
-                         <TableColumn prefWidth="155.33331298828125" text="Actions" />
+                         <TableColumn fx:id="colidClient" prefWidth="60.0" text="ID" />
+                         <TableColumn fx:id="colnameClient" prefWidth="150.0" text="Name" />
+                         <TableColumn fx:id="coltypeClient" prefWidth="150.0" text="Type" />
+                         <TableColumn fx:id="colemailClient" prefWidth="150.0" text="Email" />
+                         <TableColumn fx:id="colphoneClient" prefWidth="150.0" text="Phone" />
+                         <TableColumn fx:id="actionClient" prefWidth="155.33331298828125" text="Actions" />
                      </columns>
                  </TableView>
              </VBox>
@@ -108,7 +122,7 @@
                      <VBox.margin>
                          <Insets bottom="10.0" />
                      </VBox.margin>
-                     <TextField maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="360.0" promptText="Search for suppliers..." styleClass="text-field-search">
+                     <TextField fx:id="search_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" onMouseEntered="#search_supplier" prefHeight="40.0" prefWidth="360.0" promptText="Search for suppliers..." styleClass="text-field-search">
                          <padding>
                              <Insets left="10.0" />
                          </padding>
@@ -124,7 +138,22 @@
                          </HBox.margin>
                      </Button>
                      <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                         <ComboBox promptText="Export" styleClass="combo_box" />
+                         <ComboBox fx:id="export_combo_sup" promptText="Export" styleClass="combo_box" />
+                     <Button fx:id="refresh_tableSup_btn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTableSupplier" styleClass="button-add" text="Refresh">
+                        <graphic>
+                           <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../icons/refresh.png" />
+                              </image>
+                           </ImageView>
+                        </graphic>
+                        <opaqueInsets>
+                           <Insets />
+                        </opaqueInsets>
+                        <HBox.margin>
+                           <Insets right="10.0" />
+                        </HBox.margin>
+                     </Button>
                          <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddSupplier" styleClass="button-add" text="New supplier" textAlignment="CENTER">
                              <graphic>
                                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -134,14 +163,14 @@
                          </Button>
                      </HBox>
                  </HBox>
-                 <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                 <TableView fx:id="TableSupplier" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                      <columns>
-                         <TableColumn prefWidth="60.0" text="ID" />
-                         <TableColumn prefWidth="150.0" text="Name" />
-                         <TableColumn prefWidth="150.0" text="Type" />
-                         <TableColumn prefWidth="150.0" text="Email" />
-                         <TableColumn prefWidth="150.0" text="Phone" />
-                         <TableColumn prefWidth="155.33331298828125" text="Actions" />
+                         <TableColumn fx:id="colidSupplier" prefWidth="60.0" text="ID" />
+                         <TableColumn fx:id="colnameSupplier" prefWidth="150.0" text="Name" />
+                         <TableColumn fx:id="coltypeSupplier" prefWidth="150.0" text="Type" />
+                         <TableColumn fx:id="colemailSupplier" prefWidth="150.0" text="Email" />
+                         <TableColumn fx:id="colphoneSupplier" prefWidth="150.0" text="Phone" />
+                         <TableColumn fx:id="colactionSupplier" prefWidth="155.33331298828125" text="Actions" />
                      </columns>
                  </TableView>
              </VBox>

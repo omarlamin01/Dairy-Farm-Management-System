@@ -15,11 +15,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController">
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="458.0" prefWidth="598.0" styleClass="main_content" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.ClientDetailsController">
     <children>
         <HBox alignment="CENTER_LEFT" spacing="10.0">
             <children>
-                <Label styleClass="header" text="Animal" textAlignment="CENTER">
+                <Label styleClass="header" text="CLIENT" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -43,7 +43,7 @@
                 <Insets bottom="10.0" />
             </VBox.margin>
         </Pane>
-        <Label fx:id="header" styleClass="sub_header" text="Here's the details of selected animal" textAlignment="CENTER">
+        <Label fx:id="header" styleClass="sub_header" text="Here's the details of the employee" textAlignment="CENTER">
             <font>
                 <Font size="18.0" />
             </font>
@@ -67,75 +67,15 @@
                                         <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <Label prefWidth="200.0" text="ID" GridPane.columnIndex="1">
+                                        <Label prefWidth="200.0" text="Name" GridPane.columnIndex="1">
                                             <GridPane.margin>
                                                 <Insets left="10.0" />
                                             </GridPane.margin>
                                         </Label>
-                                        <Label fx:id="id" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                                        <Label fx:id="name" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Abdellatif" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../../../icons/cow_input.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                </GridPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </HBox>
-                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
-                            <children>
-                                <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="304.0" prefWidth="363.0" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                    <children>
-                                        <Label prefWidth="200.0" text="Birth Date" GridPane.columnIndex="1">
-                                            <GridPane.margin>
-                                                <Insets left="10.0" />
-                                            </GridPane.margin>
-                                        </Label>
-                                        <Label fx:id="birth_date" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Laghjaj" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
-                                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../../icons/calender.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                </GridPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </HBox>
-                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
-                            <children>
-                                <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="304.0" prefWidth="363.0" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                    <children>
-                                        <Label prefWidth="200.0" text="Race" GridPane.columnIndex="1">
-                                            <GridPane.margin>
-                                                <Insets left="10.0" />
-                                            </GridPane.margin>
-                                        </Label>
-                                        <Label fx:id="race" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="JT09813" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
-                                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../../icons/category.png" />
+                                                <Image url="@../../../../icons/user_name.png" />
                                             </image>
                                         </ImageView>
                                     </children>
@@ -162,7 +102,7 @@
                                                 <Insets left="10.0" />
                                             </GridPane.margin>
                                         </Label>
-                                        <Label fx:id="type" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="abc@gmail.com" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                                        <Label fx:id="type" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="JT09813" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@../../../../icons/category.png" />
@@ -187,15 +127,15 @@
                                         <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <Label prefWidth="200.0" text="Routine" GridPane.columnIndex="1">
+                                        <Label prefWidth="200.0" text="Email" GridPane.columnIndex="1">
                                             <GridPane.margin>
                                                 <Insets left="10.0" />
                                             </GridPane.margin>
                                         </Label>
-                                        <Label fx:id="routine" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Male" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                                        <Label fx:id="email" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="abc@gmail.com" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../../../icons/feedgris.png" />
+                                                <Image url="@../../../../icons/email.png" />
                                             </image>
                                         </ImageView>
                                     </children>
@@ -217,15 +157,15 @@
                                         <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
-                                        <Label prefWidth="200.0" text="Purchase Date" GridPane.columnIndex="1">
+                                        <Label prefWidth="200.0" text="Phone" GridPane.columnIndex="1">
                                             <GridPane.margin>
                                                 <Insets left="10.0" />
                                             </GridPane.margin>
                                         </Label>
-                                        <Label fx:id="purchase_date" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="0652552" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                                        <Label fx:id="phone" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="0652552" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@../../../../icons/calender.png" />
+                                                <Image url="@../../../../icons/phone.png" />
                                             </image>
                                         </ImageView>
                                     </children>

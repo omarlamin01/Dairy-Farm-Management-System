@@ -76,7 +76,7 @@ public class UpdateProductController implements Initializable {
                 product.setName(resultSet.getString("name"));
                 product.setQuantity(resultSet.getFloat("quantity"));
                 product.setUnit(resultSet.getString("unit"));
-                product.setAvailability(resultSet.getString("availability"));
+                product.setAvailability(resultSet.getBoolean("availability"));
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
@@ -98,9 +98,9 @@ public class UpdateProductController implements Initializable {
         product.setType(this.product_type_combo.getValue());
 
         if (product.getQuantity() > 0) {
-            product.setAvailability("1");
+            product.setAvailability(true);
         } else {
-            product.setAvailability("0");
+            product.setAvailability(false);
         }
 
         if (product.update()) {
