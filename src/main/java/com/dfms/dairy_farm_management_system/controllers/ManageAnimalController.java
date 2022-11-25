@@ -409,4 +409,10 @@ public class ManageAnimalController implements Initializable {
     public void refreshTable(MouseEvent mouseEvent) {
         refreshTableAnimal();
     }
+
+    @FXML
+    void openAddNewRace(MouseEvent event) throws IOException {
+        openNewWindow("Add New Race", "add_new_race");
+    }
+
 }
