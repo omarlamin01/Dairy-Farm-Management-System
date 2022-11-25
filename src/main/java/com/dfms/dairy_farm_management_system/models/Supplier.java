@@ -1,5 +1,7 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -10,10 +12,10 @@ import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConne
 
 public class Supplier implements Model {
     private int id;
-    private String name;
-    private String type;
-    private String phone;
-    private String email;
+    private String nameSupplier;
+    private String typeSupplier;
+    private String phoneSupplier;
+    private String emailSupplier;
     private Timestamp created_at;
     private Timestamp updated_at;
 
@@ -30,36 +32,52 @@ public class Supplier implements Model {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameSupplier() {
+        return nameSupplier;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameSupplier(String nameSupplier) {
+        this.nameSupplier = nameSupplier;
     }
 
-    public String getType() {
-        return type;
+    public String getTypeSupplier() {
+        return typeSupplier;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeSupplier(String typeSupplier) {
+        this.typeSupplier = typeSupplier;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPhoneSupplier() {
+        return phoneSupplier;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhoneSupplier(String phoneSupplier) {
+        this.phoneSupplier = phoneSupplier;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEmailSupplier() {
+        return emailSupplier;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEmailSupplier(String emailSupplier) {
+        this.emailSupplier = emailSupplier;
+    }
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
     }
 
     @Override
@@ -69,10 +87,10 @@ public class Supplier implements Model {
         try {
             PreparedStatement statement = connection.prepareStatement(query);
 
-            statement.setString(1, name);
-            statement.setString(2, type);
-            statement.setString(3, phone);
-            statement.setString(4, email);
+            statement.setString(1, nameSupplier);
+            statement.setString(2, typeSupplier);
+            statement.setString(3, phoneSupplier);
+            statement.setString(4, emailSupplier);
             statement.setTimestamp(5, created_at);
             statement.setTimestamp(6, updated_at);
 
@@ -85,22 +103,29 @@ public class Supplier implements Model {
 
     @Override
     public boolean update() {
-        String query = "UPDATE `suppliers` SET " +
-                "`name` = '" + name + "', " +
-                "`type` = '" + type + "', " +
-                "`phone` = '" + phone + "', " +
-                "`email` = '" + email + "', " +
-                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "' " +
+        updated_at = Timestamp.valueOf(LocalDateTime.now());
+        String query = "UPDATE `clients` SET " +
+                "`name` =?,"+
+                "`type` = ?," +
+                "`phone` = ?," +
+                "`email` = ?," +
+                "`updated_at` =?" +
                 "WHERE `id` = " + id;
-        Connection connection = getConnection();
+        Connection connection = DBConfig.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, nameSupplier);
+            statement.setString(2, typeSupplier);
+            statement.setString(3, phoneSupplier);
+            statement.setString(4, emailSupplier);
+            statement.setTimestamp(5, updated_at);
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
+
 
     @Override
     public boolean delete() {

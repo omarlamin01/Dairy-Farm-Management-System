@@ -9,6 +9,7 @@ import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.New
 import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.Client;
 import com.dfms.dairy_farm_management_system.models.Employee;
+import com.dfms.dairy_farm_management_system.models.Supplier;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -75,6 +76,33 @@ public class ClientsSuppliersController implements Initializable {
     private ComboBox<String> export_combo;
     @FXML
     private TextField search_client_input;
+
+    @FXML
+    private TextField search_input_supplier;
+
+    @FXML
+    private ComboBox<String> export_combo_sup;
+
+    @FXML
+    private TableView<Supplier> TableSupplier;
+
+    @FXML
+    private TableColumn<Supplier,Integer> colidSupplier;
+
+    @FXML
+    private TableColumn<Supplier,String> colnameSupplier;
+
+    @FXML
+    private TableColumn<Supplier,String>coltypeSupplier;
+
+    @FXML
+    private TableColumn<Supplier,String> colemailSupplier;
+
+    @FXML
+    private TableColumn<Supplier,String> colphoneSupplier;
+
+    @FXML
+    private TableColumn<Supplier,String> colactionSupplier;
     PreparedStatement statement =null;
     ResultSet resultSet = null;
     Connection connection = DBConfig.getConnection();
@@ -412,6 +440,33 @@ public class ClientsSuppliersController implements Initializable {
             }
         }
     }
+
+    ObservableList<Supplier> listSupplier = FXCollections.observableArrayList();
+    public ObservableList<Supplier> getSupplier() {
+        String select_query = "SELECT * from `supplier`";
+
+        try {
+            statement = connection.prepareStatement(select_query);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Supplier supplier = new Supplier();
+                supplier.setId(resultSet.getInt("id"));
+                supplier.setNameSupplier((resultSet.getString("name")));
+                supplier.setTypeSupplier(resultSet.getString("type"));
+                supplier.setPhoneSupplier(resultSet.getString("phone"));
+                supplier.setEmailSupplier(resultSet.getString("email"));
+                supplier.setCreated_at(resultSet.getTimestamp("created_at"));
+                supplier.setUpdated_at(resultSet.getTimestamp("updated_at"));
+
+                listSupplier.add(supplier);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return listSupplier;
+    }
+
 
 }
 
