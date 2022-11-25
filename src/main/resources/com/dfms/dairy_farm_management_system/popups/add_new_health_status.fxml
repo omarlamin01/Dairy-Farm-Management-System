@@ -88,7 +88,7 @@
                         <String fx:value="date_input" />
                     </styleClass>
                 </DatePicker>
-                <ComboBox fx:id="healthStatus" maxWidth="1.7976931348623157E308" promptText="Status" GridPane.rowIndex="8">
+                <ComboBox fx:id="healthStatusCombo" maxWidth="1.7976931348623157E308" promptText="Status" GridPane.rowIndex="8">
                     <styleClass>
                         <String fx:value="combo_box" />
                         <String fx:value="weight_input" />
@@ -103,7 +103,7 @@
                         <Insets bottom="8.0" />
                     </opaqueInsets>
                 </TextArea>
-                <Button fx:id="addHealthMonitorBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addHealthStatus" styleClass="btn" text="Add" GridPane.rowIndex="12" />
+                <Button fx:id="addHealthMonitorBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Add" GridPane.rowIndex="12" />
             </children>
         </GridPane>
     </children>

@@ -1,24 +1,33 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.HealthStatusController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.PregnancyController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.RoutineController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.VaccinationController;
 import com.dfms.dairy_farm_management_system.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
@@ -103,12 +112,17 @@ public class AnimalMonitorController implements Initializable {
     @FXML
     TableColumn<Routine, String> routineActionsCol;
 
+    boolean isSearchingForMonitors = false;
+    boolean isSearchingForPregnancies = false;
+    boolean isSearchingForVaccinations = false;
+    boolean isSearchingForRoutines = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        displayMonitors();
-        displayPregnancies();
-        displayVaccinations();
-        displayRoutines();
+        displayMonitors(getHealthStatus());
+        displayPregnancies(getPregnancies());
+        displayVaccinations(getVaccinations());
+        displayRoutines(getRoutines());
     }
 
     //get all the HealthStatus
@@ -139,8 +153,7 @@ public class AnimalMonitorController implements Initializable {
     }
 
     //display all the monitors in the table
-    public void displayMonitors() {
-        ObservableList<HealthStatus> monitors = getHealthStatus();
+    public void displayMonitors(ObservableList<HealthStatus> monitors) {
         animal_id_col.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
         healthMonitorNoteCol.setCellValueFactory(new PropertyValueFactory<>("notes"));
         health_score_col.setCellValueFactory(new PropertyValueFactory<>("health_score"));
@@ -207,8 +220,42 @@ public class AnimalMonitorController implements Initializable {
 
                         setGraphic(managebtn);
                         setText(null);
+
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            displayAlert("Delete", "Are you sure you want to delete this monitor?", Alert.AlertType.CONFIRMATION);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete");
+                            alert.setHeaderText("Are you sure you want to delete this monitor?");
+                            int index = ((TableCell<HealthStatus, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            HealthStatus monitor = monitors.get(index);
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    monitor.delete();
+                                    displayMonitors(isSearchingForMonitors ? monitors : getHealthStatus());
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+                            }
+                        });
+                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            int index = ((TableCell<HealthStatus, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            HealthStatus monitor = monitors.get(index);
+                            String url = "popups/add_new_health_status.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            HealthStatusController controller = fxmlLoader.getController();
+                            controller.initData(monitor);
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
                     }
                 }
@@ -246,8 +293,7 @@ public class AnimalMonitorController implements Initializable {
     }
 
     //display all the pregnancies in the table
-    public void displayPregnancies() {
-        ObservableList<Pregnancy> pregnancies = getPregnancies();
+    public void displayPregnancies(ObservableList<Pregnancy> pregnancies) {
         cow_id_col.setCellValueFactory(new PropertyValueFactory<>("cow_id"));
         pregnancyStartDateCol.setCellValueFactory(new PropertyValueFactory<>("start_date"));
         pregnancyEndCol.setCellValueFactory(new PropertyValueFactory<>("delivery_date"));
@@ -258,8 +304,6 @@ public class AnimalMonitorController implements Initializable {
                 final Button edit_btn = new Button();
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
                 final Button delete_btn = new Button();
-                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
-                final Button view_details_btn = new Button();
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -269,18 +313,6 @@ public class AnimalMonitorController implements Initializable {
                         setGraphic(null);
                         setText(null);
                     } else {
-                        view_details_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv1 = new ImageView();
-                        iv1.setImage(view_details_img);
-                        iv1.setPreserveRatio(true);
-                        iv1.setSmooth(true);
-                        iv1.setCache(true);
-                        view_details_btn.setGraphic(iv1);
-
-                        setGraphic(view_details_btn);
-                        setText(null);
-
-
                         edit_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
                         ImageView iv = new ImageView();
                         iv.setImage(edit_img);
@@ -306,16 +338,48 @@ public class AnimalMonitorController implements Initializable {
 
                         setText(null);
 
-                        HBox managebtn = new HBox(edit_btn, delete_btn, view_details_btn);
+                        HBox managebtn = new HBox(edit_btn, delete_btn);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
                         HBox.setMargin(delete_btn, new Insets(1, 1, 0, 2));
-                        HBox.setMargin(view_details_btn, new Insets(1, 1, 0, 1));
 
                         setGraphic(managebtn);
                         setText(null);
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            displayAlert("Delete", "Are you sure you want to delete this pregnancy?", Alert.AlertType.CONFIRMATION);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete");
+                            alert.setHeaderText("Are you sure you want to delete this pregnancy?");
+                            int index = ((TableCell<Pregnancy, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Pregnancy pregnancy = pregnancies.get(index);
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    pregnancy.delete();
+                                    displayPregnancies(isSearchingForPregnancies ? pregnancies : getPregnancies());
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+                            }
+                        });
+                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            int index = ((TableCell<HealthStatus, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Pregnancy pregnancy = pregnancies.get(index);
+                            String url = "popups/add_new_pregnancy.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            PregnancyController controller = fxmlLoader.getController();
+                            controller.initData(pregnancy);
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
                     }
                 }
@@ -352,8 +416,7 @@ public class AnimalMonitorController implements Initializable {
     }
 
     //display all the vaccinations in the table
-    public void displayVaccinations() {
-        ObservableList<Vaccination> vaccinations = getVaccinations();
+    public void displayVaccinations(ObservableList<Vaccination> vaccinations) {
         animalIdCol.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
         vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("vaccine_name"));
         ResponsibleNameCol.setCellValueFactory(new PropertyValueFactory<>("responsible_name"));
@@ -364,8 +427,6 @@ public class AnimalMonitorController implements Initializable {
                 final Button edit_btn = new Button();
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
                 final Button delete_btn = new Button();
-                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
-                final Button view_details_btn = new Button();
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -375,18 +436,6 @@ public class AnimalMonitorController implements Initializable {
                         setGraphic(null);
                         setText(null);
                     } else {
-                        view_details_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv1 = new ImageView();
-                        iv1.setImage(view_details_img);
-                        iv1.setPreserveRatio(true);
-                        iv1.setSmooth(true);
-                        iv1.setCache(true);
-                        view_details_btn.setGraphic(iv1);
-
-                        setGraphic(view_details_btn);
-                        setText(null);
-
-
                         edit_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
                         ImageView iv = new ImageView();
                         iv.setImage(edit_img);
@@ -412,16 +461,48 @@ public class AnimalMonitorController implements Initializable {
 
                         setText(null);
 
-                        HBox managebtn = new HBox(edit_btn, delete_btn, view_details_btn);
+                        HBox managebtn = new HBox(edit_btn, delete_btn);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
                         HBox.setMargin(delete_btn, new Insets(1, 1, 0, 2));
-                        HBox.setMargin(view_details_btn, new Insets(1, 1, 0, 1));
 
                         setGraphic(managebtn);
                         setText(null);
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            displayAlert("Delete", "Are you sure you want to delete this vaccination?", Alert.AlertType.CONFIRMATION);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete");
+                            alert.setHeaderText("Are you sure you want to delete this vaccination?");
+                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Vaccination vaccination = vaccinations.get(index);
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    vaccination.delete();
+                                    displayVaccinations(isSearchingForVaccinations ? vaccinations : getVaccinations());
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+                            }
+                        });
+                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Vaccination vaccination = vaccinations.get(index);
+                            String url = "popups/add_new_vaccination.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            VaccinationController controller = fxmlLoader.getController();
+                            controller.initData(vaccination);
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
                         });
                     }
                 }
@@ -457,8 +538,7 @@ public class AnimalMonitorController implements Initializable {
     }
 
     //display all the routines in the table
-    public void displayRoutines() {
-        ObservableList<Routine> routines = getRoutines();
+    public void displayRoutines(ObservableList<Routine> routines) {
         routineNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         routineNotesCol.setCellValueFactory(new PropertyValueFactory<>("note"));
         routineAdditionDateCol.setCellValueFactory(new PropertyValueFactory<>("created_at"));
@@ -468,8 +548,6 @@ public class AnimalMonitorController implements Initializable {
                 final Button edit_btn = new Button();
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
                 final Button delete_btn = new Button();
-                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
-                final Button view_details_btn = new Button();
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -479,18 +557,6 @@ public class AnimalMonitorController implements Initializable {
                         setGraphic(null);
                         setText(null);
                     } else {
-                        view_details_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv1 = new ImageView();
-                        iv1.setImage(view_details_img);
-                        iv1.setPreserveRatio(true);
-                        iv1.setSmooth(true);
-                        iv1.setCache(true);
-                        view_details_btn.setGraphic(iv1);
-
-                        setGraphic(view_details_btn);
-                        setText(null);
-
-
                         edit_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
                         ImageView iv = new ImageView();
                         iv.setImage(edit_img);
@@ -516,16 +582,48 @@ public class AnimalMonitorController implements Initializable {
 
                         setText(null);
 
-                        HBox managebtn = new HBox(edit_btn, delete_btn, view_details_btn);
+                        HBox managebtn = new HBox(edit_btn, delete_btn);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
                         HBox.setMargin(delete_btn, new Insets(1, 1, 0, 2));
-                        HBox.setMargin(view_details_btn, new Insets(1, 1, 0, 1));
 
                         setGraphic(managebtn);
                         setText(null);
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            displayAlert("Delete", "Are you sure you want to delete this routine?", Alert.AlertType.CONFIRMATION);
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete");
+                            alert.setHeaderText("Are you sure you want to delete this routine?");
+                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Routine routine = routines.get(index);
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    routine.delete();
+                                    displayRoutines(isSearchingForRoutines ? routines : getRoutines());
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+                            }
+                        });
+                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            int index = ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            Routine routine = routines.get(index);
+                            String url = "popups/add_new_routine.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            RoutineController controller = fxmlLoader.getController();
+                            controller.initData(routine);
+                            stage.show();
                         });
                     }
                 }
@@ -556,23 +654,148 @@ public class AnimalMonitorController implements Initializable {
         openNewWindow("Add vaccination", "add_new_vaccination");
     }
 
+    public ObservableList<HealthStatus> searchForHealthStatus(String searchClause) {
+        ObservableList<HealthStatus> monitors = FXCollections.observableArrayList();
+        String query = "SELECT * FROM `health_status` WHERE `animal_id` LIKE '%" + searchClause +"%' OR `health_score` LIKE '%" + searchClause + "%' OR `notes` LIKE '%" + searchClause + "%' ORDER BY `created_at` DESC ";
+        try {
+            ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
+            while (resultSet.next()) {
+                HealthStatus healthStatus = new HealthStatus();
+
+                healthStatus.setId(resultSet.getInt("id"));
+                healthStatus.setAnimal_id(resultSet.getString("animal_id"));
+                healthStatus.setWeight(resultSet.getInt("weight"));
+                healthStatus.setBreathing(resultSet.getInt("breathing"));
+                healthStatus.setHealth_score(resultSet.getString("health_score"));
+                healthStatus.setControl_date(resultSet.getDate("control_date"));
+                healthStatus.setNotes(resultSet.getString("notes"));
+                healthStatus.setCreated_at(resultSet.getTimestamp("created_at"));
+                healthStatus.setUpdated_at(resultSet.getTimestamp("updated_at"));
+
+                monitors.add(healthStatus);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return monitors;
+    }
+
+    public ObservableList<Pregnancy> searchForPregnancies(String searchClause) {
+        ObservableList<Pregnancy> pregnancies = FXCollections.observableArrayList();
+        String query = "SELECT * FROM `pregnancies` WHERE `cow_id` LIKE '%" + searchClause +"%' OR `notes` LIKE '%" + searchClause + "%' ORDER BY `created_at` DESC ";
+        try {
+            ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
+            while (resultSet.next()) {
+                Pregnancy pregnancy = new Pregnancy();
+
+                pregnancy.setId(resultSet.getInt("id"));
+                pregnancy.setCow_id(resultSet.getString("cow_id"));
+                pregnancy.setStart_date(resultSet.getDate("start_date"));
+                pregnancy.setDelivery_date(resultSet.getDate("delivery_date"));
+                pregnancy.setPregnancy_status(resultSet.getString("pregnancy_status"));
+                pregnancy.setNotes(resultSet.getString("notes"));
+                pregnancy.setCreated_at(resultSet.getTimestamp("created_at"));
+                pregnancy.setUpdated_at(resultSet.getTimestamp("updated_at"));
+
+                pregnancies.add(pregnancy);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pregnancies;
+    }
+
+    public ObservableList<Vaccination> searchForVaccinations(String searchClause) {
+        ObservableList<Vaccination> vaccinations = FXCollections.observableArrayList();
+        String query = "SELECT * FROM `vaccination` WHERE `animal_id` LIKE '%" + searchClause + "%' OR `vaccine_id` IN (SELECT id FROM stocks WHERE name LIKE '%" + searchClause + "%') OR `responsible_id` IN (SELECT id FROM users WHERE first_name LIKE '%" + searchClause + "%' OR last_name LIKE '%" + searchClause + "%')";
+        try {
+            ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
+            while (resultSet.next()) {
+                Vaccination vaccination = new Vaccination();
+
+                vaccination.setId(resultSet.getInt("id"));
+                vaccination.setAnimal_id(resultSet.getString("animal_id"));
+                vaccination.setResponsible_id(resultSet.getInt("responsible_id"));
+                vaccination.setVaccine_id(resultSet.getInt("vaccine_id"));
+                vaccination.setVaccination_date(resultSet.getDate("vaccination_date"));
+                vaccination.setUpdated_at(resultSet.getTimestamp("updated_at"));
+                vaccination.setCreated_at(resultSet.getTimestamp("created_at"));
+
+                vaccinations.add(vaccination);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vaccinations;
+    }
+
+    public ObservableList<Routine> searchForRoutines(String searchClause) {
+        ObservableList<Routine> routines = FXCollections.observableArrayList();
+        String query = "SELECT * FROM `routines` WHERE `name` LIKE '%" + searchClause + "%' OR `note` LIKE '%" + searchClause + "'";
+        try {
+            ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
+            while (resultSet.next()) {
+                Routine routine = new Routine();
+
+                routine.setId(resultSet.getInt("id"));
+                routine.setName(resultSet.getString("name"));
+                routine.setNote(resultSet.getString("note"));
+                routine.setCreated_at(resultSet.getTimestamp("created_at"));
+                routine.setUpdated_at(resultSet.getTimestamp("updated_at"));
+
+                routines.add(routine);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return routines;
+    }
+
     @FXML
     public void healthStatusSearch(MouseEvent mouseEvent) {
-        System.out.println("healthStatusSearch");
+        String searchClause = healthStatusSearch.getText().trim();
+        if (!searchClause.isEmpty() && searchClause != "") {
+            isSearchingForMonitors = true;
+            displayMonitors(searchForHealthStatus(searchClause));
+        } else {
+            isSearchingForMonitors = false;
+            displayMonitors(getHealthStatus());
+        }
     }
 
     @FXML
     public void pregnancySearch(MouseEvent mouseEvent) {
-        System.out.println("pregnancySearch");
+        String searchClause = pregnancySearch.getText().trim();
+        if (!searchClause.isEmpty() && searchClause != "") {
+            isSearchingForPregnancies = true;
+            displayPregnancies(searchForPregnancies(searchClause));
+        } else {
+            isSearchingForPregnancies = false;
+            displayPregnancies(getPregnancies());
+        }
     }
 
     @FXML
     public void vaccinationSearch(MouseEvent mouseEvent) {
-        System.out.println("vaccinationSearch");
+        String searchClause = vaccineSearch.getText().trim();
+        if (!searchClause.isEmpty() && searchClause != "") {
+            isSearchingForVaccinations = true;
+            displayVaccinations(searchForVaccinations(searchClause));
+        } else {
+            isSearchingForVaccinations = false;
+            displayVaccinations(getVaccinations());
+        }
     }
 
     @FXML
     public void routineSearch(MouseEvent mouseEvent) {
-        System.out.println("routineSearch");
+        String searchClause = routineSearch.getText().trim();
+        if (!searchClause.isEmpty() && searchClause != "") {
+            isSearchingForRoutines = true;
+            displayRoutines(searchForRoutines(searchClause));
+        } else {
+            isSearchingForRoutines = false;
+            displayRoutines(getRoutines());
+        }
     }
 }

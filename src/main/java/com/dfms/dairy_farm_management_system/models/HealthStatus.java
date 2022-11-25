@@ -124,13 +124,13 @@ public class HealthStatus implements Model {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
         String query = "UPDATE `health_status` SET " +
                 "animal_id = '" + animal_id + "', " +
-                "weight = " + weight + ", " +
-                "breathing = " + breathing + ", " +
-                "health_score = " + health_score + ", " +
-                "control_date = " + control_date + ", " +
-                "notes = " + notes + ", " +
-                "updated_at = " + updated_at +
-                " WHERE id = " + id;
+                "weight = '" + weight + "', " +
+                "breathing = '" + breathing + "', " +
+                "health_score = '" + health_score + "', " +
+                "control_date = '" + control_date + "', " +
+                "notes = '" + notes + "', " +
+                "updated_at = '" + updated_at +
+                "' WHERE id = " + id;
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
