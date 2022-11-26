@@ -167,8 +167,8 @@ public class Employee implements Model {
                 "', `phone` = '" + phone +
                 "', `address` = '" + adress +
                 "', `salary` = '" + salary +
-                "', `hire_date` = '" + hire_date +
-                "', `contract_type` = '" + contract_type +
+                "', `hire_date` = " + hire_date +
+                ", `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) + "' " +
                 "WHERE `employees`.`cin` = '" + cin.toUpperCase() + "'";
         try {
