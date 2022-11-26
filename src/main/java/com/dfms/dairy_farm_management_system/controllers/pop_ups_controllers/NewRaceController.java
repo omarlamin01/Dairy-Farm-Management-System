@@ -39,6 +39,11 @@ public class NewRaceController implements Initializable {
     @FXML
     void addNewRace(MouseEvent event) {
         Race race =new Race();
+        if(nameRace.getText().isEmpty())
+        {
+            displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
+            return;
+        }
         race.setName(nameRace.getText());
         if (race.add()) {
             clear();
@@ -46,9 +51,6 @@ public class NewRaceController implements Initializable {
             displayAlert("Success", "New race added successfully.", Alert.AlertType.INFORMATION);
         } else {
             displayAlert("Error", "Some error happened while saving!", Alert.AlertType.ERROR);
-        }
-
-
+        }}
     }
 
-}

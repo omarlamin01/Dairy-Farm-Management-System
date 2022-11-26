@@ -1,7 +1,7 @@
 * {
     /*-green-color: #72ED12;*/
-    -green-color: #2b9348;
-    -dark-green-color: #72D611;
+    -green-color: #00A300;
+    -dark-green-color: #00D100;
     -dark-blue-color: #1E293B;
     -light-gray-color: #D9D9D9;
     -yellow-color: #FFC700;
@@ -232,7 +232,7 @@
 }
 
 .button-add {
-    -fx-background-color: -green-color;
+    -fx-background-color:#00A300;
     -fx-background-radius: 10;
 }
 
