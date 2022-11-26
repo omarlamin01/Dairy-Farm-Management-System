@@ -225,7 +225,7 @@ public class AnimalMonitorController implements Initializable {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete");
                             alert.setHeaderText("Are you sure you want to delete this monitor?");
-                            int index = ((TableCell<HealthStatus, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            int index = ((TableCell<HealthStatus, String>) ((Button) event.getSource()).getParent().getParent()).getTableRow().getIndex();
                             HealthStatus monitor = monitors.get(index);
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {

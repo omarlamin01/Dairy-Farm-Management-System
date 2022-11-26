@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
@@ -73,6 +74,7 @@ public class SalesController implements Initializable {
         }
         liveSearch2(search_inpu, MilkSaleTable);
     }
+
     @FXML
     private TableView<MilkSale> MilkSaleTable;
 
@@ -114,7 +116,7 @@ public class SalesController implements Initializable {
     private TableColumn<AnimalSale, String> animalis_col;
 
     @FXML
-    private TableColumn<AnimalSale,String > client_col;
+    private TableColumn<AnimalSale, String> client_col;
 
     @FXML
     private TableColumn<AnimalSale, String> action_col;
@@ -154,7 +156,7 @@ public class SalesController implements Initializable {
         resultSet = statement.executeQuery();
         while (resultSet.next()) {
             AnimalSale animalSale = new AnimalSale();
-            
+
             animalSale.setId(resultSet.getInt("id"));
             animalSale.setClientId(resultSet.getInt("client_id"));
             animalSale.setAnimalId(resultSet.getString("animal_id"));
@@ -189,12 +191,9 @@ public class SalesController implements Initializable {
             // make cell containing buttons
             final TableCell<AnimalSale, String> cell = new TableCell<AnimalSale, String>() {
 
-                Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                final Button btnEdit = new Button();
-                Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                final Button btnDelete = new Button();
-                Image imgViewDetail = new Image(getClass().getResourceAsStream("/images/eye.png"));
-                final Button btnViewDetail = new Button();
+                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
 
                 @Override
                 public void updateItem(String item, boolean empty) {
@@ -205,75 +204,62 @@ public class SalesController implements Initializable {
                         setText(null);
 
                     } else {
-                        btnViewDetail.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv1 = new ImageView();
-                        iv1.setImage(imgViewDetail);
-                        iv1.setPreserveRatio(true);
-                        iv1.setSmooth(true);
-                        iv1.setCache(true);
-                        btnViewDetail.setGraphic(iv1);
-
-                        setGraphic(btnViewDetail);
-                        setText(null);
+                        ImageView iv_view_details = new ImageView();
+                        iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        iv_view_details.setImage(view_details_img);
+                        iv_view_details.setPreserveRatio(true);
+                        iv_view_details.setSmooth(true);
+                        iv_view_details.setCache(true);
 
 
-                        btnEdit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(imgEdit);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        btnEdit.setGraphic(iv);
+                        ImageView iv_edit = new ImageView();
+                        iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        iv_edit.setImage(edit_img);
+                        iv_edit.setPreserveRatio(true);
+                        iv_edit.setSmooth(true);
+                        iv_edit.setCache(true);
 
-                        setGraphic(btnEdit);
-                        setText(null);
+                        ImageView iv_delete = new ImageView();
+                        iv_delete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
 
-                        btnDelete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv2 = new ImageView();
+                        iv_delete.setImage(delete_img);
+                        iv_delete.setPreserveRatio(true);
+                        iv_delete.setSmooth(true);
+                        iv_delete.setCache(true);
 
-                        iv2.setImage(imgDelete);
-                        iv2.setPreserveRatio(true);
-                        iv2.setSmooth(true);
-                        iv2.setCache(true);
-                        btnDelete.setGraphic(iv2);
-
-
-                        setGraphic(btnDelete);
-
-                        setText(null);
-
-                        HBox managebtn = new HBox(btnEdit, btnDelete, btnViewDetail);
+                        HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
                         managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(btnEdit, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(btnDelete, new Insets(1, 1, 0, 2));
-                        HBox.setMargin(btnViewDetail, new Insets(1, 1, 0, 1));
+                        HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_edit, new Insets(1, 1, 0, 3));
 
                         setGraphic(managebtn);
 
-                        setText(null);
-
-
-                        btnDelete.setOnMouseClicked((MouseEvent event) -> {
-
+                        iv_delete.setOnMouseClicked((MouseEvent event) -> {
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete Confirmation");
+                            alert.setHeaderText("Are you sure you want to delete this animal sale?");
                             AnimalSale mc = AnimalSalesTable.getSelectionModel().getSelectedItem();
-                            if (mc.delete()) {
-
-                                displayAlert("success", "Animal Sale deleted successfully", Alert.AlertType.INFORMATION);
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
                                 try {
-                                    refreshTableAnimalSales();
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                    throw new RuntimeException(e);
-                                }
-                            } else {
-                                displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
-                            }
+                                    if (mc.delete()) {
 
+                                        displayAlert("success", "Animal Sale deleted successfully", Alert.AlertType.INFORMATION);
+                                        refreshTableMilkSales();
+                                    } else {
+                                        displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
+
+                                    }
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+                            }
 
                             //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
 
                         });
-                        btnEdit.setOnMouseClicked((MouseEvent event) -> {
+                        iv_edit.setOnMouseClicked((MouseEvent event) -> {
 
                             AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_cow_sale.fxml"));
@@ -286,7 +272,7 @@ public class SalesController implements Initializable {
                             }
                             CowSalesController cowSalesController = fxmlLoader.getController();
                             cowSalesController.setUpdate(true);
-                            cowSalesController.fetchAnimalSale(animalSale.getId(),animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(),animalSale.getSale_date());
+                            cowSalesController.fetchAnimalSale(animalSale.getId(), animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update Animal Sale");
@@ -295,14 +281,14 @@ public class SalesController implements Initializable {
                             centerScreen(stage);
                             stage.show();
                         });
-                        btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
+                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
                             AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_sale_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
-                               AnimalSaleDetailsController controller = fxmlLoader.getController();
-                                controller.fetchAnimalSale( animalSale.getId(),animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
+                                AnimalSaleDetailsController controller = fxmlLoader.getController();
+                                controller.fetchAnimalSale(animalSale.getId(), animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -327,6 +313,7 @@ public class SalesController implements Initializable {
         AnimalSalesTable.setItems(list);
 
     }
+
     public void liveSearch(TextField search_input, TableView table) {
         search_input.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
@@ -345,7 +332,7 @@ public class SalesController implements Initializable {
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
-                for (AnimalSale Animal: animalSale) {
+                for (AnimalSale Animal : animalSale) {
                     if (Animal.getClientName().toLowerCase().contains(newValue.toLowerCase()) || Animal.getAnimalId().toLowerCase().contains(newValue.toLowerCase())) {
                         filteredList.add(Animal);
                     }
@@ -354,6 +341,7 @@ public class SalesController implements Initializable {
             }
         });
     }
+
     public ObservableList<MilkSale> getMilkSale() throws SQLException {
         ObservableList<MilkSale> list = FXCollections.observableArrayList();
 
@@ -374,6 +362,7 @@ public class SalesController implements Initializable {
         }
         return list;
     }
+
     private void afficheer() throws SQLException {
         ObservableList<MilkSale> list = getMilkSale();
         quantity_c.setCellValueFactory(new PropertyValueFactory<MilkSale, Float>("quantity"));
@@ -386,12 +375,9 @@ public class SalesController implements Initializable {
             // make cell containing buttons
             final TableCell<MilkSale, String> cell = new TableCell<MilkSale, String>() {
 
-                Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                final Button btnEdit = new Button();
-                Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                final Button btnDelete = new Button();
-                Image imgViewDetail = new Image(getClass().getResourceAsStream("/images/eye.png"));
-                final Button btnViewDetail = new Button();
+                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
 
                 @Override
                 public void updateItem(String item, boolean empty) {
@@ -402,72 +388,66 @@ public class SalesController implements Initializable {
                         setText(null);
 
                     } else {
-                        btnViewDetail.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv1 = new ImageView();
-                        iv1.setImage(imgViewDetail);
-                        iv1.setPreserveRatio(true);
-                        iv1.setSmooth(true);
-                        iv1.setCache(true);
-                        btnViewDetail.setGraphic(iv1);
-
-                        setGraphic(btnViewDetail);
-                        setText(null);
+                        ImageView iv_view_details = new ImageView();
+                        iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        iv_view_details.setImage(view_details_img);
+                        iv_view_details.setPreserveRatio(true);
+                        iv_view_details.setSmooth(true);
+                        iv_view_details.setCache(true);
 
 
-                        btnEdit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(imgEdit);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        btnEdit.setGraphic(iv);
+                        ImageView iv_edit = new ImageView();
+                        iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        iv_edit.setImage(edit_img);
+                        iv_edit.setPreserveRatio(true);
+                        iv_edit.setSmooth(true);
+                        iv_edit.setCache(true);
 
-                        setGraphic(btnEdit);
-                        setText(null);
+                        ImageView iv_delete = new ImageView();
+                        iv_delete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
 
-                        btnDelete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv2 = new ImageView();
+                        iv_delete.setImage(delete_img);
+                        iv_delete.setPreserveRatio(true);
+                        iv_delete.setSmooth(true);
+                        iv_delete.setCache(true);
 
-                        iv2.setImage(imgDelete);
-                        iv2.setPreserveRatio(true);
-                        iv2.setSmooth(true);
-                        iv2.setCache(true);
-                        btnDelete.setGraphic(iv2);
-
-
-                        setGraphic(btnDelete);
-
-                        setText(null);
-
-                        HBox managebtn = new HBox(btnEdit, btnDelete, btnViewDetail);
+                        HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
                         managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(btnEdit, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(btnDelete, new Insets(1, 1, 0, 2));
-                        HBox.setMargin(btnViewDetail, new Insets(1, 1, 0, 1));
+                        HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_edit, new Insets(1, 1, 0, 3));
 
                         setGraphic(managebtn);
 
-                        setText(null);
 
-
-                        btnDelete.setOnMouseClicked((MouseEvent event) -> {
-
+                        iv_delete.setOnMouseClicked((MouseEvent event) -> {
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete Confirmation");
+                            alert.setHeaderText("Are you sure you want to delete this cow sale?");
 
                             MilkSale mc = MilkSaleTable.getSelectionModel().getSelectedItem();
-                            if (mc.delete()) {
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    if (mc.delete()) {
 
-                                displayAlert("success", "Milk Sale deleted successfully", Alert.AlertType.INFORMATION);
-                                refreshTableMilkSales();
-                            } else {
-                                displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
+                                        displayAlert("success", "Milk Sale deleted successfully", Alert.AlertType.INFORMATION);
+                                        refreshTableMilkSales();
+                                    } else {
+                                        displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
+
+                                    }
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+
                             }
-
 
 
                             //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
 
                         });
-                        btnEdit.setOnMouseClicked((MouseEvent event) -> {
+                        iv_edit.setOnMouseClicked((MouseEvent event) -> {
                             MilkSale milkSale = MilkSaleTable.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_milk_sale.fxml"));
                             Scene scene = null;
@@ -479,7 +459,7 @@ public class SalesController implements Initializable {
                             }
                             MilkSalesController milkSalesController = fxmlLoader.getController();
                             milkSalesController.setUpdate(true);
-                            milkSalesController.fetchMilkSale(milkSale.getId(),milkSale.getQuantity(), milkSale.getPrice(), milkSale.getClientName(),milkSale.getSale_date());
+                            milkSalesController.fetchMilkSale(milkSale.getId(), milkSale.getQuantity(), milkSale.getPrice(), milkSale.getClientName(), milkSale.getSale_date());
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update Milk Sale");
@@ -488,14 +468,14 @@ public class SalesController implements Initializable {
                             centerScreen(stage);
                             stage.show();
                         });
-                        btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
+                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
                             MilkSale milkSale = MilkSaleTable.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/milk_sale_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 MilkSaleDetailsController controller = fxmlLoader.getController();
-                                controller.fetchMilkSale( milkSale.getId(),milkSale.getQuantity(), milkSale.getPrice(), milkSale.getClientName(), milkSale.getSale_date());
+                                controller.fetchMilkSale(milkSale.getId(), milkSale.getQuantity(), milkSale.getPrice(), milkSale.getClientName(), milkSale.getSale_date());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -522,15 +502,17 @@ public class SalesController implements Initializable {
     }
 
     private void refreshTableMilkSales() {
-       MilkSaleTable.getItems().clear();
+        MilkSaleTable.getItems().clear();
         try {
-           afficheer();
+            afficheer();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
     private Statement statemeent;
     private Connection connection = getConnection();
+
     void exportToExcel() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
@@ -546,7 +528,6 @@ public class SalesController implements Initializable {
                 header.createCell(2).setCellValue("Price");
                 header.createCell(3).setCellValue("Client");
                 header.createCell(4).setCellValue("Date");
-
 
 
                 //get all employees from database
@@ -666,8 +647,8 @@ public class SalesController implements Initializable {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                for (MilkSale milk: milkSale) {
-                    if (milk.getClientName().toLowerCase().contains(newValue.toLowerCase()) ) {
+                for (MilkSale milk : milkSale) {
+                    if (milk.getClientName().toLowerCase().contains(newValue.toLowerCase())) {
                         filteredList.add(milk);
                     }
                 }
@@ -675,6 +656,7 @@ public class SalesController implements Initializable {
             }
         });
     }
+
     void exportToExcel2() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
@@ -690,7 +672,6 @@ public class SalesController implements Initializable {
                 header.createCell(2).setCellValue("Price");
                 header.createCell(3).setCellValue("Client");
                 header.createCell(4).setCellValue("Date");
-
 
 
                 //get all employees from database
@@ -724,14 +705,15 @@ public class SalesController implements Initializable {
             }
         }
     }
+
     @FXML
     void refreshTable(MouseEvent event) throws SQLException {
-     refreshTableAnimalSales();
+        refreshTableAnimalSales();
     }
 
     @FXML
     void refreshTable2(MouseEvent event) {
-       refreshTableMilkSales();
+        refreshTableMilkSales();
 
     }
 
