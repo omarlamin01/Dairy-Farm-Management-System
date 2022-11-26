@@ -26,15 +26,15 @@ public class DashboardController implements Initializable {
 
         //fill the chart with real data
         //fillPieChart();
-        //fillPieChart();
+        fillPieChart();
 
-        PieChart.Data slice1 = new PieChart.Data("Desktop", 213);
-        PieChart.Data slice2 = new PieChart.Data("Phone", 67);
-        PieChart.Data slice3 = new PieChart.Data("Tablet", 36);
-
-        pieChart.getData().add(slice1);
-        pieChart.getData().add(slice2);
-        pieChart.getData().add(slice3);
+//        PieChart.Data slice1 = new PieChart.Data("Desktop", 213);
+//        PieChart.Data slice2 = new PieChart.Data("Phone", 67);
+//        PieChart.Data slice3 = new PieChart.Data("Tablet", 36);
+//
+//        pieChart.getData().add(slice1);
+//        pieChart.getData().add(slice2);
+//        pieChart.getData().add(slice3);
 
         xAxis.setLabel("Programming Language");
 
