@@ -105,39 +105,22 @@ public class UpdateEmployeeController implements Initializable {
 
     //get current user data
     public void fetchEmployee(Employee employee) {
-
-        //get the employee from the database
-        Connection connection = getConnection();
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
         this.employee_cin = employee.getCin();
 
-        try {
-            statement = connection.prepareStatement("SELECT * FROM employees WHERE cin = '" + employee_cin + "' LIMIT 1");
-            resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                emailInput.setText(resultSet.getString("email"));
-                firstNameInput.setText(resultSet.getString("first_name"));
-                lastNameInput.setText(resultSet.getString("last_name"));
-                salaryInput.setText(String.valueOf(resultSet.getFloat("salary")));
-                addressInput.setText(resultSet.getString("address"));
-                cinInput.setText(resultSet.getString("cin"));
-                phoneNumberInput.setText(resultSet.getString("phone"));
-                contractCombo.setValue(resultSet.getString("contract_type"));
-                if (resultSet.getString("gender").equals("M")) {
-                    genderCombo.setValue("Male");
-                } else {
-                    genderCombo.setValue("Female");
-                }
-                LocalDate date = LocalDate.parse(resultSet.getString("hire_date"));
-                hireDate.setValue(date);
+        emailInput.setText(employee.getEmail());
+        firstNameInput.setText(employee.getFirstName());
+        lastNameInput.setText(employee.getLastName());
+        salaryInput.setText(String.valueOf(employee.getSalary()));
+        addressInput.setText(employee.getAdress());
+        cinInput.setText(employee.getCin());
+        phoneNumberInput.setText(employee.getPhone());
+        contractCombo.setValue(employee.getContractType());
+        genderCombo.setValue(employee.getGender());
+        hireDate.setValue(employee.getHireDate().toLocalDate());
 
-                //TODO: set role combo value
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        //TODO: set role combo value
     }
+
 
     public String getRoleName(int id) {
         String roleName = "";
