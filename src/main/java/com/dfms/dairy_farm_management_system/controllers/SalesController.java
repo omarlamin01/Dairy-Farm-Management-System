@@ -96,7 +96,11 @@ public class SalesController implements Initializable {
 
     @FXML
     private Button search_btn;
+    @FXML
+    private Button refresh_table_btn;
 
+    @FXML
+    private Button refresh_table_btn1;
     @FXML
     private TextField search_inpu;
 
@@ -720,7 +724,16 @@ public class SalesController implements Initializable {
             }
         }
     }
+    @FXML
+    void refreshTable(MouseEvent event) throws SQLException {
+     refreshTableAnimalSales();
+    }
 
+    @FXML
+    void refreshTable2(MouseEvent event) {
+       refreshTableMilkSales();
+
+    }
 
 }
 

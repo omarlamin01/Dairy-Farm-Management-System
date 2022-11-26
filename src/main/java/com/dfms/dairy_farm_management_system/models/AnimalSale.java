@@ -137,7 +137,7 @@ public class AnimalSale implements Model {
 
     @Override
     public boolean delete() {
-        String query = "DELETE FROM `animal_sales` WHERE `animal_sales`.`id` = " + this.id;
+        String query = "DELETE FROM `animals_sales` WHERE `animals_sales`.`id` = " + this.id;
         Connection connection = getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
