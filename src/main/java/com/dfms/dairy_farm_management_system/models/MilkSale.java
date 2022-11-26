@@ -119,8 +119,8 @@ public class MilkSale implements Model{
     @Override
     public boolean update() {
         String query = "UPDATE `milk_sales` SET " +
-                "`client_id` = '" + clientId + "', " +
-                "`quantity` = " + quantity + "', " +
+                  "`client_id` = '" + clientId + "', " +
+                "`quantity` = '" + quantity + "', " +
                 "`price` = '" + price + "', " +
                 "`sale_date` = '" + sale_date + "', " +
                 "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
