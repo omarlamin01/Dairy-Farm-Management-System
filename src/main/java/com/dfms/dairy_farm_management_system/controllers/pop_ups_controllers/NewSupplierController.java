@@ -11,8 +11,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.validatePhoneInput;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class NewSupplierController implements Initializable {
 
@@ -43,6 +42,7 @@ public class NewSupplierController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setTypeComboItems();
         validatePhoneInput(phoneNumberInput);
+        validateEmailInput(emailInput);
     }
 
 
@@ -53,6 +53,10 @@ public class NewSupplierController implements Initializable {
     @FXML
     public void addNewSupplier(MouseEvent mouseEvent) {
         Supplier supplier = new Supplier();
+        if (inputesAreEmpty()) {
+            displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
+            return;
+        }
         if (this.update) {
             supplier.setId(this.supplier_ID);
             supplier.setNameSupplier(this.SupplierName.getText());
@@ -96,6 +100,14 @@ public class NewSupplierController implements Initializable {
         emailInput.setText("");
 
 
+    }
+    public boolean inputesAreEmpty() {
+        if (this.SupplierName.getText().isEmpty()
+                || this.phoneNumberInput.getText().isEmpty()
+                || this.emailInput.getText().isEmpty()
+                || this.typeCombo.getValue()==null)
+            return true;
+        return false;
     }
     public void setUpdate(boolean b) {
         this.update = b;

@@ -44,6 +44,7 @@ public class NewClientController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setTypeComboItems();
         validatePhoneInput(phoneNumberInput);
+        validateEmailInput(emailInput);
     }
 
 
@@ -54,6 +55,10 @@ public class NewClientController implements Initializable {
     @FXML
     public void addNewClient(MouseEvent mouseEvent) {
         Client client = new Client();
+        if (inputesAreEmpty()) {
+            displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
+            return;
+        }
         if (this.update) {
             client.setId(this.client_ID);
             client.setName(this.clientName.getText());
@@ -97,6 +102,14 @@ public class NewClientController implements Initializable {
         emailInput.setText("");
 
 
+    }
+    public boolean inputesAreEmpty() {
+        if (this.clientName.getText().isEmpty()
+                || this.phoneNumberInput.getText().isEmpty()
+                || this.emailInput.getText().isEmpty()
+                || this.typeCombo.getValue()==null)
+            return true;
+        return false;
     }
     public void setUpdate(boolean b) {
         this.update = b;

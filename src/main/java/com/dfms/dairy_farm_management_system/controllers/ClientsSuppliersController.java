@@ -73,7 +73,10 @@ public class ClientsSuppliersController implements Initializable {
     @FXML
     private ComboBox<String> export_combo;
     @FXML
-    private TextField search_input;
+    private TextField search_input_client;
+    @FXML
+    private TextField search_input_supplier;
+
 
     @FXML
     private ComboBox<String> export_combo_sup;
@@ -325,7 +328,7 @@ public class ClientsSuppliersController implements Initializable {
         FilteredList<Client> filteredData = new FilteredList<>(listClient,p->true);
 
         // 2. Set the filter Predicate whenever the filter changes.
-        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
+        search_input_client.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(client -> {
                 // If filter text is empty, display all clients.
                 if (newValue == null || newValue.isEmpty()) {
@@ -333,7 +336,7 @@ public class ClientsSuppliersController implements Initializable {
                 }
                 // Compare first name and last name of every person with filter text.
                 String lowerCaseFilter = newValue.toLowerCase();
-                if (client.getEmail().toLowerCase().contains(lowerCaseFilter)) {
+                if (client.getName().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter matches first name.
                 }return false;
             });
@@ -353,7 +356,7 @@ public class ClientsSuppliersController implements Initializable {
         FilteredList<Supplier> filteredData = new FilteredList<>(listSupplier,p->true);
 
         // 2. Set the filter Predicate whenever the filter changes.
-        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
+        search_input_supplier.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(supplier -> {
                 // If filter text is empty, display all clients.
                 if (newValue == null || newValue.isEmpty()) {
@@ -384,10 +387,8 @@ public class ClientsSuppliersController implements Initializable {
     void search_supplier(MouseEvent event) {
         liveSearchSupplier();
     }
+
     void exportToPDF(String typeList,String query) {
-
-
-
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
@@ -673,7 +674,6 @@ public class ClientsSuppliersController implements Initializable {
             };
             return cell;
         };
-
         colactionSupplier.setCellFactory(cellFoctory);
         TableSupplier.setItems(list);
     }
@@ -686,6 +686,4 @@ public class ClientsSuppliersController implements Initializable {
         listSupplier = getSuppliers();
         TableSupplier.setItems(listSupplier);
     }
-
 }
-
