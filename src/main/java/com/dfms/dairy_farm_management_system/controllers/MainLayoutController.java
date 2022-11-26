@@ -34,7 +34,7 @@ public class MainLayoutController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String first_view = "dashboard";
         loadView(first_view);
-        dashboard_btn.setStyle("-fx-background-color: #FFC700, #72ED12;" +
+        dashboard_btn.setStyle("-fx-background-color: #FFC700, #2b9348;" +
                 "-fx-background-insets: 0, 0 0 0 4;");
 
         nav_scroll_pane.getStyleClass().clear();
@@ -174,7 +174,7 @@ public class MainLayoutController implements Initializable {
         //add background color to active button
         for (Button button : navLinks) {
             if (button.isFocused()) {
-                button.setStyle("-fx-background-color: #FFC700, #72ED12;" +
+                button.setStyle("-fx-background-color: #FFC700, #2b9348;" +
                         "-fx-background-insets: 0, 0 0 0 4;");
             } else {
                 button.setStyle("-fx-background-color: #1B2434, #1E293B;" +
@@ -186,7 +186,7 @@ public class MainLayoutController implements Initializable {
     @FXML
     void navLinkMouseEntred(MouseEvent event) {
         Button button = (Button) event.getSource();
-        button.setStyle("-fx-background-color: #FFC700, #72ED12;" +
+        button.setStyle("-fx-background-color: #FFC700, #2b9348;" +
                 "-fx-background-insets: 0, 0 0 0 4;");
     }
 

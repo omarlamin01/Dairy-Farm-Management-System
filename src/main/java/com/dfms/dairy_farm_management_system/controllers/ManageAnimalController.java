@@ -324,7 +324,7 @@ public class ManageAnimalController implements Initializable {
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
-                PdfPTable table = new PdfPTable(9);
+                PdfPTable table = new PdfPTable(6);
                 table.addCell("Cow ID");
                 table.addCell("Race");
                 table.addCell("Birth Date");
@@ -409,4 +409,10 @@ public class ManageAnimalController implements Initializable {
     public void refreshTable(MouseEvent mouseEvent) {
         refreshTableAnimal();
     }
+
+    @FXML
+    void openAddNewRace(MouseEvent event) throws IOException {
+        openNewWindow("Add New Race", "add_new_race");
+    }
+
 }

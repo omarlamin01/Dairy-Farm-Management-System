@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
@@ -64,6 +65,30 @@ public class Routine implements Model {
 
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public ArrayList<RoutineDetails> getDetails() {
+        ArrayList<RoutineDetails> details = new ArrayList<>();
+        String query = "SELECT * FROM `routine_has_feeds` WHERE `routine_id` = " + id;
+        try {
+            ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
+            while (resultSet.next()) {
+                RoutineDetails routineDetails = new RoutineDetails();
+
+                routineDetails.setId(resultSet.getInt("id"));
+                routineDetails.setStock_id(resultSet.getInt("stock_id"));
+                routineDetails.setRoutine_id(resultSet.getInt("routine_id"));
+                routineDetails.setQuantity(resultSet.getFloat("quantity"));
+                routineDetails.setFeeding_time(resultSet.getString("feeding_time"));
+                routineDetails.setCreated_at(resultSet.getTimestamp("created_at"));
+                routineDetails.setUpdated_at(resultSet.getTimestamp("updated_at"));
+
+                details.add(routineDetails);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return details;
     }
 
     @Override

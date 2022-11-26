@@ -172,13 +172,6 @@ public class Vaccination implements Model {
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-
-            statement.setString(1, animal_id);
-            statement.setInt(2, responsible_id);
-            statement.setInt(3, vaccine_id);
-            statement.setDate(4, vaccination_date);
-            statement.setTimestamp(5, updated_at);
-
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();

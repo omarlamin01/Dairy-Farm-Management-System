@@ -7,8 +7,9 @@ import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.Client;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.Supplier;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
@@ -27,13 +28,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.apache.poi.ss.formula.functions.T;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xslf.util.PDFFontMapper;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
@@ -384,30 +385,63 @@ public class ClientsSuppliersController implements Initializable {
         liveSearchSupplier();
     }
     void exportToPDF(String typeList,String query) {
+
+
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
         File file = fileChooser.showSaveDialog(null);
+        PdfPCell table_cell;
+        int r=0;
+        int g=255;
+        int b=255;
+        BaseColor cell_background_color=new BaseColor(r,g,b);
+        Font font = new Font(Font.FontFamily.HELVETICA, 20, Font.FontStyle.BOLD.ordinal());
         if (file != null) {
             try {
                 Document document = new Document();
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    document.add(new Paragraph(typeList));
+                    Paragraph paragraph = new Paragraph(typeList);
+                    paragraph.setAlignment(Element.ALIGN_CENTER);
+                    paragraph.setFont(font);
+                    document.add(paragraph);
                     document.add(new Paragraph(" "));
+
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
-                PdfPTable table = new PdfPTable(9);
-                table.addCell("ID");
-                table.addCell("Name");
-                table.addCell("Type");
-                table.addCell("Phone");
-                table.addCell("Email");
+                PdfPTable table = new PdfPTable(5);
+
+                table_cell=new PdfPCell(new Phrase("ID"));
+                table_cell.setBackgroundColor(cell_background_color.LIGHT_GRAY);
+                table.addCell(table_cell);
+                table_cell=new PdfPCell(new Phrase("Name"));
+                table_cell.setBackgroundColor(cell_background_color.LIGHT_GRAY);
+                table.addCell(table_cell);
+                table_cell=new PdfPCell(new Phrase("Type"));
+                table_cell.setBackgroundColor(cell_background_color.LIGHT_GRAY);
+                table.addCell(table_cell);
+                table_cell=new PdfPCell(new Phrase("Phone"));
+                table_cell.setBackgroundColor(cell_background_color.LIGHT_GRAY);
+                table.addCell(table_cell);
+                table_cell=new PdfPCell(new Phrase("Email"));
+                table_cell.setBackgroundColor(cell_background_color.LIGHT_GRAY);
+                table.addCell(table_cell);
+
 
                 //get all clients from database
 //                String query = "SELECT * FROM `clients`";
+//                for (Supplier client:listSupplier) {
+//                    table.addCell(client.getId()+"");
+//                    table.addCell(client.getNameSupplier());
+//                    table.addCell(client.getTypeSupplier());
+//                    table.addCell(client.getPhoneSupplier());
+//                    table.addCell(client.getEmailSupplier());
+//
+//                }
                 try {
                     Statement statement = connection.createStatement();
                     ResultSet rs = statement.executeQuery(query);

@@ -132,7 +132,7 @@ public class NewMilkCollectionController implements Initializable {
 
         }}*/
 
-        MilkCollection   milkCollection=new  MilkCollection();
+        MilkCollection milkCollection = new MilkCollection();
        if (this.update) {
             milkCollection.setId(this.MilkCollection_ID);
             milkCollection.setCow_id(cowid.getValue());

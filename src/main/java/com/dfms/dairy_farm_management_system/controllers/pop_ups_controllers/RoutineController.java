@@ -29,20 +29,113 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class RoutineController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setFoods();
-    }
-
-    public RoutineController() {
-    }
-
     @FXML
     TextField routineName;
     @FXML
     TextArea routineNotes;
     @FXML
     VBox foodList;
+    @FXML
+    Button routineBtn;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.setFoods();
+        routineBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
+            Routine routine = new Routine();
+
+            routine.setName(routineName.getText());
+            routine.setNote(routineNotes.getText());
+
+            if (routine.save()) {
+                routine.setId(Routine.getLastId());
+                ArrayList<RoutineDetails> routineDetails = new ArrayList<>();
+                boolean detailsAreSaved = true;
+                for (Node box : foodList.getChildren()) {
+                    CheckBox checkBox = (CheckBox) ((VBox) ((HBox) box).getChildren().get(0)).getChildren().get(1);
+                    if (checkBox.isSelected()) {
+                        String foodName = checkBox.getText();
+                        String foodQuantity = ((TextField) (((VBox) ((HBox) box).getChildren().get(1)).getChildren().get(1))).getText();
+                        String foodPeriod = ((ComboBox<String>) (((VBox) ((HBox) box).getChildren().get(2)).getChildren().get(1))).getValue();
+
+                        RoutineDetails routineDetails1 = new RoutineDetails();
+
+                        routineDetails1.setStock_id(getFoods().get(foodName));
+                        routineDetails1.setRoutine_id(routine.getId());
+                        routineDetails1.setQuantity(Float.parseFloat(foodQuantity));
+                        routineDetails1.setFeeding_time(foodPeriod);
+
+                        if (routineDetails1.save()) {
+                            routineDetails1.setId(RoutineDetails.getLastId());
+                            routineDetails.add(routineDetails1);
+                        } else {
+                            revertChanges(routine, routineDetails);
+                            detailsAreSaved = false;
+                            break;
+                        }
+                    }
+                }
+                if (detailsAreSaved) {
+                    closePopUp(mouseEvent);
+                    displayAlert("SUCCESS", "Routine saved successfully", Alert.AlertType.INFORMATION);
+                } else {
+                    displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
+                }
+            } else {
+                displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
+            }
+        });
+    }
+
+    public void initData(Routine routine) {
+        this.routineName.setText(routine.getName());
+        this.routineNotes.setText(routine.getNote());
+        //TODO: set routine's foods
+        routineBtn.setText("UPDATE");
+        routineBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
+//            TODO: for testing
+            routine.setName(routineName.getText());
+            routine.setNote(routineNotes.getText());
+
+            if (routine.update()) {
+                deleteDetails(routine.getDetails());
+                ArrayList<RoutineDetails> routineDetails = new ArrayList<>();
+                boolean detailsAreSaved = true;
+                for (Node box : foodList.getChildren()) {
+                    CheckBox checkBox = (CheckBox) ((VBox) ((HBox) box).getChildren().get(0)).getChildren().get(1);
+                    if (checkBox.isSelected()) {
+                        String foodName = checkBox.getText();
+                        String foodQuantity = ((TextField) (((VBox) ((HBox) box).getChildren().get(1)).getChildren().get(1))).getText();
+                        String foodPeriod = ((ComboBox<String>) (((VBox) ((HBox) box).getChildren().get(2)).getChildren().get(1))).getValue();
+
+                        RoutineDetails routineDetails1 = new RoutineDetails();
+
+                        routineDetails1.setStock_id(getFoods().get(foodName));
+                        routineDetails1.setRoutine_id(routine.getId());
+                        routineDetails1.setQuantity(Float.parseFloat(foodQuantity));
+                        routineDetails1.setFeeding_time(foodPeriod);
+
+                        if (routineDetails1.save()) {
+                            routineDetails1.setId(RoutineDetails.getLastId());
+                            routineDetails.add(routineDetails1);
+                        } else {
+                            revertChanges(routine, routineDetails);
+                            detailsAreSaved = false;
+                            break;
+                        }
+                    }
+                }
+                if (detailsAreSaved) {
+                    closePopUp(mouseEvent);
+                    displayAlert("SUCCESS", "Routine updated successfully", Alert.AlertType.INFORMATION);
+                } else {
+                    displayAlert("ERROR", "Some error happened while updating!", Alert.AlertType.ERROR);
+                }
+            } else {
+                displayAlert("ERROR", "Some error happened while updating!", Alert.AlertType.ERROR);
+            }
+        });
+    }
 
     public void setFoods() {
         //get foods from db
@@ -102,57 +195,18 @@ public class RoutineController implements Initializable {
         return list;
     }
 
-    @FXML
-    public void addRoutine(MouseEvent mouseEvent) {
-        Routine routine = new Routine();
-
-        routine.setName(routineName.getText());
-        routine.setNote(routineNotes.getText());
-
-        if (routine.save()) {
-            routine.setId(Routine.getLastId());
-            ArrayList<RoutineDetails> routineDetails = new ArrayList<>();
-            boolean detailsAreSaved = true;
-            for (Node box : foodList.getChildren()) {
-                CheckBox checkBox = (CheckBox) ((VBox) ((HBox) box).getChildren().get(0)).getChildren().get(1);
-                if (checkBox.isSelected()) {
-                    String foodName = checkBox.getText();
-                    String foodQuantity = ((TextField) (((VBox) ((HBox) box).getChildren().get(1)).getChildren().get(1))).getText();
-                    String foodPeriod = ((ComboBox<String>) (((VBox) ((HBox) box).getChildren().get(2)).getChildren().get(1))).getValue();
-
-                    RoutineDetails routineDetails1 = new RoutineDetails();
-
-                    routineDetails1.setStock_id(getFoods().get(foodName));
-                    routineDetails1.setRoutine_id(routine.getId());
-                    routineDetails1.setQuantity(Float.parseFloat(foodQuantity));
-                    routineDetails1.setFeeding_time(foodPeriod);
-
-                    if (routineDetails1.save()) {
-                        routineDetails1.setId(RoutineDetails.getLastId());
-                        routineDetails.add(routineDetails1);
-                    } else {
-                        revertChanges(routine, routineDetails);
-                        detailsAreSaved = false;
-                        break;
-                    }
-                }
-            }
-            if (detailsAreSaved) {
-                closePopUp(mouseEvent);
-                displayAlert("SUCCESS", "Routine saved successfully", Alert.AlertType.INFORMATION);
-            } else {
-                displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
-            }
-        } else {
-            displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
-        }
-    }
-
     public void revertChanges(Routine routine, ArrayList<RoutineDetails> details) {
         for (RoutineDetails detail : details) {
             detail.delete();
             details.remove(detail);
         }
         routine.delete();
+    }
+
+    public void deleteDetails(ArrayList<RoutineDetails> details) {
+        for (RoutineDetails detail : details) {
+            detail.delete();
+            details.remove(detail);
+        }
     }
 }
