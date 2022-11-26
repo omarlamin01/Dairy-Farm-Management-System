@@ -4,6 +4,7 @@ import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
 import com.dfms.dairy_farm_management_system.models.Employee;
+import com.dfms.dairy_farm_management_system.models.User;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -104,25 +105,45 @@ public class EmployeesController implements Initializable {
 
     //get all the employees
     public ObservableList<Employee> getEmployees() {
-        ObservableList<Employee> employees = FXCollections.observableArrayList();
-        String query = "SELECT * FROM `employees`";
+        ObservableList<Employee> list = FXCollections.observableArrayList();
+        String employeesQuery = "SELECT * FROM `employees` WHERE `cin` NOT IN (SELECT `cin` FROM `users`)";
+        String usersQuery = "SELECT * FROM `employees` WHERE `cin` IN (SELECT `cin` FROM `users`)";
         try {
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(query);
-            while (rs.next()) {
+            ResultSet employees = statement.executeQuery(employeesQuery);
+            while (employees.next()) {
                 Employee employee = new Employee();
-                employee.setCin(rs.getString("cin"));
-                employee.setFirstName(rs.getString("first_name"));
-                employee.setLastName(rs.getString("last_name"));
-                employee.setEmail(rs.getString("email"));
-                employee.setGender(rs.getString("gender"));
-                employee.setSalary(rs.getInt("salary"));
-                employees.add(employee);
+                employee.setCin(employees.getString("cin"));
+                employee.setFirstName(employees.getString("first_name"));
+                employee.setLastName(employees.getString("last_name"));
+                employee.setPhone(employees.getString("phone"));
+                employee.setAdress(employees.getString("address"));
+                employee.setHireDate(employees.getDate("hire_date"));
+                employee.setContractType(employees.getString("contract_type"));
+                employee.setEmail(employees.getString("email"));
+                employee.setGender(employees.getString("gender"));
+                employee.setSalary(employees.getInt("salary"));
+                list.add(employee);
+            }
+            ResultSet users = statement.executeQuery(usersQuery);
+            while (users.next()) {
+                User user = new User();
+                user.setCin(users.getString("cin"));
+                user.setFirstName(users.getString("first_name"));
+                user.setLastName(users.getString("last_name"));
+                user.setPhone(users.getString("phone"));
+                user.setAdress(users.getString("address"));
+                user.setHireDate(users.getDate("hire_date"));
+                user.setContractType(users.getString("contract_type"));
+                user.setEmail(users.getString("email"));
+                user.setGender(users.getString("gender"));
+                user.setSalary(users.getInt("salary"));
+                list.add(user);
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
-        return employees;
+        return list;
     }
 
     //display all the employees in the table
