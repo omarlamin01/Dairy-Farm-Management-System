@@ -71,6 +71,7 @@
                      </Button>
                      <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                          <children>
+                             <ComboBox fx:id="export_combo" promptText="Export" styleClass="combo_box" />
                         <Button fx:id="refresh_table_btn1" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddNewRace" prefHeight="31.0" prefWidth="107.0" styleClass="button-add" text="New Race">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -86,7 +87,6 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Button>
-                             <ComboBox fx:id="export_combo" promptText="Export" styleClass="combo_box" />
                         <Button fx:id="refresh_table_btn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" text="Refresh">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
