@@ -51,6 +51,8 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class MilkCollectionController implements Initializable {
     MilkCollection mc;
+    @FXML
+    private Button refresh_table_btn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -128,11 +130,13 @@ public class MilkCollectionController implements Initializable {
     public void refreshTableMilkCollection() throws SQLException {
 
         MilkCollectionTable.getItems().clear();
+
         try {
             afficher();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     public void afficher() throws SQLException, ClassNotFoundException {
@@ -285,6 +289,7 @@ public class MilkCollectionController implements Initializable {
         MilkCollectionTable.setItems(list);
 
     }
+
     private Statement statemeent;
     private Connection connection = getConnection();
     void exportToExcel() {
@@ -446,6 +451,13 @@ public class MilkCollectionController implements Initializable {
 
     private Connection con = DBConfig.getConnection();
     private Statement stt;
+
+    @FXML
+    void refreshTable(MouseEvent event) throws SQLException {
+
+            refreshTableMilkCollection();
+
+    }
 
 
 }
