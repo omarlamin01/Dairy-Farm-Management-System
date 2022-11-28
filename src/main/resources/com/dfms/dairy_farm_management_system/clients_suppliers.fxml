@@ -55,7 +55,7 @@
                      <VBox.margin>
                          <Insets bottom="10.0" />
                      </VBox.margin>
-                     <TextField fx:id="search_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" onMouseEntered="#search_client" prefHeight="40.0" prefWidth="360.0" promptText="Search for client..." styleClass="text-field-search">
+                     <TextField fx:id="search_input_client" maxHeight="40.0" maxWidth="1.7976931348623157E308" onMouseEntered="#search_client" prefHeight="40.0" prefWidth="360.0" promptText="Search for client..." styleClass="text-field-search">
                          <padding>
                              <Insets left="10.0" />
                          </padding>
@@ -122,7 +122,7 @@
                      <VBox.margin>
                          <Insets bottom="10.0" />
                      </VBox.margin>
-                     <TextField fx:id="search_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" onMouseEntered="#search_supplier" prefHeight="40.0" prefWidth="360.0" promptText="Search for suppliers..." styleClass="text-field-search">
+                     <TextField fx:id="search_input_supplier" maxHeight="40.0" maxWidth="1.7976931348623157E308" onMouseEntered="#search_supplier" prefHeight="40.0" prefWidth="360.0" promptText="Search for suppliers..." styleClass="text-field-search">
                          <padding>
                              <Insets left="10.0" />
                          </padding>
