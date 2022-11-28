@@ -5,6 +5,8 @@ import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.Emp
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -364,12 +366,16 @@ public class EmployeesController implements Initializable {
 
     void exportToPDF() {
         FileChooser fileChooser = new FileChooser();
+        //export file to documetns folder
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Documents"));
         fileChooser.setTitle("Save As");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
                 Document document = new Document();
+                //change document orientation to landscape
+                document.setPageSize(PageSize.A4.rotate());
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
@@ -387,15 +393,21 @@ public class EmployeesController implements Initializable {
                 float[] colWidth = {2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f};
                 table.setWidths(colWidth);
 
-                table.addCell(new PdfPCell(new Paragraph("First Name")));
-                table.addCell(new PdfPCell(new Paragraph("Last Name")));
-                table.addCell(new PdfPCell(new Paragraph("Email")));
-                table.addCell(new PdfPCell(new Paragraph("Phone")));
-                table.addCell(new PdfPCell(new Paragraph("Address")));
-                table.addCell(new PdfPCell(new Paragraph("CIN")));
-                table.addCell(new PdfPCell(new Paragraph("Gender")));
-                table.addCell(new PdfPCell(new Paragraph("Hire Date")));
-                table.addCell(new PdfPCell(new Paragraph("Salary")));
+                //add table header
+                table.addCell(new PdfPCell(new Paragraph("First Name"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Last Name"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Email"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Phone"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Address"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("CIN"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Gender"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Hire Date"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Salary"))).setPadding(5);
+
+                //add padding to cells
+                table.getDefaultCell().setPadding(3);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+                table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
 
 
                 //get all employees from database
@@ -422,7 +434,7 @@ public class EmployeesController implements Initializable {
 
                     document.add(table);
                     document.close();
-                    displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
+                    displayAlert("Success", "Employees exported successfully in /users/Documents", Alert.AlertType.INFORMATION);
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
