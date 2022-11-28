@@ -51,6 +51,8 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class MilkCollectionController implements Initializable {
     MilkCollection mc;
+    @FXML
+    private Button refresh_table_btn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -128,11 +130,13 @@ public class MilkCollectionController implements Initializable {
     public void refreshTableMilkCollection() throws SQLException {
 
         MilkCollectionTable.getItems().clear();
+
         try {
             afficher();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     public void afficher() throws SQLException, ClassNotFoundException {
@@ -147,12 +151,10 @@ public class MilkCollectionController implements Initializable {
             // make cell containing buttons
             final TableCell<MilkCollection, String> cell = new TableCell<MilkCollection, String>() {
 
-                Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                final Button btnEdit = new Button();
-                Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                final Button btnDelete = new Button();
-                Image imgViewDetail = new Image(getClass().getResourceAsStream("/images/eye.png"));
-                final Button btnViewDetail = new Button();
+
+                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
 
                 @Override
                 public void updateItem(String item, boolean empty) {
@@ -163,75 +165,64 @@ public class MilkCollectionController implements Initializable {
                         setText(null);
 
                     } else {
-                        btnViewDetail.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv1 = new ImageView();
-                        iv1.setImage(imgViewDetail);
-                        iv1.setPreserveRatio(true);
-                        iv1.setSmooth(true);
-                        iv1.setCache(true);
-                        btnViewDetail.setGraphic(iv1);
-
-                        setGraphic(btnViewDetail);
-                        setText(null);
+                        ImageView iv_view_details = new ImageView();
+                        iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        iv_view_details.setImage(view_details_img);
+                        iv_view_details.setPreserveRatio(true);
+                        iv_view_details.setSmooth(true);
+                        iv_view_details.setCache(true);
 
 
-                        btnEdit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(imgEdit);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        btnEdit.setGraphic(iv);
+                        ImageView iv_edit = new ImageView();
+                        iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        iv_edit.setImage(edit_img);
+                        iv_edit.setPreserveRatio(true);
+                        iv_edit.setSmooth(true);
+                        iv_edit.setCache(true);
 
-                        setGraphic(btnEdit);
-                        setText(null);
+                        ImageView iv_delete = new ImageView();
+                        iv_delete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
 
-                        btnDelete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv2 = new ImageView();
+                        iv_delete.setImage(delete_img);
+                        iv_delete.setPreserveRatio(true);
+                        iv_delete.setSmooth(true);
+                        iv_delete.setCache(true);
 
-                        iv2.setImage(imgDelete);
-                        iv2.setPreserveRatio(true);
-                        iv2.setSmooth(true);
-                        iv2.setCache(true);
-                        btnDelete.setGraphic(iv2);
-
-
-                        setGraphic(btnDelete);
-
-                        setText(null);
-
-                        HBox managebtn = new HBox(btnEdit, btnDelete, btnViewDetail);
+                        HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
                         managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(btnEdit, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(btnDelete, new Insets(1, 1, 0, 2));
-                        HBox.setMargin(btnViewDetail, new Insets(1, 1, 0, 1));
+                        HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_edit, new Insets(1, 1, 0, 3));
 
                         setGraphic(managebtn);
 
-                        setText(null);
 
-
-                        btnDelete.setOnMouseClicked((MouseEvent event) -> {
-
+                        iv_delete.setOnMouseClicked((MouseEvent event) -> {
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete Confirmation");
+                            alert.setHeaderText("Are you sure you want to delete this cow sale?");
                             MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
-                            if (mc.delete()) {
-
-                                displayAlert("success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
                                 try {
-                                    refreshTableMilkCollection();
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                    throw new RuntimeException(e);
-                                }
-                            } else {
-                                displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
-                            }
+                                    if (mc.delete()) {
 
+                                        displayAlert("success", "Milk Sale deleted successfully", Alert.AlertType.INFORMATION);
+                                        refreshTableMilkCollection();
+                                    } else {
+                                        displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
+
+                                    }
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+
+                            }
 
                             //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
 
                         });
-                        btnEdit.setOnMouseClicked((MouseEvent event) -> {
+                       iv_edit.setOnMouseClicked((MouseEvent event) -> {
 
                             MilkCollection milkcollection = MilkCollectionTable.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_milk_collection.fxml"));
@@ -244,7 +235,7 @@ public class MilkCollectionController implements Initializable {
                             }
                             NewMilkCollectionController newMilkCollectionController = fxmlLoader.getController();
                             newMilkCollectionController.setUpdate(true);
-                            newMilkCollectionController.fetchMilkCollection( milkcollection.getCow_id(), milkcollection.getPeriod(), milkcollection.getQuantity());
+                            newMilkCollectionController.fetchMilkCollection( milkcollection.getId(),milkcollection.getCow_id(), milkcollection.getPeriod(), milkcollection.getQuantity());
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update MilkCollection");
@@ -253,7 +244,7 @@ public class MilkCollectionController implements Initializable {
                             centerScreen(stage);
                             stage.show();
                         });
-                        btnViewDetail.setOnMouseClicked((MouseEvent event) -> {
+                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
                             MilkCollection mc = MilkCollectionTable.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/milkcollection_details.fxml"));
                             Scene scene = null;
@@ -285,6 +276,7 @@ public class MilkCollectionController implements Initializable {
         MilkCollectionTable.setItems(list);
 
     }
+
     private Statement statemeent;
     private Connection connection = getConnection();
     void exportToExcel() {
@@ -446,6 +438,14 @@ public class MilkCollectionController implements Initializable {
 
     private Connection con = DBConfig.getConnection();
     private Statement stt;
+
+    @FXML
+    void refreshTable(MouseEvent event) throws SQLException {
+
+            refreshTableMilkCollection();
+
+    }
+
 
 
 }
