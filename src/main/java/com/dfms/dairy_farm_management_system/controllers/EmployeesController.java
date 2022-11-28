@@ -363,8 +363,6 @@ public class EmployeesController implements Initializable {
 
     void exportToPDF() {
         FileChooser fileChooser = new FileChooser();
-        //export file to documetns folder
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Documents"));
         fileChooser.setTitle("Save As");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
         File file = fileChooser.showSaveDialog(null);
@@ -418,34 +416,55 @@ public class EmployeesController implements Initializable {
                 table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
 
 
-                //get all employees from database
-                String query = "SELECT * FROM `employees`";
-                try {
-                    statement = connection.createStatement();
-                    ResultSet rs = statement.executeQuery(query);
-                    while (rs.next()) {
-                        table.addCell(rs.getString("first_name"));
-                        table.addCell(rs.getString("last_name"));
-                        table.addCell(rs.getString("email"));
-                        table.addCell(rs.getString("phone"));
-                        table.addCell(rs.getString("address"));
-                        table.addCell(rs.getString("cin"));
-                        if (rs.getString("gender").equals("M")) {
-                            table.addCell("Male");
-                        } else {
-                            table.addCell("Female");
-                        }
-                        table.addCell(rs.getString("hire_date"));
-                        table.addCell(rs.getString("salary"));
+                //get employees displayed in table
+                ObservableList<Employee> employees = employees_table.getItems();
+
+                //get employee of each row
+                //used a method in my updateEmplyeeController to get the employee of each row based on the cin
+                UpdateEmployeeController controller = new UpdateEmployeeController();
+
+                for (Employee employee : employees) {
+                    Employee emp = controller.getEmployee(employee.getCin());
+
+                    table.addCell(new PdfPCell(new Paragraph(emp.getFirstName()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getLastName()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getEmail()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getPhone()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getAdress()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getCin()))).setPadding(5);
+                    if (emp.getGender().equals("M")) {
+                        table.addCell(new PdfPCell(new Paragraph("Male"))).setPadding(5);
+                    } else {
+                        table.addCell(new PdfPCell(new Paragraph("Female"))).setPadding(5);
                     }
-
-
-                    document.add(table);
-                    document.close();
-                    displayAlert("Success", "Employees exported successfully in /users/Documents", Alert.AlertType.INFORMATION);
-                } catch (Exception e) {
-                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getHireDate().toString()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getSalary()))).setPadding(5);
                 }
+
+//                String query = "SELECT * FROM `employees`";
+//                try {
+//                    statement = connection.createStatement();
+//                    ResultSet rs = statement.executeQuery(query);
+//                    while (rs.next()) {
+//                        table.addCell(rs.getString("first_name"));
+//                        table.addCell(rs.getString("last_name"));
+//                        table.addCell(rs.getString("email"));
+//                        table.addCell(rs.getString("phone"));
+//                        table.addCell(rs.getString("address"));
+//                        table.addCell(rs.getString("cin"));
+//                        if (rs.getString("gender").equals("M")) {
+//                            table.addCell("Male");
+//                        } else {
+//                            table.addCell("Female");
+//                        }
+//                        table.addCell(rs.getString("hire_date"));
+//                        table.addCell(rs.getString("salary"));
+//                    }
+
+
+                document.add(table);
+                document.close();
+                displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
