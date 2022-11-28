@@ -32,9 +32,17 @@ ALTER TABLE employees
 
 
 #change id column  in milk_sales table to be auto-increment
-ALTER TABLE milk_sales MODIFY id INTEGER NOT NULL AUTO_INCREMENT;
-
+ALTER TABLE milk_sales
+    MODIFY id INTEGER NOT NULL AUTO_INCREMENT;
 
 
 #change quantity column  in milk_sales table to be float
-ALTER TABLE milk_sales MODIFY quantity Float NOT NULL ;
+ALTER TABLE milk_sales
+    MODIFY quantity Float NOT NULL;
+
+# change clients, suppliers email column data type to varchar
+ALTER TABLE `clients`
+    MODIFY email varchar(50);
+
+ALTER TABLE `suppliers`
+    MODIFY email varchar(50);

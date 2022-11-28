@@ -4,8 +4,8 @@ import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
 import com.dfms.dairy_farm_management_system.models.Employee;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
@@ -369,52 +369,102 @@ public class EmployeesController implements Initializable {
         if (file != null) {
             try {
                 Document document = new Document();
+
+                //change document orientation to landscape
+                document.setPageSize(PageSize.A4.rotate());
+
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    document.add(new Paragraph("Employees List"));
-                    document.add(new Paragraph(" "));
+                    Paragraph title = new Paragraph("Employees List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
+                    Paragraph text = new Paragraph("This is the list of the employees", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+
+                    //center paragraph
+                    title.setAlignment(Element.ALIGN_CENTER);
+                    text.setAlignment(Element.ALIGN_CENTER);
+                    title.setSpacingAfter(30);
+                    text.setSpacingAfter(30);
+
+                    document.add(title);
+                    document.add(text);
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
                 PdfPTable table = new PdfPTable(9);
-                table.addCell("First Name");
-                table.addCell("Last Name");
-                table.addCell("Email");
-                table.addCell("Phone");
-                table.addCell("Address");
-                table.addCell("CIN");
-                table.addCell("Gender");
-                table.addCell("Hire Date");
-                table.addCell("Salary");
 
-                //get all employees from database
-                String query = "SELECT * FROM `employees`";
-                try {
-                    statement = connection.createStatement();
-                    ResultSet rs = statement.executeQuery(query);
-                    while (rs.next()) {
-                        table.addCell(rs.getString("first_name"));
-                        table.addCell(rs.getString("last_name"));
-                        table.addCell(rs.getString("email"));
-                        table.addCell(rs.getString("phone"));
-                        table.addCell(rs.getString("address"));
-                        table.addCell(rs.getString("cin"));
-                        if (rs.getString("gender").equals("M")) {
-                            table.addCell("Male");
-                        } else {
-                            table.addCell("Female");
-                        }
-                        table.addCell(rs.getString("hire_date"));
-                        table.addCell(rs.getString("salary"));
+                //change pdf orientation to landscape
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(11f);
+                table.setSpacingAfter(11f);
+                float[] colWidth = {2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f};
+                table.setWidths(colWidth);
+
+                //add table header
+                table.addCell(new PdfPCell(new Paragraph("First Name"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Last Name"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Email"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Phone"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Address"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("CIN"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Gender"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Hire Date"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Salary"))).setPadding(5);
+
+                //add padding to cells
+                table.getDefaultCell().setPadding(3);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+                table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+
+                //get employees displayed in table
+                ObservableList<Employee> employees = employees_table.getItems();
+
+                //get employee of each row
+                //used a method in my updateEmplyeeController to get the employee of each row based on the cin
+                UpdateEmployeeController controller = new UpdateEmployeeController();
+
+                for (Employee employee : employees) {
+                    Employee emp = controller.getEmployee(employee.getCin());
+
+                    table.addCell(new PdfPCell(new Paragraph(emp.getFirstName()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getLastName()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getEmail()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getPhone()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getAdress()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getCin()))).setPadding(5);
+                    if (emp.getGender().equals("M")) {
+                        table.addCell(new PdfPCell(new Paragraph("Male"))).setPadding(5);
+                    } else {
+                        table.addCell(new PdfPCell(new Paragraph("Female"))).setPadding(5);
                     }
-
-                    document.add(table);
-                    document.close();
-                    displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
-                } catch (Exception e) {
-                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getHireDate().toString()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getSalary()))).setPadding(5);
                 }
+
+//                String query = "SELECT * FROM `employees`";
+//                try {
+//                    statement = connection.createStatement();
+//                    ResultSet rs = statement.executeQuery(query);
+//                    while (rs.next()) {
+//                        table.addCell(rs.getString("first_name"));
+//                        table.addCell(rs.getString("last_name"));
+//                        table.addCell(rs.getString("email"));
+//                        table.addCell(rs.getString("phone"));
+//                        table.addCell(rs.getString("address"));
+//                        table.addCell(rs.getString("cin"));
+//                        if (rs.getString("gender").equals("M")) {
+//                            table.addCell("Male");
+//                        } else {
+//                            table.addCell("Female");
+//                        }
+//                        table.addCell(rs.getString("hire_date"));
+//                        table.addCell(rs.getString("salary"));
+//                    }
+
+
+                document.add(table);
+                document.close();
+                displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
