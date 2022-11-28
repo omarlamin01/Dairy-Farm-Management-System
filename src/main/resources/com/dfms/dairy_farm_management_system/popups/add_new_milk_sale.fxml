@@ -21,7 +21,7 @@
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
-            <Label styleClass="header" text="Add" textAlignment="CENTER">
+            <Label fx:id="key" styleClass="header" text="Add" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -45,7 +45,7 @@
                   <Insets bottom="10.0" />
               </VBox.margin>
           </Pane>
-          <Label styleClass="sub_header" text="Add new milk sale operation" textAlignment="CENTER">
+          <Label fx:id="header" styleClass="sub_header" text="Add new milk sale operation" textAlignment="CENTER">
               <font>
                   <Font size="18.0" />
               </font>
@@ -99,7 +99,7 @@
                   <Insets bottom="8.0" />
                </GridPane.margin>
             </TextField>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addMilkSale" prefHeight="40.0" prefWidth="673.0" styleClass="btn" text="Add" GridPane.rowIndex="8" />
+            <Button fx:id="add_update" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addMilkSale" prefHeight="40.0" prefWidth="673.0" styleClass="btn" text="Add" GridPane.rowIndex="8" />
             <ComboBox fx:id="clientsCombo" maxWidth="1.7976931348623157E308" promptText="Client" GridPane.rowIndex="1">
                <styleClass>
                   <String fx:value="combo_box" />
