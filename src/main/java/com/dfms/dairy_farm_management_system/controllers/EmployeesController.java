@@ -6,6 +6,7 @@ import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.Upd
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
@@ -378,15 +379,33 @@ public class EmployeesController implements Initializable {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
                 PdfPTable table = new PdfPTable(9);
-                table.addCell("First Name");
-                table.addCell("Last Name");
-                table.addCell("Email");
-                table.addCell("Phone");
-                table.addCell("Address");
-                table.addCell("CIN");
-                table.addCell("Gender");
-                table.addCell("Hire Date");
-                table.addCell("Salary");
+                table.setTotalWidth(new float[]{100, 100, 100, 100, 100, 100, 100, 100, 100});
+                //change pdf orientation to landscape
+//                table.setWidthPercentage(100);
+//                table.setSpacingBefore(11f);
+//                table.setSpacingAfter(11f);
+//                float[] colWidth = {2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f};
+//                table.setWidths(colWidth);
+//                PdfPCell cell1 = new PdfPCell(new Paragraph("First Name"));
+//                PdfPCell cell2 = new PdfPCell(new Paragraph("Last Name"));
+//                PdfPCell cell3 = new PdfPCell(new Paragraph("Email"));
+//                PdfPCell cell4 = new PdfPCell(new Paragraph("Phone"));
+//                PdfPCell cell5 = new PdfPCell(new Paragraph("Address"));
+//                PdfPCell cell6 = new PdfPCell(new Paragraph("CIN"));
+//                PdfPCell cell7 = new PdfPCell(new Paragraph("Gender"));
+//                PdfPCell cell8 = new PdfPCell(new Paragraph("Hire Date"));
+//                PdfPCell cell9 = new PdfPCell(new Paragraph("Salary"));
+
+                table.addCell(new PdfPCell(new Paragraph("First Name")));
+                table.addCell(new PdfPCell(new Paragraph("Last Name")));
+                table.addCell(new PdfPCell(new Paragraph("Email")));
+                table.addCell(new PdfPCell(new Paragraph("Phone")));
+                table.addCell(new PdfPCell(new Paragraph("Address")));
+                table.addCell(new PdfPCell(new Paragraph("CIN")));
+                table.addCell(new PdfPCell(new Paragraph("Gender")));
+                table.addCell(new PdfPCell(new Paragraph("Hire Date")));
+                table.addCell(new PdfPCell(new Paragraph("Salary")));
+
 
                 //get all employees from database
                 String query = "SELECT * FROM `employees`";
@@ -408,6 +427,7 @@ public class EmployeesController implements Initializable {
                         table.addCell(rs.getString("hire_date"));
                         table.addCell(rs.getString("salary"));
                     }
+
 
                     document.add(table);
                     document.close();
