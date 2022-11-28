@@ -379,22 +379,13 @@ public class EmployeesController implements Initializable {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
                 PdfPTable table = new PdfPTable(9);
-                table.setTotalWidth(new float[]{100, 100, 100, 100, 100, 100, 100, 100, 100});
+
                 //change pdf orientation to landscape
-//                table.setWidthPercentage(100);
-//                table.setSpacingBefore(11f);
-//                table.setSpacingAfter(11f);
-//                float[] colWidth = {2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f};
-//                table.setWidths(colWidth);
-//                PdfPCell cell1 = new PdfPCell(new Paragraph("First Name"));
-//                PdfPCell cell2 = new PdfPCell(new Paragraph("Last Name"));
-//                PdfPCell cell3 = new PdfPCell(new Paragraph("Email"));
-//                PdfPCell cell4 = new PdfPCell(new Paragraph("Phone"));
-//                PdfPCell cell5 = new PdfPCell(new Paragraph("Address"));
-//                PdfPCell cell6 = new PdfPCell(new Paragraph("CIN"));
-//                PdfPCell cell7 = new PdfPCell(new Paragraph("Gender"));
-//                PdfPCell cell8 = new PdfPCell(new Paragraph("Hire Date"));
-//                PdfPCell cell9 = new PdfPCell(new Paragraph("Salary"));
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(11f);
+                table.setSpacingAfter(11f);
+                float[] colWidth = {2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f};
+                table.setWidths(colWidth);
 
                 table.addCell(new PdfPCell(new Paragraph("First Name")));
                 table.addCell(new PdfPCell(new Paragraph("Last Name")));
