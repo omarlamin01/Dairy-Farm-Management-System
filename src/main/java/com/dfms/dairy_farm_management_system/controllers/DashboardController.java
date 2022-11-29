@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
@@ -26,7 +27,7 @@ public class DashboardController implements Initializable {
 
         //fill the chart with real data
         fillPieChart();
-        //fillBarChart();
+        fillBarChart();
 
 //        xAxis.setLabel("Programming Language");
 //
@@ -149,7 +150,7 @@ public class DashboardController implements Initializable {
         //get today earnings
         resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()");
         if (resultSet.next()) {
-            today_earnings.setText(resultSet.getString(1));
+            today_earnings.setText("$" + resultSet.getString(1));
         } else {
             today_earnings.setText("0");
         }
@@ -222,55 +223,46 @@ public class DashboardController implements Initializable {
 
         XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
 
-        data.getData().add(new XYChart.Data<String, Number>("Sun", getSalesOfSpecificDay(1)));
-        data.getData().add(new XYChart.Data<String, Number>("Mon", getSalesOfSpecificDay(2)));
-        data.getData().add(new XYChart.Data<String, Number>("Tue", getSalesOfSpecificDay(3)));
-        data.getData().add(new XYChart.Data<String, Number>("Wed", getSalesOfSpecificDay(4)));
-        data.getData().add(new XYChart.Data<String, Number>("Thu", getSalesOfSpecificDay(5)));
-        data.getData().add(new XYChart.Data<String, Number>("Fri", getSalesOfSpecificDay(6)));
-        data.getData().add(new XYChart.Data<String, Number>("Sat", getSalesOfSpecificDay(7)));
-
+        data.getData().add(new XYChart.Data<String, Number>("Sun", getSalesOfSpecificDay("Sun")));
+        data.getData().add(new XYChart.Data<String, Number>("Mon", getSalesOfSpecificDay("Mon")));
+        data.getData().add(new XYChart.Data<String, Number>("Tue", getSalesOfSpecificDay("Tue")));
+        data.getData().add(new XYChart.Data<String, Number>("Wed", getSalesOfSpecificDay("Wed")));
+        data.getData().add(new XYChart.Data<String, Number>("Thu", getSalesOfSpecificDay("Thu")));
+        data.getData().add(new XYChart.Data<String, Number>("Fri", getSalesOfSpecificDay("Fri")));
+        data.getData().add(new XYChart.Data<String, Number>("Sat", getSalesOfSpecificDay("Sat")));
 
         barChart.getData().add(data);
-
-        // display sales of last sunday
-
-
-        // display sales of last monday
-        // display sales of last tuesday
-        // display sales of last wednesday
-        // display sales of last thursday
-        // display sales of last friday
-        // display sales of last saturday
     }
 
 
     //get sales of specific day
-    public int getSalesOfSpecificDay(int day) {
+    public int getSalesOfSpecificDay(String day) {
         int sales = 0;
         try {
             //get count of sales of each day
-            switch (day){
-                case 1:
+            switch (day) {
+                case "Sun":
                     resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY)");
                     break;
-                case 2:
+                case "Mon":
                     resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
                     break;
-                case 3:
+                case "Tue":
                     resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY)");
                     break;
-                case 4:
+                case "Wed":
                     resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY)");
                     break;
-                case 5:
+                case "Thu":
                     resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY)");
                     break;
-                case 6:
+                case "Fri":
                     resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY)");
                     break;
-                case 7:
+                case "Sat":
                     resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
+                    break;
+                default:
                     break;
             }
             if (resultSet.next()) {
