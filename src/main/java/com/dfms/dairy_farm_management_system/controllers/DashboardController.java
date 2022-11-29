@@ -195,7 +195,7 @@ public class DashboardController implements Initializable {
         }
     }
 
-    //fill BarChart with data
+    //fill BarChart with sales of each day
     public void fillBarChart() {
 //        xAxis.setLabel("Programming Language");
 //
@@ -278,20 +278,60 @@ public class DashboardController implements Initializable {
         return sales;
     }
 
-    //fill line chart with data
+    //get earnings of specific day
+    public int getEarningsOfSpecificDay(String day) {
+        int earnings = 0;
+        try {
+            //get count of sales of each day
+            switch (day) {
+                case "Sun":
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY)");
+                    break;
+                case "Mon":
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
+                    break;
+                case "Tue":
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY)");
+                    break;
+                case "Wed":
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY)");
+                    break;
+                case "Thu":
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY)");
+                    break;
+                case "Fri":
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY)");
+                    break;
+                case "Sat":
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
+                    break;
+                default:
+                    break;
+            }
+            if (resultSet.next()) {
+                earnings = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return earnings;
+    }
+
+    //fill line chart with earnings of each day
     public void fillLineChart() {
         xAxis.setLabel("Days");
         yAxis.setLabel("Sales");
 
         XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
 
-        data.getData().add(new XYChart.Data<String, Number>("Sun", getSalesOfSpecificDay("Sun")));
-        data.getData().add(new XYChart.Data<String, Number>("Mon", getSalesOfSpecificDay("Mon")));
-        data.getData().add(new XYChart.Data<String, Number>("Tue", getSalesOfSpecificDay("Tue")));
-        data.getData().add(new XYChart.Data<String, Number>("Wed", getSalesOfSpecificDay("Wed")));
-        data.getData().add(new XYChart.Data<String, Number>("Thu", getSalesOfSpecificDay("Thu")));
-        data.getData().add(new XYChart.Data<String, Number>("Fri", getSalesOfSpecificDay("Fri")));
-        data.getData().add(new XYChart.Data<String, Number>("Sat", getSalesOfSpecificDay("Sat")));
+        data.getData().add(new XYChart.Data<String, Number>("Sun", getEarningsOfSpecificDay("Sun")));
+        data.getData().add(new XYChart.Data<String, Number>("Mon", getEarningsOfSpecificDay("Mon")));
+        data.getData().add(new XYChart.Data<String, Number>("Tue", getEarningsOfSpecificDay("Tue")));
+        data.getData().add(new XYChart.Data<String, Number>("Wed", getEarningsOfSpecificDay("Wed")));
+        data.getData().add(new XYChart.Data<String, Number>("Thu", getEarningsOfSpecificDay("Thu")));
+        data.getData().add(new XYChart.Data<String, Number>("Fri", getEarningsOfSpecificDay("Fri")));
+        data.getData().add(new XYChart.Data<String, Number>("Sat", getEarningsOfSpecificDay("Sat")));
 
         lineChart.getData().add(data);
     }
