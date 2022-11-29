@@ -237,6 +237,23 @@ public class DashboardController implements Initializable {
         barChart.getData().add(data);
     }
 
+    //fill line chart with earnings of each day
+    public void fillLineChart() {
+        xAxis.setLabel("Days");
+        yAxis.setLabel("Sales");
+
+        XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
+
+        data.getData().add(new XYChart.Data<String, Number>("Sun", getEarningsOfSpecificDay("Sun")));
+        data.getData().add(new XYChart.Data<String, Number>("Mon", getEarningsOfSpecificDay("Mon")));
+        data.getData().add(new XYChart.Data<String, Number>("Tue", getEarningsOfSpecificDay("Tue")));
+        data.getData().add(new XYChart.Data<String, Number>("Wed", getEarningsOfSpecificDay("Wed")));
+        data.getData().add(new XYChart.Data<String, Number>("Thu", getEarningsOfSpecificDay("Thu")));
+        data.getData().add(new XYChart.Data<String, Number>("Fri", getEarningsOfSpecificDay("Fri")));
+        data.getData().add(new XYChart.Data<String, Number>("Sat", getEarningsOfSpecificDay("Sat")));
+
+        lineChart.getData().add(data);
+    }
 
     //get sales of specific day
     public int getSalesOfSpecificDay(String day) {
@@ -316,23 +333,5 @@ public class DashboardController implements Initializable {
         }
 
         return earnings;
-    }
-
-    //fill line chart with earnings of each day
-    public void fillLineChart() {
-        xAxis.setLabel("Days");
-        yAxis.setLabel("Sales");
-
-        XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
-
-        data.getData().add(new XYChart.Data<String, Number>("Sun", getEarningsOfSpecificDay("Sun")));
-        data.getData().add(new XYChart.Data<String, Number>("Mon", getEarningsOfSpecificDay("Mon")));
-        data.getData().add(new XYChart.Data<String, Number>("Tue", getEarningsOfSpecificDay("Tue")));
-        data.getData().add(new XYChart.Data<String, Number>("Wed", getEarningsOfSpecificDay("Wed")));
-        data.getData().add(new XYChart.Data<String, Number>("Thu", getEarningsOfSpecificDay("Thu")));
-        data.getData().add(new XYChart.Data<String, Number>("Fri", getEarningsOfSpecificDay("Fri")));
-        data.getData().add(new XYChart.Data<String, Number>("Sat", getEarningsOfSpecificDay("Sat")));
-
-        lineChart.getData().add(data);
     }
 }
