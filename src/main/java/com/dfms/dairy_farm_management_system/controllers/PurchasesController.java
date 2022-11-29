@@ -88,12 +88,23 @@ public class PurchasesController  implements Initializable {
 
     @FXML
     void refreshTable(MouseEvent event) {
-
+        PurchaseTable.getItems().clear();
+        try {
+            afficher();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        try {
+            afficher();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
     public ObservableList<Purchase> getPurchase() throws SQLException, ClassNotFoundException {
         ObservableList<Purchase> list = FXCollections.observableArrayList();
@@ -223,17 +234,17 @@ public class PurchasesController  implements Initializable {
                             }
                             NewPurchaseController newPurchaseController = fxmlLoader.getController();
                             newPurchaseController.setUpdate(true);
-                            newPurchaseController.fetchPurchase(animalSale.getId(), animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
+                            newPurchaseController.fetchPurchase(purchase.getId(), purchase.getProductName(),purchase.getQuantity(), purchase.getPrice(), purchase.getSupplierName(), (Date) purchase.getPurchase_date());
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                            stage.setTitle("Update Animal Sale");
+                            stage.setTitle("Update Purchase");
                             stage.setResizable(false);
                             stage.setScene(scene);
                             centerScreen(stage);
                             stage.show();
                         });
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
-                            AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
+                       /*     AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_sale_details.fxml"));
                             Scene scene = null;
                             try {
@@ -250,7 +261,7 @@ public class PurchasesController  implements Initializable {
                             stage.setResizable(false);
                             stage.setScene(scene);
                             centerScreen(stage);
-                            stage.show();
+                            stage.show();*/
                         });
                     }
                 }
@@ -260,13 +271,13 @@ public class PurchasesController  implements Initializable {
             return cell;
         };
 
-        action_col.setCellFactory(cellFoctory);
-        AnimalSalesTable.setItems(list);
+        action_c.setCellFactory(cellFoctory);
+        PurchaseTable.setItems(list);
 
     }
 
     public void liveSearch(TextField search_input, TableView table) {
-        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
+       /* search_input.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
                 try {
                     refreshTableAnimalSales();
@@ -290,7 +301,7 @@ public class PurchasesController  implements Initializable {
                 }
                 AnimalSalesTable.setItems(filteredList);
             }
-        });
+        });*/
     }
 
 }
