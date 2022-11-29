@@ -67,9 +67,9 @@
             </Button>
             <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                 <ComboBox fx:id="export_combo" promptText="Export" styleClass="combo_box" />
-                <Button fx:id="openAddNewEmployeeBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" text="Refresh" textAlignment="CENTER">
+                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" text="Refresh" textAlignment="CENTER">
                     <graphic>
-                        <ImageView fx:id="refresh_table_table" fitHeight="30.0" fitWidth="30.0" onMousePressed="#refreshTable" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="30.0" fitWidth="30.0" onMousePressed="#refreshTable" pickOnBounds="true" preserveRatio="true">
                             <Image url="@../../../icons/refresh.png" />
                         </ImageView>
                     </graphic>

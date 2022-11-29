@@ -158,7 +158,7 @@ public class MainLayoutController implements Initializable {
 
     @FXML
     void loadPurchases(ActionEvent event) {
-        String purchase_view = "purchase";
+        String purchase_view = "purchases";
         loadView(purchase_view);
     }
     private void loadView(String fxml) {
