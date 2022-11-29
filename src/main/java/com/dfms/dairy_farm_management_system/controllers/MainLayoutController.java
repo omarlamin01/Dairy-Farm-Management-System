@@ -93,7 +93,8 @@ public class MainLayoutController implements Initializable {
     private ScrollPane nav_scroll_pane;
 
     private Parent root = null;
-
+    @FXML
+    private Button purchase_btn;
     @FXML
     void LoadStock(ActionEvent event) {
         String stock_view = "stock";
@@ -155,6 +156,11 @@ public class MainLayoutController implements Initializable {
         loadView(milkcollection_view);
     }
 
+    @FXML
+    void loadPurchases(ActionEvent event) {
+        String purchase_view = "purchase";
+        loadView(purchase_view);
+    }
     private void loadView(String fxml) {
         String views_path = "/com/dfms/dairy_farm_management_system/";
         try {

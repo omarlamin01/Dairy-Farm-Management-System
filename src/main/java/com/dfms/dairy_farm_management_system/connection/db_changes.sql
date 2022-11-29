@@ -38,3 +38,8 @@ ALTER TABLE milk_sales MODIFY id INTEGER NOT NULL AUTO_INCREMENT;
 
 #change quantity column  in milk_sales table to be float
 ALTER TABLE milk_sales MODIFY quantity Float NOT NULL ;
+
+
+
+ALTER TABLE purchases
+ADD COLUMN quantity float not null;

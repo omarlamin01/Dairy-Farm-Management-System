@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.StockController">
+    <stylesheets>
+        <URL value="@../../../style/style.css" />
+        <URL value="@../../../style/table_view.css" />
+    </stylesheets>
+    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="850.0" styleClass="main_content" stylesheets="@../../../style/style.css">
+        <Label styleClass="header" text="Purchase" textAlignment="CENTER">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+        </Label>
+        <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+            <Rectangle arcHeight="5.0" fill="#2b9348" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
+            <Rectangle arcHeight="5.0" fill="#2b9348" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
+        </Pane>
+        <Label styleClass="sub_header" text="Manage your purchase here" textAlignment="CENTER">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+        </Label>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+            <TextField fx:id="search_stock_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for a purchase..." styleClass="text-field-search">
+                <padding>
+                    <Insets left="10.0" />
+                </padding>
+            </TextField>
+            <Button mnemonicParsing="false" styleClass="btn-search">
+                <graphic>
+                    <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../../../icons/search.png" />
+                    </ImageView>
+                </graphic>
+                <HBox.margin>
+                    <Insets left="-54.0" />
+                </HBox.margin>
+            </Button>
+            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                <ComboBox fx:id="export_combo" promptText="Export" styleClass="combo_box" />
+                <Button fx:id="openAddNewEmployeeBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" text="Refresh" textAlignment="CENTER">
+                    <graphic>
+                        <ImageView fx:id="refresh_table_table" fitHeight="30.0" fitWidth="30.0" onMousePressed="#refreshTable" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../../../icons/refresh.png" />
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="openAddNewPurchase" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddPurchase" styleClass="button-add" text="New purchase" textAlignment="CENTER">
+                    <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../icons/add_user.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <HBox.margin>
+                        <Insets left="10.0" />
+                    </HBox.margin>
+                </Button>
+            </HBox>
+        </HBox>
+        <TableView fx:id="PurchaseTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <columns>
+                <TableColumn minWidth="0.0" prefWidth="0.0" />
+                <TableColumn fx:id="quantity_c" prefWidth="157.0" text="Quantity" />
+                <TableColumn fx:id="price_c" prefWidth="147.0" text="Price" />
+                <TableColumn fx:id="supplier_c" prefWidth="164.0" text="Client" />
+                <TableColumn fx:id="date_c" prefWidth="180.0" text="Operation date" />
+                <TableColumn fx:id="action_c" prefWidth="155.0" text="Actions" />
+            </columns>
+        </TableView>
+    </VBox>
+</ScrollPane>
