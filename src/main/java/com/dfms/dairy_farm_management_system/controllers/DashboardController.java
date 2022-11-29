@@ -25,9 +25,10 @@ public class DashboardController implements Initializable {
             displayAlert("Error", "Error occurred while loading dashboard", Alert.AlertType.ERROR);
         }
 
-        //fill the chart with real data
+        //fill the charts with real data
         fillPieChart();
         fillBarChart();
+        fillLineChart();
 
 //        xAxis.setLabel("Programming Language");
 //
@@ -90,6 +91,8 @@ public class DashboardController implements Initializable {
 
     @FXML
     private PieChart pieChart;
+    @FXML
+    private LineChart<String, Number> lineChart;
     @FXML
     private CategoryAxis xAxis;
 
@@ -273,5 +276,23 @@ public class DashboardController implements Initializable {
         }
 
         return sales;
+    }
+
+    //fill line chart with data
+    public void fillLineChart() {
+        xAxis.setLabel("Days");
+        yAxis.setLabel("Sales");
+
+        XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
+
+        data.getData().add(new XYChart.Data<String, Number>("Sun", getSalesOfSpecificDay("Sun")));
+        data.getData().add(new XYChart.Data<String, Number>("Mon", getSalesOfSpecificDay("Mon")));
+        data.getData().add(new XYChart.Data<String, Number>("Tue", getSalesOfSpecificDay("Tue")));
+        data.getData().add(new XYChart.Data<String, Number>("Wed", getSalesOfSpecificDay("Wed")));
+        data.getData().add(new XYChart.Data<String, Number>("Thu", getSalesOfSpecificDay("Thu")));
+        data.getData().add(new XYChart.Data<String, Number>("Fri", getSalesOfSpecificDay("Fri")));
+        data.getData().add(new XYChart.Data<String, Number>("Sat", getSalesOfSpecificDay("Sat")));
+
+        lineChart.getData().add(data);
     }
 }
