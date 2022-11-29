@@ -28,29 +28,29 @@ public class DashboardController implements Initializable {
         fillPieChart();
         //fillBarChart();
 
-        xAxis.setLabel("Programming Language");
-
-        yAxis.setLabel("Percent");
-
-        // Series 1 - Data of 2014
-        XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
-        dataSeries1.setName("2014");
-
-        dataSeries1.getData().add(new XYChart.Data<String, Number>("Java", 20.973));
-        dataSeries1.getData().add(new XYChart.Data<String, Number>("C#", 4.429));
-        dataSeries1.getData().add(new XYChart.Data<String, Number>("PHP", 2.792));
-
-        // Series 2 - Data of 2015
-        XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
-        dataSeries2.setName("2015");
-
-        dataSeries2.getData().add(new XYChart.Data<String, Number>("Java", 26.983));
-        dataSeries2.getData().add(new XYChart.Data<String, Number>("C#", 6.569));
-        dataSeries2.getData().add(new XYChart.Data<String, Number>("PHP", 6.619));
-
-        // Add Series to BarChart.
-        barChart.getData().add(dataSeries1);
-        barChart.getData().add(dataSeries2);
+//        xAxis.setLabel("Programming Language");
+//
+//        yAxis.setLabel("Percent");
+//
+//        // Series 1 - Data of 2014
+//        XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
+//        dataSeries1.setName("2014");
+//
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("Java", 20.973));
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("C#", 4.429));
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("PHP", 2.792));
+//
+//        // Series 2 - Data of 2015
+//        XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
+//        dataSeries2.setName("2015");
+//
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("Java", 26.983));
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("C#", 6.569));
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("PHP", 6.619));
+//
+//        // Add Series to BarChart.
+//        barChart.getData().add(dataSeries1);
+//        barChart.getData().add(dataSeries2);
     }
 
     private Statement statement;
@@ -193,86 +193,93 @@ public class DashboardController implements Initializable {
 
     //fill BarChart with data
     public void fillBarChart() {
-        // display sales of last 7 days
+//        xAxis.setLabel("Programming Language");
+//
+//        yAxis.setLabel("Percent");
+//
+//        // Series 1 - Data of 2014
+//        XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
+//        dataSeries1.setName("2014");
+//
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("Java", 20.973));
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("C#", 4.429));
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("PHP", 2.792));
+//
+//        // Series 2 - Data of 2015
+//        XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
+//        dataSeries2.setName("2015");
+//
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("Java", 26.983));
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("C#", 6.569));
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("PHP", 6.619));
+//
+//        // Add Series to BarChart.
+//        barChart.getData().add(dataSeries1);
+//        barChart.getData().add(dataSeries2);
+
+        xAxis.setLabel("Days");
+        yAxis.setLabel("Sales");
+
+        XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
+
+        data.getData().add(new XYChart.Data<String, Number>("Sun", getSalesOfSpecificDay(1)));
+        data.getData().add(new XYChart.Data<String, Number>("Mon", getSalesOfSpecificDay(2)));
+        data.getData().add(new XYChart.Data<String, Number>("Tue", getSalesOfSpecificDay(3)));
+        data.getData().add(new XYChart.Data<String, Number>("Wed", getSalesOfSpecificDay(4)));
+        data.getData().add(new XYChart.Data<String, Number>("Thu", getSalesOfSpecificDay(5)));
+        data.getData().add(new XYChart.Data<String, Number>("Fri", getSalesOfSpecificDay(6)));
+        data.getData().add(new XYChart.Data<String, Number>("Sat", getSalesOfSpecificDay(7)));
+
+
+        barChart.getData().add(data);
+
+        // display sales of last sunday
+
+
+        // display sales of last monday
+        // display sales of last tuesday
+        // display sales of last wednesday
+        // display sales of last thursday
+        // display sales of last friday
+        // display sales of last saturday
+    }
+
+
+    //get sales of specific day
+    public int getSalesOfSpecificDay(int day) {
+        int sales = 0;
         try {
-            String query = "SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE()";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                today_sales.setText(resultSet.getString(1));
-            } else {
-                today_sales.setText("0");
+            //get count of sales of each day
+            switch (day){
+                case 1:
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY)");
+                    break;
+                case 2:
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
+                    break;
+                case 3:
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY)");
+                    break;
+                case 4:
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY)");
+                    break;
+                case 5:
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY)");
+                    break;
+                case 6:
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY)");
+                    break;
+                case 7:
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
+                    break;
             }
-
-            query = "SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE() - INTERVAL 1 DAY";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                today_sales.setText(resultSet.getString(1));
-            } else {
-                today_sales.setText("0");
+                sales = resultSet.getInt(1);
             }
-
-            query = "SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE() - INTERVAL 2 DAY";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                today_sales.setText(resultSet.getString(1));
-            } else {
-                today_sales.setText("0");
-            }
-
-            query = "SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE() - INTERVAL 3 DAY";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                today_sales.setText(resultSet.getString(1));
-            } else {
-                today_sales.setText("0");
-            }
-
-            query = "SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE() - INTERVAL 4 DAY";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                today_sales.setText(resultSet.getString(1));
-            } else {
-                today_sales.setText("0");
-            }
-
-            query = "SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE() - INTERVAL 5 DAY";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                today_sales.setText(resultSet.getString(1));
-            } else {
-                today_sales.setText("0");
-            }
-
-            query = "SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE() - INTERVAL 6 DAY";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                today_sales.setText(resultSet.getString(1));
-            } else {
-                today_sales.setText("0");
-            }
-
-            XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
-            data.setName("Sales");
-
-            data.getData().add(new XYChart.Data<String, Number>("Sun", Integer.parseInt(today_sales.getText())));
-            data.getData().add(new XYChart.Data<String, Number>("Mon", Integer.parseInt(today_sales.getText())));
-            data.getData().add(new XYChart.Data<String, Number>("Tue", Integer.parseInt(today_sales.getText())));
-            data.getData().add(new XYChart.Data<String, Number>("Wed", Integer.parseInt(today_sales.getText())));
-            data.getData().add(new XYChart.Data<String, Number>("Thu", Integer.parseInt(today_sales.getText())));
-            data.getData().add(new XYChart.Data<String, Number>("Fri", Integer.parseInt(today_sales.getText())));
-            data.getData().add(new XYChart.Data<String, Number>("Sat", Integer.parseInt(today_sales.getText())));
-
-            barChart.getData().add(data);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return sales;
     }
 }
