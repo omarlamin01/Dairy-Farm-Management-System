@@ -11,7 +11,7 @@ public class Purchase  implements Model{
     private int supplier_id;
     private int stock_id;
     private float price;
-
+    private String product_name;
     private float quantity;
     private Date purchase_date;
     private Timestamp created_at;
@@ -65,6 +65,14 @@ public class Purchase  implements Model{
         return purchase_date;
     }
 
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
+    }
+
     public void setPurchase_date(Date purchase_date) {
         this.purchase_date = purchase_date;
     }
@@ -86,6 +94,20 @@ public class Purchase  implements Model{
     }
     public String getSupplierName() {
         String query = "SELECT `name` FROM `suppliers` WHERE `id` = " + supplier_id;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public String getProductName() {
+        String query = "SELECT `name` FROM `stocks` WHERE `id` = " + stock_id;
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);

@@ -1,15 +1,37 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalSaleDetailsController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.CowSalesController;
+import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.Purchase;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import javax.swing.text.html.ImageView;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
+
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class PurchasesController  implements Initializable {
     @FXML
@@ -39,15 +61,28 @@ public class PurchasesController  implements Initializable {
     @FXML
     private ImageView refresh_table_table;
 
-    @FXML
-    private TextField search_stock_input;
+
 
     @FXML
     private TableColumn<Purchase, String> supplier_c;
 
-    @FXML
-    void openAddPurchase(MouseEvent event) {
 
+    @FXML
+    private TableColumn<?, ?> product_c;
+
+
+
+    @FXML
+    private TextField search_input;
+
+
+    PreparedStatement statement = null;
+
+    ResultSet resultSet = null;
+
+    @FXML
+    void openAddPurchase(MouseEvent event) throws IOException {
+        openNewWindow("Add New Purchase", "add_new_purchase");
     }
 
     @FXML
@@ -59,4 +94,200 @@ public class PurchasesController  implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+    public ObservableList<Purchase> getPurchase() throws SQLException, ClassNotFoundException {
+        ObservableList<Purchase> list = FXCollections.observableArrayList();
+
+        String query = "SELECT * FROM `purchases`";
+
+        statement = DBConfig.getConnection().prepareStatement(query);
+        resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            Purchase purchase = new Purchase();
+
+            purchase.setId(resultSet.getInt("id"));
+            purchase.setSupplier_id(resultSet.getInt("supplier_id"));
+            purchase.setStock_id(resultSet.getInt("stock_id"));
+            purchase.setQuantity(resultSet.getFloat("quantity"));
+            purchase.setPrice(resultSet.getFloat("price"));
+            purchase.setPurchase_date(resultSet.getDate("purchase_date"));
+            purchase.setCreated_at(resultSet.getTimestamp("created_at"));
+            purchase.setUpdated_at(resultSet.getTimestamp("updated_at"));
+
+            list.add(purchase);
+        }
+        return list;
+    }
+
+    public void refreshTablePurchase() throws SQLException {
+        PurchaseTable.getItems().clear();
+        try {
+            afficher();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void afficher() throws SQLException, ClassNotFoundException {
+        ObservableList<Purchase> list = getPurchase();
+        product_c.setCellValueFactory(new PropertyValueFactory<Purchase, String>(""));
+        price_col.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("price"));
+        client_col.setCellValueFactory(new PropertyValueFactory<Purchase, String>("clientName"));
+        operationdate_col.setCellValueFactory(new PropertyValueFactory<Purchase, java.sql.Date>("sale_date"));
+
+
+        Callback<TableColumn<AnimalSale, String>, TableCell<AnimalSale, String>> cellFoctory = (TableColumn<AnimalSale, String> param) -> {
+            // make cell containing buttons
+            final TableCell<AnimalSale, String> cell = new TableCell<AnimalSale, String>() {
+
+                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
+
+                @Override
+                public void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    //that cell created only on non-empty rows
+                    if (empty) {
+                        setGraphic(null);
+                        setText(null);
+
+                    } else {
+                        javafx.scene.image.ImageView iv_view_details = new javafx.scene.image.ImageView();
+                        iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        iv_view_details.setImage(view_details_img);
+                        iv_view_details.setPreserveRatio(true);
+                        iv_view_details.setSmooth(true);
+                        iv_view_details.setCache(true);
+
+
+                        javafx.scene.image.ImageView iv_edit = new javafx.scene.image.ImageView();
+                        iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        iv_edit.setImage(edit_img);
+                        iv_edit.setPreserveRatio(true);
+                        iv_edit.setSmooth(true);
+                        iv_edit.setCache(true);
+
+                        javafx.scene.image.ImageView iv_delete = new javafx.scene.image.ImageView();
+                        iv_delete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+
+                        iv_delete.setImage(delete_img);
+                        iv_delete.setPreserveRatio(true);
+                        iv_delete.setSmooth(true);
+                        iv_delete.setCache(true);
+
+                        HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
+                        managebtn.setStyle("-fx-alignment:center");
+                        HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_edit, new Insets(1, 1, 0, 3));
+
+                        setGraphic(managebtn);
+
+                        iv_delete.setOnMouseClicked((MouseEvent event) -> {
+                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                            alert.setTitle("Delete Confirmation");
+                            alert.setHeaderText("Are you sure you want to delete this animal sale?");
+                            AnimalSale mc = AnimalSalesTable.getSelectionModel().getSelectedItem();
+                            Optional<ButtonType> result = alert.showAndWait();
+                            if (result.get() == ButtonType.OK) {
+                                try {
+                                    if (mc.delete()) {
+
+                                        displayAlert("success", "Animal Sale deleted successfully", Alert.AlertType.INFORMATION);
+                                        refreshTableMilkSales();
+                                    } else {
+                                        displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
+
+                                    }
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                }
+                            }
+
+                            //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
+
+                        });
+                        iv_edit.setOnMouseClicked((MouseEvent event) -> {
+
+                            AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_cow_sale.fxml"));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
+                            }
+                            CowSalesController cowSalesController = fxmlLoader.getController();
+                            cowSalesController.setUpdate(true);
+                            cowSalesController.fetchAnimalSale(animalSale.getId(), animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Update Animal Sale");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
+                        });
+                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
+                            AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_sale_details.fxml"));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                                AnimalSaleDetailsController controller = fxmlLoader.getController();
+                                controller.fetchAnimalSale(animalSale.getId(), animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
+                            } catch (IOException e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                e.printStackTrace();
+                            }
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                            stage.setTitle("Animal Sale Details");
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
+                        });
+                    }
+                }
+
+
+            };
+            return cell;
+        };
+
+        action_col.setCellFactory(cellFoctory);
+        AnimalSalesTable.setItems(list);
+
+    }
+
+    public void liveSearch(TextField search_input, TableView table) {
+        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                try {
+                    refreshTableAnimalSales();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                ObservableList<AnimalSale> filteredList = FXCollections.observableArrayList();
+                ObservableList<AnimalSale> animalSale = null;
+                try {
+                    animalSale = getAnimalSale();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                for (AnimalSale Animal : animalSale) {
+                    if (Animal.getClientName().toLowerCase().contains(newValue.toLowerCase()) || Animal.getAnimalId().toLowerCase().contains(newValue.toLowerCase())) {
+                        filteredList.add(Animal);
+                    }
+                }
+                AnimalSalesTable.setItems(filteredList);
+            }
+        });
+    }
+
 }
