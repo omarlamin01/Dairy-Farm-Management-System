@@ -9,6 +9,7 @@ import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConne
 public class Purchase  implements Model{
     private int id;
     private int supplier_id;
+    private String supplier_name;
     private int stock_id;
     private float price;
     private String product_name;
@@ -92,6 +93,15 @@ public class Purchase  implements Model{
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
+
+    public String getSupplier_name() {
+        return supplier_name;
+    }
+
+    public void setSupplier_name(String supplier_name) {
+        this.supplier_name = supplier_name;
+    }
+
     public String getSupplierName() {
         String query = "SELECT `name` FROM `suppliers` WHERE `id` = " + supplier_id;
         Connection connection = getConnection();

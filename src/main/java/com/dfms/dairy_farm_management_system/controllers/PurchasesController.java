@@ -24,10 +24,10 @@ import javafx.util.Callback;
 import javax.swing.text.html.ImageView;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -68,7 +68,7 @@ public class PurchasesController  implements Initializable {
 
 
     @FXML
-    private TableColumn<?, ?> product_c;
+    private TableColumn<Purchase, String> product_c;
 
 
 
@@ -129,10 +129,12 @@ public class PurchasesController  implements Initializable {
 
     private void afficher() throws SQLException, ClassNotFoundException {
         ObservableList<Purchase> list = getPurchase();
-        product_c.setCellValueFactory(new PropertyValueFactory<Purchase, String>(""));
-        price_col.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("price"));
-        client_col.setCellValueFactory(new PropertyValueFactory<Purchase, String>("clientName"));
-        operationdate_col.setCellValueFactory(new PropertyValueFactory<Purchase, java.sql.Date>("sale_date"));
+        product_c.setCellValueFactory(new PropertyValueFactory<Purchase, String>("product_name"));
+        price_c.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("price"));
+        quantity_c.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("quantity"));
+        supplier_c.setCellValueFactory(new PropertyValueFactory<Purchase, String>("supplier_name"));
+        supplier_c.setCellValueFactory(new PropertyValueFactory<Purchase, String>("supplier_name"));
+        date_c.setCellValueFactory(new PropertyValueFactory<Purchase, java.sql.Date>("purchase_date"));
 
 
         Callback<TableColumn<AnimalSale, String>, TableCell<AnimalSale, String>> cellFoctory = (TableColumn<AnimalSale, String> param) -> {
