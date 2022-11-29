@@ -26,31 +26,31 @@ public class DashboardController implements Initializable {
 
         //fill the chart with real data
         fillPieChart();
-        fillBarChart();
+        //fillBarChart();
 
-//        xAxis.setLabel("Programming Language");
-//
-//        yAxis.setLabel("Percent");
-//
-//        // Series 1 - Data of 2014
-//        XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
-//        dataSeries1.setName("2014");
-//
-//        dataSeries1.getData().add(new XYChart.Data<String, Number>("Java", 20.973));
-//        dataSeries1.getData().add(new XYChart.Data<String, Number>("C#", 4.429));
-//        dataSeries1.getData().add(new XYChart.Data<String, Number>("PHP", 2.792));
-//
-//        // Series 2 - Data of 2015
-//        XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
-//        dataSeries2.setName("2015");
-//
-//        dataSeries2.getData().add(new XYChart.Data<String, Number>("Java", 26.983));
-//        dataSeries2.getData().add(new XYChart.Data<String, Number>("C#", 6.569));
-//        dataSeries2.getData().add(new XYChart.Data<String, Number>("PHP", 6.619));
-//
-//        // Add Series to BarChart.
-//        barChart.getData().add(dataSeries1);
-//        barChart.getData().add(dataSeries2);
+        xAxis.setLabel("Programming Language");
+
+        yAxis.setLabel("Percent");
+
+        // Series 1 - Data of 2014
+        XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
+        dataSeries1.setName("2014");
+
+        dataSeries1.getData().add(new XYChart.Data<String, Number>("Java", 20.973));
+        dataSeries1.getData().add(new XYChart.Data<String, Number>("C#", 4.429));
+        dataSeries1.getData().add(new XYChart.Data<String, Number>("PHP", 2.792));
+
+        // Series 2 - Data of 2015
+        XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
+        dataSeries2.setName("2015");
+
+        dataSeries2.getData().add(new XYChart.Data<String, Number>("Java", 26.983));
+        dataSeries2.getData().add(new XYChart.Data<String, Number>("C#", 6.569));
+        dataSeries2.getData().add(new XYChart.Data<String, Number>("PHP", 6.619));
+
+        // Add Series to BarChart.
+        barChart.getData().add(dataSeries1);
+        barChart.getData().add(dataSeries2);
     }
 
     private Statement statement;
@@ -258,17 +258,18 @@ public class DashboardController implements Initializable {
                 today_sales.setText("0");
             }
 
-            XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
-            dataSeries1.setName("Sales");
+            XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
+            data.setName("Sales");
 
-            dataSeries1.getData().add(new XYChart.Data<String, Number>("Today", Integer.parseInt(today_sales.getText())));
-            dataSeries1.getData().add(new XYChart.Data<String, Number>("Yesterday", Integer.parseInt(today_sales.getText())));
-            dataSeries1.getData().add(new XYChart.Data<String, Number>("2 days ago", Integer.parseInt(today_sales.getText())));
-            dataSeries1.getData().add(new XYChart.Data<String, Number>("3 days ago", Integer.parseInt(today_sales.getText())));
-            dataSeries1.getData().add(new XYChart.Data<String, Number>("4 days ago", Integer.parseInt(today_sales.getText())));
-            dataSeries1.getData().add(new XYChart.Data<String, Number>("5 days ago", Integer.parseInt(today_sales.getText())));
-            dataSeries1.getData().add(new XYChart.Data<String, Number>("6 days ago", Integer.parseInt(today_sales.getText())));
-            barChart.getData().add(dataSeries1);
+            data.getData().add(new XYChart.Data<String, Number>("Sun", Integer.parseInt(today_sales.getText())));
+            data.getData().add(new XYChart.Data<String, Number>("Mon", Integer.parseInt(today_sales.getText())));
+            data.getData().add(new XYChart.Data<String, Number>("Tue", Integer.parseInt(today_sales.getText())));
+            data.getData().add(new XYChart.Data<String, Number>("Wed", Integer.parseInt(today_sales.getText())));
+            data.getData().add(new XYChart.Data<String, Number>("Thu", Integer.parseInt(today_sales.getText())));
+            data.getData().add(new XYChart.Data<String, Number>("Fri", Integer.parseInt(today_sales.getText())));
+            data.getData().add(new XYChart.Data<String, Number>("Sat", Integer.parseInt(today_sales.getText())));
+
+            barChart.getData().add(data);
 
         } catch (SQLException e) {
             e.printStackTrace();
