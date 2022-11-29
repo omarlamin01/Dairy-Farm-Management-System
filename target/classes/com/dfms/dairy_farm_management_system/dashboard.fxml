@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
@@ -230,7 +231,7 @@
             </Pane>
          </children>
       </HBox>
-        <Label styleClass="header" text="Latest Sales" textAlignment="CENTER">
+        <Label styleClass="header" text="Latest Data" textAlignment="CENTER">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
@@ -252,5 +253,17 @@
             </BarChart>
             <PieChart fx:id="pieChart" prefHeight="371.0" prefWidth="366.0" />
         </HBox>
+      <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0" styleClass="dashboard_row">
+         <children>
+            <LineChart fx:id="lineChart" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="784.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+         </children>
+      </HBox>
     </VBox>
 </ScrollPane>
