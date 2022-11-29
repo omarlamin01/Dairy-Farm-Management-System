@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.MilkSalesController">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewPurchaseController">
     <children>
         <HBox alignment="CENTER_LEFT" spacing="10.0">
             <children>
@@ -109,6 +109,12 @@
                         <Insets bottom="10.0" />
                     </GridPane.margin>
                 </ComboBox>
+            <ComboBox fx:id="stockCombo" maxWidth="1.7976931348623157E308" promptText="Product">
+               <styleClass>
+                  <String fx:value="combo_box" />
+                  <String fx:value="name_input" />
+               </styleClass>
+            </ComboBox>
             </children>
         </GridPane>
     </children>

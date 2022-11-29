@@ -4,6 +4,7 @@ import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalSaleDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.CowSalesController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewPurchaseController;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.Purchase;
 import javafx.collections.FXCollections;
@@ -133,13 +134,13 @@ public class PurchasesController  implements Initializable {
         price_c.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("price"));
         quantity_c.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("quantity"));
         supplier_c.setCellValueFactory(new PropertyValueFactory<Purchase, String>("supplier_name"));
-        supplier_c.setCellValueFactory(new PropertyValueFactory<Purchase, String>("supplier_name"));
+
         date_c.setCellValueFactory(new PropertyValueFactory<Purchase, java.sql.Date>("purchase_date"));
 
 
-        Callback<TableColumn<AnimalSale, String>, TableCell<AnimalSale, String>> cellFoctory = (TableColumn<AnimalSale, String> param) -> {
+        Callback<TableColumn<Purchase, String>, TableCell<Purchase, String>> cellFoctory = (TableColumn<Purchase, String> param) -> {
             // make cell containing buttons
-            final TableCell<AnimalSale, String> cell = new TableCell<AnimalSale, String>() {
+            final TableCell<Purchase, String> cell = new TableCell<Purchase, String>() {
 
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
@@ -188,15 +189,15 @@ public class PurchasesController  implements Initializable {
                         iv_delete.setOnMouseClicked((MouseEvent event) -> {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete Confirmation");
-                            alert.setHeaderText("Are you sure you want to delete this animal sale?");
-                            AnimalSale mc = AnimalSalesTable.getSelectionModel().getSelectedItem();
+                            alert.setHeaderText("Are you sure you want to delete this purchase sale?");
+                            Purchase mc = PurchaseTable.getSelectionModel().getSelectedItem();
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     if (mc.delete()) {
 
-                                        displayAlert("success", "Animal Sale deleted successfully", Alert.AlertType.INFORMATION);
-                                        refreshTableMilkSales();
+                                        displayAlert("success", "Purchase deleted successfully", Alert.AlertType.INFORMATION);
+                                        refreshTablePurchase();
                                     } else {
                                         displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
 
@@ -211,8 +212,8 @@ public class PurchasesController  implements Initializable {
                         });
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
 
-                            AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_cow_sale.fxml"));
+                            Purchase purchase = PurchaseTable.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_purchase.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
@@ -220,9 +221,9 @@ public class PurchasesController  implements Initializable {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
                             }
-                            CowSalesController cowSalesController = fxmlLoader.getController();
-                            cowSalesController.setUpdate(true);
-                            cowSalesController.fetchAnimalSale(animalSale.getId(), animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
+                            NewPurchaseController newPurchaseController = fxmlLoader.getController();
+                            newPurchaseController.setUpdate(true);
+                            newPurchaseController.fetchPurchase(animalSale.getId(), animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update Animal Sale");
