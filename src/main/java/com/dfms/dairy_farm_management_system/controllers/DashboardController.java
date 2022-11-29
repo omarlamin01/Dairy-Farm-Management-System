@@ -302,25 +302,26 @@ public class DashboardController implements Initializable {
             //get count of sales of each day
             switch (day) {
                 case "Sun":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY)");
+                    //get the the sum of price from both tables (animals_sales and milk_sales)
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY)");
                     break;
                 case "Mon":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
                     break;
                 case "Tue":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY)");
                     break;
                 case "Wed":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY)");
                     break;
                 case "Thu":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY)");
                     break;
                 case "Fri":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY)");
                     break;
                 case "Sat":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
                     break;
                 default:
                     break;
