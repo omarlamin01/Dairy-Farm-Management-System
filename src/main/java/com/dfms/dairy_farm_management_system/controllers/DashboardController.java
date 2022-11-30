@@ -322,6 +322,11 @@ public class DashboardController implements Initializable {
     public int getEarningsOfSpecificDay(String day) {
         int earnings = 0;
         try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        try {
             //get count of sales of each day
             switch (day) {
                 case "Sun":
