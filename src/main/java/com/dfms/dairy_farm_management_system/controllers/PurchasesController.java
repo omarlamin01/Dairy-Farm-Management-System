@@ -40,8 +40,7 @@ public class PurchasesController  implements Initializable {
     private TableView<Purchase> PurchaseTable;
 
     @FXML
-    private SimpleObjectProperty<TableColumn<Purchase, String>> action_c = new SimpleObjectProperty<>(this, "action_c");
-
+    private TableColumn<Purchase, String> actions_c;
     @FXML
     private TableColumn<Purchase, Date> date_c;
 
@@ -90,22 +89,22 @@ public class PurchasesController  implements Initializable {
     @FXML
     void refreshTable(MouseEvent event) {
         PurchaseTable.getItems().clear();
-      /*  try {
-           // afficher();
+       try {
+           afficher();
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
-        }*/
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-       /* try {
+        try {
             afficher();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
-        }*/
+        }
     }
     public ObservableList<Purchase> getPurchase() throws SQLException, ClassNotFoundException {
         ObservableList<Purchase> list = FXCollections.observableArrayList();
@@ -146,7 +145,6 @@ public class PurchasesController  implements Initializable {
         price_c.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("price"));
         quantity_c.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("quantity"));
         supplier_c.setCellValueFactory(new PropertyValueFactory<Purchase, String>("supplier_name"));
-
         date_c.setCellValueFactory(new PropertyValueFactory<Purchase, java.sql.Date>("purchase_date"));
 
 
@@ -235,7 +233,7 @@ public class PurchasesController  implements Initializable {
                             }
                             NewPurchaseController newPurchaseController = fxmlLoader.getController();
                             newPurchaseController.setUpdate(true);
-                            newPurchaseController.fetchPurchase(purchase.getId(), purchase.getProductName(),purchase.getQuantity(), purchase.getPrice(), purchase.getSupplierName(), (Date) purchase.getPurchase_date());
+                            newPurchaseController.fetchPurchase(purchase.getId(), purchase.getProduct_name(),purchase.getQuantity(), purchase.getPrice(), purchase.getSupplier_name(), (Date) purchase.getPurchase_date());
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update Purchase");
@@ -272,7 +270,7 @@ public class PurchasesController  implements Initializable {
             return cell;
         };
 
-        action_c.get().setCellFactory(cellFoctory);
+        actions_c.setCellFactory(cellFoctory);
         PurchaseTable.setItems(list);
 
     }

@@ -36,6 +36,7 @@ public class Purchase  implements Model{
 
     public void setSupplier_id(int supplier_id) {
         this.supplier_id = supplier_id;
+        this.supplier_name = getSupplier_name();
     }
 
     public int getStock_id() {
@@ -44,7 +45,9 @@ public class Purchase  implements Model{
 
     public void setStock_id(int stock_id) {
         this.stock_id = stock_id;
+        this.product_name = getProduct_name();
     }
+
 
     public float getPrice() {
         return price;
@@ -66,9 +69,7 @@ public class Purchase  implements Model{
         return purchase_date;
     }
 
-    public String getProduct_name() {
-        return product_name;
-    }
+
 
     public void setProduct_name(String product_name) {
         this.product_name = product_name;
@@ -94,15 +95,12 @@ public class Purchase  implements Model{
         this.updated_at = updated_at;
     }
 
-    public String getSupplier_name() {
-        return supplier_name;
-    }
 
     public void setSupplier_name(String supplier_name) {
         this.supplier_name = supplier_name;
     }
 
-    public String getSupplierName() {
+    public String getSupplier_name() {
         String query = "SELECT `name` FROM `suppliers` WHERE `id` = " + supplier_id;
         Connection connection = getConnection();
         try {
@@ -116,7 +114,7 @@ public class Purchase  implements Model{
         }
         return null;
     }
-    public String getProductName() {
+    public String getProduct_name() {
         String query = "SELECT `name` FROM `stocks` WHERE `id` = " + stock_id;
         Connection connection = getConnection();
         try {
@@ -155,7 +153,7 @@ public class Purchase  implements Model{
     @Override
     public boolean update() {
         String query = "UPDATE `purchases` SET " +
-                "`suppliers_id` = '" + supplier_id + "', " +
+                "`supplier_id` = '" + supplier_id + "', " +
                 "`quantity` = '" + quantity + "', " +
                 "`stock_id` = '" + stock_id + "', " +
                 "`price` = '" + price + "', " +

@@ -45,16 +45,17 @@ public class NewPurchaseController implements Initializable {
     private ComboBox<String> suppliersCombo;
     private  int Purchase_ID;
     HashMap<String, Integer> suppliers = new HashMap<>();
+    HashMap<String, Integer> stocks = new HashMap<>();
     @FXML
     private ComboBox<String> stockCombo;
     PreparedStatement statement = null;
     ResultSet resultSet = null;
-    @FXML
+       @FXML
     void addPurchase(MouseEvent event) {
         Purchase purchase = new Purchase();
         if (this.update) {
             purchase.setId(this.Purchase_ID);
-            purchase.setStock_id(Integer.parseInt(stockCombo.getValue()));
+            purchase.setStock_id(stocks.get(stockCombo.getValue()));
             purchase.setPrice(Float.parseFloat(priceOfSale.getText()));
             purchase.setQuantity(Float.parseFloat(quantityInput.getText()));
             purchase.setSupplier_id(suppliers.get(suppliersCombo.getValue()));
@@ -72,7 +73,7 @@ public class NewPurchaseController implements Initializable {
                     displayAlert("success", "Purchase  Updated successfully", Alert.AlertType.INFORMATION);
 
                 } }}else {
-            purchase.setStock_id(Integer.parseInt(stockCombo.getValue()));
+            purchase.setStock_id(stocks.get(stockCombo.getValue()));
             purchase.setPrice(Float.parseFloat(priceOfSale.getText()));
             purchase.setQuantity(Float.parseFloat(quantityInput.getText()));
             purchase.setSupplier_id(suppliers.get(suppliersCombo.getValue()));
@@ -83,7 +84,7 @@ public class NewPurchaseController implements Initializable {
                 displayAlert("Error", "Price can't be null ", Alert.AlertType.ERROR);
             } else {
 
-                purchase.setStock_id(Integer.parseInt(stockCombo.getValue()));
+                purchase.setStock_id(stocks.get(stockCombo.getValue()));
                 purchase.setPrice(Float.parseFloat(priceOfSale.getText()));
                 purchase.setQuantity(Float.parseFloat(quantityInput.getText()));
                 purchase.setSupplier_id(suppliers.get(suppliersCombo.getValue()));
@@ -109,6 +110,7 @@ public class NewPurchaseController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         try {
             this.setSupplierList();
         } catch (SQLException e) {
@@ -136,13 +138,14 @@ public class NewPurchaseController implements Initializable {
     public void setProuctsList() throws SQLException {
         ObservableList<String> products = FXCollections.observableArrayList();
 
-        String select_query = "SELECT type from stocks ";
+        String select_query = "SELECT id,name from stocks ";
 
         statement = DBConfig.getConnection().prepareStatement(select_query);
         resultSet = statement.executeQuery();
         while (resultSet.next()) {
 
-            products.add(resultSet.getString("type"));
+            stocks.put(resultSet.getString("name"), resultSet.getInt("id"));
+            products.add(resultSet.getString("name"));
         }
 
         stockCombo.setItems(products);
