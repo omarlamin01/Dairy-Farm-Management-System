@@ -226,17 +226,33 @@ public class DashboardController implements Initializable {
         xAxis.setLabel("Days");
         yAxis.setLabel("Sales");
 
-        XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
+        XYChart.Series<String, Number> animal_sales = new XYChart.Series<String, Number>();
+        XYChart.Series<String, Number> milk_sales = new XYChart.Series<String, Number>();
 
-        data.getData().add(new XYChart.Data<String, Number>("Sun", getSalesOfSpecificDay("Sun")));
-        data.getData().add(new XYChart.Data<String, Number>("Mon", getSalesOfSpecificDay("Mon")));
-        data.getData().add(new XYChart.Data<String, Number>("Tue", getSalesOfSpecificDay("Tue")));
-        data.getData().add(new XYChart.Data<String, Number>("Wed", getSalesOfSpecificDay("Wed")));
-        data.getData().add(new XYChart.Data<String, Number>("Thu", getSalesOfSpecificDay("Thu")));
-        data.getData().add(new XYChart.Data<String, Number>("Fri", getSalesOfSpecificDay("Fri")));
-        data.getData().add(new XYChart.Data<String, Number>("Sat", getSalesOfSpecificDay("Sat")));
+        animal_sales.setName("Animal Sales");
+        milk_sales.setName("Milk Sales");
 
-        barChart.getData().add(data);
+        //get animal sales
+        animal_sales.getData().add(new XYChart.Data<String, Number>("Sun", getSalesOfSpecificDay("Sun", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<String, Number>("Mon", getSalesOfSpecificDay("Mon", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<String, Number>("Tue", getSalesOfSpecificDay("Tue", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<String, Number>("Wed", getSalesOfSpecificDay("Wed", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<String, Number>("Thu", getSalesOfSpecificDay("Thu", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<String, Number>("Fri", getSalesOfSpecificDay("Fri", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<String, Number>("Sat", getSalesOfSpecificDay("Sat", "animals_sales")));
+
+        //get milk sales
+        milk_sales.getData().add(new XYChart.Data<String, Number>("Sun", getSalesOfSpecificDay("Sun", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<String, Number>("Mon", getSalesOfSpecificDay("Mon", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<String, Number>("Tue", getSalesOfSpecificDay("Tue", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<String, Number>("Wed", getSalesOfSpecificDay("Wed", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<String, Number>("Thu", getSalesOfSpecificDay("Thu", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<String, Number>("Fri", getSalesOfSpecificDay("Fri", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<String, Number>("Sat", getSalesOfSpecificDay("Sat", "milk_sales")));
+
+        //set data to bar chart
+        barChart.getData().add(animal_sales);
+        barChart.getData().add(milk_sales);
     }
 
     //fill line chart with earnings of each day
@@ -258,31 +274,31 @@ public class DashboardController implements Initializable {
     }
 
     //get sales of specific day
-    public int getSalesOfSpecificDay(String day) {
+    public int getSalesOfSpecificDay(String day, String table) {
         int sales = 0;
         try {
             //get count of sales of each day
             switch (day) {
                 case "Sun":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Sunday'");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Sunday'");
                     break;
                 case "Mon":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Monday'");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Monday'");
                     break;
                 case "Tue":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Tuesday'");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Tuesday'");
                     break;
                 case "Wed":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Wednesday'");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Wednesday'");
                     break;
                 case "Thu":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Thursday'");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Thursday'");
                     break;
                 case "Fri":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Friday'");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Friday'");
                     break;
                 case "Sat":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM " + table + "WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
                     break;
                 default:
                     break;
