@@ -2,7 +2,6 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
@@ -146,7 +145,8 @@ public class DashboardController implements Initializable {
         resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE()");
         if (resultSet.next()) {
             today_sales.setText(resultSet.getString(1));
-        } else {
+        }
+        if (resultSet.getString(1) == null) {
             today_sales.setText("0");
         }
 
@@ -154,8 +154,9 @@ public class DashboardController implements Initializable {
         resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()");
         if (resultSet.next()) {
             today_earnings.setText("$" + resultSet.getString(1));
-        } else {
-            today_earnings.setText("0");
+        }
+        if (resultSet.getString(1) == null) {
+            today_earnings.setText("$0");
         }
     }
 
@@ -224,66 +225,80 @@ public class DashboardController implements Initializable {
         xAxis.setLabel("Days");
         yAxis.setLabel("Sales");
 
-        XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
+        XYChart.Series<String, Number> animal_sales = new XYChart.Series<>();
+        XYChart.Series<String, Number> milk_sales = new XYChart.Series<>();
 
-        data.getData().add(new XYChart.Data<String, Number>("Sun", getSalesOfSpecificDay("Sun")));
-        data.getData().add(new XYChart.Data<String, Number>("Mon", getSalesOfSpecificDay("Mon")));
-        data.getData().add(new XYChart.Data<String, Number>("Tue", getSalesOfSpecificDay("Tue")));
-        data.getData().add(new XYChart.Data<String, Number>("Wed", getSalesOfSpecificDay("Wed")));
-        data.getData().add(new XYChart.Data<String, Number>("Thu", getSalesOfSpecificDay("Thu")));
-        data.getData().add(new XYChart.Data<String, Number>("Fri", getSalesOfSpecificDay("Fri")));
-        data.getData().add(new XYChart.Data<String, Number>("Sat", getSalesOfSpecificDay("Sat")));
+        animal_sales.setName("Animal Sales");
+        milk_sales.setName("Milk Sales");
 
-        barChart.getData().add(data);
+        //get animal sales
+        animal_sales.getData().add(new XYChart.Data<>("Sun", getSalesOfSpecificDay("Sun", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Mon", getSalesOfSpecificDay("Mon", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Tue", getSalesOfSpecificDay("Tue", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Wed", getSalesOfSpecificDay("Wed", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Thu", getSalesOfSpecificDay("Thu", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Fri", getSalesOfSpecificDay("Fri", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Sat", getSalesOfSpecificDay("Sat", "animals_sales")));
+
+        //get milk sales
+        milk_sales.getData().add(new XYChart.Data<>("Sun", getSalesOfSpecificDay("Sun", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Mon", getSalesOfSpecificDay("Mon", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Tue", getSalesOfSpecificDay("Tue", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Wed", getSalesOfSpecificDay("Wed", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Thu", getSalesOfSpecificDay("Thu", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Fri", getSalesOfSpecificDay("Fri", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Sat", getSalesOfSpecificDay("Sat", "milk_sales")));
+
+        //set data to bar chart
+        barChart.getData().add(animal_sales);
+        barChart.getData().add(milk_sales);
     }
 
     //fill line chart with earnings of each day
     public void fillLineChart() {
         xAxis.setLabel("Days");
-        yAxis.setLabel("Sales");
+        yAxis.setLabel("Count of animals sales");
 
-        XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
+        XYChart.Series<String, Number> data = new XYChart.Series<>();
 
-        data.getData().add(new XYChart.Data<String, Number>("Sun", getEarningsOfSpecificDay("Sun")));
-        data.getData().add(new XYChart.Data<String, Number>("Mon", getEarningsOfSpecificDay("Mon")));
-        data.getData().add(new XYChart.Data<String, Number>("Tue", getEarningsOfSpecificDay("Tue")));
-        data.getData().add(new XYChart.Data<String, Number>("Wed", getEarningsOfSpecificDay("Wed")));
-        data.getData().add(new XYChart.Data<String, Number>("Thu", getEarningsOfSpecificDay("Thu")));
-        data.getData().add(new XYChart.Data<String, Number>("Fri", getEarningsOfSpecificDay("Fri")));
-        data.getData().add(new XYChart.Data<String, Number>("Sat", getEarningsOfSpecificDay("Sat")));
+        data.getData().add(new XYChart.Data<>("Sun", getEarningsOfSpecificDay("Sun")));
+        data.getData().add(new XYChart.Data<>("Mon", getEarningsOfSpecificDay("Mon")));
+        data.getData().add(new XYChart.Data<>("Tue", getEarningsOfSpecificDay("Tue")));
+        data.getData().add(new XYChart.Data<>("Wed", getEarningsOfSpecificDay("Wed")));
+        data.getData().add(new XYChart.Data<>("Thu", getEarningsOfSpecificDay("Thu")));
+        data.getData().add(new XYChart.Data<>("Fri", getEarningsOfSpecificDay("Fri")));
+        data.getData().add(new XYChart.Data<>("Sat", getEarningsOfSpecificDay("Sat")));
 
         lineChart.getData().add(data);
     }
 
     //get sales of specific day
-    public int getSalesOfSpecificDay(String day) {
+    public int getSalesOfSpecificDay(String day, String table) {
         int sales = 0;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
         try {
             //get count of sales of each day
             switch (day) {
-                case "Sun":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY)");
-                    break;
-                case "Mon":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
-                    break;
-                case "Tue":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY)");
-                    break;
-                case "Wed":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY)");
-                    break;
-                case "Thu":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY)");
-                    break;
-                case "Fri":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY)");
-                    break;
-                case "Sat":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
-                    break;
-                default:
-                    break;
+                case "Sun" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Sunday'");
+                case "Mon" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Monday'");
+                case "Tue" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Tuesday'");
+                case "Wed" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Wednesday'");
+                case "Thu" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Thursday'");
+                case "Fri" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Friday'");
+                case "Sat" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Saturday'");
+                default -> {
+                }
             }
             if (resultSet.next()) {
                 sales = resultSet.getInt(1);
@@ -299,32 +314,30 @@ public class DashboardController implements Initializable {
     public int getEarningsOfSpecificDay(String day) {
         int earnings = 0;
         try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        try {
             //get count of sales of each day
             switch (day) {
-                case "Sun":
-                    //get the the sum of price from both tables (animals_sales and milk_sales)
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY)");
-                    break;
-                case "Mon":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
-                    break;
-                case "Tue":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY)");
-                    break;
-                case "Wed":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY)");
-                    break;
-                case "Thu":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY)");
-                    break;
-                case "Fri":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY)");
-                    break;
-                case "Sat":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
-                    break;
-                default:
-                    break;
+                case "Sun" ->
+                    //get the sum of price from both tables (animals_sales and milk_sales)
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Sunday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Sunday'");
+                case "Mon" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Monday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Monday'");
+                case "Tue" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Tuesday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Tuesday'");
+                case "Wed" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Wednesday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Wednesday'");
+                case "Thu" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Thursday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Thursday'");
+                case "Fri" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Friday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Friday'");
+                case "Sat" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Saturday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Saturday'");
+                default -> {
+                }
             }
             if (resultSet.next()) {
                 earnings = resultSet.getInt(1);
