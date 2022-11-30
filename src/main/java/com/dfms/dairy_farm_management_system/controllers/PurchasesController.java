@@ -5,6 +5,7 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalSaleDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.CowSalesController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewPurchaseController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.PurchaseDetailsController;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.Purchase;
 import javafx.beans.property.SimpleObjectProperty;
@@ -98,6 +99,7 @@ public class PurchasesController  implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        liveSearch(search_input, PurchaseTable);
         try {
             afficher();
         } catch (SQLException e) {
@@ -243,13 +245,13 @@ public class PurchasesController  implements Initializable {
                             stage.show();
                         });
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
-                         /* Purchase purchase = PurchaseTable.getSelectionModel().getSelectedItem();
+                         Purchase purchase = PurchaseTable.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/purchase_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
-                                AnimalSaleDetailsController controller = fxmlLoader.getController();
-                                controller.fetchAnimalSale(animalSale.getId(), animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
+                                PurchaseDetailsController controller = fxmlLoader.getController();
+                                controller.fetchPurchase(purchase.getId(), purchase.getProduct_name(),  purchase.getQuantity(), purchase.getPrice(), purchase.getSupplier_name(), (Date) purchase.getPurchase_date());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -260,7 +262,7 @@ public class PurchasesController  implements Initializable {
                             stage.setResizable(false);
                             stage.setScene(scene);
                             centerScreen(stage);
-                            stage.show();*/
+                            stage.show();
                         });
                     }
                 }
