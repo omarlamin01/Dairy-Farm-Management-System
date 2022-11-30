@@ -25,17 +25,10 @@
             <artifactId>javafx-fxml</artifactId>
             <version>18-ea+6</version>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.version}</version>
+            <version>5.9.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
