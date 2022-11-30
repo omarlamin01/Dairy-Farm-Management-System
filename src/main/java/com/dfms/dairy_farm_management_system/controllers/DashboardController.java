@@ -146,7 +146,8 @@ public class DashboardController implements Initializable {
         resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE()");
         if (resultSet.next()) {
             today_sales.setText(resultSet.getString(1));
-        } else {
+        }
+        if (resultSet.getString(1) == null) {
             today_sales.setText("0");
         }
 
@@ -154,8 +155,9 @@ public class DashboardController implements Initializable {
         resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()");
         if (resultSet.next()) {
             today_earnings.setText("$" + resultSet.getString(1));
-        } else {
-            today_earnings.setText("0");
+        }
+        if (resultSet.getString(1) == null) {
+            today_earnings.setText("$0");
         }
     }
 
@@ -262,22 +264,22 @@ public class DashboardController implements Initializable {
             //get count of sales of each day
             switch (day) {
                 case "Sun":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY)");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Sunday'");
                     break;
                 case "Mon":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Monday'");
                     break;
                 case "Tue":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY)");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Tuesday'");
                     break;
                 case "Wed":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY)");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Wednesday'");
                     break;
                 case "Thu":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY)");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Thursday'");
                     break;
                 case "Fri":
-                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY)");
+                    resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE DAYNAME(sale_date) = 'Friday'");
                     break;
                 case "Sat":
                     resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
