@@ -136,7 +136,7 @@ public class NewPurchaseController implements Initializable {
     public void setProuctsList() throws SQLException {
         ObservableList<String> products = FXCollections.observableArrayList();
 
-        String select_query = "SELECT type from purchase ";
+        String select_query = "SELECT type from stocks ";
 
         statement = DBConfig.getConnection().prepareStatement(select_query);
         resultSet = statement.executeQuery();

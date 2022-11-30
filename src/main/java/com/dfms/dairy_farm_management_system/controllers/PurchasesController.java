@@ -7,6 +7,7 @@ import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.Cow
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewPurchaseController;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.Purchase;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -39,7 +40,7 @@ public class PurchasesController  implements Initializable {
     private TableView<Purchase> PurchaseTable;
 
     @FXML
-    private TableColumn<Purchase,String> action_c;
+    private SimpleObjectProperty<TableColumn<Purchase, String>> action_c = new SimpleObjectProperty<>(this, "action_c");
 
     @FXML
     private TableColumn<Purchase, Date> date_c;
@@ -89,22 +90,22 @@ public class PurchasesController  implements Initializable {
     @FXML
     void refreshTable(MouseEvent event) {
         PurchaseTable.getItems().clear();
-        try {
-            afficher();
+      /*  try {
+           // afficher();
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
+       /* try {
             afficher();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
-        }
+        }*/
     }
     public ObservableList<Purchase> getPurchase() throws SQLException, ClassNotFoundException {
         ObservableList<Purchase> list = FXCollections.observableArrayList();
@@ -244,8 +245,8 @@ public class PurchasesController  implements Initializable {
                             stage.show();
                         });
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
-                       /*     AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_sale_details.fxml"));
+                         /* Purchase purchase = PurchaseTable.getSelectionModel().getSelectedItem();
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/purchase_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
@@ -271,7 +272,7 @@ public class PurchasesController  implements Initializable {
             return cell;
         };
 
-        action_c.setCellFactory(cellFoctory);
+        action_c.get().setCellFactory(cellFoctory);
         PurchaseTable.setItems(list);
 
     }

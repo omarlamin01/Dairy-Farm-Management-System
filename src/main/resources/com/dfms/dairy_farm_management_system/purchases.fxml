@@ -93,10 +93,10 @@
                 <TableColumn minWidth="0.0" prefWidth="0.0" />
                 <TableColumn fx:id="product_c" prefWidth="163.0" text="Produit" />
                 <TableColumn fx:id="quantity_c" prefWidth="133.0" text="Quantity" />
-            <TableColumn fx:id="price_c" minWidth="0.0" prefWidth="111.0" text="Price" />
+                <TableColumn fx:id="price_c" minWidth="0.0" prefWidth="111.0" text="Price" />
                 <TableColumn fx:id="supplier_c" prefWidth="118.0" text="Supplier" />
                 <TableColumn fx:id="date_c" prefWidth="129.0" text="PurchaseDate" />
-            <TableColumn fx:id="actions_c" prefWidth="155.0" text="Actions" />
+                <TableColumn fx:id="actions_c" prefWidth="155.0" text="Actions" />
             </columns>
         </TableView>
     </VBox>
