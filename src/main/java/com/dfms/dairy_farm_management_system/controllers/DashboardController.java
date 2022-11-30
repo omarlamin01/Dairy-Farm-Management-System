@@ -283,29 +283,22 @@ public class DashboardController implements Initializable {
         try {
             //get count of sales of each day
             switch (day) {
-                case "Sun":
-                    resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Sunday'");
-                    break;
-                case "Mon":
-                    resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Monday'");
-                    break;
-                case "Tue":
-                    resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Tuesday'");
-                    break;
-                case "Wed":
-                    resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Wednesday'");
-                    break;
-                case "Thu":
-                    resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Thursday'");
-                    break;
-                case "Fri":
-                    resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Friday'");
-                    break;
-                case "Sat":
-                    resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Saturday'");
-                    break;
-                default:
-                    break;
+                case "Sun" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Sunday'");
+                case "Mon" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Monday'");
+                case "Tue" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Tuesday'");
+                case "Wed" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Wednesday'");
+                case "Thu" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Thursday'");
+                case "Fri" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Friday'");
+                case "Sat" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Saturday'");
+                default -> {
+                }
             }
             if (resultSet.next()) {
                 sales = resultSet.getInt(1);
