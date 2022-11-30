@@ -37,6 +37,14 @@ ALTER TABLE milk_sales
 
 
 #change quantity column  in milk_sales table to be float
+
+ALTER TABLE milk_sales MODIFY quantity Float NOT NULL ;
+
+
+
+ALTER TABLE purchases
+ADD COLUMN quantity float not null;
+
 ALTER TABLE milk_sales
     MODIFY quantity Float NOT NULL;
 
@@ -61,3 +69,4 @@ ALTER TABLE `races`
 #change note data type in routines table
 ALTER TABLE `routines`
     MODIFY note TEXT;
+
