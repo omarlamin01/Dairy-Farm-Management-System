@@ -121,6 +121,10 @@ public class NewAnimalController implements Initializable {
     @FXML
     void addAnimal(MouseEvent event) {
         Animal animal = new Animal();
+        if (inputesAreEmpty()) {
+            displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
+            return;
+        }
         if (this.update) {
             animal.setId(this.animal_ID);
             animal.setBirth_date(Date.valueOf(birthDate.getValue()));
@@ -158,7 +162,15 @@ public class NewAnimalController implements Initializable {
     public void setUpdate(boolean b) {
         this.update = b;
     }
-
+    public boolean inputesAreEmpty() {
+        if (this.birthDate.getValue()==null
+                || this.typeCombo.getValue()==null
+                || this.raceCombo.getValue()==null
+                || this.purchaseDate.getValue()==null
+                || this.routineCombo.getValue()==null)
+            return true;
+        return false;
+    }
     public void fetchAnimal(String id_animal, String race_animal, LocalDate birthdate, String
             routine_animal, LocalDate purchasedate, String type_animal) {
         this.animal_ID = id_animal;

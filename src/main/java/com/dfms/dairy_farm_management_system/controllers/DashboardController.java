@@ -24,41 +24,34 @@ public class DashboardController implements Initializable {
             displayAlert("Error", "Error occurred while loading dashboard", Alert.AlertType.ERROR);
         }
 
-        //fill the chart with real data
-        //fillPieChart();
-        //fillPieChart();
+        //fill the charts with real data
+        fillPieChart();
+        fillBarChart();
+        fillLineChart();
 
-        PieChart.Data slice1 = new PieChart.Data("Desktop", 213);
-        PieChart.Data slice2 = new PieChart.Data("Phone", 67);
-        PieChart.Data slice3 = new PieChart.Data("Tablet", 36);
-
-        pieChart.getData().add(slice1);
-        pieChart.getData().add(slice2);
-        pieChart.getData().add(slice3);
-
-        xAxis.setLabel("Programming Language");
-
-        yAxis.setLabel("Percent");
-
-        // Series 1 - Data of 2014
-        XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
-        dataSeries1.setName("2014");
-
-        dataSeries1.getData().add(new XYChart.Data<String, Number>("Java", 20.973));
-        dataSeries1.getData().add(new XYChart.Data<String, Number>("C#", 4.429));
-        dataSeries1.getData().add(new XYChart.Data<String, Number>("PHP", 2.792));
-
-        // Series 2 - Data of 2015
-        XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
-        dataSeries2.setName("2015");
-
-        dataSeries2.getData().add(new XYChart.Data<String, Number>("Java", 26.983));
-        dataSeries2.getData().add(new XYChart.Data<String, Number>("C#", 6.569));
-        dataSeries2.getData().add(new XYChart.Data<String, Number>("PHP", 6.619));
-
-        // Add Series to BarChart.
-        barChart.getData().add(dataSeries1);
-        barChart.getData().add(dataSeries2);
+//        xAxis.setLabel("Programming Language");
+//
+//        yAxis.setLabel("Percent");
+//
+//        // Series 1 - Data of 2014
+//        XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
+//        dataSeries1.setName("2014");
+//
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("Java", 20.973));
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("C#", 4.429));
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("PHP", 2.792));
+//
+//        // Series 2 - Data of 2015
+//        XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
+//        dataSeries2.setName("2015");
+//
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("Java", 26.983));
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("C#", 6.569));
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("PHP", 6.619));
+//
+//        // Add Series to BarChart.
+//        barChart.getData().add(dataSeries1);
+//        barChart.getData().add(dataSeries2);
     }
 
     private Statement statement;
@@ -97,6 +90,8 @@ public class DashboardController implements Initializable {
 
     @FXML
     private PieChart pieChart;
+    @FXML
+    private LineChart<String, Number> lineChart;
     @FXML
     private CategoryAxis xAxis;
 
@@ -150,16 +145,18 @@ public class DashboardController implements Initializable {
         resultSet = executeQuery("SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE()");
         if (resultSet.next()) {
             today_sales.setText(resultSet.getString(1));
-        } else {
+        }
+        if (resultSet.getString(1) == null) {
             today_sales.setText("0");
         }
 
         //get today earnings
         resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()");
         if (resultSet.next()) {
-            today_earnings.setText(resultSet.getString(1));
-        } else {
-            today_earnings.setText("0");
+            today_earnings.setText("$" + resultSet.getString(1));
+        }
+        if (resultSet.getString(1) == null) {
+            today_earnings.setText("$0");
         }
     }
 
@@ -199,44 +196,156 @@ public class DashboardController implements Initializable {
         }
     }
 
-    //fill BarChart with data
+    //fill BarChart with sales of each day
     public void fillBarChart() {
+//        xAxis.setLabel("Programming Language");
+//
+//        yAxis.setLabel("Percent");
+//
+//        // Series 1 - Data of 2014
+//        XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
+//        dataSeries1.setName("2014");
+//
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("Java", 20.973));
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("C#", 4.429));
+//        dataSeries1.getData().add(new XYChart.Data<String, Number>("PHP", 2.792));
+//
+//        // Series 2 - Data of 2015
+//        XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
+//        dataSeries2.setName("2015");
+//
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("Java", 26.983));
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("C#", 6.569));
+//        dataSeries2.getData().add(new XYChart.Data<String, Number>("PHP", 6.619));
+//
+//        // Add Series to BarChart.
+//        barChart.getData().add(dataSeries1);
+//        barChart.getData().add(dataSeries2);
+
+        xAxis.setLabel("Days");
+        yAxis.setLabel("Sales");
+
+        XYChart.Series<String, Number> animal_sales = new XYChart.Series<>();
+        XYChart.Series<String, Number> milk_sales = new XYChart.Series<>();
+
+        animal_sales.setName("Animal Sales");
+        milk_sales.setName("Milk Sales");
+
+        //get animal sales
+        animal_sales.getData().add(new XYChart.Data<>("Sun", getSalesOfSpecificDay("Sun", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Mon", getSalesOfSpecificDay("Mon", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Tue", getSalesOfSpecificDay("Tue", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Wed", getSalesOfSpecificDay("Wed", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Thu", getSalesOfSpecificDay("Thu", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Fri", getSalesOfSpecificDay("Fri", "animals_sales")));
+        animal_sales.getData().add(new XYChart.Data<>("Sat", getSalesOfSpecificDay("Sat", "animals_sales")));
+
+        //get milk sales
+        milk_sales.getData().add(new XYChart.Data<>("Sun", getSalesOfSpecificDay("Sun", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Mon", getSalesOfSpecificDay("Mon", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Tue", getSalesOfSpecificDay("Tue", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Wed", getSalesOfSpecificDay("Wed", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Thu", getSalesOfSpecificDay("Thu", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Fri", getSalesOfSpecificDay("Fri", "milk_sales")));
+        milk_sales.getData().add(new XYChart.Data<>("Sat", getSalesOfSpecificDay("Sat", "milk_sales")));
+
+        //set data to bar chart
+        barChart.getData().add(animal_sales);
+        barChart.getData().add(milk_sales);
+    }
+
+    //fill line chart with earnings of each day
+    public void fillLineChart() {
+        xAxis.setLabel("Days");
+        yAxis.setLabel("Count of animals sales");
+
+        XYChart.Series<String, Number> data = new XYChart.Series<>();
+
+        data.getData().add(new XYChart.Data<>("Sun", getEarningsOfSpecificDay("Sun")));
+        data.getData().add(new XYChart.Data<>("Mon", getEarningsOfSpecificDay("Mon")));
+        data.getData().add(new XYChart.Data<>("Tue", getEarningsOfSpecificDay("Tue")));
+        data.getData().add(new XYChart.Data<>("Wed", getEarningsOfSpecificDay("Wed")));
+        data.getData().add(new XYChart.Data<>("Thu", getEarningsOfSpecificDay("Thu")));
+        data.getData().add(new XYChart.Data<>("Fri", getEarningsOfSpecificDay("Fri")));
+        data.getData().add(new XYChart.Data<>("Sat", getEarningsOfSpecificDay("Sat")));
+
+        lineChart.getData().add(data);
+    }
+
+    //get sales of specific day
+    public int getSalesOfSpecificDay(String day, String table) {
+        int sales = 0;
         try {
-            String query = "SELECT COUNT(*) FROM animals_sales WHERE sale_date = CURDATE()";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                today_sales.setText(resultSet.getString(1));
-            } else {
-                today_sales.setText("0");
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        try {
+            //get count of sales of each day
+            switch (day) {
+                case "Sun" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Sunday'");
+                case "Mon" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Monday'");
+                case "Tue" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Tuesday'");
+                case "Wed" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Wednesday'");
+                case "Thu" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Thursday'");
+                case "Fri" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Friday'");
+                case "Sat" ->
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Saturday'");
+                default -> {
+                }
             }
-
-            query = "SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()";
-            preparedStatement = connection.prepareStatement(query);
-            resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                today_earnings.setText(resultSet.getString(1));
-            } else {
-                today_earnings.setText("0");
+                sales = resultSet.getInt(1);
             }
-
-            xAxis.setLabel("Date");
-            yAxis.setLabel("Sales");
-
-            XYChart.Series<String, Number> sales = new XYChart.Series<String, Number>();
-            sales.setName("Sales");
-
-            sales.getData().add(new XYChart.Data<String, Number>("Today", Integer.parseInt(today_sales.getText())));
-
-            XYChart.Series<String, Number> earnings = new XYChart.Series<String, Number>();
-            earnings.setName("Earnings");
-
-            earnings.getData().add(new XYChart.Data<String, Number>("Today", Integer.parseInt(today_earnings.getText())));
-
-            barChart.getData().add(sales);
-            barChart.getData().add(earnings);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return sales;
+    }
+
+    //get earnings of specific day
+    public int getEarningsOfSpecificDay(String day) {
+        int earnings = 0;
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        }
+        try {
+            //get count of sales of each day
+            switch (day) {
+                case "Sun" ->
+                    //get the sum of price from both tables (animals_sales and milk_sales)
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Sunday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Sunday'");
+                case "Mon" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Monday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Monday'");
+                case "Tue" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Tuesday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Tuesday'");
+                case "Wed" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Wednesday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Wednesday'");
+                case "Thu" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Thursday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Thursday'");
+                case "Fri" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Friday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Friday'");
+                case "Sat" ->
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Saturday' UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Saturday'");
+                default -> {
+                }
+            }
+            if (resultSet.next()) {
+                earnings = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return earnings;
     }
 }
