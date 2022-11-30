@@ -276,31 +276,31 @@ public class PurchasesController  implements Initializable {
     }
 
     public void liveSearch(TextField search_input, TableView table) {
-       /* search_input.textProperty().addListener((observable, oldValue, newValue) -> {
+       search_input.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
                 try {
-                    refreshTableAnimalSales();
+                    refreshTablePurchase();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
             } else {
-                ObservableList<AnimalSale> filteredList = FXCollections.observableArrayList();
-                ObservableList<AnimalSale> animalSale = null;
+                ObservableList<Purchase> filteredList = FXCollections.observableArrayList();
+                ObservableList<Purchase> purchase = null;
                 try {
-                    animalSale = getAnimalSale();
+                    purchase = getPurchase();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
-                for (AnimalSale Animal : animalSale) {
-                    if (Animal.getClientName().toLowerCase().contains(newValue.toLowerCase()) || Animal.getAnimalId().toLowerCase().contains(newValue.toLowerCase())) {
-                        filteredList.add(Animal);
+                for (Purchase Purchase : purchase) {
+                    if (Purchase.getSupplier_name().toLowerCase().contains(newValue.toLowerCase()) || Purchase.getProduct_name().toLowerCase().contains(newValue.toLowerCase())) {
+                        filteredList.add(Purchase);
                     }
                 }
-                AnimalSalesTable.setItems(filteredList);
+                PurchaseTable.setItems(filteredList);
             }
-        });*/
+        });
     }
 
 }
