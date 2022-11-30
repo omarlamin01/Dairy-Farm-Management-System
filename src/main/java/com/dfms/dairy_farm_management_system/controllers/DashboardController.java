@@ -242,7 +242,7 @@ public class DashboardController implements Initializable {
     //fill line chart with earnings of each day
     public void fillLineChart() {
         xAxis.setLabel("Days");
-        yAxis.setLabel("Sales");
+        yAxis.setLabel("Count of animals sales");
 
         XYChart.Series<String, Number> data = new XYChart.Series<String, Number>();
 
@@ -305,25 +305,25 @@ public class DashboardController implements Initializable {
             switch (day) {
                 case "Sun":
                     //get the the sum of price from both tables (animals_sales and milk_sales)
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 0 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DAYNAME(sale_date) = 'Sunday' UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DAYNAME(sale_date) = 'Sunday'");
                     break;
                 case "Mon":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DAYNAME(sale_date) = 'Monday' UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DAYNAME(sale_date) = 'Monday'");
                     break;
                 case "Tue":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 2 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DAYNAME(sale_date) = 'Tuesday' UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DAYNAME(sale_date) = 'Tuesday'");
                     break;
                 case "Wed":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 3 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DAYNAME(sale_date) = 'Wednesday' UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DAYNAME(sale_date) = 'Wednesday'");
                     break;
                 case "Thu":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 4 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DAYNAME(sale_date) = 'Thursday' UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DAYNAME(sale_date) = 'Thursday'");
                     break;
                 case "Fri":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 5 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DAYNAME(sale_date) = 'Friday' UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DAYNAME(sale_date) = 'Friday'");
                     break;
                 case "Sat":
-                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY) UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DATE_SUB(CURDATE(), INTERVAL 6 DAY)");
+                    resultSet = executeQuery("SELECT SUM(price) FROM animals_sales WHERE sale_date = DAYNAME(sale_date) = 'Saturday' UNION SELECT SUM(price) FROM milk_sales WHERE sale_date = DAYNAME(sale_date) = 'Saturday'");
                     break;
                 default:
                     break;
