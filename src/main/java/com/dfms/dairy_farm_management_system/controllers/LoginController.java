@@ -78,10 +78,11 @@ public class LoginController implements Initializable {
         if (validateLogin(email, password)) {
             //store logged in user in session
             String query = "SELECT * FROM `users` WHERE email = '" + email + "' AND password = '" + password + "'";
+            String Query = "SELECT * FROM `employees` WHERE email = '" + email + "'";
             st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
+            User user = new User();
             if (rs.next()) {
-                User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setFirstName(rs.getString("first_name"));
                 user.setLastName(rs.getString("last_name"));
@@ -95,9 +96,13 @@ public class LoginController implements Initializable {
                 user.setCin(rs.getString("cin"));
                 user.setCreatedAt(rs.getTimestamp("created_at"));
                 user.setUpdatedAt(rs.getTimestamp("updated_at"));
-
-                Session.setCurrentUser(user);
             }
+            rs = st.executeQuery(Query);
+            if (rs.next()) {
+                user.setHireDate(rs.getDate("hire_date"));
+                user.setContractType(rs.getString("contract_type"));
+            }
+            Session.setCurrentUser(user);
             switchToMainLayout(event);
         } else {
             displayAlert("Invalid email or password", "Please check your email and password and try again", Alert.AlertType.ERROR);

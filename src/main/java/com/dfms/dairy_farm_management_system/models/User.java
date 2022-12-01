@@ -76,7 +76,7 @@ public class User extends Employee {
 
     @Override
     public boolean update() {
-        String query = "UPDATE `user` SET" +
+        String query = "UPDATE `users` SET" +
                 " `first_name` = '" + super.getFirstName() +
                 "', `last_name` = '" + super.getLastName() +
                 "', `cin` = '" + super.getCin() +
@@ -87,7 +87,7 @@ public class User extends Employee {
                 "', `salary` = '" + super.getSalary() +
                 "', `address` = '" + super.getAdress() +
                 "', `updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) +
-                "' WHERE `user`.`id` = " + this.id;
+                "' WHERE `id` = " + this.id;
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
