@@ -8,30 +8,25 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.getRoles;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class UpdateEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setGenderComboItems();
         setRoleComboItems();
         setContractComboItems();
+        updateBtn.setOnMouseClicked(mouseEvent -> {
+            updateEmployee(mouseEvent);
+        });
     }
 
     private Statement statement;
@@ -54,9 +49,6 @@ public class UpdateEmployeeController implements Initializable {
     private TextField firstNameInput;
 
     @FXML
-    private ComboBox<String> genderCombo;
-
-    @FXML
     private DatePicker hireDate;
 
     @FXML
@@ -71,8 +63,10 @@ public class UpdateEmployeeController implements Initializable {
     @FXML
     private TextField salaryInput;
 
+    @FXML
+    private Button updateBtn;
+
     ObservableList<String> rolesList;
-    String employee_cin = null;
 
     @FXML
     void updateEmployee(MouseEvent event) {
@@ -84,7 +78,7 @@ public class UpdateEmployeeController implements Initializable {
         String email = emailInput.getText();
         String phone = phoneNumberInput.getText();
 
-        Employee employee = getEmployee(this.employee_cin);
+        Employee employee = getEmployee(cin);
         employee.setFirstName(firstNameInput.getText());
         employee.setLastName(lastNameInput.getText());
         employee.setCin(cinInput.getText());
@@ -92,13 +86,11 @@ public class UpdateEmployeeController implements Initializable {
         employee.setEmail(emailInput.getText());
         employee.setPhone(phoneNumberInput.getText());
         employee.setSalary(Float.parseFloat(salaryInput.getText()));
-        employee.setGender(genderCombo.getValue());
         employee.setContractType(contractCombo.getValue());
-        employee.setHireDate(java.sql.Date.valueOf(hireDate.getValue()));
 
         if (employee.update()) {
             displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
-            ((Node) (event.getSource())).getScene().getWindow().hide();
+            closePopUp(event);
         } else {
             displayAlert("Error", "Error while updating employee", Alert.AlertType.ERROR);
         }
@@ -113,7 +105,7 @@ public class UpdateEmployeeController implements Initializable {
         String email = emailInput.getText();
         String phone = phoneNumberInput.getText();
 
-        User user = getUser(this.employee_cin);
+        User user = getUser(cin);
         user.setFirstName(firstNameInput.getText());
         user.setLastName(lastNameInput.getText());
         user.setCin(cinInput.getText());
@@ -121,13 +113,12 @@ public class UpdateEmployeeController implements Initializable {
         user.setEmail(emailInput.getText());
         user.setPhone(phoneNumberInput.getText());
         user.setSalary(Float.parseFloat(salaryInput.getText()));
-        user.setGender(genderCombo.getValue());
         user.setContractType(contractCombo.getValue());
-        user.setHireDate(java.sql.Date.valueOf(hireDate.getValue()));
-
+        // TODO: don't know why selected item doesn't work
+        user.setRole(getRoles().get(roleCombo.getValue()));
         if (user.update()) {
             displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
-            ((Node) (event.getSource())).getScene().getWindow().hide();
+            closePopUp(event);
         } else {
             displayAlert("Error", "Error while updating employee", Alert.AlertType.ERROR);
         }
@@ -161,6 +152,7 @@ public class UpdateEmployeeController implements Initializable {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
         }
+        roleCombo.setValue(getRoleName(user.getRole()));
         return user;
     }
 
@@ -174,11 +166,13 @@ public class UpdateEmployeeController implements Initializable {
         cinInput.setText(employee.getCin());
         phoneNumberInput.setText(employee.getPhone());
         contractCombo.setValue(employee.getContractType());
-        genderCombo.setValue(employee.getGender());
         hireDate.setValue(employee.getHireDate().toLocalDate());
 
         if(employee instanceof User) {
-            roleCombo.setValue(getRoleName(((User) employee).getRole()));
+            getUser(employee.getCin());
+            updateBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
+                updateUser(mouseEvent);
+            });
         }
     }
 
@@ -186,9 +180,10 @@ public class UpdateEmployeeController implements Initializable {
         String roleName = "";
         try {
             statement = connection.createStatement();
-            preparedStatement = connection.prepareStatement("SELECT * FROM role WHERE id = ?");
-            preparedStatement.setInt(1, id);
-            preparedStatement.execute();
+            ResultSet resultSet = connection.prepareStatement("SELECT * FROM `roles` WHERE `id` = '" + id + "' LIMIT 1").executeQuery();
+            if (resultSet.next()) {
+                roleName = resultSet.getString("name");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -220,11 +215,8 @@ public class UpdateEmployeeController implements Initializable {
         return employee;
     }
 
-    public void setGenderComboItems() {
-        genderCombo.setItems(FXCollections.observableArrayList("Male", "Female"));
-    }
-
     public void setRoleComboItems() {
+        this.rolesList = FXCollections.observableArrayList();
         String[] names = getRoles().keySet().toArray(new String[0]);
         for (String name: names) {
             this.rolesList.add(name);
@@ -237,7 +229,7 @@ public class UpdateEmployeeController implements Initializable {
     }
 
     public boolean inputsAreEmpty() {
-        if (this.firstNameInput.getText().isEmpty() || this.lastNameInput.getText().isEmpty() || this.emailInput.getText().isEmpty() || this.phoneNumberInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.cinInput.getText().isEmpty() || this.salaryInput.getText().isEmpty() || this.hireDate.getValue() == null || this.contractCombo.getValue() == null || this.genderCombo.getValue() == null)
+        if (this.firstNameInput.getText().isEmpty() || this.lastNameInput.getText().isEmpty() || this.emailInput.getText().isEmpty() || this.phoneNumberInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.cinInput.getText().isEmpty() || this.salaryInput.getText().isEmpty() || this.hireDate.getValue() == null || this.contractCombo.getValue() == null)
             return true;
         return false;
     }

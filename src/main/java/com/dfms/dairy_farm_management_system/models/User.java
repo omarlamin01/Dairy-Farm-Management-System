@@ -81,11 +81,11 @@ public class User extends Employee {
                 "', `last_name` = '" + super.getLastName() +
                 "', `cin` = '" + super.getCin() +
                 "', `email` = '" + super.getEmail() +
-                "', `password` = '" + password +
                 "', `gender` = '" + (super.getGender().equalsIgnoreCase("Male") ? 'M' : 'F') +
                 "', `phone` = '" + super.getPhone() +
                 "', `salary` = '" + super.getSalary() +
                 "', `address` = '" + super.getAdress() +
+                "', `role` = '" + role +
                 "', `updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) +
                 "' WHERE `id` = " + this.id;
         try {
