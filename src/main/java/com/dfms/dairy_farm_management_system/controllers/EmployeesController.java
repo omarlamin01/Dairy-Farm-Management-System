@@ -40,6 +40,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -383,10 +385,15 @@ public class EmployeesController implements Initializable {
     }
 
     void exportToPDF() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-        File file = fileChooser.showSaveDialog(null);
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Save As");
+//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+//        File file = fileChooser.showSaveDialog(null);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        String date = dtf.format(now);
+        //save to documents directory
+        File file = new File(System.getProperty("user.home") + "/Documents/employees_" + date + ".pdf");
         if (file != null) {
             try {
                 Document document = new Document();
@@ -409,6 +416,7 @@ public class EmployeesController implements Initializable {
                     document.add(title);
                     document.add(text);
                 } catch (Exception e) {
+                    e.printStackTrace();
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
                 PdfPTable table = new PdfPTable(9);
