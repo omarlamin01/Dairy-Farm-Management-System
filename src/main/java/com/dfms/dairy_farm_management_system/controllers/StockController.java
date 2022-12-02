@@ -64,7 +64,7 @@ public class StockController implements Initializable {
         //check what user select in the combo box
         export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
-                exportToPDF(stock_table);
+                exportToPDF();
             } else {
                 exportToExcel();
             }
@@ -316,7 +316,7 @@ public class StockController implements Initializable {
         }
     }
 
-    void exportToPDF(Node node_to_print) {
+    void exportToPDF() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
@@ -378,10 +378,11 @@ public class StockController implements Initializable {
 
                 for (Stock s : stock) {
                     Stock product = controller.getProduct(s.getId());
-                    table.addCell(new PdfPCell(new Paragraph(product.getId()))).setPadding(5);
+                    System.out.println(product.toString());
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(product.getId())))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(product.getName()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(product.getType()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(product.getQuantity()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(product.getQuantity())))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(product.getAvailability()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(product.getUnit()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(product.getCreatedAt())))).setPadding(5);
