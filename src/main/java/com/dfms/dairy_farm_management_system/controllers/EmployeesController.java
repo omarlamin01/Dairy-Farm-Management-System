@@ -346,32 +346,30 @@ public class EmployeesController implements Initializable {
                 header.createCell(7).setCellValue("Hire Date");
                 header.createCell(8).setCellValue("Salary");
 
-                //get all employees from database
-                String query = "SELECT * FROM `employees`";
-                try {
-                    statement = connection.createStatement();
-                    ResultSet rs = statement.executeQuery(query);
-                    while (rs.next()) {
-                        int rowNum = rs.getRow();
-                        Row row = sheet.createRow(rowNum);
-                        row.createCell(0).setCellValue(rs.getString("first_name"));
-                        row.createCell(1).setCellValue(rs.getString("last_name"));
-                        row.createCell(2).setCellValue(rs.getString("email"));
-                        row.createCell(3).setCellValue(rs.getString("phone"));
-                        row.createCell(4).setCellValue(rs.getString("address"));
-                        row.createCell(5).setCellValue(rs.getString("cin"));
-                        if (rs.getString("gender").equals("M")) {
-                            row.createCell(6).setCellValue("Male");
-                        } else {
-                            row.createCell(6).setCellValue("Female");
-                        }
-                        row.createCell(7).setCellValue(rs.getString("hire_date"));
-                        row.createCell(8).setCellValue(rs.getString("salary"));
-                    }
-                } catch (Exception e) {
-                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                }
+                //get employees displayed in table
+                ObservableList<Employee> employees = employees_table.getItems();
 
+                //get employee of each row
+                //used a method in my updateEmplyeeController to get the employee of each row based on the cin
+                UpdateEmployeeController controller = new UpdateEmployeeController();
+
+                for (Employee employee : employees) {
+                    Employee emp = controller.getEmployee(employee.getCin());
+                    Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+                    row.createCell(0).setCellValue(emp.getFirstName());
+                    row.createCell(1).setCellValue(emp.getLastName());
+                    row.createCell(2).setCellValue(emp.getEmail());
+                    row.createCell(3).setCellValue(emp.getPhone());
+                    row.createCell(4).setCellValue(emp.getAdress());
+                    row.createCell(5).setCellValue(emp.getCin());
+                    if (emp.getGender().equals("M")) {
+                        row.createCell(6).setCellValue("Male");
+                    } else {
+                        row.createCell(6).setCellValue("Female");
+                    }
+                    row.createCell(7).setCellValue(emp.getHireDate());
+                    row.createCell(8).setCellValue(String.valueOf(emp.getSalary()));
+                }
 
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 workbook.write(fileOutputStream);
