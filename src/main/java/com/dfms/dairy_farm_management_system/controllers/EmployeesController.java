@@ -468,6 +468,8 @@ public class EmployeesController implements Initializable {
                     }
                     table.addCell(new PdfPCell(new Paragraph(emp.getHireDate().toString()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(emp.getSalary()))).setPadding(5);
+
+                    System.out.println("Salary =====> " + emp.getSalary());
                 }
 
 //                String query = "SELECT * FROM `employees`";
