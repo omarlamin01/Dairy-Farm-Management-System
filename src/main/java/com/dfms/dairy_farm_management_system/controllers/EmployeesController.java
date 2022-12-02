@@ -463,27 +463,6 @@ public class EmployeesController implements Initializable {
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(emp.getSalary())))).setPadding(5);
                 }
 
-//                String query = "SELECT * FROM `employees`";
-//                try {
-//                    statement = connection.createStatement();
-//                    ResultSet rs = statement.executeQuery(query);
-//                    while (rs.next()) {
-//                        table.addCell(rs.getString("first_name"));
-//                        table.addCell(rs.getString("last_name"));
-//                        table.addCell(rs.getString("email"));
-//                        table.addCell(rs.getString("phone"));
-//                        table.addCell(rs.getString("address"));
-//                        table.addCell(rs.getString("cin"));
-//                        if (rs.getString("gender").equals("M")) {
-//                            table.addCell("Male");
-//                        } else {
-//                            table.addCell("Female");
-//                        }
-//                        table.addCell(rs.getString("hire_date"));
-//                        table.addCell(rs.getString("salary"));
-//                    }
-
-
                 document.add(table);
                 document.close();
                 displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
