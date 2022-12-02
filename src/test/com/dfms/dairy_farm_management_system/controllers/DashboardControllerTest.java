@@ -11,5 +11,9 @@ public class DashboardControllerTest extends TestCase {
     }
 
     public void testGetEarningsOfSpecificDay() {
+        DashboardController dashboardController = new DashboardController();
+        int actual = dashboardController.getEarningsOfSpecificDay("Fri");
+        int expected = 500 + 689;
+        assertEquals(expected, actual);
     }
 }
