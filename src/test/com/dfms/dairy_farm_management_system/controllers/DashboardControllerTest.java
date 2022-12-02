@@ -5,7 +5,9 @@ import junit.framework.TestCase;
 public class DashboardControllerTest extends TestCase {
 
     public void testGetSalesOfSpecificDay() {
-        assertEquals(0, 0);
+        DashboardController dashboardController = new DashboardController();
+        int actual = dashboardController.getSalesOfSpecificDay("Fri", "animals_sales");
+        assertEquals(2, actual);
     }
 
     public void testGetEarningsOfSpecificDay() {
