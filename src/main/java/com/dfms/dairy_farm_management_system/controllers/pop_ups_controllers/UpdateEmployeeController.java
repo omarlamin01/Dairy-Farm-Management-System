@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Employee;
+import com.dfms.dairy_farm_management_system.models.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -103,10 +104,68 @@ public class UpdateEmployeeController implements Initializable {
         }
     }
 
+    public void updateUser(MouseEvent event) {
+        if (inputsAreEmpty()) {
+            displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
+            return;
+        }
+        String cin = cinInput.getText();
+        String email = emailInput.getText();
+        String phone = phoneNumberInput.getText();
+
+        User user = getUser(this.employee_cin);
+        user.setFirstName(firstNameInput.getText());
+        user.setLastName(lastNameInput.getText());
+        user.setCin(cinInput.getText());
+        user.setAdress(addressInput.getText());
+        user.setEmail(emailInput.getText());
+        user.setPhone(phoneNumberInput.getText());
+        user.setSalary(Float.parseFloat(salaryInput.getText()));
+        user.setGender(genderCombo.getValue());
+        user.setContractType(contractCombo.getValue());
+        user.setHireDate(java.sql.Date.valueOf(hireDate.getValue()));
+
+        if (user.update()) {
+            displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        } else {
+            displayAlert("Error", "Error while updating employee", Alert.AlertType.ERROR);
+        }
+    }
+
+    private User getUser(String employee_cin) {
+        User user = new User();
+        String query = "SELECT * FROM `users` WHERE cin = '" + employee_cin.toUpperCase() + "' LIMIT 1";
+        Connection con = getConnection();
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                user.setId(rs.getInt("id"));
+                user.setRole(rs.getInt("role"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone(rs.getString("phone"));
+                user.setCin(rs.getString("cin"));
+                user.setGender(rs.getString("gender"));
+            }
+            query = "SELECT * FROM `employees` WHERE cin = '" + employee_cin.toUpperCase() + "' LIMIT 1";
+            rs = st.executeQuery(query);
+            if (rs.next()) {
+                user.setAdress(rs.getString("address"));
+                user.setHireDate(rs.getDate("hire_date"));
+                user.setSalary(rs.getFloat("salary"));
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+        return user;
+    }
+
     //get current user data
     public void fetchEmployee(Employee employee) {
-        this.employee_cin = employee.getCin();
-
         emailInput.setText(employee.getEmail());
         firstNameInput.setText(employee.getFirstName());
         lastNameInput.setText(employee.getLastName());
@@ -118,9 +177,10 @@ public class UpdateEmployeeController implements Initializable {
         genderCombo.setValue(employee.getGender());
         hireDate.setValue(employee.getHireDate().toLocalDate());
 
-        //TODO: set role combo value
+        if(employee instanceof User) {
+            roleCombo.setValue(getRoleName(((User) employee).getRole()));
+        }
     }
-
 
     public String getRoleName(int id) {
         String roleName = "";
@@ -143,8 +203,6 @@ public class UpdateEmployeeController implements Initializable {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                //TODO: get role name
-                //employee.setId(rs.getInt("id"));
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
                 employee.setEmail(rs.getString("email"));
@@ -167,14 +225,16 @@ public class UpdateEmployeeController implements Initializable {
     }
 
     public void setRoleComboItems() {
-        this.rolesList = getRoles();
+        String[] names = getRoles().keySet().toArray(new String[0]);
+        for (String name: names) {
+            this.rolesList.add(name);
+        }
         this.roleCombo.setItems(this.rolesList);
     }
 
     public void setContractComboItems() {
         this.contractCombo.setItems(FXCollections.observableArrayList("CDI", "CDD", "CTT"));
     }
-
 
     public boolean inputsAreEmpty() {
         if (this.firstNameInput.getText().isEmpty() || this.lastNameInput.getText().isEmpty() || this.emailInput.getText().isEmpty() || this.phoneNumberInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.cinInput.getText().isEmpty() || this.salaryInput.getText().isEmpty() || this.hireDate.getValue() == null || this.contractCombo.getValue() == null || this.genderCombo.getValue() == null)

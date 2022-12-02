@@ -28,6 +28,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.DoubleConsumer;
 
@@ -198,15 +199,15 @@ public class Helper {
         alert.showAndWait();
     }
 
-    public static ObservableList<String> getRoles() {
-        ObservableList<String> rolesList = FXCollections.observableArrayList();
+    public static HashMap<String, Integer> getRoles() {
+        HashMap<String, Integer> rolesList = new HashMap<>();
         Statement st = null;
         try {
             con = DBConfig.getConnection();
             st = con.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM `roles`");
             while (rs.next()) {
-                rolesList.add(rs.getString("name"));
+                rolesList.put(rs.getString("name"), rs.getInt("id"));
             }
         } catch (SQLException e) {
             displayAlert("Error", "Error while getting roles", Alert.AlertType.ERROR);
