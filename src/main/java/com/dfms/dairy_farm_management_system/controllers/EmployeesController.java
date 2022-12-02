@@ -422,15 +422,15 @@ public class EmployeesController implements Initializable {
                 table.setWidths(colWidth);
 
                 //add table header
-                table.addCell(new PdfPCell(new Paragraph("First Name"))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Last Name"))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Email"))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Phone"))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Address"))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("CIN"))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Gender"))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Hire Date"))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Salary"))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("First Name", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Last Name", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Email", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Phone", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Address", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("CIN", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Gender", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Hire Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Salary", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
 
                 //add padding to cells
                 table.getDefaultCell().setPadding(3);

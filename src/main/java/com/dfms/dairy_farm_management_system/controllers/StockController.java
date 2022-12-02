@@ -331,8 +331,8 @@ public class StockController implements Initializable {
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    Paragraph title = new Paragraph("Employees List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-                    Paragraph text = new Paragraph("This is the list of the employees", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    Paragraph title = new Paragraph("Stock List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
+                    Paragraph text = new Paragraph("This is the list of the products", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
 
                     //center paragraph
                     title.setAlignment(Element.ALIGN_CENTER);
