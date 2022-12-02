@@ -385,15 +385,10 @@ public class EmployeesController implements Initializable {
     }
 
     void exportToPDF() {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Save As");
-//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-//        File file = fileChooser.showSaveDialog(null);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime now = LocalDateTime.now();
-        String date = dtf.format(now);
-        //save to documents directory
-        File file = new File(System.getProperty("user.home") + "/Documents/employees_" + date + ".pdf");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
                 Document document = new Document();
@@ -467,9 +462,7 @@ public class EmployeesController implements Initializable {
                         table.addCell(new PdfPCell(new Paragraph("Female"))).setPadding(5);
                     }
                     table.addCell(new PdfPCell(new Paragraph(emp.getHireDate().toString()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(emp.getSalary()))).setPadding(5);
-
-                    System.out.println("Salary =====> " + emp.getSalary());
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(emp.getSalary())))).setPadding(5);
                 }
 
 //                String query = "SELECT * FROM `employees`";
