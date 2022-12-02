@@ -17,7 +17,6 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
 <ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ReportsController">
  <stylesheets>
      <URL value="@../../../style/style.css" />
@@ -84,10 +83,10 @@
                              </styleClass>
                          </TextField>
                          <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                             <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                             <Button alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
                                  <graphic>
                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                         <Image url="@../../../icons/search.png" />
+                                         <Image url="@../../../icons/repport_search.png" />
                                      </ImageView>
                                  </graphic>
                              </Button>
@@ -132,10 +131,10 @@
                              </styleClass>
                          </TextField>
                          <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                             <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                             <Button alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
                                  <graphic>
                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                         <Image url="@../../../icons/search.png" />
+                                         <Image url="@../../../icons/repport_search.png" />
                                      </ImageView>
                                  </graphic>
                              </Button>
@@ -180,10 +179,10 @@
                              </styleClass>
                          </TextField>
                          <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                             <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                             <Button alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
                                  <graphic>
                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                         <Image url="@../../../icons/search.png" />
+                                         <Image url="@../../../icons/repport_search.png" />
                                      </ImageView>
                                  </graphic>
                              </Button>
@@ -219,10 +218,10 @@
                              </styleClass>
                          </TextField>
                          <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                             <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                             <Button alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
                                  <graphic>
                                      <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                         <Image url="@../../../icons/search.png" />
+                                         <Image url="@../../../icons/repport_search.png" />
                                      </ImageView>
                                  </graphic>
                              </Button>
