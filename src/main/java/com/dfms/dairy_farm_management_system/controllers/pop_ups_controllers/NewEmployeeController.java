@@ -64,7 +64,10 @@ public class NewEmployeeController implements Initializable {
     }
 
     public void setRoleComboItems() {
-        this.rolesList = getRoles();
+        String[] names = getRoles().keySet().toArray(new String[0]);
+        for (String name: names) {
+            this.rolesList.add(name);
+        }
         this.roleCombo.setItems(this.rolesList);
     }
 
