@@ -1,45 +1,53 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
-public class Purchase {
-    private int id_purchase;
-    private int id_supplier;
-    private int id_stock;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+
+public class Purchase  implements Model{
+    private int id;
+    private int supplier_id;
+    private String supplier_name;
+    private int stock_id;
     private float price;
-    private Date operationDate;
+    private String product_name;
+    private float quantity;
+    private Date purchase_date;
+    private Timestamp created_at;
+    private Timestamp updated_at;
 
-    public Purchase(int id_purchase, int id_supplier, int id_stock, float price, Date operationDate) {
-        this.id_purchase = id_purchase;
-        this.id_supplier = id_supplier;
-        this.id_stock = id_stock;
-        this.price = price;
-        this.operationDate = operationDate;
+    public Purchase() {
+        this.updated_at = Timestamp.valueOf(LocalDateTime.now());
+        this.created_at = Timestamp.valueOf(LocalDateTime.now());
+    }
+    public int getId() {
+        return id;
     }
 
-    public int getId_purchase() {
-        return id_purchase;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setId_purchase(int id_purchase) {
-        this.id_purchase = id_purchase;
+    public int getSupplier_id() {
+        return supplier_id;
     }
 
-    public int getId_supplier() {
-        return id_supplier;
+    public void setSupplier_id(int supplier_id) {
+        this.supplier_id = supplier_id;
+        this.supplier_name = getSupplier_name();
     }
 
-    public void setId_supplier(int id_supplier) {
-        this.id_supplier = id_supplier;
+    public int getStock_id() {
+        return stock_id;
     }
 
-    public int getId_stock() {
-        return id_stock;
+    public void setStock_id(int stock_id) {
+        this.stock_id = stock_id;
+        this.product_name = getProduct_name();
     }
 
-    public void setId_stock(int id_stock) {
-        this.id_stock = id_stock;
-    }
 
     public float getPrice() {
         return price;
@@ -49,11 +57,132 @@ public class Purchase {
         this.price = price;
     }
 
-    public Date getOperationDate() {
-        return operationDate;
+    public float getQuantity() {
+        return quantity;
     }
 
-    public void setOperationDate(Date operationDate) {
-        this.operationDate = operationDate;
+    public void setQuantity(float quantity) {
+        this.quantity = quantity;
     }
+
+    public Date getPurchase_date() {
+        return purchase_date;
+    }
+
+
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
+    }
+
+    public void setPurchase_date(Date purchase_date) {
+        this.purchase_date = purchase_date;
+    }
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
+    }
+
+
+    public void setSupplier_name(String supplier_name) {
+        this.supplier_name = supplier_name;
+    }
+
+    public String getSupplier_name() {
+        String query = "SELECT `name` FROM `suppliers` WHERE `id` = " + supplier_id;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public String getProduct_name() {
+        String query = "SELECT `name` FROM `stocks` WHERE `id` = " + stock_id;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                return resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    @Override
+    public boolean save() {
+        String insertQuery = "INSERT INTO `purchases` (supplier_id,quantity, stock_id, price, purchase_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?,?)";
+        Connection connection = getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            preparedStatement.setInt(1, supplier_id);
+            preparedStatement.setFloat(2, quantity);
+            preparedStatement.setInt(3, stock_id);
+            preparedStatement.setFloat(4, price);
+            preparedStatement.setDate(5, (java.sql.Date) purchase_date);
+            preparedStatement.setTimestamp(6, created_at);
+            preparedStatement.setTimestamp(7, updated_at);
+
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean update() {
+        String query = "UPDATE `purchases` SET " +
+                "`supplier_id` = '" + supplier_id + "', " +
+                "`quantity` = '" + quantity + "', " +
+                "`stock_id` = '" + stock_id + "', " +
+                "`price` = '" + price + "', " +
+                "`purchase_date` = '" + purchase_date + "', " +
+                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
+                " WHERE `purchases`.`id` = " + id;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean delete() {
+        String query = "DELETE FROM `purchases` WHERE `purchases`.`id` = " + this.id;
+        Connection connection = getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }
+

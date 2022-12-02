@@ -37,6 +37,14 @@ ALTER TABLE milk_sales
 
 
 #change quantity column  in milk_sales table to be float
+
+ALTER TABLE milk_sales MODIFY quantity Float NOT NULL ;
+
+
+
+ALTER TABLE purchases
+ADD COLUMN quantity float not null;
+
 ALTER TABLE milk_sales
     MODIFY quantity Float NOT NULL;
 
@@ -46,3 +54,19 @@ ALTER TABLE `clients`
 
 ALTER TABLE `suppliers`
     MODIFY email varchar(50);
+
+# change phone data type to varchar in clients and suppliers table
+ALTER TABLE `clients`
+    MODIFY phone varchar(20);
+
+ALTER TABLE `suppliers`
+    MODIFY phone varchar(20);
+
+#change name data type to varchar in races table
+ALTER TABLE `races`
+    MODIFY name varchar(50);
+
+#change note data type in routines table
+ALTER TABLE `routines`
+    MODIFY note TEXT;
+
