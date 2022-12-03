@@ -92,7 +92,6 @@ public class RoutineController implements Initializable {
     public void initData(Routine routine) {
         this.routineName.setText(routine.getName());
         this.routineNotes.setText(routine.getNote());
-        this.foodList = new VBox();
         setFoods(routine.getDetails());
         routineBtn.setText("UPDATE");
         routineBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {

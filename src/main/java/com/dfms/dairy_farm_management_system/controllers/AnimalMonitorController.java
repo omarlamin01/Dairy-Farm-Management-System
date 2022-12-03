@@ -2,10 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.HealthStatusController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.PregnancyController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.RoutineController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.VaccinationController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.*;
 import com.dfms.dairy_farm_management_system.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -608,7 +605,7 @@ public class AnimalMonitorController implements Initializable {
                         edit_btn.setOnMouseClicked((MouseEvent event) -> {
                             int index = ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
                             Routine routine = routines.get(index);
-                            String url = "popups/add_new_routine.fxml";
+                            String url = "popups/update_routine.fxml";
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
                             Scene scene = null;
                             try {
@@ -621,7 +618,7 @@ public class AnimalMonitorController implements Initializable {
                             stage.setResizable(false);
                             stage.setScene(scene);
                             centerScreen(stage);
-                            RoutineController controller = fxmlLoader.getController();
+                            UpdateRoutineController controller = fxmlLoader.getController();
                             controller.initData(routine);
                             stage.show();
                         });
