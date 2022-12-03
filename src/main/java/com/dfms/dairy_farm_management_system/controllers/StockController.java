@@ -73,7 +73,7 @@ public class StockController implements Initializable {
         liveSearch(search_stock_input, stock_table);
     }
 
-    private static int COLUMNS_COUNT = 5;
+    private static int COLUMNS_COUNT = 7;
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = getConnection();
