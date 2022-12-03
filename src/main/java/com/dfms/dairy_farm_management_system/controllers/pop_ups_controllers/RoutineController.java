@@ -142,9 +142,7 @@ public class RoutineController implements Initializable {
     public void setFoods(ArrayList<RoutineDetails> details) {
         this.foodList.getChildren().clear();
         if (details != null) {
-            System.out.println("Details != null");
             if (!details.isEmpty()) {
-                System.out.println("Details != empty");
                 HashMap<String, RoutineDetails> detailsHashMap = new HashMap<>();
                 ArrayList<String> routinesFeedsNames = new ArrayList<>();
 
@@ -153,13 +151,8 @@ public class RoutineController implements Initializable {
                     routinesFeedsNames.add(routineDetails.getStock_name());
                 }
 
-                System.out.println(detailsHashMap);
-                System.out.println(routinesFeedsNames);
-                System.out.println(getFoods());
-
                 for (String foodName: getFoods()) {
                     if (routinesFeedsNames.contains(foodName)) {
-                        System.out.println("routine feeds contains " + foodName);
                         addSelectedItem(foodName, detailsHashMap.get(foodName));
                     } else {
                         addItem(foodName);
@@ -220,7 +213,6 @@ public class RoutineController implements Initializable {
         label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
         CheckBox checkBox = new CheckBox(food);
         checkBox.setSelected(true);
-        System.out.println(food + " checkbox is selected " + checkBox.isSelected());
         checkBox.getStyleClass().add("main_content");
         VBox.setMargin(checkBox, new Insets(10, 0, 0, 0));
         foodType.getChildren().add(label);
