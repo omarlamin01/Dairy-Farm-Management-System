@@ -2,10 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.HealthStatusController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.PregnancyController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.RoutineController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.VaccinationController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.*;
 import com.dfms.dairy_farm_management_system.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
