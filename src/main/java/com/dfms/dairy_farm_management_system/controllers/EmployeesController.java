@@ -68,6 +68,7 @@ public class EmployeesController implements Initializable {
             }
         });
     }
+
     private static int COLUMNS_COUNT = 9;
     private Statement statement;
     private PreparedStatement preparedStatement;
@@ -418,8 +419,10 @@ public class EmployeesController implements Initializable {
                 table.setWidthPercentage(100);
                 table.setSpacingBefore(11f);
                 table.setSpacingAfter(11f);
-                float[] colWidth = {2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f};
-                table.setWidths(colWidth);
+                float[] colWidth = new float[COLUMNS_COUNT];
+                for (int i = 0; i < COLUMNS_COUNT; i++) {
+                    colWidth[i] = 2f;
+                }
 
                 //add table header
                 table.addCell(new PdfPCell(new Paragraph("First Name", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
