@@ -22,33 +22,29 @@ import java.sql.*;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        email_input.setText(autoConnect()[0]);
-        password_input.setText(autoConnect()[1]);
+        email_input.setText(getEmail());
+        password_input.setText(DEFAULT_PASSWORD);
     }
 
-    public String[] autoConnect() {
-        String[] arr = new String[2];
-        String query = "SELECT email, password FROM `users` ORDER BY `users`.`id` ASC LIMIT 1";
+    public String getEmail() {
+        String query = "SELECT email FROM `users` ORDER BY `users`.`id` ASC LIMIT 1";
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            arr[0] = resultSet.getString("email");
-            arr[1] = resultSet.getString("password");
+            return resultSet.getString("email");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return arr;
+        return null;
     }
 
-    private Statement st;
-    private Connection con = getConnection();
     @FXML
     private Circle close_btn;
 
@@ -75,32 +71,33 @@ public class LoginController implements Initializable {
         String email = email_input.getText().trim();
         String password = password_input.getText().trim();
 
-        if (validateLogin(email, password)) {
+        if (validatePassword(email, password)) {
             //store logged in user in session
-            String query = "SELECT * FROM `users` WHERE email = '" + email + "' AND password = '" + password + "'";
+            String query = "SELECT * FROM `users` WHERE email = '" + email + "'";
             String Query = "SELECT * FROM `employees` WHERE email = '" + email + "'";
-            st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+            Statement statement = getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
             User user = new User();
-            if (rs.next()) {
-                user.setId(rs.getInt("id"));
-                user.setFirstName(rs.getString("first_name"));
-                user.setLastName(rs.getString("last_name"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setRole(rs.getInt("id"));
-                user.setSalary(rs.getFloat("salary"));
-                user.setGender(rs.getString("gender"));
-                user.setPhone(rs.getString("phone"));
-                user.setAdress(rs.getString("address"));
-                user.setCin(rs.getString("cin"));
-                user.setCreatedAt(rs.getTimestamp("created_at"));
-                user.setUpdatedAt(rs.getTimestamp("updated_at"));
+            if (resultSet.next()) {
+
+                user.setId(resultSet.getInt("id"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
+                user.setRole(resultSet.getInt("id"));
+                user.setSalary(resultSet.getFloat("salary"));
+                user.setGender(resultSet.getString("gender"));
+                user.setPhone(resultSet.getString("phone"));
+                user.setAdress(resultSet.getString("address"));
+                user.setCin(resultSet.getString("cin"));
+                user.setCreatedAt(resultSet.getTimestamp("created_at"));
+                user.setUpdatedAt(resultSet.getTimestamp("updated_at"));
             }
-            rs = st.executeQuery(Query);
-            if (rs.next()) {
-                user.setHireDate(rs.getDate("hire_date"));
-                user.setContractType(rs.getString("contract_type"));
+            resultSet = statement.executeQuery(Query);
+            if (resultSet.next()) {
+                user.setHireDate(resultSet.getDate("hire_date"));
+                user.setContractType(resultSet.getString("contract_type"));
             }
             Session.setCurrentUser(user);
             switchToMainLayout(event);
@@ -117,29 +114,35 @@ public class LoginController implements Initializable {
                 String email = email_input.getText().trim();
                 String password = password_input.getText().trim();
 
-                if (validateLogin(email, password)) {
+                if (validatePassword(email, password)) {
                     //store logged in user in session
-                    String query = "SELECT * FROM `users` WHERE email = '" + email + "' AND password = '" + password + "'";
-                    st = con.createStatement();
-                    ResultSet rs = st.executeQuery(query);
-                    if (rs.next()) {
-                        User user = new User();
-                        user.setId(rs.getInt("id"));
-                        user.setFirstName(rs.getString("first_name"));
-                        user.setLastName(rs.getString("last_name"));
-                        user.setEmail(rs.getString("email"));
-                        user.setPassword(rs.getString("password"));
-                        user.setRole(rs.getInt("id"));
-                        user.setSalary(rs.getFloat("salary"));
-                        user.setGender(rs.getString("gender"));
-                        user.setPhone(rs.getString("phone"));
-                        user.setAdress(rs.getString("address"));
-                        user.setCin(rs.getString("cin"));
-                        user.setCreatedAt(rs.getTimestamp("created_at"));
-                        user.setUpdatedAt(rs.getTimestamp("updated_at"));
+                    String query = "SELECT * FROM `users` WHERE email = '" + email + "'";
+                    String Query = "SELECT * FROM `employees` WHERE email = '" + email + "'";
+                    Statement statement = getConnection().createStatement();
+                    ResultSet resultSet = statement.executeQuery(query);
+                    User user = new User();
+                    if (resultSet.next()) {
 
-                        Session.setCurrentUser(user);
+                        user.setId(resultSet.getInt("id"));
+                        user.setFirstName(resultSet.getString("first_name"));
+                        user.setLastName(resultSet.getString("last_name"));
+                        user.setEmail(resultSet.getString("email"));
+                        user.setPassword(resultSet.getString("password"));
+                        user.setRole(resultSet.getInt("id"));
+                        user.setSalary(resultSet.getFloat("salary"));
+                        user.setGender(resultSet.getString("gender"));
+                        user.setPhone(resultSet.getString("phone"));
+                        user.setAdress(resultSet.getString("address"));
+                        user.setCin(resultSet.getString("cin"));
+                        user.setCreatedAt(resultSet.getTimestamp("created_at"));
+                        user.setUpdatedAt(resultSet.getTimestamp("updated_at"));
                     }
+                    resultSet = statement.executeQuery(Query);
+                    if (resultSet.next()) {
+                        user.setHireDate(resultSet.getDate("hire_date"));
+                        user.setContractType(resultSet.getString("contract_type"));
+                    }
+                    Session.setCurrentUser(user);
                     //switch to main layout
                     FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
                     Stage stage = new Stage();
@@ -149,11 +152,9 @@ public class LoginController implements Initializable {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                     stage.setTitle("Dairy Farm Management System");
                     stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                     stage.setScene(scene);
-                    // centerScreen(stage);
                     ((Node) event.getSource()).getScene().getWindow().hide();
                     stage.show();
                 } else {
@@ -165,13 +166,16 @@ public class LoginController implements Initializable {
         }
     }
 
-
-    public boolean validateLogin(String email, String password) throws SQLException {
+    public boolean validatePassword(String email, String password) throws SQLException {
         //check if user exists limit 1
-        st = con.createStatement();
-        String query = "SELECT email, password FROM `users` WHERE email = '" + email + "' AND password = '" + password + "' LIMIT 1";
-        st.executeQuery(query);
-        return st.getResultSet().next();
+        String query = "SELECT `password` FROM `users` WHERE email = ? LIMIT 1";
+        PreparedStatement statement = getConnection().prepareStatement(query);
+        statement.setString(1, email);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return MD5(resultSet.getString("password"), password);
+        }
+        return false;
     }
 
     @FXML

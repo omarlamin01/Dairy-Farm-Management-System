@@ -32,8 +32,10 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.DoubleConsumer;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+
 public class Helper {
-    private static Connection con = DBConfig.getConnection();
+    public static final String DEFAULT_PASSWORD = "Pass123";
 
     public static void centerScreen(Stage stage) {
         Screen screen = Screen.getPrimary();
@@ -201,11 +203,10 @@ public class Helper {
 
     public static HashMap<String, Integer> getRoles() {
         HashMap<String, Integer> rolesList = new HashMap<>();
-        Statement st = null;
+        Statement statement = null;
         try {
-            con = DBConfig.getConnection();
-            st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM `roles`");
+            statement = getConnection().createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM `roles`");
             while (rs.next()) {
                 rolesList.put(rs.getString("name"), rs.getInt("id"));
             }
@@ -233,17 +234,14 @@ public class Helper {
 
     public static boolean MD5(String encrypted_password, String password) {
         String md5 = null;
-        boolean isEquals = false;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(password.getBytes());
             byte[] digest = md.digest();
             md5 = new BigInteger(1, digest).toString(16);
-            isEquals = md5.equals(encrypted_password);
+            return md5.equals(encrypted_password);
         } catch (NoSuchAlgorithmException e) {
-            isEquals = false;
+            return false;
         }
-
-        return isEquals;
     }
 }
