@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class User extends Employee {
     private int id;
@@ -15,6 +16,7 @@ public class User extends Employee {
 
     public User() {
         super();
+        password = encryptPassword(DEFAULT_PASSWORD);
     }
 
     public int getId() {
@@ -25,12 +27,8 @@ public class User extends Employee {
         this.id = id;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
-        this.password = password;
+        this.password = encryptPassword(password);
     }
 
     public int getRole() {
@@ -39,6 +37,10 @@ public class User extends Employee {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    public boolean validatePassword(String password) {
+        return MD5(this.password, password);
     }
 
     @Override
@@ -96,6 +98,21 @@ public class User extends Employee {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean updatePassword() {
+        String query = "UPDATE `users` SET `password` = ? WHERE `id` = ?";
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(query);
+
+            statement.setString(1, password);
+            statement.setInt(2, id);
+
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

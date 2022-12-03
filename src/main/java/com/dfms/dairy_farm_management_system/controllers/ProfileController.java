@@ -71,11 +71,11 @@ public class ProfileController implements Initializable {
     @FXML
     void updateLoginInfo(MouseEvent event) {
         User currentUser = Session.getCurrentUser();
-        if (currentUser.getPassword().equals(current_password_input.getText())) {
+        if (currentUser.validatePassword(current_password_input.getText())) {
             if (new_password_input.getText().equals(confirm_new_password_input.getText())) {
                 currentUser.setEmail(email_input.getText());
                 currentUser.setPassword(new_password_input.getText());
-                if(currentUser.update()) {
+                if(currentUser.updatePassword()) {
                     displayAlert("Done", "Profile updated successfully", Alert.AlertType.INFORMATION);
                     getUserData();
                 } else {
