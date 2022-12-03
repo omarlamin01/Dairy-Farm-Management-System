@@ -68,7 +68,7 @@ public class EmployeesController implements Initializable {
             }
         });
     }
-
+    private static int COLUMNS_COUNT = 9;
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = getConnection();
@@ -412,7 +412,7 @@ public class EmployeesController implements Initializable {
                     e.printStackTrace();
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
-                PdfPTable table = new PdfPTable(9);
+                PdfPTable table = new PdfPTable(COLUMNS_COUNT);
 
                 //change pdf orientation to landscape
                 table.setWidthPercentage(100);
