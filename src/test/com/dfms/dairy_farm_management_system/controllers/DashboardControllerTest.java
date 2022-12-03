@@ -7,7 +7,7 @@ public class DashboardControllerTest extends TestCase {
     public void testGetSalesOfSpecificDay() {
         DashboardController dashboardController = new DashboardController();
         int actual = dashboardController.getSalesOfSpecificDay("Fri", "animals_sales");
-        int expected = 2;
+        int expected = 3;
         assertEquals(expected, actual);
     }
 
