@@ -282,7 +282,7 @@ public class SalesController implements Initializable {
                             stage.show();
                         });
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
-                          AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
+                            AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_sale_details.fxml"));
                             Scene scene = null;
                             try {
