@@ -31,6 +31,10 @@ public class User extends Employee {
         this.password = encryptPassword(password);
     }
 
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.password = encryptedPassword;
+    }
+
     public int getRole() {
         return role;
     }
@@ -107,7 +111,7 @@ public class User extends Employee {
 
             statement.setString(1, password);
             statement.setInt(2, id);
-
+            System.out.println(query);
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
