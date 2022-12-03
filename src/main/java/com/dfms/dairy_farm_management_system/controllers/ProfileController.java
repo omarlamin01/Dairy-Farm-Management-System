@@ -12,8 +12,7 @@ import javafx.scene.input.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.validatePhoneInput;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class ProfileController implements Initializable {
     @FXML
@@ -71,6 +70,7 @@ public class ProfileController implements Initializable {
     @FXML
     void updateLoginInfo(MouseEvent event) {
         User currentUser = Session.getCurrentUser();
+        System.out.println("user password ==> " + currentUser.password);
         if (currentUser.validatePassword(current_password_input.getText())) {
             if (new_password_input.getText().equals(confirm_new_password_input.getText())) {
                 currentUser.setEmail(email_input.getText());
@@ -85,6 +85,8 @@ public class ProfileController implements Initializable {
                 displayAlert("Error", "New password doesn't match password confirm!", Alert.AlertType.ERROR);
             }
         } else {
+            System.out.println("current ==> " + current_password_input.getText());
+            System.out.println("encrpt ==> " + encryptPassword(current_password_input.getText()));
             displayAlert("Error", "Wrong password!", Alert.AlertType.ERROR);
         }
     }

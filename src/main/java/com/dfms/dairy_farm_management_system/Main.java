@@ -26,11 +26,6 @@ public class Main extends Application {
         stage.setScene(scene);
         centerScreen(stage);
         stage.show();
-
-        String enc_pass = encryptPassword(DEFAULT_PASSWORD);
-        System.out.println("Encrypted password: " + enc_pass);
-
-        System.out.println(MD5(enc_pass, DEFAULT_PASSWORD));
     }
 
     public static void main(String[] args) {
