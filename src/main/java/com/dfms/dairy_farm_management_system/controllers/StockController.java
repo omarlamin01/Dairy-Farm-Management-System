@@ -73,6 +73,7 @@ public class StockController implements Initializable {
         liveSearch(search_stock_input, stock_table);
     }
 
+    private static int COLUMNS_COUNT = 7;
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = getConnection();
@@ -346,13 +347,16 @@ public class StockController implements Initializable {
                     e.printStackTrace();
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
-                PdfPTable table = new PdfPTable(9);
+                PdfPTable table = new PdfPTable(COLUMNS_COUNT);
 
                 //change pdf orientation to landscape
                 table.setWidthPercentage(100);
                 table.setSpacingBefore(11f);
                 table.setSpacingAfter(11f);
-                float[] colWidth = {2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f, 2f};
+                float[] colWidth = new float[COLUMNS_COUNT];
+                for (int i = 0; i < COLUMNS_COUNT; i++) {
+                    colWidth[i] = 2f;
+                }
                 table.setWidths(colWidth);
 
                 //add table headers

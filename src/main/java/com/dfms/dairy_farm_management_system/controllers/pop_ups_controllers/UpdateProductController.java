@@ -77,6 +77,8 @@ public class UpdateProductController implements Initializable {
                 product.setQuantity(resultSet.getFloat("quantity"));
                 product.setUnit(resultSet.getString("unit"));
                 product.setAvailability(resultSet.getBoolean("availability"));
+                product.setCreatedAt(resultSet.getTimestamp("created_at"));
+                product.setUpdatedAt(resultSet.getTimestamp("updated_at"));
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
