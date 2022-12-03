@@ -5,6 +5,7 @@ import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.Upd
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.Stock;
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
@@ -63,7 +64,7 @@ public class StockController implements Initializable {
         //check what user select in the combo box
         export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
-                exportToPDF(stock_table);
+                exportToPDF();
             } else {
                 exportToExcel();
             }
@@ -72,6 +73,7 @@ public class StockController implements Initializable {
         liveSearch(search_stock_input, stock_table);
     }
 
+    private static int COLUMNS_COUNT = 7;
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = getConnection();
@@ -315,75 +317,86 @@ public class StockController implements Initializable {
         }
     }
 
-    void exportToPDF(Node node_to_print) {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Save As");
-//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-//        File file = fileChooser.showSaveDialog(null);
-//        if (file != null) {
-//            try {
-//                Document document = new Document();
-//                PdfWriter.getInstance(document, new FileOutputStream(file));
-//                document.open();
-//                try {
-//                    document.add(new Paragraph(Element.ALIGN_CENTER, "Stock Report", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
-//                    document.add(new Paragraph(" "));
-//                } catch (Exception e) {
-//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                }
-//                PdfPTable table = new PdfPTable(9);
-//                table.addCell("Product ID");
-//                table.addCell("Product Name");
-//                table.addCell("Product Type");
-//                table.addCell("Quantity");
-//                table.addCell("Availability");
-//                table.addCell("Unit");
-//                table.addCell("Added Date");
-//
-//                //make pdf page width bigger
-//                table.setWidthPercentage(100);
-//                table.setSpacingBefore(10f);
-//                table.setSpacingAfter(10f);
-//
-//                //get all employees from database
-//                String query = "SELECT * FROM `stocks`";
-//                try {
-//                    statement = connection.createStatement();
-//                    ResultSet rs = statement.executeQuery(query);
-//                    while (rs.next()) {
-//                        table.addCell(rs.getString("id"));
-//                        table.addCell(rs.getString("name"));
-//                        table.addCell(rs.getString("type"));
-//                        table.addCell(rs.getString("quantity"));
-//                        table.addCell(rs.getString("availability"));
-//                        table.addCell(rs.getString("unit"));
-//                        table.addCell(rs.getString("created_at"));
-//                    }
-//
-//                    document.add(table);
-//                    document.close();
-//                    displayAlert("Success", "Stcok exported successfully", Alert.AlertType.INFORMATION);
-//                } catch (Exception e) {
-//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                }
-//            } catch (Exception e) {
-//                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//            }
-//        }
-//    }
-        Printer printer = Printer.getDefaultPrinter();
-        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.EQUAL);
+    void exportToPDF() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Document document = new Document();
 
-        PrinterJob job = PrinterJob.createPrinterJob();
-        if (job != null) {
-            job.getJobSettings().setPageLayout(pageLayout);
-            //rotate stock table
-            boolean success = job.printPage(node_to_print);
-            // set orientation to landscape
-            if (success) {
-                job.endJob();
-            } else {
-                displayAlert("Error", "Failed to print", Alert.AlertType.ERROR);
+                //change document orientation to landscape
+                document.setPageSize(PageSize.A4.rotate());
+
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+                try {
+                    Paragraph title = new Paragraph("Stock List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
+                    Paragraph text = new Paragraph("This is the list of the products", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+
+                    //center paragraph
+                    title.setAlignment(Element.ALIGN_CENTER);
+                    text.setAlignment(Element.ALIGN_CENTER);
+                    title.setSpacingAfter(30);
+                    text.setSpacingAfter(30);
+
+                    document.add(title);
+                    document.add(text);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+                PdfPTable table = new PdfPTable(COLUMNS_COUNT);
+
+                //change pdf orientation to landscape
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(11f);
+                table.setSpacingAfter(11f);
+                float[] colWidth = new float[COLUMNS_COUNT];
+                for (int i = 0; i < COLUMNS_COUNT; i++) {
+                    colWidth[i] = 2f;
+                }
+                table.setWidths(colWidth);
+
+                //add table headers
+                table.addCell(new PdfPCell(new Paragraph("Product ID", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Product Name", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Product Type", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Quantity", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Availability", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Unit", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Added Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+
+                //add padding to cells
+                table.getDefaultCell().setPadding(3);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+                table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+                //get employees displayed in table
+                ObservableList<Stock> stock = stock_table.getItems();
+
+                //get product of each row
+                //used a method in my updateProductController to get the product of each row based on the id
+                UpdateProductController controller = new UpdateProductController();
+
+                for (Stock s : stock) {
+                    Stock product = controller.getProduct(s.getId());
+                    System.out.println(product.toString());
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(product.getId())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(product.getName()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(product.getType()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(product.getQuantity())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(product.getAvailability()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(product.getUnit()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(product.getCreatedAt())))).setPadding(5);
+                }
+
+                document.add(table);
+                document.close();
+                displayAlert("Success", "Stock exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
         }
     }

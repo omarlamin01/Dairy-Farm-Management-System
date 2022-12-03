@@ -234,6 +234,7 @@
 .button-add {
     -fx-background-color:#00A300;
     -fx-background-radius: 10;
+    -fx-text-fill: white;
 }
 
 .button-add:hover {

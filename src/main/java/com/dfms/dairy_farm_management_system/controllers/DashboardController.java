@@ -28,30 +28,6 @@ public class DashboardController implements Initializable {
         fillPieChart();
         fillBarChart();
         fillLineChart();
-
-//        xAxis.setLabel("Programming Language");
-//
-//        yAxis.setLabel("Percent");
-//
-//        // Series 1 - Data of 2014
-//        XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
-//        dataSeries1.setName("2014");
-//
-//        dataSeries1.getData().add(new XYChart.Data<String, Number>("Java", 20.973));
-//        dataSeries1.getData().add(new XYChart.Data<String, Number>("C#", 4.429));
-//        dataSeries1.getData().add(new XYChart.Data<String, Number>("PHP", 2.792));
-//
-//        // Series 2 - Data of 2015
-//        XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
-//        dataSeries2.setName("2015");
-//
-//        dataSeries2.getData().add(new XYChart.Data<String, Number>("Java", 26.983));
-//        dataSeries2.getData().add(new XYChart.Data<String, Number>("C#", 6.569));
-//        dataSeries2.getData().add(new XYChart.Data<String, Number>("PHP", 6.619));
-//
-//        // Add Series to BarChart.
-//        barChart.getData().add(dataSeries1);
-//        barChart.getData().add(dataSeries2);
     }
 
     private Statement statement;
@@ -84,7 +60,7 @@ public class DashboardController implements Initializable {
     private Text total_suppliers;
 
     @FXML
-    private Text total_users;
+    private Text total_employees;
     @FXML
     private BarChart<String, Number> barChart;
 
@@ -99,10 +75,10 @@ public class DashboardController implements Initializable {
     private NumberAxis yAxis;
 
     public void initDashboard() throws SQLException {
-        //get total users
-        resultSet = executeQuery("SELECT COUNT(*) FROM users");
+        //get total employees
+        resultSet = executeQuery("SELECT COUNT(*) FROM employees");
         if (resultSet.next()) {
-            total_users.setText(resultSet.getString(1));
+            total_employees.setText(resultSet.getString(1));
         }
 
         //get total suppliers
