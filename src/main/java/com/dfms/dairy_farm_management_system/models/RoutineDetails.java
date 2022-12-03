@@ -12,6 +12,7 @@ import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConne
 public class RoutineDetails implements Model{
     private int id;
     private int stock_id;
+    private String stock_name;
     private int routine_id;
     private float quantity;
     private String feeding_time;
@@ -45,6 +46,26 @@ public class RoutineDetails implements Model{
 
     public void setStock_id(int stock_id) {
         this.stock_id = stock_id;
+
+        String query = "SELECT `name` FROM `stocks` WHERE `id` = ?";
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(query);
+            statement.setInt(1, stock_id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                setStock_name(resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getStock_name() {
+        return stock_name;
+    }
+
+    public void setStock_name(String stock_name) {
+        this.stock_name = stock_name;
     }
 
     public int getRoutine_id() {
