@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -19,8 +20,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class NewPurchaseController implements Initializable {
     @FXML
@@ -48,6 +48,8 @@ public class NewPurchaseController implements Initializable {
     HashMap<String, Integer> stocks = new HashMap<>();
     @FXML
     private ComboBox<String> stockCombo;
+    @FXML
+    private Button openAddNewProduct;
     PreparedStatement statement = null;
     ResultSet resultSet = null;
        @FXML
@@ -167,5 +169,13 @@ public class NewPurchaseController implements Initializable {
         add_update.setText("Update");
 
 
+    }
+    @FXML
+    void openAddProduct(MouseEvent event) throws IOException {
+        openNewWindow("Add Product", "add_new_product");
+    }
+    @FXML
+    void refreshTable(MouseEvent event) throws SQLException {
+        setProuctsList();
     }
 }

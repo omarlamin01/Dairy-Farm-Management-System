@@ -131,6 +131,7 @@ public class Purchase  implements Model{
     @Override
     public boolean save() {
         String insertQuery = "INSERT INTO `purchases` (supplier_id,quantity, stock_id, price, purchase_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?,?)";
+        updateQuantity();
         Connection connection = getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -142,12 +143,24 @@ public class Purchase  implements Model{
             preparedStatement.setDate(5, (java.sql.Date) purchase_date);
             preparedStatement.setTimestamp(6, created_at);
             preparedStatement.setTimestamp(7, updated_at);
-
             return preparedStatement.executeUpdate() != 0;
+
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+    }
+    public boolean updateQuantity() {
+        String query ="Update stocks set quantity=quantity + '" + quantity + "' where id=  '" + stock_id + "'";
+        Connection connection = getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

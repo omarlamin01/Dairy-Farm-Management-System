@@ -133,6 +133,7 @@ public class Stock implements Model {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
             return preparedStatement.executeUpdate() != 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

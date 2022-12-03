@@ -8,6 +8,8 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -34,6 +36,37 @@
                         <Font name="System Bold" size="24.0" />
                     </font>
                 </Label>
+            <HBox prefHeight="38.0" prefWidth="211.0">
+               <children>
+                  <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" textAlignment="CENTER">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" onMousePressed="#refreshTable" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../icons/refresh.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="openAddNewProduct" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddProduct" prefHeight="38.0" prefWidth="127.0" styleClass="button-add" text="New product" textAlignment="CENTER">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../icons/add_user.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="20.0" right="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets left="280.0" />
+               </HBox.margin>
+            </HBox>
             </children>
         </HBox>
         <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
