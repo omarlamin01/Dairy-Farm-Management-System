@@ -111,7 +111,7 @@ public class User extends Employee {
 
             statement.setString(1, password);
             statement.setInt(2, id);
-            System.out.println(query);
+
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
