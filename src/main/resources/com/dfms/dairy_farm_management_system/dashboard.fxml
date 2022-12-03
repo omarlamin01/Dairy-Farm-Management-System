@@ -55,8 +55,8 @@
                     <String fx:value="dashboard_item" />
                     <String fx:value="dashboard_item_text" />
                 </styleClass>
-                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total users" />
-                <Text fx:id="total_users" fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
+                <Text fill="WHITE" layoutX="9.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total employees" />
+                <Text fx:id="total_employees" fill="WHITE" layoutX="9.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="54">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
