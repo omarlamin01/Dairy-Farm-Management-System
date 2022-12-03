@@ -605,7 +605,7 @@ public class AnimalMonitorController implements Initializable {
                         edit_btn.setOnMouseClicked((MouseEvent event) -> {
                             int index = ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
                             Routine routine = routines.get(index);
-                            String url = "popups/update_routine.fxml";
+                            String url = "popups/add_new_routine.fxml";
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
                             Scene scene = null;
                             try {
@@ -618,7 +618,7 @@ public class AnimalMonitorController implements Initializable {
                             stage.setResizable(false);
                             stage.setScene(scene);
                             centerScreen(stage);
-                            UpdateRoutineController controller = fxmlLoader.getController();
+                            RoutineController controller = fxmlLoader.getController();
                             controller.initData(routine);
                             stage.show();
                         });
