@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -140,18 +141,36 @@ public class RoutineController implements Initializable {
     }
 
     public void setFoods(ArrayList<RoutineDetails> details) {
-        Integer[] foodNames = getFoods().keySet().toArray(new Integer[0]);
-        ArrayList<Integer> details_names = new ArrayList<>();
-        HashMap<Integer, RoutineDetails> detailsHashMap = new HashMap<>();
-        for (RoutineDetails detail: details) {
-            details_names.add(detail.getStock_id());
-            detailsHashMap.put(detail.getStock_id(), detail);
+        this.foodList.getChildren().clear();
+        if (details != null) {
+            System.out.println("Details != null");
+            if (!details.isEmpty()) {
+                System.out.println("Details != empty");
+                HashMap<String, RoutineDetails> detailsHashMap = new HashMap<>();
+                ArrayList<String> routinesFeedsNames = new ArrayList<>();
+
+                for (RoutineDetails routineDetails: details) {
+                    detailsHashMap.put(routineDetails.getStock_name(), routineDetails);
+                    routinesFeedsNames.add(routineDetails.getStock_name());
+                }
+
+                System.out.println(detailsHashMap);
+                System.out.println(routinesFeedsNames);
+                System.out.println(getFoods());
+
+                for (String foodName: getFoods()) {
+                    if (routinesFeedsNames.contains(foodName)) {
+                        System.out.println("routine feeds contains " + foodName);
+                        addSelectedItem(foodName, detailsHashMap.get(foodName));
+                    } else {
+                        addItem(foodName);
+                    }
+                }
+            }
         }
-        for (Integer foodId : foodNames) {
-            if (!getFoods().containsKey(foodId)) {
-                addItem(getFoods().get(foodId).getName());
-            } else {
-                addSelectedItem(getFoods().get(foodId).getName(), detailsHashMap.get(foodId));
+        else {
+            for (String foodName: getFoods()) {
+                addItem(foodName);
             }
         }
     }
@@ -202,6 +221,7 @@ public class RoutineController implements Initializable {
         label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
         CheckBox checkBox = new CheckBox(food);
         checkBox.setSelected(true);
+        System.out.println(food + " checkbox is selected " + checkBox.isSelected());
         checkBox.getStyleClass().add("main_content");
         VBox.setMargin(checkBox, new Insets(10, 0, 0, 0));
         foodType.getChildren().add(label);
@@ -235,20 +255,15 @@ public class RoutineController implements Initializable {
         this.foodList.getChildren().add(hBox);
     }
 
-    public HashMap<Integer, Stock> getFoods() {
-        HashMap<Integer, Stock> list = new HashMap<>();
+    public ArrayList<String> getFoods() {
+        ArrayList<String> list = new ArrayList<>();
         String query = "SELECT * FROM stocks WHERE type = 'feed'";
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                Stock stock = new Stock();
-                stock.setId(resultSet.getInt("id"));
-                stock.setType(resultSet.getString("type"));
-                stock.setUnit(resultSet.getString("type"));
-                stock.setName(resultSet.getString("name"));
-                list.put(resultSet.getInt("id"), stock);
+                list.add(resultSet.getString("name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
