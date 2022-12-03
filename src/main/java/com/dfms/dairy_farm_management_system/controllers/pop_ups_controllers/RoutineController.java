@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.models.Routine;
 import com.dfms.dairy_farm_management_system.models.RoutineDetails;
+import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -40,7 +41,7 @@ public class RoutineController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setFoods();
+        this.setFoods(null);
         routineBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
             Routine routine = new Routine();
 
@@ -60,7 +61,7 @@ public class RoutineController implements Initializable {
 
                         RoutineDetails routineDetails1 = new RoutineDetails();
 
-                        routineDetails1.setStock_id(getFoods().get(foodName));
+//                        routineDetails1.setStock_id(getFoods().get(foodName));
                         routineDetails1.setRoutine_id(routine.getId());
                         routineDetails1.setQuantity(Float.parseFloat(foodQuantity));
                         routineDetails1.setFeeding_time(foodPeriod);
@@ -90,7 +91,8 @@ public class RoutineController implements Initializable {
     public void initData(Routine routine) {
         this.routineName.setText(routine.getName());
         this.routineNotes.setText(routine.getNote());
-        //TODO: set routine's foods
+        this.foodList = new VBox();
+        setFoods(routine.getDetails());
         routineBtn.setText("UPDATE");
         routineBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
 //            TODO: for testing
@@ -110,7 +112,7 @@ public class RoutineController implements Initializable {
 
                         RoutineDetails routineDetails1 = new RoutineDetails();
 
-                        routineDetails1.setStock_id(getFoods().get(foodName));
+//                        routineDetails1.setStock_id(getFoods().get(foodName));
                         routineDetails1.setRoutine_id(routine.getId());
                         routineDetails1.setQuantity(Float.parseFloat(foodQuantity));
                         routineDetails1.setFeeding_time(foodPeriod);
@@ -137,57 +139,116 @@ public class RoutineController implements Initializable {
         });
     }
 
-    public void setFoods() {
-        //get foods from db
-        String[] foods = getFoods().keySet().toArray(new String[0]);
-        for (String food : foods) {
-            HBox hBox = new HBox();
-            hBox.setSpacing(60);
-            VBox foodType = new VBox();
-            Label label = new Label("Food type");
-            label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-            CheckBox checkBox = new CheckBox(food);
-            checkBox.getStyleClass().add("main_content");
-            VBox.setMargin(checkBox, new Insets(10, 0, 0, 0));
-            foodType.getChildren().add(label);
-            foodType.getChildren().add(checkBox);
-            hBox.getChildren().add(foodType);
-            VBox foodQuantity = new VBox();
-            Label label1 = new Label("Food Quantity");
-            label1.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-            TextField quantity = new TextField();
-            quantity.setPromptText("Quantity");
-            quantity.getStyleClass().add("input");
-            quantity.getStyleClass().add("quantity_input");
-            VBox.setMargin(quantity, new Insets(10, 0, 0, 0));
-            foodQuantity.getChildren().add(label1);
-            foodQuantity.getChildren().add(quantity);
-            hBox.getChildren().add(foodQuantity);
-            VBox feedingTime = new VBox();
-            Label label2 = new Label("Feeding Time");
-            label2.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-            ObservableList<String> periods = FXCollections.observableArrayList("Morning", "Evening");
-            ComboBox<String> period = new ComboBox<String>(periods);
-            period.setPromptText("Period");
-            period.getStyleClass().add("input");
-            period.getStyleClass().add("clock_input");
-            VBox.setMargin(period, new Insets(10, 0, 0, 8));
-            feedingTime.getChildren().add(label2);
-            feedingTime.getChildren().add(period);
-            hBox.getChildren().add(feedingTime);
-            this.foodList.getChildren().add(hBox);
+    public void setFoods(ArrayList<RoutineDetails> details) {
+        Integer[] foodNames = getFoods().keySet().toArray(new Integer[0]);
+        ArrayList<Integer> details_names = new ArrayList<>();
+        HashMap<Integer, RoutineDetails> detailsHashMap = new HashMap<>();
+        for (RoutineDetails detail: details) {
+            details_names.add(detail.getStock_id());
+            detailsHashMap.put(detail.getStock_id(), detail);
+        }
+        for (Integer foodId : foodNames) {
+            if (!getFoods().containsKey(foodId)) {
+                addItem(getFoods().get(foodId).getName());
+            } else {
+                addSelectedItem(getFoods().get(foodId).getName(), detailsHashMap.get(foodId));
+            }
         }
     }
 
-    public HashMap<String, Integer> getFoods() {
-        HashMap<String, Integer> list = new HashMap<>();
-        String query = "SELECT id, name FROM stocks WHERE type = 'feed'";
+    public void addItem(String food) {
+        HBox hBox = new HBox();
+        hBox.setSpacing(60);
+        VBox foodType = new VBox();
+        Label label = new Label("Food type");
+        label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        CheckBox checkBox = new CheckBox(food);
+        checkBox.getStyleClass().add("main_content");
+        VBox.setMargin(checkBox, new Insets(10, 0, 0, 0));
+        foodType.getChildren().add(label);
+        foodType.getChildren().add(checkBox);
+        hBox.getChildren().add(foodType);
+        VBox foodQuantity = new VBox();
+        Label label1 = new Label("Food Quantity");
+        label1.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        TextField quantity = new TextField();
+        quantity.setPromptText("Quantity");
+        quantity.getStyleClass().add("input");
+        quantity.getStyleClass().add("quantity_input");
+        VBox.setMargin(quantity, new Insets(10, 0, 0, 0));
+        foodQuantity.getChildren().add(label1);
+        foodQuantity.getChildren().add(quantity);
+        hBox.getChildren().add(foodQuantity);
+        VBox feedingTime = new VBox();
+        Label label2 = new Label("Feeding Time");
+        label2.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        ObservableList<String> periods = FXCollections.observableArrayList("Morning", "Evening");
+        ComboBox<String> period = new ComboBox<String>(periods);
+        period.setPromptText("Period");
+        period.getStyleClass().add("input");
+        period.getStyleClass().add("clock_input");
+        VBox.setMargin(period, new Insets(10, 0, 0, 8));
+        feedingTime.getChildren().add(label2);
+        feedingTime.getChildren().add(period);
+        hBox.getChildren().add(feedingTime);
+        this.foodList.getChildren().add(hBox);
+    }
+
+    public void addSelectedItem(String food, RoutineDetails detail) {
+        HBox hBox = new HBox();
+        hBox.setSpacing(60);
+        VBox foodType = new VBox();
+        Label label = new Label("Food type");
+        label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        CheckBox checkBox = new CheckBox(food);
+        checkBox.setSelected(true);
+        checkBox.getStyleClass().add("main_content");
+        VBox.setMargin(checkBox, new Insets(10, 0, 0, 0));
+        foodType.getChildren().add(label);
+        foodType.getChildren().add(checkBox);
+        hBox.getChildren().add(foodType);
+        VBox foodQuantity = new VBox();
+        Label label1 = new Label("Food Quantity");
+        label1.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        TextField quantity = new TextField();
+        quantity.setText(String.valueOf(detail.getQuantity()));
+        quantity.setPromptText("Quantity");
+        quantity.getStyleClass().add("input");
+        quantity.getStyleClass().add("quantity_input");
+        VBox.setMargin(quantity, new Insets(10, 0, 0, 0));
+        foodQuantity.getChildren().add(label1);
+        foodQuantity.getChildren().add(quantity);
+        hBox.getChildren().add(foodQuantity);
+        VBox feedingTime = new VBox();
+        Label label2 = new Label("Feeding Time");
+        label2.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        ObservableList<String> periods = FXCollections.observableArrayList("Morning", "Evening");
+        ComboBox<String> period = new ComboBox<String>(periods);
+        period.setValue(detail.getFeeding_time());
+        period.setPromptText("Period");
+        period.getStyleClass().add("input");
+        period.getStyleClass().add("clock_input");
+        VBox.setMargin(period, new Insets(10, 0, 0, 8));
+        feedingTime.getChildren().add(label2);
+        feedingTime.getChildren().add(period);
+        hBox.getChildren().add(feedingTime);
+        this.foodList.getChildren().add(hBox);
+    }
+
+    public HashMap<Integer, Stock> getFoods() {
+        HashMap<Integer, Stock> list = new HashMap<>();
+        String query = "SELECT * FROM stocks WHERE type = 'feed'";
         Connection connection = getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                list.put(resultSet.getString("name"), resultSet.getInt("id"));
+                Stock stock = new Stock();
+                stock.setId(resultSet.getInt("id"));
+                stock.setType(resultSet.getString("type"));
+                stock.setUnit(resultSet.getString("type"));
+                stock.setName(resultSet.getString("name"));
+                list.put(resultSet.getInt("id"), stock);
             }
         } catch (SQLException e) {
             e.printStackTrace();
