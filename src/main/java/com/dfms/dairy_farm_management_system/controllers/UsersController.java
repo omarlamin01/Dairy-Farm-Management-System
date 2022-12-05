@@ -46,6 +46,8 @@ import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConne
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class UsersController implements Initializable {
+    private static final int COLUMNS_COUNT = 9;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //this line of code is so important for the export !!!!
@@ -53,8 +55,8 @@ public class UsersController implements Initializable {
 
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         export_combo.setItems(list);
-        displayEmployees();
-        liveSearch(search_employee_input, employees_table);
+        displayUsers();
+        liveSearch(search_user_input, users_table);
 
         //check what user select in the combo box
         export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
@@ -66,37 +68,36 @@ public class UsersController implements Initializable {
         });
     }
 
-    private static int COLUMNS_COUNT = 9;
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = getConnection();
 
     @FXML
-    private TableView<Employee> employees_table;
+    private TableView<User> users_table;
 
     @FXML
-    private TableColumn<Employee, String> actions_col;
+    private TableColumn<User, String> actions_col;
 
     @FXML
-    private TableColumn<Employee, String> col_cin;
+    private TableColumn<User, String> col_id;
 
     @FXML
-    private TableColumn<Employee, String> email_col;
+    private TableColumn<User, String> email_col;
 
     @FXML
-    private TableColumn<Employee, String> first_name_col;
+    private TableColumn<User, String> first_name_col;
 
     @FXML
-    private TableColumn<Employee, String> last_name_col;
+    private TableColumn<User, String> last_name_col;
 
     @FXML
-    private TableColumn<Employee, String> salary_col;
+    private TableColumn<User, String> role_col;
 
     @FXML
     private Button search_btn;
 
     @FXML
-    private TextField search_employee_input;
+    private TextField search_user_input;
     @FXML
     private ComboBox<String> export_combo;
 
@@ -104,40 +105,25 @@ public class UsersController implements Initializable {
     private Button openAddNewEmployeeBtn;
 
     //get all the employees
-    public ObservableList<Employee> getEmployees() {
-        ObservableList<Employee> list = FXCollections.observableArrayList();
-        String employeesQuery = "SELECT * FROM `employees` WHERE `cin` NOT IN (SELECT `cin` FROM `users`)";
-        String usersQuery = "SELECT * FROM `employees` WHERE `cin` IN (SELECT `cin` FROM `users`)";
+    public ObservableList<User> getUsers() {
+        ObservableList<User> list = FXCollections.observableArrayList();
+        String query = "SELECT * FROM `users`";
         try {
             statement = connection.createStatement();
-            ResultSet employees = statement.executeQuery(employeesQuery);
-            while (employees.next()) {
-                Employee employee = new Employee();
-                employee.setCin(employees.getString("cin"));
-                employee.setFirstName(employees.getString("first_name"));
-                employee.setLastName(employees.getString("last_name"));
-                employee.setPhone(employees.getString("phone"));
-                employee.setAdress(employees.getString("address"));
-                employee.setHireDate(employees.getDate("hire_date"));
-                employee.setContractType(employees.getString("contract_type"));
-                employee.setEmail(employees.getString("email"));
-                employee.setGender(employees.getString("gender"));
-                employee.setSalary(employees.getInt("salary"));
-                list.add(employee);
-            }
-            ResultSet users = statement.executeQuery(usersQuery);
-            while (users.next()) {
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
                 User user = new User();
-                user.setCin(users.getString("cin"));
-                user.setFirstName(users.getString("first_name"));
-                user.setLastName(users.getString("last_name"));
-                user.setPhone(users.getString("phone"));
-                user.setAdress(users.getString("address"));
-                user.setHireDate(users.getDate("hire_date"));
-                user.setContractType(users.getString("contract_type"));
-                user.setEmail(users.getString("email"));
-                user.setGender(users.getString("gender"));
-                user.setSalary(users.getInt("salary"));
+                user.setId(resultSet.getInt("id"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setCin(resultSet.getString("cin"));
+                user.setEmail(resultSet.getString("email"));
+                user.setGender(resultSet.getString("gender"));
+                user.setPhone(resultSet.getString("phone"));
+                user.setSalary(resultSet.getInt("salary"));
+                user.setAdress(resultSet.getString("address"));
+                user.setRole(resultSet.getInt("role"));
+                user.setCreatedAt(resultSet.getTimestamp("created_at"));
                 list.add(user);
             }
         } catch (Exception e) {
@@ -147,18 +133,22 @@ public class UsersController implements Initializable {
     }
 
     //display all the employees in the table
-    public void displayEmployees() {
-        ObservableList<Employee> employees = getEmployees();
-        col_cin.setCellValueFactory(new PropertyValueFactory<>("cin"));
+    public void displayUsers() {
+        ObservableList<User> users = getUsers();
+        col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         first_name_col.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         last_name_col.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
-        salary_col.setCellValueFactory(new PropertyValueFactory<>("salary"));
-        Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<Employee, String> param) -> {
-            final TableCell<Employee, String> cell = new TableCell<Employee, String>() {
+        role_col.setCellValueFactory(new PropertyValueFactory<>("roleName"));
+        Callback<TableColumn<User, String>, TableCell<User, String>> cellFoctory = (TableColumn<User, String> param) -> {
+            final TableCell<User, String> cell = new TableCell<User, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
                 Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
+
+                Button edit_btn = new Button();
+                Button delete_btn = new Button();
+                Button view_details_btn = new Button();
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -169,29 +159,33 @@ public class UsersController implements Initializable {
                         setText(null);
                     } else {
                         ImageView iv_view_details = new ImageView();
-                        iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
                         iv_view_details.setImage(view_details_img);
                         iv_view_details.setPreserveRatio(true);
                         iv_view_details.setSmooth(true);
                         iv_view_details.setCache(true);
 
+                        view_details_btn.setGraphic(iv_view_details);
+                        view_details_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
 
                         ImageView iv_edit = new ImageView();
-                        iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
                         iv_edit.setImage(edit_img);
                         iv_edit.setPreserveRatio(true);
                         iv_edit.setSmooth(true);
                         iv_edit.setCache(true);
 
-                        ImageView iv_delete = new ImageView();
-                        iv_delete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        edit_btn.setGraphic(iv_edit);
+                        edit_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
 
+                        ImageView iv_delete = new ImageView();
                         iv_delete.setImage(delete_img);
                         iv_delete.setPreserveRatio(true);
                         iv_delete.setSmooth(true);
                         iv_delete.setCache(true);
 
-                        HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
+                        delete_btn.setGraphic(iv_delete);
+                        delete_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+
+                        HBox managebtn = new HBox(view_details_btn, edit_btn, delete_btn);
                         managebtn.setStyle("-fx-alignment:center");
                         HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
                         HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
@@ -199,32 +193,32 @@ public class UsersController implements Initializable {
 
                         setGraphic(managebtn);
 
-                        //delete employee
-                        iv_delete.setOnMouseClicked((MouseEvent event) -> {
+                        //delete user
+                        delete_btn.setOnMouseClicked((MouseEvent event) -> {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("Delete Employee");
-                            alert.setHeaderText("Are you sure you want to delete this employee?");
-                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
+                            alert.setTitle("Delete user");
+                            alert.setHeaderText("Are you sure you want to delete this user?");
+                            User user = users.get(getRowIndex(event));
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
-                                    employee.delete();
-                                    displayEmployees();
+                                    user.delete();
+                                    displayUsers();
                                 } catch (Exception e) {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
                             }
                         });
 
-                        //update employee
-                        iv_edit.setOnMouseClicked((MouseEvent event) -> {
-                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
+                        //update user
+                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
+                            User user = users.get(getRowIndex(event));
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/update_employee.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 UpdateEmployeeController controller = fxmlLoader.getController();
-                                controller.fetchEmployee(employee);
+                                controller.fetchEmployee(user);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -239,14 +233,14 @@ public class UsersController implements Initializable {
                         });
 
                         //view employee details
-                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
-                            Employee employee = employees_table.getSelectionModel().getSelectedItem();
+                        view_details_btn.setOnMouseClicked((MouseEvent event) -> {
+                            User user = users.get(getRowIndex(event));
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 EmployeeDetailsController controller = fxmlLoader.getController();
-                                controller.fetchEmployee(employee);
+                                controller.fetchEmployee(user);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -265,30 +259,17 @@ public class UsersController implements Initializable {
             return cell;
         };
         actions_col.setCellFactory(cellFoctory);
-        employees_table.setItems(employees);
+        users_table.setItems(users);
     }
 
-    private void deleteEmployee(String cin) {
-        String query = "DELETE FROM `employees` WHERE cin = " + cin;
-        try {
-            statement = connection.createStatement();
-            statement.executeUpdate(query);
-            displayAlert("Success", "Employee deleted successfully", Alert.AlertType.INFORMATION);
-        } catch (Exception e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
-
-    //add new employee
-
-    public void openAddEmployee(MouseEvent mouseEvent) throws IOException {
-        openNewWindow("Add Employee", "add_new_employee");
+    public void openAddUser(MouseEvent mouseEvent) throws IOException {
+        openNewWindow("Add user", "add_new_employee");
     }
 
     @FXML
     public void refreshTable() {
-        employees_table.getItems().clear();
-        displayEmployees();
+        users_table.getItems().clear();
+        displayUsers();
     }
 
     public void liveSearch(TextField search_input, TableView table) {
@@ -296,11 +277,11 @@ public class UsersController implements Initializable {
             if (newValue == null || newValue.isEmpty()) {
                 refreshTable();
             } else {
-                ObservableList<Employee> filteredList = FXCollections.observableArrayList();
-                ObservableList<Employee> employees = getEmployees();
-                for (Employee employee : employees) {
-                    if (employee.getFirstName().toLowerCase().contains(newValue.toLowerCase()) || employee.getLastName().toLowerCase().contains(newValue.toLowerCase())) {
-                        filteredList.add(employee);
+                ObservableList<User> filteredList = FXCollections.observableArrayList();
+                ObservableList<User> users = getUsers();
+                for (User user : users) {
+                    if (user.getFirstName().toLowerCase().contains(newValue.toLowerCase()) || user.getLastName().toLowerCase().contains(newValue.toLowerCase())) {
+                        filteredList.add(user);
                     }
                 }
                 table.setItems(filteredList);
@@ -310,18 +291,7 @@ public class UsersController implements Initializable {
 
     @FXML
     void searchEmployee(MouseEvent event) {
-        liveSearch(this.search_employee_input, employees_table);
-    }
-
-    public void displayEmployeeConsole(Employee employee) {
-        System.out.println("Employee First Name: " + employee.getFirstName());
-        System.out.println("Employee Last Name: " + employee.getLastName());
-        System.out.println("Employee Email: " + employee.getEmail());
-        System.out.println("Employee Phone: " + employee.getPhone());
-        System.out.println("Employee Address: " + employee.getAdress());
-        System.out.println("Employee Cin: " + employee.getCin());
-        System.out.println("Employee gender: " + employee.getGender());
-        System.out.println("Employee Recrutement Date: " + employee.getHireDate());
+        liveSearch(this.search_user_input, users_table);
     }
 
     void exportToExcel() {
@@ -333,39 +303,37 @@ public class UsersController implements Initializable {
             try {
                 Workbook workbook = new XSSFWorkbook();
                 Sheet sheet = workbook.createSheet("Employees");
-                Row header = sheet.createRow(0);
-                header.createCell(0).setCellValue("First Name");
-                header.createCell(1).setCellValue("Last Name");
-                header.createCell(2).setCellValue("Email");
-                header.createCell(3).setCellValue("Phone");
-                header.createCell(4).setCellValue("Address");
-                header.createCell(5).setCellValue("CIN");
-                header.createCell(6).setCellValue("Gender");
-                header.createCell(7).setCellValue("Hire Date");
+                Row header = sheet.createRow(1);
+                header.createCell(1).setCellValue("First Name");
+                header.createCell(2).setCellValue("Last Name");
+                header.createCell(3).setCellValue("Email");
+                header.createCell(4).setCellValue("Phone");
+                header.createCell(5).setCellValue("Address");
+                header.createCell(6).setCellValue("CIN");
+                header.createCell(7).setCellValue("Gender");
                 header.createCell(8).setCellValue("Salary");
 
-                //get employees displayed in table
-                ObservableList<Employee> employees = employees_table.getItems();
+                //get users displayed in table
+                ObservableList<User> users = users_table.getItems();
 
                 //get employee of each row
                 //used a method in my updateEmplyeeController to get the employee of each row based on the cin
                 UpdateEmployeeController controller = new UpdateEmployeeController();
 
-                for (Employee employee : employees) {
+                for (Employee employee : users) {
                     Employee emp = controller.getEmployee(employee.getCin());
                     Row row = sheet.createRow(sheet.getLastRowNum() + 1);
-                    row.createCell(0).setCellValue(emp.getFirstName());
-                    row.createCell(1).setCellValue(emp.getLastName());
-                    row.createCell(2).setCellValue(emp.getEmail());
-                    row.createCell(3).setCellValue(emp.getPhone());
-                    row.createCell(4).setCellValue(emp.getAdress());
-                    row.createCell(5).setCellValue(emp.getCin());
+                    row.createCell(1).setCellValue(emp.getFirstName());
+                    row.createCell(2).setCellValue(emp.getLastName());
+                    row.createCell(3).setCellValue(emp.getEmail());
+                    row.createCell(4).setCellValue(emp.getPhone());
+                    row.createCell(5).setCellValue(emp.getAdress());
+                    row.createCell(6).setCellValue(emp.getCin());
                     if (emp.getGender().equals("M")) {
-                        row.createCell(6).setCellValue("Male");
+                        row.createCell(7).setCellValue("Male");
                     } else {
-                        row.createCell(6).setCellValue("Female");
+                        row.createCell(7).setCellValue("Female");
                     }
-                    row.createCell(7).setCellValue(emp.getHireDate());
                     row.createCell(8).setCellValue(String.valueOf(emp.getSalary()));
                 }
 
@@ -396,7 +364,7 @@ public class UsersController implements Initializable {
                 document.open();
                 try {
                     Paragraph title = new Paragraph("Employees List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-                    Paragraph text = new Paragraph("This is the list of the employees", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    Paragraph text = new Paragraph("This is the list of the users", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
 
                     //center paragraph
                     title.setAlignment(Element.ALIGN_CENTER);
@@ -438,14 +406,14 @@ public class UsersController implements Initializable {
                 table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
 
 
-                //get employees displayed in table
-                ObservableList<Employee> employees = employees_table.getItems();
+                //get users displayed in table
+                ObservableList<User> users = users_table.getItems();
 
                 //get employee of each row
                 //used a method in my updateEmplyeeController to get the employee of each row based on the cin
                 UpdateEmployeeController controller = new UpdateEmployeeController();
 
-                for (Employee employee : employees) {
+                for (Employee employee : users) {
                     Employee emp = controller.getEmployee(employee.getCin());
 
                     table.addCell(new PdfPCell(new Paragraph(emp.getFirstName()))).setPadding(5);

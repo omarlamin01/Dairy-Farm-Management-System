@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.EmployeesController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.UsersController">
     <stylesheets>
         <URL value="@../../../style/style.css" />
         <URL value="@../../../style/table_view.css" />
@@ -50,7 +50,7 @@
             <VBox.margin>
                 <Insets bottom="10.0" />
             </VBox.margin>
-            <TextField fx:id="search_employee_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for an employee..." styleClass="text-field-search">
+            <TextField fx:id="search_user_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for an employee..." styleClass="text-field-search">
                 <padding>
                     <Insets left="10.0" />
                 </padding>
@@ -74,7 +74,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-            <Button fx:id="openAddNewEmployeeBtn1" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddEmployee" styleClass="button-add" text="New employee" textAlignment="CENTER">
+            <Button fx:id="openAddNewEmployeeBtn1" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddUser" styleClass="button-add" text="New employee" textAlignment="CENTER">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -88,13 +88,13 @@
             </Button>
             </HBox>
         </HBox>
-        <TableView fx:id="employees_table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+        <TableView fx:id="users_table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
             <columns>
-            <TableColumn fx:id="col_cin" prefWidth="116.0" text="CIN" />
+            <TableColumn fx:id="col_id" prefWidth="116.0" text="ID" />
                 <TableColumn fx:id="first_name_col" prefWidth="133.66665649414062" text="First name" />
                 <TableColumn fx:id="last_name_col" prefWidth="138.33331298828125" text="Last name" />
                 <TableColumn fx:id="email_col" prefWidth="142.33331298828125" text="Email" />
-                <TableColumn fx:id="salary_col" prefWidth="144.0" text="Salary" />
+                <TableColumn fx:id="role_col" prefWidth="144.0" text="Role" />
                 <TableColumn fx:id="actions_col" prefWidth="149.0" text="Actions" />
             </columns>
         </TableView>
