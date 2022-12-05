@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="1096.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.MainLayoutController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="674.0" prefWidth="1096.0" stylesheets="@../../../style/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.MainLayoutController">
     <left>
       <ScrollPane fx:id="nav_scroll_pane" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #1E293B;" BorderPane.alignment="CENTER">
          <content>
@@ -63,6 +63,13 @@
                           </ImageView>
                       </graphic>
                   </Button>
+                  <Button fx:id="manage_clients_suppliers_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadClientsSuppliers" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Manage clients-suppliers">
+                      <graphic>
+                          <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
+                              <Image url="@../../../icons/supplier.png" />
+                          </ImageView>
+                      </graphic>
+                  </Button>
                   <Button fx:id="manage_animal_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadManageAnimal" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Manage animals">
                       <graphic>
                           <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
@@ -106,13 +113,22 @@
                      </ImageView>
                   </graphic>
                </Button>
-                  <Button fx:id="stock_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#LoadStock" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Stock">
+                  <Button fx:id="manageUsersBtn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadManageUsers" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Users">
                       <graphic>
                           <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
                               <Image url="@../../../icons/stock.png" />
                           </ImageView>
                       </graphic>
                   </Button>
+               <Button fx:id="stock_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" layoutX="10.0" layoutY="569.0" mnemonicParsing="false" onAction="#LoadStock" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Stock">
+                  <graphic>
+                     <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
+                        <image>
+                           <Image url="@../../../icons/stock.png" />
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
                <Button fx:id="logout" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" onMousePressed="#logout" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Logout">
                   <graphic>
                      <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
@@ -127,15 +143,6 @@
       </ScrollPane>
     </left>
     <center>
-        <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
-         <content>
-               <Button fx:id="manage_clients_suppliers_btn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadClientsSuppliers" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Manage clients-suppliers">
-                   <graphic>
-                       <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
-                           <Image url="@../../../icons/supplier.png" />
-                       </ImageView>
-                   </graphic>
-               </Button>
-         </content></ScrollPane>
+        <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
     </center>
 </BorderPane>

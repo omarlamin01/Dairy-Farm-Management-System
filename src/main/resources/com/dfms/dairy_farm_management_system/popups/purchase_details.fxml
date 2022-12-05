@@ -73,7 +73,7 @@
                                 <Label fx:id="id" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                                 <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                                     <image>
-                                        <Image url="@../../../../icons/lata.png" />
+                                        <Image url="@../../../../icons/stock.png" />
                                     </image>
                                 </ImageView>
                                 <Label fx:id="item" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Cow-7489590" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
@@ -165,7 +165,7 @@
                         <Label fx:id="id1" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                            <image>
-                              <Image url="@../../../../icons/lata.png" />
+                              <Image url="@../../../../icons/quantity.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="quantity" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="Cow-7489590" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />

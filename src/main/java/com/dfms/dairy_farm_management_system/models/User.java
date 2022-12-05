@@ -13,6 +13,7 @@ public class User extends Employee {
     private int id;
     private String password;
     private int role;
+    private String roleName;
 
     public User() {
         super();
@@ -41,6 +42,20 @@ public class User extends Employee {
 
     public void setRole(int role) {
         this.role = role;
+        try {
+            PreparedStatement statement = getConnection().prepareStatement("SELECT `name` FROM `roles` WHERE `id` = ?");
+            statement.setInt(1, role);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                roleName = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getRoleName() {
+        return roleName;
     }
 
     public boolean validatePassword(String password) {
