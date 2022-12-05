@@ -54,7 +54,7 @@
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../icons/add_user.png" />
+                              <Image url="@../../../../icons/add.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -145,7 +145,7 @@
             <ComboBox fx:id="stockCombo" maxWidth="1.7976931348623157E308" promptText="Product">
                <styleClass>
                   <String fx:value="combo_box" />
-                  <String fx:value="name_input" />
+                  <String fx:value="category_input" />
                </styleClass>
             </ComboBox>
             </children>
