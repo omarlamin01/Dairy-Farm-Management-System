@@ -46,40 +46,43 @@ public class MainLayoutController implements Initializable {
     private PreparedStatement pst;
     private Connection con = DBConfig.getConnection();
     private User user;
+
     @FXML
     private BorderPane borderPane;
 
     @FXML
-    private Button animal_monitor_btn;
+    private Button animal_monitor_btn; //
 
     @FXML
-    private Button dashboard_btn;
+    private Button dashboard_btn; //
 
     @FXML
-    private Button profile_btn;
+    private Button profile_btn; //
 
     @FXML
-    private Button employees_btn;
+    private Button employees_btn; //
 
     @FXML
-    private Button manage_animal_btn;
+    private Button manage_animal_btn; //
 
     @FXML
-    private Button manage_clients_suppliers_btn;
+    private Button manage_clients_suppliers_btn; //
 
     @FXML
-    private Button reports_btn;
+    private Button reports_btn; //
 
     @FXML
-    private Button routine_monitor_btn;
-
-    @FXML
-    private Button sales_btn;
+    private Button sales_btn; //
 
     @FXML
     private Button stock_btn;
+
     @FXML
     private Button MilkClollection_btn;
+
+    @FXML
+    private Button manageUsersBtn;
+
     @FXML
     private Button logout;
 
@@ -93,8 +96,10 @@ public class MainLayoutController implements Initializable {
     private ScrollPane nav_scroll_pane;
 
     private Parent root = null;
+
     @FXML
-    private Button purchase_btn;
+    private Button purchase_btn; //
+
     @FXML
     void LoadStock(ActionEvent event) {
         String stock_view = "stock";
@@ -161,6 +166,13 @@ public class MainLayoutController implements Initializable {
         String purchase_view = "purchases";
         loadView(purchase_view);
     }
+
+    @FXML
+    void loadManageUsers(ActionEvent event) {
+        String manageUsersView = "users";
+        loadView(manageUsersView);
+    }
+
     private void loadView(String fxml) {
         String views_path = "/com/dfms/dairy_farm_management_system/";
         try {
@@ -217,6 +229,7 @@ public class MainLayoutController implements Initializable {
         navLinks.add(sales_btn);
         navLinks.add(stock_btn);
         navLinks.add(MilkClollection_btn);
+        navLinks.add(manageUsersBtn);
         navLinks.add(logout);
         return navLinks;
     }
