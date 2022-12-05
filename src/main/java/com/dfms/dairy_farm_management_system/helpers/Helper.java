@@ -3,6 +3,7 @@ package com.dfms.dairy_farm_management_system.helpers;
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Employee;
+import com.dfms.dairy_farm_management_system.models.Routine;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
@@ -15,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -243,5 +245,9 @@ public class Helper {
         } catch (NoSuchAlgorithmException e) {
             return false;
         }
+    }
+
+    public static int getRowIndex(MouseEvent event) {
+        return ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
     }
 }
