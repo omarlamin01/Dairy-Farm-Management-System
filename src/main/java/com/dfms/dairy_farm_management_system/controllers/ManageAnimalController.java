@@ -80,7 +80,11 @@ public class ManageAnimalController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         export_combo.setItems(list);
-        displayAnimals();
+        try {
+            displayAnimals();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         liveSearch();
         export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
@@ -131,7 +135,7 @@ public class ManageAnimalController implements Initializable {
         animals.setItems(listAnimal);
     }
 
-    public void displayAnimals() {
+    public void displayAnimals() throws SQLException, ClassNotFoundException {
         ObservableList<Animal> list = getAnimal();
         colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
         coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
@@ -143,9 +147,12 @@ public class ManageAnimalController implements Initializable {
             // make cell containing buttons
             final TableCell<Animal, String> cell = new TableCell<Animal, String>() {
 
-                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
+                Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                final Button btnEdit = new Button();
+                Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                final Button btnDelete = new Button();
+                Image imgViewDetail = new Image(getClass().getResourceAsStream("/images/eye.png"));
+                final Button btnViewDetail = new Button();
 
                 @Override
                 public void updateItem(String item, boolean empty) {
@@ -156,36 +163,52 @@ public class ManageAnimalController implements Initializable {
                         setText(null);
 
                     } else {
-                        ImageView iv_view_details = new ImageView();
-                        iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        iv_view_details.setImage(view_details_img);
-                        iv_view_details.setPreserveRatio(true);
-                        iv_view_details.setSmooth(true);
-                        iv_view_details.setCache(true);
+                        ImageView iv_viewDetail = new ImageView();
+                        iv_viewDetail.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        iv_viewDetail.setImage(imgViewDetail);
+                        iv_viewDetail.setPreserveRatio(true);
+                        iv_viewDetail.setSmooth(true);
+                        iv_viewDetail.setCache(true);
+                        btnViewDetail.setGraphic(iv_viewDetail);
+
+                        setGraphic(btnViewDetail);
+                        setText(null);
 
 
                         ImageView iv_edit = new ImageView();
                         iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        iv_edit.setImage(edit_img);
+                        iv_edit.setImage(imgEdit);
                         iv_edit.setPreserveRatio(true);
                         iv_edit.setSmooth(true);
                         iv_edit.setCache(true);
+                        btnEdit.setGraphic(iv_edit);
+
+                        setGraphic(btnEdit);
+                        setText(null);
 
                         ImageView iv_delete = new ImageView();
                         iv_delete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
 
-                        iv_delete.setImage(delete_img);
+                        iv_delete.setImage(imgDelete);
                         iv_delete.setPreserveRatio(true);
                         iv_delete.setSmooth(true);
                         iv_delete.setCache(true);
+                        btnDelete.setGraphic(iv_delete);
 
-                        HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
+
+                        setGraphic(btnDelete);
+
+                        setText(null);
+
+                        HBox managebtn = new HBox(iv_edit, iv_delete, iv_viewDetail);
                         managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
                         HBox.setMargin(iv_edit, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_viewDetail, new Insets(1, 1, 0, 3));
 
                         setGraphic(managebtn);
+
+                        setText(null);
 
 
                         iv_delete.setOnMouseClicked((MouseEvent event) -> {
@@ -193,19 +216,25 @@ public class ManageAnimalController implements Initializable {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete Confirmation");
                             alert.setHeaderText("Are you sure you want to delete this Cow?");
-                            Animal animal = animals.getSelectionModel().getSelectedItem();
+                            animal = animals.getSelectionModel().getSelectedItem();
                             String delete_query = "DELETE FROM animals WHERE id='" + animal.getId() + "'";
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
-                                    animal.delete();
-                                    displayAnimals();
-                                } catch (Exception e) {
-                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                                    statement = connection.prepareStatement(delete_query);
+                                    statement.execute();
+                                    refreshTableAnimal();
+                                } catch (SQLException e) {
+                                    throw new RuntimeException(e);
                                 }
+                                Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
+                                alertInfo.setTitle("Delete Cow");
+                                alertInfo.setHeaderText("Cow deleted successfully");
+                                alertInfo.showAndWait();
                             }
+
                         });
-                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
+                        iv_viewDetail.setOnMouseClicked((MouseEvent event) -> {
                             Animal animal = animals.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_details.fxml"));
                             Scene scene = null;
@@ -387,5 +416,4 @@ public class ManageAnimalController implements Initializable {
     void openAddNewRace(MouseEvent event) throws IOException {
         openNewWindow("Add New Race", "add_new_race");
     }
-
 }
