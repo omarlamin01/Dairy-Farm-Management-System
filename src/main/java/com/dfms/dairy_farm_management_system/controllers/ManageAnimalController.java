@@ -193,23 +193,17 @@ public class ManageAnimalController implements Initializable {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete Confirmation");
                             alert.setHeaderText("Are you sure you want to delete this Cow?");
-                            animal = animals.getSelectionModel().getSelectedItem();
+                            Animal animal = animals.getSelectionModel().getSelectedItem();
                             String delete_query = "DELETE FROM animals WHERE id='" + animal.getId() + "'";
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
-                                    statement = connection.prepareStatement(delete_query);
-                                    statement.execute();
-                                    refreshTableAnimal();
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
+                                    animal.delete();
+                                    displayAnimals();
+                                } catch (Exception e) {
+                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
-                                Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
-                                alertInfo.setTitle("Delete Cow");
-                                alertInfo.setHeaderText("Cow deleted successfully");
-                                alertInfo.showAndWait();
                             }
-
                         });
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
                             Animal animal = animals.getSelectionModel().getSelectedItem();
