@@ -166,7 +166,7 @@ public class UpdateEmployeeController implements Initializable {
         contractCombo.setValue(employee.getContractType());
         hireDate.setValue(employee.getHireDate().toLocalDate());
 
-        if(employee instanceof User) {
+        if (employee instanceof User) {
             getUser(employee.getCin());
             updateBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
                 updateUser(mouseEvent);
@@ -205,6 +205,8 @@ public class UpdateEmployeeController implements Initializable {
                 employee.setGender(rs.getString("gender"));
                 employee.setHireDate(rs.getDate("hire_date"));
                 employee.setSalary(rs.getFloat("salary"));
+                employee.setContractType(rs.getString("contract_type"));
+                //TODO: set role
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
@@ -216,7 +218,7 @@ public class UpdateEmployeeController implements Initializable {
     public void setRoleComboItems() {
         this.rolesList = FXCollections.observableArrayList();
         String[] names = getRoles().keySet().toArray(new String[0]);
-        for (String name: names) {
+        for (String name : names) {
             this.rolesList.add(name);
         }
         this.roleCombo.setItems(this.rolesList);
