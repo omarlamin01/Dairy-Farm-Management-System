@@ -231,7 +231,7 @@ public class EmployeeDetailsController implements Initializable {
         addEmptyLine(preface, 1);
         String outro = "Thank you for using our application\n" +
                 "For more information please contact us at grass.land.dairy@gmail.com";
-        preface.add(new Paragraph(outro, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph(outro, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK)));
         addEmptyLine(preface, 1);
         document.add(preface);
     }
