@@ -73,7 +73,11 @@ public class EmployeeDetailsController implements Initializable {
     @FXML
     private Label salary;
 
+    private static Employee current_employee = null;
+
     public void fetchEmployee(Employee employee) {
+        UpdateEmployeeController controller = new UpdateEmployeeController();
+        this.current_employee = controller.getEmployee(employee.getCin());
 
         //get the employee from the database
         Connection connection = getConnection();
@@ -154,8 +158,7 @@ public class EmployeeDetailsController implements Initializable {
         document.addCreator("GRASS LAND DAIRY");
     }
 
-    private static void addTitlePage(Document document)
-            throws DocumentException {
+    private static void addTitlePage(Document document) throws DocumentException {
         Paragraph preface = new Paragraph();
         // We add one empty line
         addEmptyLine(preface, 1);
@@ -171,7 +174,7 @@ public class EmployeeDetailsController implements Initializable {
 
         preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         addEmptyLine(preface, 3);
-        preface.add(new Paragraph("Here is all the information about the employee", new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC, BaseColor.BLACK)));
+        preface.add(new Paragraph("Here is all the information about " + current_employee.getFirstName() + " " + current_employee.getLastName(), new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC, BaseColor.BLACK)));
 
         addEmptyLine(preface, 8);
 
