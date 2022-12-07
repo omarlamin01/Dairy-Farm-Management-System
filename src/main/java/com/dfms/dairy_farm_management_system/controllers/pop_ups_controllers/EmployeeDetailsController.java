@@ -133,6 +133,7 @@ public class EmployeeDetailsController implements Initializable {
                 addTitlePage(document);
                 addContent(document);
                 addImage(document);
+                addOutro(document);
                 document.close();
                 displayAlert("Success", "Employee details saved successfully", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
@@ -161,7 +162,10 @@ public class EmployeeDetailsController implements Initializable {
         addEmptyLine(preface, 1);
 
         // Lets write a big header
-        preface.add(new Paragraph("EMPLOYEE INOFRMATION REPPORT", new Font(Font.FontFamily.HELVETICA, 24, Font.BOLD, BaseColor.BLUE)));
+        Paragraph title = new Paragraph("EMPLOYEE INOFRMATION REPPORT", new Font(Font.FontFamily.HELVETICA, 22, Font.BOLD, BaseColor.BLUE));
+        //center the title
+        title.setAlignment(Element.ALIGN_CENTER);
+        preface.add(title);
 
         addEmptyLine(preface, 1);
 
@@ -176,7 +180,7 @@ public class EmployeeDetailsController implements Initializable {
         addEmptyLine(preface, 4);
 
         String intro = "Here is all the information about " + current_employee.getFirstName() + " " + current_employee.getLastName() + ":";
-        preface.add(new Paragraph(intro, new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC, BaseColor.BLACK)));
+        preface.add(new Paragraph(intro, new Font(Font.FontFamily.HELVETICA, 14, Font.BOLDITALIC, BaseColor.BLACK)));
 
         addEmptyLine(preface, 1);
 
@@ -213,18 +217,23 @@ public class EmployeeDetailsController implements Initializable {
         try {
             image = Image.getInstance(Main.class.getResource("/images/logo.png"));
             image.scaleAbsolute(100, 100);
+
+            //put the image at the end of the document
+            image.setAbsolutePosition(450, 650);
             document.add(image);
         } catch (IOException | DocumentException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static void createList(Section subCatPart) {
-        List list = new List(true, false, 10);
-        list.add(new ListItem("First point"));
-        list.add(new ListItem("Second point"));
-        list.add(new ListItem("Third point"));
-        subCatPart.add(list);
+    private static void addOutro(Document document) throws DocumentException {
+        Paragraph preface = new Paragraph();
+        addEmptyLine(preface, 1);
+        String outro = "Thank you for using our application\n" +
+                "For more information please contact us at grass.land.dairy@gmail.com";
+        preface.add(new Paragraph(outro, new Font(Font.FontFamily.HELVETICA, 14, Font.BOLDITALIC, BaseColor.BLACK)));
+        addEmptyLine(preface, 1);
+        document.add(preface);
     }
 
     private static void addEmptyLine(Paragraph paragraph, int number) {
