@@ -4,6 +4,7 @@ import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.Routine;
+import org.apache.commons.lang3.StringUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
@@ -37,7 +38,7 @@ import java.util.function.DoubleConsumer;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class Helper {
-    public static final String DEFAULT_PASSWORD = "Pass123";
+    public static final String DEFAULT_PASSWORD = "1234";
 
     public static void centerScreen(Stage stage) {
         Screen screen = Screen.getPrimary();
@@ -200,7 +201,7 @@ public class Helper {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.showAndWait();
+        alert.show();
     }
 
     public static HashMap<String, Integer> getRoles() {
@@ -249,5 +250,10 @@ public class Helper {
 
     public static int getRowIndex(MouseEvent event) {
         return ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+    }
+
+    //format string to have the same length
+    public static String formatString(String string, int length) {
+        return StringUtils.rightPad(string, length);
     }
 }

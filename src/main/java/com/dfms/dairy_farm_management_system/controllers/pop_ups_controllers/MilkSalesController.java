@@ -11,14 +11,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
@@ -142,5 +140,27 @@ public class MilkSalesController implements Initializable {
         priceOfSale.clear();
         operationDate.setValue(null);
         add_update.setDisable(false);
+    }
+    public MilkSale getSale(int milkSale_ID) {
+        MilkSale milkSale = new MilkSale();
+        String query = "SELECT * FROM `milk_sales`   where id='" + milkSale_ID + "' LIMIT 1";
+        Connection con = getConnection();
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                milkSale.setId(rs.getInt("id"));
+                milkSale.setQuantity(rs.getFloat("quantity"));
+                milkSale.setPrice(rs.getFloat("price"));
+                milkSale.setClientId(rs.getInt("client_id"));
+                milkSale.setSale_date(rs.getDate("sale_date"));
+
+
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+        return milkSale;
     }
 }

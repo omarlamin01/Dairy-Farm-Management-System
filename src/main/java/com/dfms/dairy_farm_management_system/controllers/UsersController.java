@@ -329,7 +329,7 @@ public class UsersController implements Initializable {
                     row.createCell(2).setCellValue(emp.getLastName());
                     row.createCell(3).setCellValue(emp.getEmail());
                     row.createCell(4).setCellValue(emp.getPhone());
-                    row.createCell(5).setCellValue(emp.getAdress());
+                    row.createCell(5).setCellValue(emp.getAddress());
                     row.createCell(6).setCellValue(emp.getCin());
                     if (emp.getGender().equals("M")) {
                         row.createCell(7).setCellValue("Male");
@@ -422,7 +422,7 @@ public class UsersController implements Initializable {
                     table.addCell(new PdfPCell(new Paragraph(emp.getLastName()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(emp.getEmail()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(emp.getPhone()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(emp.getAdress()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getAddress()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(emp.getCin()))).setPadding(5);
                     if (emp.getGender().equals("M")) {
                         table.addCell(new PdfPCell(new Paragraph("Male"))).setPadding(5);
