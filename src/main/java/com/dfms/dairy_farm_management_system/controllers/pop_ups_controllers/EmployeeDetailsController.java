@@ -1,19 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.models.Employee;
-import com.itextpdf.text.Anchor;
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chapter;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.List;
-import com.itextpdf.text.ListItem;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Section;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -27,6 +15,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -142,6 +131,7 @@ public class EmployeeDetailsController implements Initializable {
                 addMetaData(document);
                 addTitlePage(document);
                 addContent(document);
+                addImage(document);
                 document.close();
                 displayAlert("Success", "Employee details saved successfully", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
@@ -177,14 +167,12 @@ public class EmployeeDetailsController implements Initializable {
                 "TEL: +212 20 1234567\n" +
                 "EMAIL:grass.land.dairy@gmail.com\n" +
                 "DATE: " + new Date().toString();
-        
+
         preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK)));
         addEmptyLine(preface, 3);
-        preface.add(new Paragraph("This document describes something which is very important ", smallBold));
+        preface.add(new Paragraph("Here is all the information about the employee", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK)));
 
         addEmptyLine(preface, 8);
-
-        preface.add(new Paragraph("This document is a preliminary version and n ;-).", redFont));
 
         document.add(preface);
         // Start a new page
@@ -192,17 +180,17 @@ public class EmployeeDetailsController implements Initializable {
     }
 
     private static void addContent(Document document) throws DocumentException {
-        Anchor anchor = new Anchor("First Chapter", catFont);
+        Anchor anchor = new Anchor("First Chapter", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
         anchor.setName("First Chapter");
 
         // Second parameter is the number of the chapter
         Chapter catPart = new Chapter(new Paragraph(anchor), 1);
 
-        Paragraph subPara = new Paragraph("Subcategory 1", subFont);
+        Paragraph subPara = new Paragraph("Subcategory 1", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
         Section subCatPart = catPart.addSection(subPara);
         subCatPart.add(new Paragraph("Hello"));
 
-        subPara = new Paragraph("Subcategory 2", subFont);
+        subPara = new Paragraph("Subcategory 2", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
         subCatPart = catPart.addSection(subPara);
         subCatPart.add(new Paragraph("Paragraph 1"));
         subCatPart.add(new Paragraph("Paragraph 2"));
@@ -221,13 +209,13 @@ public class EmployeeDetailsController implements Initializable {
         document.add(catPart);
 
         // Next section
-        anchor = new Anchor("Second Chapter", catFont);
+        anchor = new Anchor("Second Chapter", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
         anchor.setName("Second Chapter");
 
         // Second parameter is the number of the chapter
         catPart = new Chapter(new Paragraph(anchor), 1);
 
-        subPara = new Paragraph("Subcategory", subFont);
+        subPara = new Paragraph("Subcategory", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
         subCatPart = catPart.addSection(subPara);
         subCatPart.add(new Paragraph("This is a very important message"));
 
@@ -267,6 +255,17 @@ public class EmployeeDetailsController implements Initializable {
 
         subCatPart.add(table);
 
+    }
+
+    private static void addImage(Document document) {
+        Image image = null;
+        try {
+            image = Image.getInstance("/com/dfms/dairy_farm_management_system/images/logo.png");
+            image.scaleAbsolute(100, 100);
+            document.add(image);
+        } catch (IOException | DocumentException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void createList(Section subCatPart) {
