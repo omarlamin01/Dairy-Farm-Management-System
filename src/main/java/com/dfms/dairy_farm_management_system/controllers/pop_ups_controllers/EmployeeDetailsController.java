@@ -173,26 +173,28 @@ public class EmployeeDetailsController implements Initializable {
 
         preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
 
-        addEmptyLine(preface, 2);
+        addEmptyLine(preface, 4);
 
         String intro = "Here is all the information about " + current_employee.getFirstName() + " " + current_employee.getLastName() + ":";
         preface.add(new Paragraph(intro, new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC, BaseColor.BLACK)));
+
+        addEmptyLine(preface, 1);
 
         document.add(preface);
     }
 
     private static void addContent(Document document) throws DocumentException {
-        int MAX_LENGTH = 30;
         Paragraph preface = new Paragraph();
-        String full_name = "Full Name: " + rightPadd(current_employee.getFirstName() + " " + current_employee.getLastName(), MAX_LENGTH);
-        String email = "Email: " + rightPadd(current_employee.getEmail(), MAX_LENGTH);
-        String phone = "Phone: " + rightPadd(current_employee.getPhone(), MAX_LENGTH);
-        String address = "Address: " + rightPadd(current_employee.getAddress(), MAX_LENGTH);
-        String cin = "CIN: " + rightPadd(current_employee.getCin(), MAX_LENGTH);
-        String salary = "Salary: " + rightPadd(String.valueOf(current_employee.getSalary()), MAX_LENGTH);
-        String contract_type = "Contract Type: " + rightPadd(current_employee.getContractType(), MAX_LENGTH);
-        String hire_date = "Hire Date: " + rightPadd(current_employee.getHireDate().toString(), MAX_LENGTH);
-        //String role = "Role: " + rightPadd(current_employee.getRole().getName(), MAX_LENGTH);
+        System.out.println(current_employee.toString());
+        String full_name = "Full Name : " + current_employee.getFirstName() + " " + current_employee.getLastName();
+        String email = "Email     : " + current_employee.getEmail();
+        String phone = "Phone     : " + current_employee.getPhone();
+        String cin = "CIN       : " + current_employee.getCin();
+        String address = "Address   : " + current_employee.getAddress();
+        String salary = "Salary    : " + current_employee.getSalary();
+        String contract = "Contract  : " + current_employee.getContractType();
+        String hire_date = "Hire Date : " + current_employee.getHireDate();
+        //String role =      "Role      : " + current_employee.getRole();
 
         preface.add(new Paragraph(full_name, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         preface.add(new Paragraph(email, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
@@ -200,7 +202,7 @@ public class EmployeeDetailsController implements Initializable {
         preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         preface.add(new Paragraph(cin, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         preface.add(new Paragraph(salary, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
-        preface.add(new Paragraph(contract_type, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph(contract, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         preface.add(new Paragraph(hire_date, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         //preface.add(new Paragraph(role, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         document.add(preface);

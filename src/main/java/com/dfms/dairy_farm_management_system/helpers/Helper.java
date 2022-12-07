@@ -250,18 +250,4 @@ public class Helper {
     public static int getRowIndex(MouseEvent event) {
         return ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
     }
-
-    //format string to have fixed length for left padd
-    public static String leftPadd(String text, int length) {
-        return String.format("%" + length + "." + length + "s", text);
-    }
-
-    //format string to have fixed length for right padd
-
-    public static String rightPadd(String text, int length) {
-        return String.format("%-" + length + "." + length + "s", text);
-    }
-    public static String fixedLengthString(String string, int length) {
-        return String.format("%1$" + length + "s", string);
-    }
 }
