@@ -12,6 +12,7 @@ module com.dfms.dairy_farm_management_system {
     requires org.apache.logging.log4j;
     requires java.desktop;
     requires layout;
+    requires kernel;
 
     opens com.dfms.dairy_farm_management_system to javafx.fxml;
     exports com.dfms.dairy_farm_management_system;

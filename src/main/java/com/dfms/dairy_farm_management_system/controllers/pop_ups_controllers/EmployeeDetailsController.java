@@ -1,12 +1,22 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.models.Employee;
+import com.itextpdf.text.Anchor;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chapter;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.List;
+import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.layout.element.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -28,6 +38,7 @@ import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class EmployeeDetailsController implements Initializable {
     @Override
@@ -124,32 +135,151 @@ public class EmployeeDetailsController implements Initializable {
         File file = fileChooser.showSaveDialog(null);
 
         if (file != null) {
-            Document document = new Document();
             try {
-                FileOutputStream fileOutputStream = new FileOutputStream(file);
-                PdfWriter.getInstance(document, fileOutputStream);
-                PdfDocument pdfDocument = new PdfDocument();
+                Document document = new Document();
+                PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
-                document.add(new Paragraph("Employee Details"));
-
-                float col = 280f;
-                float[] columnWidths = {col, col};
-                Table table = new Table(columnWidths);
-                table.addCell(new Cell().add((IBlockElement) new Paragraph("Details")));
-                String header = "GRASS LAND DAIRY\n" +
-                        "Souss massa, Taroudant\n" +
-                        "Tel: +212 788 888 888\n" +
-                        "Email: grass.land.dairy@gmail.com";
-                table.addCell(new Cell().add((IBlockElement) new Paragraph(header)));
-
-                document.add((Element) table);
+                addMetaData(document);
+                addTitlePage(document);
+                addContent(document);
                 document.close();
-
                 displayAlert("Success", "Employee details saved successfully", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 e.printStackTrace();
                 displayAlert("Error", "Error while saving employee details", Alert.AlertType.ERROR);
             }
+        }
+    }
+
+
+    // iText allows to add metadata to the PDF which can be viewed in your Adobe
+    // Reader
+    // under File -> Properties
+    private static void addMetaData(Document document) {
+        document.addTitle("My first PDF");
+        document.addSubject("Using iText");
+        document.addKeywords("Java, PDF, iText");
+        document.addAuthor("Lars Vogel");
+        document.addCreator("Lars Vogel");
+    }
+
+    private static void addTitlePage(Document document)
+            throws DocumentException {
+        Paragraph preface = new Paragraph();
+        // We add one empty line
+        addEmptyLine(preface, 1);
+        // Lets write a big header
+        preface.add(new Paragraph("INVOICE", new Font(Font.FontFamily.HELVETICA, 22, Font.BOLD, BaseColor.BLUE)));
+
+        addEmptyLine(preface, 1);
+        String address = "GRASS LAND DAIRY\n" +
+                "Souss massa, Taroudant\n" +
+                "TEL: +212 20 1234567\n" +
+                "EMAIL:grass.land.dairy@gmail.com\n" +
+                "DATE: " + new Date().toString();
+        
+        preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK)));
+        addEmptyLine(preface, 3);
+        preface.add(new Paragraph("This document describes something which is very important ", smallBold));
+
+        addEmptyLine(preface, 8);
+
+        preface.add(new Paragraph("This document is a preliminary version and n ;-).", redFont));
+
+        document.add(preface);
+        // Start a new page
+        document.newPage();
+    }
+
+    private static void addContent(Document document) throws DocumentException {
+        Anchor anchor = new Anchor("First Chapter", catFont);
+        anchor.setName("First Chapter");
+
+        // Second parameter is the number of the chapter
+        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
+
+        Paragraph subPara = new Paragraph("Subcategory 1", subFont);
+        Section subCatPart = catPart.addSection(subPara);
+        subCatPart.add(new Paragraph("Hello"));
+
+        subPara = new Paragraph("Subcategory 2", subFont);
+        subCatPart = catPart.addSection(subPara);
+        subCatPart.add(new Paragraph("Paragraph 1"));
+        subCatPart.add(new Paragraph("Paragraph 2"));
+        subCatPart.add(new Paragraph("Paragraph 3"));
+
+        // add a list
+        createList(subCatPart);
+        Paragraph paragraph = new Paragraph();
+        addEmptyLine(paragraph, 5);
+        subCatPart.add(paragraph);
+
+        // add a table
+        createTable(subCatPart);
+
+        // now add all this to the document
+        document.add(catPart);
+
+        // Next section
+        anchor = new Anchor("Second Chapter", catFont);
+        anchor.setName("Second Chapter");
+
+        // Second parameter is the number of the chapter
+        catPart = new Chapter(new Paragraph(anchor), 1);
+
+        subPara = new Paragraph("Subcategory", subFont);
+        subCatPart = catPart.addSection(subPara);
+        subCatPart.add(new Paragraph("This is a very important message"));
+
+        // now add all this to the document
+        document.add(catPart);
+
+    }
+
+    private static void createTable(Section subCatPart)
+            throws BadElementException {
+        PdfPTable table = new PdfPTable(3);
+
+        // t.setBorderColor(BaseColor.GRAY);
+        // t.setPadding(4);
+        // t.setSpacing(4);
+        // t.setBorderWidth(1);
+
+        PdfPCell c1 = new PdfPCell(new Phrase("Table Header 1"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Table Header 2"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("Table Header 3"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+        table.setHeaderRows(1);
+
+        table.addCell("1.0");
+        table.addCell("1.1");
+        table.addCell("1.2");
+        table.addCell("2.1");
+        table.addCell("2.2");
+        table.addCell("2.3");
+
+        subCatPart.add(table);
+
+    }
+
+    private static void createList(Section subCatPart) {
+        List list = new List(true, false, 10);
+        list.add(new ListItem("First point"));
+        list.add(new ListItem("Second point"));
+        list.add(new ListItem("Third point"));
+        subCatPart.add(list);
+    }
+
+    private static void addEmptyLine(Paragraph paragraph, int number) {
+        for (int i = 0; i < number; i++) {
+            paragraph.add(new Paragraph(" "));
         }
     }
 
