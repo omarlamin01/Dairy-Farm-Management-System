@@ -108,7 +108,7 @@
                   <Insets bottom="10.0" left="8.0" />
                </GridPane.margin>
             </TextField>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addEmployee" styleClass="btn" text="Add" GridPane.columnSpan="2147483647" GridPane.rowIndex="6" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#addUser" styleClass="btn" text="Add" GridPane.columnSpan="2147483647" GridPane.rowIndex="6" />
             <TextField fx:id="phoneNumberInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Phone number" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <styleClass>
                   <String fx:value="input" />

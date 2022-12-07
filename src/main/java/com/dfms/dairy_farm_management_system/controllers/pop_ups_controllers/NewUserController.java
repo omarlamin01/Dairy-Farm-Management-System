@@ -1,7 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.models.Employee;
+import com.dfms.dairy_farm_management_system.models.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
@@ -23,16 +22,15 @@ public class NewUserController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setGenderComboItems();
-        this.setContractComboItems();
         this.setRoleComboItems();
         validatePhoneInput(phoneNumberInput);
-        validateDecimalInput(salaryInput);
         validateEmailInput(emailInput);
     }
 
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = DBConfig.getConnection();
+    
     @FXML
     TextField lastNameInput;
     @FXML
@@ -44,15 +42,9 @@ public class NewUserController implements Initializable {
     @FXML
     TextField phoneNumberInput;
     @FXML
-    TextField salaryInput;
-    @FXML
     ComboBox<String> genderCombo;
     @FXML
     ComboBox<String> roleCombo;
-    @FXML
-    DatePicker hireDate;
-    @FXML
-    ComboBox<String> contractCombo;
 
     ObservableList<String> rolesList;
     @FXML
@@ -60,10 +52,6 @@ public class NewUserController implements Initializable {
 
     public void setGenderComboItems() {
         this.genderCombo.setItems(FXCollections.observableArrayList("Male", "Female"));
-    }
-
-    public void setContractComboItems() {
-        this.contractCombo.setItems(FXCollections.observableArrayList("CDI", "CDD", "CTT"));
     }
 
     public void setRoleComboItems() {
@@ -75,9 +63,8 @@ public class NewUserController implements Initializable {
     }
 
     @FXML
-    public void addEmployee(MouseEvent mouseEvent) throws SQLException {
+    public void addUser(MouseEvent mouseEvent) throws SQLException {
         this.connection = DBConfig.getConnection();
-        System.out.println("Employee: { " + "First name: \"" + this.firstNameInput.getText() + "\", " + "Last name: \"" + this.lastNameInput.getText() + "\", " + "Email: \"" + this.emailInput.getText() + "\", " + "Phone: \"" + this.phoneNumberInput.getText() + "\", " + "Adress: \"" + this.adressInput.getText() + "\", " + "CIN: \"" + this.cininput.getText() + "\", " + "Salary: \"" + this.salaryInput.getText() + "\", " + "Hire date: \"" + this.hireDate.getValue() + "\", " + "Contract type: \"" + this.contractCombo.getValue() + "\", " + "Gender: \"" + this.genderCombo.getValue() + "\", " + "Role: \"" + this.roleCombo.getValue() + "\"" + " }");
 
         if (inputesAreEmpty()) {
             displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
@@ -90,9 +77,6 @@ public class NewUserController implements Initializable {
         String phone = this.phoneNumberInput.getText();
         String adress = this.adressInput.getText();
         String cin = this.cininput.getText();
-        String salary = this.salaryInput.getText();
-        String hireDate = this.hireDate.getValue().toString();
-        String contractType = this.contractCombo.getValue();
         String gender = this.genderCombo.getValue();
         String role = this.roleCombo.getValue();
 
@@ -101,25 +85,21 @@ public class NewUserController implements Initializable {
             return;
         }
 
-        Employee employee = new Employee();
-        employee.setFirstName(firstName);
-        employee.setLastName(lastName);
-        employee.setEmail(email);
-        employee.setPhone(phone);
-        employee.setAdress(adress);
-        employee.setCin(cin);
-        employee.setSalary(Float.parseFloat(salary));
-        Date date = Date.valueOf(hireDate);
-        employee.setHireDate(date);
-        employee.setContractType(contractType);
-        employee.setGender(gender);
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPhone(phone);
+        user.setAdress(adress);
+        user.setCin(cin);
+        user.setGender(gender);
 
-        //insert into employee table
-        if (employee.save()) {
-            displayAlert("Success", "Employee added successfully", Alert.AlertType.INFORMATION);
+        //insert into user table
+        if (user.save()) {
+            displayAlert("Success", "User saved successfully", Alert.AlertType.INFORMATION);
             ((Node) (mouseEvent.getSource())).getScene().getWindow().hide();
         } else {
-            displayAlert("Error", "Error while adding employee", Alert.AlertType.ERROR);
+            displayAlert("Error", "Error while saving user", Alert.AlertType.ERROR);
         }
     }
 
@@ -144,9 +124,6 @@ public class NewUserController implements Initializable {
                 || this.phoneNumberInput.getText().isEmpty()
                 || this.adressInput.getText().isEmpty()
                 || this.cininput.getText().isEmpty()
-                || this.salaryInput.getText().isEmpty()
-                || this.hireDate.getValue() == null
-                || this.contractCombo.getValue() == null
                 || this.genderCombo.getValue() == null
                 || this.roleCombo.getValue() == null)
             return true;
@@ -155,7 +132,7 @@ public class NewUserController implements Initializable {
 
     //check if email, cin and phone are unique
     public boolean isUnique(String email, String cin, String phone) {
-        String query = "SELECT * FROM `employees` WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
+        String query = "SELECT * FROM `users` WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
         try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
