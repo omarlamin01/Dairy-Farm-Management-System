@@ -391,7 +391,6 @@ public class EmployeesController implements Initializable {
         if (file != null) {
             try {
                 Document document = new Document();
-
                 //change document orientation to landscape
                 document.setPageSize(PageSize.A4.rotate());
 

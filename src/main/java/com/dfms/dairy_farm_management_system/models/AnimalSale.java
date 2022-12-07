@@ -23,6 +23,7 @@ public class AnimalSale implements Model {
         this.created_at = Timestamp.valueOf(LocalDateTime.now());
     }
 
+
     public int getId() {
         return id;
     }
@@ -37,7 +38,10 @@ public class AnimalSale implements Model {
 
     public void setClientId(int clientId) {
         this.clientId = clientId;
+        this.clientName = getClientName();
     }
+
+
 
     public String getAnimalId() {
         return animalId;
@@ -60,7 +64,7 @@ public class AnimalSale implements Model {
 
     public void setAnimalId(String animalId) {
         this.animalId = animalId;
-        this.clientName = getClientName();
+
     }
 
     public float getPrice() {

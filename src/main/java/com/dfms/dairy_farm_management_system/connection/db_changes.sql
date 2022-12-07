@@ -46,7 +46,7 @@ ALTER TABLE purchases
 ADD COLUMN quantity float not null;
 
 ALTER TABLE milk_sales
-    MODIFY quantity Float NOT NULL;
+   MODIFY quantity Float NOT NULL;
 
 # change clients, suppliers email column data type to varchar
 ALTER TABLE `clients`

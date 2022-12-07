@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,14 +12,12 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
@@ -156,5 +155,27 @@ public class CowSalesController implements Initializable {
         priceOfSale.clear();
         operationDate.setValue(null);
         add_update.setDisable(false);
+    }
+    public AnimalSale getSale(int animalSale_ID) {
+        AnimalSale animalSale = new AnimalSale();
+        String query = "SELECT * FROM `animals_sales`   where id='" + animalSale_ID + "' LIMIT 1";
+        Connection con = getConnection();
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                animalSale.setId(rs.getInt("id"));
+                animalSale.setAnimalId(rs.getString("animal_id"));
+                animalSale.setPrice(rs.getFloat("price"));
+                animalSale.setClientId(rs.getInt("client_id"));
+                animalSale.setSale_date(rs.getDate("sale_date"));
+
+
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+        return animalSale;
     }
 }
