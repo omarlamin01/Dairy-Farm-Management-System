@@ -1,15 +1,17 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.models.Employee;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.print.Printer;
-import javafx.print.PrinterJob;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -111,25 +113,32 @@ public class EmployeeDetailsController implements Initializable {
 
     @FXML
     void printEmployeeDetails(MouseEvent event) {
-        Printer printer = Printer.getDefaultPrinter();
-        if (printer != null) {
-            System.out.println("Printer: " + printer.getName());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
 
-            PrinterJob job = PrinterJob.createPrinterJob();
-            if (job != null) {
-                System.out.println(job.jobStatusProperty().asString());
-
-                boolean printed = job.printPage(header);
-                if (printed) {
-                    job.endJob();
-                } else {
-                    System.out.println("Printing failed.");
-                }
-            } else {
-                System.out.println("Could not create a printer job.");
+        if (file != null) {
+            Document document = new Document();
+            try {
+                PdfWriter.getInstance(document, new java.io.FileOutputStream(file));
+                document.open();
+                document.add(new com.itextpdf.text.Paragraph("Employee Details"));
+                document.add(new com.itextpdf.text.Paragraph("Name: " + first_name.getText() + " " + last_name.getText()));
+                document.add(new com.itextpdf.text.Paragraph("Email: " + email.getText()));
+                document.add(new com.itextpdf.text.Paragraph("Address: " + address.getText()));
+                document.add(new com.itextpdf.text.Paragraph("Phone: " + phone.getText()));
+                document.add(new com.itextpdf.text.Paragraph("CIN: " + cin.getText()));
+                document.add(new com.itextpdf.text.Paragraph("Salary: " + salary.getText()));
+                document.add(new com.itextpdf.text.Paragraph("Contract Type: " + contract_type.getText()));
+                document.add(new com.itextpdf.text.Paragraph("Recruitment Date: " + recruitment_date.getText()));
+                document.add(new com.itextpdf.text.Paragraph("Role: " + role.getText()));
+                document.close();
+                displayAlert("Success", "Employee details saved successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                e.printStackTrace();
+                displayAlert("Error", "Error while saving employee details", Alert.AlertType.ERROR);
             }
-        } else {
-            System.out.println("No printer found.");
         }
     }
 

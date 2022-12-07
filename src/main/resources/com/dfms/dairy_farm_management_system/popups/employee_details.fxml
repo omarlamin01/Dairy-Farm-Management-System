@@ -54,7 +54,7 @@
         </Label>
         <ScrollPane hbarPolicy="NEVER">
             <content>
-                <VBox maxHeight="848.0" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="556.0">
+                <VBox fx:id="details_layout" maxHeight="848.0" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="556.0">
                     <children>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                      <children>
