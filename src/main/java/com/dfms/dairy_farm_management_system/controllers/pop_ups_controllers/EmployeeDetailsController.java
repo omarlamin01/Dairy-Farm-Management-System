@@ -24,8 +24,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.fixedLengthString;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class EmployeeDetailsController implements Initializable {
     @Override
@@ -183,16 +182,17 @@ public class EmployeeDetailsController implements Initializable {
     }
 
     private static void addContent(Document document) throws DocumentException {
+        int MAX_LENGTH = 30;
         Paragraph preface = new Paragraph();
-        String full_name = fixedLengthString("Full Name: ", 20) + current_employee.getFirstName() + " " + current_employee.getLastName();
-        String email = fixedLengthString("Email: ", 20) + current_employee.getEmail();
-        String phone = fixedLengthString("Phone: ", 20) + current_employee.getPhone();
-        String address = fixedLengthString("Address: ", 20) + current_employee.getAddress();
-        String cin = fixedLengthString("CIN: ", 20) + current_employee.getCin();
-        String salary = fixedLengthString("Salary: ", 20) + current_employee.getSalary();
-        String contract_type = fixedLengthString("Contract Type: ", 20) + current_employee.getContractType();
-        String hire_date = fixedLengthString("Hire Date: ", 20) + current_employee.getHireDate();
-        //String role = fixedLengthString("Role: ", 20) + current_employee.getRole();
+        String full_name = "Full Name: " + rightPadd(current_employee.getFirstName() + " " + current_employee.getLastName(), MAX_LENGTH);
+        String email = "Email: " + rightPadd(current_employee.getEmail(), MAX_LENGTH);
+        String phone = "Phone: " + rightPadd(current_employee.getPhone(), MAX_LENGTH);
+        String address = "Address: " + rightPadd(current_employee.getAddress(), MAX_LENGTH);
+        String cin = "CIN: " + rightPadd(current_employee.getCin(), MAX_LENGTH);
+        String salary = "Salary: " + rightPadd(String.valueOf(current_employee.getSalary()), MAX_LENGTH);
+        String contract_type = "Contract Type: " + rightPadd(current_employee.getContractType(), MAX_LENGTH);
+        String hire_date = "Hire Date: " + rightPadd(current_employee.getHireDate().toString(), MAX_LENGTH);
+        //String role = "Role: " + rightPadd(current_employee.getRole().getName(), MAX_LENGTH);
 
         preface.add(new Paragraph(full_name, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         preface.add(new Paragraph(email, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
