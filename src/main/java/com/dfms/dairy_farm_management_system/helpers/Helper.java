@@ -250,4 +250,13 @@ public class Helper {
     public static int getRowIndex(MouseEvent event) {
         return ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
     }
+
+    //format string to have the same length
+    public static String formatString(String string, int length) {
+        if (string.length() > length) {
+            return string.substring(0, length - 3) + "...";
+        } else {
+            return String.format("%-" + length + "s", string);
+        }
+    }
 }

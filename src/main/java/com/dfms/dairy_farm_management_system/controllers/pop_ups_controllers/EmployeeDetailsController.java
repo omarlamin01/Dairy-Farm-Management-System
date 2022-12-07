@@ -188,16 +188,17 @@ public class EmployeeDetailsController implements Initializable {
     }
 
     private static void addContent(Document document) throws DocumentException {
+        int MAX_LENGTH = 30;
         Paragraph preface = new Paragraph();
         System.out.println(current_employee.toString());
-        String full_name = "Full Name : " + current_employee.getFirstName() + " " + current_employee.getLastName();
-        String email = "Email     : " + current_employee.getEmail();
-        String phone = "Phone     : " + current_employee.getPhone();
-        String cin = "CIN       : " + current_employee.getCin();
-        String address = "Address   : " + current_employee.getAddress();
-        String salary = "Salary    : " + current_employee.getSalary();
-        String contract = "Contract  : " + current_employee.getContractType();
-        String hire_date = "Hire Date : " + current_employee.getHireDate();
+        String full_name = formatString("Full Name: ", MAX_LENGTH) + current_employee.getFirstName() + " " + current_employee.getLastName();
+        String email = formatString("Email: ", MAX_LENGTH) + current_employee.getEmail();
+        String phone = formatString("Phone: ", MAX_LENGTH) + current_employee.getPhone();
+        String address = formatString("Address: ", MAX_LENGTH) + current_employee.getAddress();
+        String cin = formatString("CIN: ", MAX_LENGTH) + current_employee.getCin();
+        String contract_type = formatString("Contract Type: ", MAX_LENGTH) + current_employee.getContractType();
+        String hire_date = formatString("Hire Date: ", MAX_LENGTH) + current_employee.getHireDate();
+        String salary = formatString("Salary: ", MAX_LENGTH) + current_employee.getSalary();
         //String role =      "Role      : " + current_employee.getRole();
 
         preface.add(new Paragraph(full_name, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
@@ -206,7 +207,7 @@ public class EmployeeDetailsController implements Initializable {
         preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         preface.add(new Paragraph(cin, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         preface.add(new Paragraph(salary, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
-        preface.add(new Paragraph(contract, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph(contract_type, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         preface.add(new Paragraph(hire_date, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         //preface.add(new Paragraph(role, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         document.add(preface);
