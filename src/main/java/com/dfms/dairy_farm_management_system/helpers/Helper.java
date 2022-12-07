@@ -253,10 +253,14 @@ public class Helper {
 
     //format string to have the same length
     public static String formatString(String string, int length) {
-        if (string.length() > length) {
-            return string.substring(0, length - 3) + "...";
-        } else {
-            return String.format("%-" + length + "s", string);
+        String output = string;
+
+        for (int i = 0; i < length - string.length(); i++) {
+            output += " ";
         }
+
+        output += ": ";
+
+        return output;
     }
 }
