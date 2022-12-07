@@ -188,7 +188,7 @@ public class EmployeeDetailsController implements Initializable {
     }
 
     private static void addContent(Document document) throws DocumentException {
-        int MAX_LENGTH = 30;
+        int MAX_LENGTH = 22;
         Paragraph preface = new Paragraph();
         String full_name = formatString("Full Name:", MAX_LENGTH) + ": " + current_employee.getFirstName() + " " + current_employee.getLastName();
         String email = formatString("Email:", MAX_LENGTH) + ": " + current_employee.getEmail();
