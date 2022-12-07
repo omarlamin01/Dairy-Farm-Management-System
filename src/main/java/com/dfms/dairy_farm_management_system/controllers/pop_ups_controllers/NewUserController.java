@@ -30,7 +30,7 @@ public class NewUserController implements Initializable {
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = DBConfig.getConnection();
-    
+
     @FXML
     TextField lastNameInput;
     @FXML
