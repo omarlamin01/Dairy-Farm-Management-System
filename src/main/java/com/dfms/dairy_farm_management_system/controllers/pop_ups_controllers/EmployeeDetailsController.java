@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.fixedLengthString;
 
 public class EmployeeDetailsController implements Initializable {
     @Override
@@ -183,14 +184,25 @@ public class EmployeeDetailsController implements Initializable {
 
     private static void addContent(Document document) throws DocumentException {
         Paragraph preface = new Paragraph();
-        preface.add(new Paragraph("Full name: " + current_employee.getFirstName() + " " + current_employee.getLastName(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
-        preface.add(new Paragraph("Email: " + current_employee.getEmail(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
-        preface.add(new Paragraph("Address: " + current_employee.getAddress(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
-        preface.add(new Paragraph("Phone: " + current_employee.getPhone(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
-        preface.add(new Paragraph("CIN: " + current_employee.getCin(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
-        preface.add(new Paragraph("Salary: " + current_employee.getSalary(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
-        preface.add(new Paragraph("Contract type: " + current_employee.getContractType(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
-        preface.add(new Paragraph("Recruitment date: " + current_employee.getHireDate(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        String full_name = fixedLengthString("Full Name: ", 20) + current_employee.getFirstName() + " " + current_employee.getLastName();
+        String email = fixedLengthString("Email: ", 20) + current_employee.getEmail();
+        String phone = fixedLengthString("Phone: ", 20) + current_employee.getPhone();
+        String address = fixedLengthString("Address: ", 20) + current_employee.getAddress();
+        String cin = fixedLengthString("CIN: ", 20) + current_employee.getCin();
+        String salary = fixedLengthString("Salary: ", 20) + current_employee.getSalary();
+        String contract_type = fixedLengthString("Contract Type: ", 20) + current_employee.getContractType();
+        String hire_date = fixedLengthString("Hire Date: ", 20) + current_employee.getHireDate();
+        //String role = fixedLengthString("Role: ", 20) + current_employee.getRole();
+
+        preface.add(new Paragraph(full_name, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph(email, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph(phone, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph(cin, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph(salary, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph(contract_type, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph(hire_date, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        //preface.add(new Paragraph(role, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         document.add(preface);
     }
 

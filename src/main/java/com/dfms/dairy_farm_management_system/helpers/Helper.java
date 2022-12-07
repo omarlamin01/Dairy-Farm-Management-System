@@ -250,4 +250,9 @@ public class Helper {
     public static int getRowIndex(MouseEvent event) {
         return ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
     }
+
+    //format string to have fixed length
+    public static String fixedLengthString(String string, int length) {
+        return String.format("%1$" + length + "s", string);
+    }
 }
