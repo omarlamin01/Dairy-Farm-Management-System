@@ -18,6 +18,8 @@ public class Animal {
     private String type;
     private Timestamp created_at;
     private Timestamp updated_at;
+    Connection connection = getConnection();
+    private PreparedStatement preparedStatement;
 
     public Animal() {
         created_at = Timestamp.valueOf(LocalDateTime.now());
@@ -52,13 +54,34 @@ public class Animal {
         return routineId;
     }
 
+    public void setRaceId(int raceId) {
+        this.raceId = raceId;
+    }
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
+    }
+
     public String getRoutineName() {
-        String query = "SELECT `name` FROM `routines` WHERE `id` = " + routineId;
-        ;
+        String query = "SELECT `name` FROM `routines` WHERE `id` = "+routineId;
         try {
-            Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
+
+            preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 return resultSet.getString("name");
             }
@@ -80,7 +103,7 @@ public class Animal {
     public String getRaceName() {
         String query = "SELECT `name` FROM `races` WHERE `id` = " + raceId;
         try {
-            Connection connection = getConnection();
+
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -92,34 +115,6 @@ public class Animal {
         return null;
     }
 
-    public void setRaceId(int raceId) {
-        this.raceId = raceId;
-
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Timestamp getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
-    }
-
-    public Timestamp getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
-    }
 
     @Override
     public String toString() {
@@ -139,20 +134,20 @@ public class Animal {
 
     public boolean add() {
         String query = "INSERT INTO `animals` (`id`, `birth_date`, `purchase_date`, `routine`, `race`, `type`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        Connection connection = getConnection();
+         connection = getConnection();
         try {
-            PreparedStatement statement = connection.prepareStatement(query);
+           preparedStatement = connection.prepareStatement(query);
 
-            statement.setString(1, id);
-            statement.setDate(2, birth_date);
-            statement.setDate(3, purchase_date);
-            statement.setInt(4, routineId);
-            statement.setInt(5, raceId);
-            statement.setString(6, type);
-            statement.setTimestamp(7, created_at);
-            statement.setTimestamp(8, updated_at);
+            preparedStatement.setString(1, id);
+            preparedStatement.setDate(2, birth_date);
+            preparedStatement.setDate(3, purchase_date);
+            preparedStatement.setInt(4, routineId);
+            preparedStatement.setInt(5, raceId);
+            preparedStatement.setString(6, type);
+            preparedStatement.setTimestamp(7, created_at);
+            preparedStatement.setTimestamp(8, updated_at);
 
-            return statement.executeUpdate() != 0;
+            return preparedStatement.executeUpdate() != 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -162,7 +157,7 @@ public class Animal {
 
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        Connection connection = DBConfig.getConnection();
+        connection = DBConfig.getConnection();
         String query_update = "UPDATE `animals` SET " +
                 "`birth_date` = ?," +
                 "`purchase_date` =?," +
@@ -171,14 +166,14 @@ public class Animal {
                 "`type` = ?," +
                 "`updated_at` = ? WHERE `animals`.`id` = '" + id + "'";
         try {
-            PreparedStatement statement = connection.prepareStatement(query_update);
-            statement.setDate(1, birth_date);
-            statement.setDate(2, purchase_date);
-            statement.setInt(3, routineId);
-            statement.setInt(4, raceId);
-            statement.setString(5, type);
-            statement.setTimestamp(6, updated_at);
-            return statement.executeUpdate() != 0;
+            preparedStatement = connection.prepareStatement(query_update);
+            preparedStatement.setDate(1, birth_date);
+            preparedStatement.setDate(2, purchase_date);
+            preparedStatement.setInt(3, routineId);
+            preparedStatement.setInt(4, raceId);
+            preparedStatement.setString(5, type);
+            preparedStatement.setTimestamp(6, updated_at);
+            return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -188,10 +183,10 @@ public class Animal {
 
     public boolean delete() {
         String query = "DELETE FROM `animals` WHERE `animals`.`id` = '" + id + "'";
-        Connection connection = getConnection();
+        connection = getConnection();
         try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            return statement.executeUpdate() != 0;
+            preparedStatement = connection.prepareStatement(query);
+            return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }

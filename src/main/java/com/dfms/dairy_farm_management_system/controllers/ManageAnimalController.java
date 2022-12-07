@@ -5,6 +5,7 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewAnimalController;
 import com.dfms.dairy_farm_management_system.models.Animal;
+import com.dfms.dairy_farm_management_system.models.Employee;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -41,6 +42,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 
@@ -70,21 +72,15 @@ public class ManageAnimalController implements Initializable {
     private TextField textField_search;
 
 
-    Connection connection = DBConfig.getConnection();
-
-    PreparedStatement statement = null;
-    ResultSet resultSet = null;
-    Animal animal;
+    private  Connection connection = getConnection();
+    private PreparedStatement preparedStatement;
+    private  Statement statement;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        displayAnimals();
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         export_combo.setItems(list);
-        try {
-            displayAnimals();
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
         liveSearch();
         export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
@@ -94,23 +90,14 @@ public class ManageAnimalController implements Initializable {
             }
         });
     }
-
-
-    public void openAddNewAnimal(MouseEvent mouseEvent) throws IOException {
-        openNewWindow("Add New Animal", "add_new_animal");
-    }
-
-    ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
-
-    public ObservableList<Animal> getAnimal() {
+    public ObservableList<Animal> getAnimals() {
+        ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
         String select_query = "SELECT * from `animals`";
-
         try {
-            statement = connection.prepareStatement(select_query);
-            resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(select_query);
+            while(resultSet.next()) {
                 Animal animal = new Animal();
-
                 animal.setId(resultSet.getString("id"));
                 animal.setBirth_date(resultSet.getDate("birth_date"));
                 animal.setPurchase_date(resultSet.getDate("purchase_date"));
@@ -123,20 +110,13 @@ public class ManageAnimalController implements Initializable {
                 listAnimal.add(animal);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
 
         }
         return listAnimal;
     }
-
-    public void refreshTableAnimal() {
-        listAnimal.clear();
-        listAnimal = getAnimal();
-        animals.setItems(listAnimal);
-    }
-
-    public void displayAnimals() throws SQLException, ClassNotFoundException {
-        ObservableList<Animal> list = getAnimal();
+    public void displayAnimals() {
+        ObservableList<Animal> list = getAnimals();
         colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
         coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
         colbirth.setCellValueFactory(new PropertyValueFactory<Animal, Date>("birth_date"));
@@ -145,7 +125,7 @@ public class ManageAnimalController implements Initializable {
 
         Callback<TableColumn<Animal, String>, TableCell<Animal, String>> cellFoctory = (TableColumn<Animal, String> param) -> {
             // make cell containing buttons
-            final TableCell<Animal, String> cell = new TableCell<Animal, String>() {
+            final TableCell<Animal, String> cell = new TableCell<>() {
 
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
@@ -200,7 +180,7 @@ public class ManageAnimalController implements Initializable {
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     animal.delete();
-                                    refreshTableAnimal();
+                                    displayAnimals();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -261,28 +241,23 @@ public class ManageAnimalController implements Initializable {
         colactions.setCellFactory(cellFoctory);
         animals.setItems(list);
     }
-
     public void liveSearch() {
-        FilteredList<Animal> filteredData = new FilteredList<>(listAnimal, p -> true);
         textField_search.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(animal -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
+            if (newValue == null || newValue.isEmpty()) {
+                refreshTableAnimal();
+            } else {
+                ObservableList<Animal> filteredList = FXCollections.observableArrayList();
+                ObservableList<Animal> listanimals = getAnimals();
+                for (Animal animal : listanimals) {
+                    if (animal.getType().toLowerCase().contains(newValue.toLowerCase()) || animal.getRaceName().toLowerCase().contains(newValue.toLowerCase())) {
+                        filteredList.add(animal);
+                    }else{
+                        return;
+                    }
                 }
-
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (animal.getType().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else if (animal.getRaceName().toLowerCase().contains(lowerCaseFilter)) {
-                    return true;
-                } else return animal.getId().toLowerCase().contains(lowerCaseFilter);// Does not match.
-            });
+                animals.setItems(filteredList);
+            }
         });
-        SortedList<Animal> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(animals.comparatorProperty());
-        animals.setItems(sortedData);
     }
 
     void exportToPDF() {
@@ -387,9 +362,15 @@ public class ManageAnimalController implements Initializable {
     public void refreshTable(MouseEvent mouseEvent) {
         refreshTableAnimal();
     }
-
+    public void refreshTableAnimal() {
+        animals.getItems().clear();
+        displayAnimals();
+    }
     @FXML
     void openAddNewRace(MouseEvent event) throws IOException {
         openNewWindow("Add New Race", "add_new_race");
+    }
+    public void openAddNewAnimal(MouseEvent mouseEvent) throws IOException {
+        openNewWindow("Add New Animal", "add_new_animal");
     }
 }
