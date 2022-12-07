@@ -7,14 +7,17 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class User extends Employee {
     private int id;
     private String password;
     private int role;
+    private String roleName;
 
     public User() {
         super();
+        password = encryptPassword(DEFAULT_PASSWORD);
     }
 
     public int getId() {
@@ -25,12 +28,12 @@ public class User extends Employee {
         this.id = id;
     }
 
-    public String getPassword() {
-        return password;
+    public void setPassword(String password) {
+        this.password = encryptPassword(password);
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.password = encryptedPassword;
     }
 
     public int getRole() {
@@ -39,6 +42,24 @@ public class User extends Employee {
 
     public void setRole(int role) {
         this.role = role;
+        try {
+            PreparedStatement statement = getConnection().prepareStatement("SELECT `name` FROM `roles` WHERE `id` = ?");
+            statement.setInt(1, role);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                roleName = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public boolean validatePassword(String password) {
+        return MD5(this.password, password);
     }
 
     @Override
@@ -81,11 +102,11 @@ public class User extends Employee {
                 "', `last_name` = '" + super.getLastName() +
                 "', `cin` = '" + super.getCin() +
                 "', `email` = '" + super.getEmail() +
-                "', `password` = '" + password +
                 "', `gender` = '" + (super.getGender().equalsIgnoreCase("Male") ? 'M' : 'F') +
                 "', `phone` = '" + super.getPhone() +
                 "', `salary` = '" + super.getSalary() +
                 "', `address` = '" + super.getAdress() +
+                "', `role` = '" + role +
                 "', `updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) +
                 "' WHERE `id` = " + this.id;
         try {
@@ -96,6 +117,21 @@ public class User extends Employee {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean updatePassword() {
+        String query = "UPDATE `users` SET `password` = ? WHERE `id` = ?";
+        try {
+            PreparedStatement statement = getConnection().prepareStatement(query);
+
+            statement.setString(1, password);
+            statement.setInt(2, id);
+
+            return statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

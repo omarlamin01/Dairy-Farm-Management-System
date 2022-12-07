@@ -3,6 +3,7 @@ package com.dfms.dairy_farm_management_system.helpers;
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Employee;
+import com.dfms.dairy_farm_management_system.models.Routine;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
@@ -15,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -28,11 +30,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.DoubleConsumer;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+
 public class Helper {
-    private static Connection con = DBConfig.getConnection();
+    public static final String DEFAULT_PASSWORD = "Pass123";
 
     public static void centerScreen(Stage stage) {
         Screen screen = Screen.getPrimary();
@@ -198,15 +203,14 @@ public class Helper {
         alert.showAndWait();
     }
 
-    public static ObservableList<String> getRoles() {
-        ObservableList<String> rolesList = FXCollections.observableArrayList();
-        Statement st = null;
+    public static HashMap<String, Integer> getRoles() {
+        HashMap<String, Integer> rolesList = new HashMap<>();
+        Statement statement = null;
         try {
-            con = DBConfig.getConnection();
-            st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM `roles`");
+            statement = getConnection().createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM `roles`");
             while (rs.next()) {
-                rolesList.add(rs.getString("name"));
+                rolesList.put(rs.getString("name"), rs.getInt("id"));
             }
         } catch (SQLException e) {
             displayAlert("Error", "Error while getting roles", Alert.AlertType.ERROR);
@@ -232,17 +236,18 @@ public class Helper {
 
     public static boolean MD5(String encrypted_password, String password) {
         String md5 = null;
-        boolean isEquals = false;
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(password.getBytes());
             byte[] digest = md.digest();
             md5 = new BigInteger(1, digest).toString(16);
-            isEquals = md5.equals(encrypted_password);
+            return md5.equals(encrypted_password);
         } catch (NoSuchAlgorithmException e) {
-            isEquals = false;
+            return false;
         }
+    }
 
-        return isEquals;
+    public static int getRowIndex(MouseEvent event) {
+        return ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
     }
 }

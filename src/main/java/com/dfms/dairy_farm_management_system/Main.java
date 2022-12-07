@@ -27,7 +27,7 @@ public class Main extends Application {
         centerScreen(stage);
         stage.show();
 
-        String password = "abdellatif.laghjaj";
+        String password = "1234";
         String enc_pass = encryptPassword(password);
         System.out.println("Encrypted password: " + enc_pass);
 

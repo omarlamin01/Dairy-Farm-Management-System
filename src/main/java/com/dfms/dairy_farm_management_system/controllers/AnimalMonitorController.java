@@ -2,10 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.HealthStatusController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.PregnancyController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.RoutineController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.VaccinationController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.*;
 import com.dfms.dairy_farm_management_system.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -472,7 +469,7 @@ public class AnimalMonitorController implements Initializable {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete");
                             alert.setHeaderText("Are you sure you want to delete this vaccination?");
-                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            int index = getRowIndex(event);
                             Vaccination vaccination = vaccinations.get(index);
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
@@ -485,7 +482,7 @@ public class AnimalMonitorController implements Initializable {
                             }
                         });
                         edit_btn.setOnMouseClicked((MouseEvent event) -> {
-                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            int index = getRowIndex(event);
                             Vaccination vaccination = vaccinations.get(index);
                             String url = "popups/add_new_vaccination.fxml";
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
@@ -593,7 +590,7 @@ public class AnimalMonitorController implements Initializable {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete");
                             alert.setHeaderText("Are you sure you want to delete this routine?");
-                            int index = ((TableCell<Vaccination, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            int index = getRowIndex(event);
                             Routine routine = routines.get(index);
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
@@ -606,7 +603,7 @@ public class AnimalMonitorController implements Initializable {
                             }
                         });
                         edit_btn.setOnMouseClicked((MouseEvent event) -> {
-                            int index = ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            int index = getRowIndex(event);
                             Routine routine = routines.get(index);
                             String url = "popups/add_new_routine.fxml";
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));

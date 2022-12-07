@@ -2,7 +2,6 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.models.Routine;
 import com.dfms.dairy_farm_management_system.models.RoutineDetails;
-import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,9 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -22,7 +19,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
@@ -30,7 +26,7 @@ import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConne
 import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
-public class RoutineController implements Initializable {
+public class UpdateRoutineController {
     @FXML
     TextField routineName;
     @FXML
@@ -40,62 +36,12 @@ public class RoutineController implements Initializable {
     @FXML
     Button routineBtn;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.setFoods(null);
-        routineBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
-            Routine routine = new Routine();
-
-            routine.setName(routineName.getText());
-            routine.setNote(routineNotes.getText());
-
-            if (routine.save()) {
-                routine.setId(Routine.getLastId());
-                ArrayList<RoutineDetails> routineDetails = new ArrayList<>();
-                boolean detailsAreSaved = true;
-                for (Node box : foodList.getChildren()) {
-                    CheckBox checkBox = (CheckBox) ((VBox) ((HBox) box).getChildren().get(0)).getChildren().get(1);
-                    if (checkBox.isSelected()) {
-                        String foodName = checkBox.getText();
-                        String foodQuantity = ((TextField) (((VBox) ((HBox) box).getChildren().get(1)).getChildren().get(1))).getText();
-                        String foodPeriod = ((ComboBox<String>) (((VBox) ((HBox) box).getChildren().get(2)).getChildren().get(1))).getValue();
-
-                        RoutineDetails routineDetails1 = new RoutineDetails();
-
-//                        routineDetails1.setStock_id(getFoods().get(foodName));
-                        routineDetails1.setRoutine_id(routine.getId());
-                        routineDetails1.setQuantity(Float.parseFloat(foodQuantity));
-                        routineDetails1.setFeeding_time(foodPeriod);
-
-                        if (routineDetails1.save()) {
-                            routineDetails1.setId(RoutineDetails.getLastId());
-                            routineDetails.add(routineDetails1);
-                        } else {
-                            revertChanges(routine, routineDetails);
-                            detailsAreSaved = false;
-                            break;
-                        }
-                    }
-                }
-                if (detailsAreSaved) {
-                    closePopUp(mouseEvent);
-                    displayAlert("SUCCESS", "Routine saved successfully", Alert.AlertType.INFORMATION);
-                } else {
-                    displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
-                }
-            } else {
-                displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
-            }
-        });
-    }
-
     public void initData(Routine routine) {
         this.routineName.setText(routine.getName());
         this.routineNotes.setText(routine.getNote());
         setFoods(routine.getDetails());
         routineBtn.setText("UPDATE");
         routineBtn.setOnMouseClicked((MouseEvent mouseEvent) -> {
-//            TODO: for testing
             routine.setName(routineName.getText());
             routine.setNote(routineNotes.getText());
 
@@ -142,7 +88,9 @@ public class RoutineController implements Initializable {
     public void setFoods(ArrayList<RoutineDetails> details) {
         this.foodList.getChildren().clear();
         if (details != null) {
+            System.out.println("Details != null");
             if (!details.isEmpty()) {
+                System.out.println("Details != empty");
                 HashMap<String, RoutineDetails> detailsHashMap = new HashMap<>();
                 ArrayList<String> routinesFeedsNames = new ArrayList<>();
 
@@ -151,8 +99,13 @@ public class RoutineController implements Initializable {
                     routinesFeedsNames.add(routineDetails.getStock_name());
                 }
 
+                System.out.println(detailsHashMap);
+                System.out.println(routinesFeedsNames);
+                System.out.println(getFoods());
+
                 for (String foodName: getFoods()) {
                     if (routinesFeedsNames.contains(foodName)) {
+                        System.out.println("routine feeds contains " + foodName);
                         addSelectedItem(foodName, detailsHashMap.get(foodName));
                     } else {
                         addItem(foodName);
@@ -213,6 +166,7 @@ public class RoutineController implements Initializable {
         label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
         CheckBox checkBox = new CheckBox(food);
         checkBox.setSelected(true);
+        System.out.println(food + " checkbox is selected " + checkBox.isSelected());
         checkBox.getStyleClass().add("main_content");
         VBox.setMargin(checkBox, new Insets(10, 0, 0, 0));
         foodType.getChildren().add(label);

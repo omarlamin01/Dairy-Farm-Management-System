@@ -99,22 +99,8 @@ public class Stock implements Model {
     }
 
     @Override
-    public String toString() {
-        return "Stock{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", quantity=" + quantity +
-                ", availability=" + availability +
-                ", unit='" + unit + '\'' +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
-                '}';
-    }
-
-    @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO `stocks` (name, type, quantity, availability, unit, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO `stocks` (name, type, quantity, availability, unit) VALUES (?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -124,8 +110,6 @@ public class Stock implements Model {
             preparedStatement.setFloat(3, quantity);
             preparedStatement.setString(4, availability ? "1" : "0");
             preparedStatement.setString(5, unit);
-            preparedStatement.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
-            preparedStatement.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -149,6 +133,7 @@ public class Stock implements Model {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
             return preparedStatement.executeUpdate() != 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -166,5 +151,19 @@ public class Stock implements Model {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", quantity=" + quantity +
+                ", availability=" + availability +
+                ", unit='" + unit + '\'' +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                '}';
     }
 }

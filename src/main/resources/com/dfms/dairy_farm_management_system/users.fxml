@@ -17,13 +17,13 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.MilkCollectionController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.UsersController">
     <stylesheets>
         <URL value="@../../../style/style.css" />
         <URL value="@../../../style/table_view.css" />
     </stylesheets>
-    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="872.0" styleClass="main_content" stylesheets="@../../../style/style.css">
-        <Label styleClass="header" text="Milk Collection" textAlignment="CENTER">
+    <VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" stylesheets="@../../../style/style.css">
+        <Label styleClass="header" text="Employees" textAlignment="CENTER">
             <font>
                 <Font name="System Bold" size="24.0" />
             </font>
@@ -38,7 +38,7 @@
             <Rectangle arcHeight="5.0" fill="#2b9348" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
             <Rectangle arcHeight="5.0" fill="#2b9348" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
         </Pane>
-        <Label styleClass="sub_header" text="Manage your milk here" textAlignment="CENTER">
+        <Label styleClass="sub_header" text="Manage employees here" textAlignment="CENTER">
             <font>
                 <Font size="18.0" />
             </font>
@@ -50,12 +50,12 @@
             <VBox.margin>
                 <Insets bottom="10.0" />
             </VBox.margin>
-            <TextField fx:id="search_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for a cow..." styleClass="text-field-search">
+            <TextField fx:id="search_user_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for an employee..." styleClass="text-field-search">
                 <padding>
                     <Insets left="10.0" />
                 </padding>
             </TextField>
-            <Button fx:id="search_button" mnemonicParsing="false" styleClass="btn-search">
+            <Button fx:id="search_btn" mnemonicParsing="false" onMousePressed="#searchEmployee" styleClass="btn-search">
                 <graphic>
                     <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../../../icons/search.png" />
@@ -66,42 +66,36 @@
                 </HBox.margin>
             </Button>
             <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                <ComboBox fx:id="combo" promptText="Export" styleClass="combo_box">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin></ComboBox>
-            <Button fx:id="refresh_table_btn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" text="Refresh">
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../icons/refresh.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-            </Button>
-                <Button fx:id="openAddNewMilkCollectionBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddNewMilkCollection" styleClass="button-add" text="New collection" textAlignment="CENTER">
+                <ComboBox fx:id="export_combo" promptText="Export" styleClass="combo_box" />
+                <Button fx:id="refresh_table_btn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" text="Refresh" textAlignment="CENTER">
                     <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                            <Image url="@../../../icons/milk.png" />
+                            <Image url="@../../../icons/refresh.png" />
                         </ImageView>
                     </graphic>
                 </Button>
+            <Button fx:id="openAddNewEmployeeBtn1" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddUser" styleClass="button-add" text="New employee" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../icons/add_user.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Button>
             </HBox>
         </HBox>
-        <TableView fx:id="MilkCollectionTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+        <TableView fx:id="users_table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
             <columns>
-                <TableColumn fx:id="id_col" prefWidth="156.0" text="Cow Id" />
-                <TableColumn fx:id="milk_col" prefWidth="151.0" text="Milk quantity" />
-                <TableColumn fx:id="period_col" prefWidth="175.0" text="Period" />
-                <TableColumn fx:id="date_col" prefWidth="147.0" text="Added date" />
-                <TableColumn fx:id="actions_col" prefWidth="204.0" text="Actions" />
-            <TableColumn minWidth="0.0" prefWidth="0.0" />
+            <TableColumn fx:id="col_id" prefWidth="116.0" text="ID" />
+                <TableColumn fx:id="first_name_col" prefWidth="133.66665649414062" text="First name" />
+                <TableColumn fx:id="last_name_col" prefWidth="138.33331298828125" text="Last name" />
+                <TableColumn fx:id="email_col" prefWidth="142.33331298828125" text="Email" />
+                <TableColumn fx:id="role_col" prefWidth="144.0" text="Role" />
+                <TableColumn fx:id="actions_col" prefWidth="149.0" text="Actions" />
             </columns>
         </TableView>
     </VBox>

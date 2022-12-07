@@ -88,7 +88,7 @@
                 <Button fx:id="openAddNewMilkCollectionBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddNewMilkCollection" styleClass="button-add" text="New collection" textAlignment="CENTER">
                     <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                            <Image url="@../../../icons/add_user.png" />
+                            <Image url="@../../../icons/milk.png" />
                         </ImageView>
                     </graphic>
                 </Button>

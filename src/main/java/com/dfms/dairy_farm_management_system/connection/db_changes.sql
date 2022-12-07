@@ -70,3 +70,6 @@ ALTER TABLE `races`
 ALTER TABLE `routines`
     MODIFY note TEXT;
 
+#change role_id to role in users table
+ALTER TABLE `users`
+    CHANGE role_id role int(11) NOT NULL;

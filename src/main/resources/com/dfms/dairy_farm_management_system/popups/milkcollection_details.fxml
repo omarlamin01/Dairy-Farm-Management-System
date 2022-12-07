@@ -134,7 +134,7 @@
                                   <Label fx:id="quantity" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="JT09813" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
                                   <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                       <image>
-                                          <Image url="@../../../../icons/category.png" />
+                                          <Image url="@../../../../icons/milk.png" />
                                       </image>
                                   </ImageView>
                               </children>

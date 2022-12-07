@@ -145,7 +145,7 @@ public class Employee implements Model {
             preparedStatement.setDate(9, hire_date);
             preparedStatement.setString(10, contract_type);
 
-            //TODO: add created_at and updated_at and ROLE
+            //TODO: add created_at and updated_at
 
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
@@ -159,7 +159,8 @@ public class Employee implements Model {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
-        String updateQuery = "UPDATE `employees` SET `first_name` = '" + first_name +
+        String updateQuery = "UPDATE `employees` SET " +
+                "`first_name` = '" + first_name +
                 "', `last_name` = '" + last_name +
                 "', `gender` = '" + (gender.equalsIgnoreCase("Male") ? 'M' : 'F') +
                 "', `cin` = '" + cin +
@@ -167,8 +168,7 @@ public class Employee implements Model {
                 "', `phone` = '" + phone +
                 "', `address` = '" + adress +
                 "', `salary` = '" + salary +
-                "', `hire_date` = " + hire_date +
-                ", `contract_type` = '" + contract_type +
+                "', `contract_type` = '" + contract_type +
                 "', `updated_at` = '" + dtf.format(now) + "' " +
                 "WHERE `employees`.`cin` = '" + cin.toUpperCase() + "'";
         try {
@@ -192,5 +192,23 @@ public class Employee implements Model {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", cin='" + cin + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", adress='" + adress + '\'' +
+                ", salary=" + salary +
+                ", hire_date=" + hire_date +
+                ", contract_type='" + contract_type + '\'' +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                '}';
     }
 }
