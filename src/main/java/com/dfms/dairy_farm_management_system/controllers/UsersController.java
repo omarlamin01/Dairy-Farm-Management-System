@@ -3,6 +3,8 @@ package com.dfms.dairy_farm_management_system.controllers;
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateUserController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UserDetailsController;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.User;
 import com.itextpdf.text.*;
@@ -213,12 +215,12 @@ public class UsersController implements Initializable {
                         //update user
                         edit_btn.setOnMouseClicked((MouseEvent event) -> {
                             User user = users.get(getRowIndex(event));
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/update_employee.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/update_user.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
-                                UpdateEmployeeController controller = fxmlLoader.getController();
-                                controller.fetchEmployee(user);
+                                UpdateUserController controller = fxmlLoader.getController();
+                                controller.initData(user);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -235,12 +237,12 @@ public class UsersController implements Initializable {
                         //view employee details
                         view_details_btn.setOnMouseClicked((MouseEvent event) -> {
                             User user = users.get(getRowIndex(event));
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/user_details.fxml"));
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
-                                EmployeeDetailsController controller = fxmlLoader.getController();
-                                controller.fetchEmployee(user);
+                                UserDetailsController controller = fxmlLoader.getController();
+                                controller.initData(user);
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -263,7 +265,7 @@ public class UsersController implements Initializable {
     }
 
     public void openAddUser(MouseEvent mouseEvent) throws IOException {
-        openNewWindow("Add user", "add_new_employee");
+        openNewWindow("Add user", "add_new_user");
     }
 
     @FXML
@@ -290,7 +292,7 @@ public class UsersController implements Initializable {
     }
 
     @FXML
-    void searchEmployee(MouseEvent event) {
+    void searchUser(MouseEvent event) {
         liveSearch(this.search_user_input, users_table);
     }
 
