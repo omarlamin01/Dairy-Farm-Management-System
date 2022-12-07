@@ -147,12 +147,9 @@ public class ManageAnimalController implements Initializable {
             // make cell containing buttons
             final TableCell<Animal, String> cell = new TableCell<Animal, String>() {
 
-                Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                final Button btnEdit = new Button();
-                Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                final Button btnDelete = new Button();
-                Image imgViewDetail = new Image(getClass().getResourceAsStream("/images/eye.png"));
-                final Button btnViewDetail = new Button();
+                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
 
                 @Override
                 public void updateItem(String item, boolean empty) {
@@ -163,78 +160,57 @@ public class ManageAnimalController implements Initializable {
                         setText(null);
 
                     } else {
-                        ImageView iv_viewDetail = new ImageView();
-                        iv_viewDetail.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        iv_viewDetail.setImage(imgViewDetail);
-                        iv_viewDetail.setPreserveRatio(true);
-                        iv_viewDetail.setSmooth(true);
-                        iv_viewDetail.setCache(true);
-                        btnViewDetail.setGraphic(iv_viewDetail);
-
-                        setGraphic(btnViewDetail);
-                        setText(null);
+                        ImageView iv_view_details = new ImageView();
+                        iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
+                        iv_view_details.setImage(view_details_img);
+                        iv_view_details.setPreserveRatio(true);
+                        iv_view_details.setSmooth(true);
+                        iv_view_details.setCache(true);
 
 
                         ImageView iv_edit = new ImageView();
                         iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        iv_edit.setImage(imgEdit);
+                        iv_edit.setImage(edit_img);
                         iv_edit.setPreserveRatio(true);
                         iv_edit.setSmooth(true);
                         iv_edit.setCache(true);
-                        btnEdit.setGraphic(iv_edit);
-
-                        setGraphic(btnEdit);
-                        setText(null);
 
                         ImageView iv_delete = new ImageView();
                         iv_delete.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
 
-                        iv_delete.setImage(imgDelete);
+                        iv_delete.setImage(delete_img);
                         iv_delete.setPreserveRatio(true);
                         iv_delete.setSmooth(true);
                         iv_delete.setCache(true);
-                        btnDelete.setGraphic(iv_delete);
 
-
-                        setGraphic(btnDelete);
-
-                        setText(null);
-
-                        HBox managebtn = new HBox(iv_edit, iv_delete, iv_viewDetail);
+                        HBox managebtn = new HBox(iv_view_details, iv_edit, iv_delete);
                         managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(iv_edit, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_view_details, new Insets(1, 1, 0, 3));
                         HBox.setMargin(iv_delete, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(iv_viewDetail, new Insets(1, 1, 0, 3));
+                        HBox.setMargin(iv_edit, new Insets(1, 1, 0, 3));
 
                         setGraphic(managebtn);
 
-                        setText(null);
-
-
                         iv_delete.setOnMouseClicked((MouseEvent event) -> {
-
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete Confirmation");
                             alert.setHeaderText("Are you sure you want to delete this Cow?");
-                            animal = animals.getSelectionModel().getSelectedItem();
-                            String delete_query = "DELETE FROM animals WHERE id='" + animal.getId() + "'";
+                            Animal animal = animals.getSelectionModel().getSelectedItem();
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
-                                    statement = connection.prepareStatement(delete_query);
-                                    statement.execute();
+                                    animal.delete();
                                     refreshTableAnimal();
-                                } catch (SQLException e) {
-                                    throw new RuntimeException(e);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                                 Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
                                 alertInfo.setTitle("Delete Cow");
                                 alertInfo.setHeaderText("Cow deleted successfully");
                                 alertInfo.showAndWait();
                             }
-
                         });
-                        iv_viewDetail.setOnMouseClicked((MouseEvent event) -> {
+                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
                             Animal animal = animals.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_details.fxml"));
                             Scene scene = null;
@@ -243,8 +219,8 @@ public class ManageAnimalController implements Initializable {
                                 AnimalDetailsController controller = fxmlLoader.getController();
                                 controller.fetchAnimal(animal.getId(), animal.getRaceName(), animal.getBirth_date(), animal.getRoutineName(), animal.getPurchase_date(), animal.getType());
                             } catch (IOException e) {
-                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                             }
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
@@ -308,6 +284,7 @@ public class ManageAnimalController implements Initializable {
         sortedData.comparatorProperty().bind(animals.comparatorProperty());
         animals.setItems(sortedData);
     }
+
     void exportToPDF() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
@@ -357,6 +334,7 @@ public class ManageAnimalController implements Initializable {
             }
         }
     }
+
     void exportToExcel() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
@@ -414,5 +392,4 @@ public class ManageAnimalController implements Initializable {
     void openAddNewRace(MouseEvent event) throws IOException {
         openNewWindow("Add New Race", "add_new_race");
     }
-
 }
