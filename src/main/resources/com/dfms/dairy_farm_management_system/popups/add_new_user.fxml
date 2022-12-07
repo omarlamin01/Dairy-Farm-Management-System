@@ -5,7 +5,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -17,7 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="700.0" styleClass="main_content" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewEmployeeController">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewUserController">
       <children>
       <HBox alignment="CENTER_LEFT" spacing="10.0">
          <children>
@@ -29,7 +28,7 @@
                   <Insets />
                </HBox.margin>
             </Label>
-                <Label styleClass="header_green" text="Employee" textAlignment="CENTER">
+                <Label styleClass="header_green" text="User" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -45,7 +44,7 @@
                   <Insets bottom="10.0" />
               </VBox.margin>
           </Pane>
-          <Label styleClass="sub_header" text="Add an employee or a standart user to the system." textAlignment="CENTER">
+          <Label styleClass="sub_header" text="Add new user to the system." textAlignment="CENTER">
               <font>
                   <Font size="18.0" />
               </font>
@@ -119,15 +118,6 @@
                   <Insets bottom="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="salaryInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Salary" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets bottom="10.0" />
-               </GridPane.margin>
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="money_input" />
-               </styleClass>
-            </TextField>
             <ComboBox fx:id="genderCombo" maxWidth="1.7976931348623157E308" promptText="Gender" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="10.0" />
@@ -144,21 +134,6 @@
                <styleClass>
                   <String fx:value="combo_box" />
                   <String fx:value="role_input" />
-               </styleClass>
-            </ComboBox>
-            <DatePicker fx:id="hireDate" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Hire date" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets bottom="10.0" left="8.0" />
-               </GridPane.margin>
-               <styleClass>
-                  <String fx:value="input" />
-                  <String fx:value="date_input" />
-               </styleClass>
-            </DatePicker>
-            <ComboBox fx:id="contractCombo" maxWidth="1.7976931348623157E308" promptText="Contract type" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <styleClass>
-                  <String fx:value="combo_box" />
-                  <String fx:value="category_input" />
                </styleClass>
             </ComboBox>
             <TextField fx:id="adressInput" promptText="Adress" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
