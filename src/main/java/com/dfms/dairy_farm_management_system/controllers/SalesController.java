@@ -29,6 +29,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -49,6 +50,7 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 public class SalesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        BasicConfigurator.configure();
         combo.setItems(list);
         combo1.setItems(list);
 

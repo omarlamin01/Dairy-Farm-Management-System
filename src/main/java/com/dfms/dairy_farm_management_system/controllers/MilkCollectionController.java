@@ -2,13 +2,15 @@ package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.MilkCollectionlDetailsController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewAnimalController;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewMilkCollectionController;
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.*;
 import com.dfms.dairy_farm_management_system.models.Animal;
+import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -329,6 +331,7 @@ public class MilkCollectionController implements Initializable {
         }
     }
 
+    private static int COLUMNS_COUNT = 4;
     void exportToPDF(Node node_to_print) {
 //        FileChooser fileChooser = new FileChooser();
 //        fileChooser.setTitle("Save As");
@@ -385,22 +388,84 @@ public class MilkCollectionController implements Initializable {
 //            }
 //        }
 //    }
-        Printer printer = Printer.getDefaultPrinter();
-        PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.LANDSCAPE, Printer.MarginType.EQUAL);
 
-        PrinterJob job = PrinterJob.createPrinterJob();
-        if (job != null) {
-            job.getJobSettings().setPageLayout(pageLayout);
-            //rotate stock table
-            boolean success = job.printPage(node_to_print);
-            // set orientation to landscape
-            if (success) {
-                job.endJob();
-            } else {
-                displayAlert("Error", "Failed to print", Alert.AlertType.ERROR);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Document document = new Document();
+                //change document orientation to landscape
+                document.setPageSize(PageSize.A4.rotate());
+
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+                try {
+                    Paragraph title = new Paragraph("Milk Collections List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
+                    Paragraph text = new Paragraph("This is the list of Milk Collections", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+
+                    //center paragraph
+                    title.setAlignment(Element.ALIGN_CENTER);
+                    text.setAlignment(Element.ALIGN_CENTER);
+                    title.setSpacingAfter(30);
+                    text.setSpacingAfter(30);
+
+                    document.add(title);
+                    document.add(text);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+                PdfPTable table = new PdfPTable(COLUMNS_COUNT);
+
+                //change pdf orientation to landscape
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(11f);
+                table.setSpacingAfter(11f);
+                float[] colWidth = new float[COLUMNS_COUNT];
+                for (int i = 0; i < COLUMNS_COUNT; i++) {
+                    colWidth[i] = 2f;
+                }
+
+                //add table header
+                table.addCell(new PdfPCell(new Paragraph("Cow ID", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Quantity", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Period", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Collection date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+
+                //add padding to cells
+                table.getDefaultCell().setPadding(3);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+                table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+
+                //get employees displayed in table
+                ObservableList<MilkCollection> milkCollections = MilkCollectionTable.getItems();
+
+                //get employee of each row
+                //used a method in my updateEmplyeeController to get the employee of each row based on the cin
+                NewMilkCollectionController controller = new NewMilkCollectionController();
+
+                for (MilkCollection milkCollection : milkCollections) {
+                    MilkCollection milkCol = controller.getCollection(milkCollection.getId());
+
+                    table.addCell(new PdfPCell(new Paragraph(milkCol.getCow_id()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(milkCol.getQuantity())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(milkCol.getPeriod())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(milkCol.getCreated_at())))).setPadding(5);
+
+                }
+
+                document.add(table);
+                document.close();
+                displayAlert("Success", "Milk Collections exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
         }
     }
+
 
     public void liveSearch(TextField search_input, TableView table) {
         search_input.textProperty().addListener((observable, oldValue, newValue) -> {
