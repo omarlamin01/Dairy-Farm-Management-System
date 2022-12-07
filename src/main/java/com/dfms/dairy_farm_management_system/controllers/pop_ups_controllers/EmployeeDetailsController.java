@@ -1,5 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -189,78 +190,12 @@ public class EmployeeDetailsController implements Initializable {
         Paragraph subPara = new Paragraph("Subcategory 1", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
         Section subCatPart = catPart.addSection(subPara);
         subCatPart.add(new Paragraph("Hello"));
-
-        subPara = new Paragraph("Subcategory 2", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
-        subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Paragraph 1"));
-        subCatPart.add(new Paragraph("Paragraph 2"));
-        subCatPart.add(new Paragraph("Paragraph 3"));
-
-        // add a list
-        createList(subCatPart);
-        Paragraph paragraph = new Paragraph();
-        addEmptyLine(paragraph, 5);
-        subCatPart.add(paragraph);
-
-        // add a table
-        createTable(subCatPart);
-
-        // now add all this to the document
-        document.add(catPart);
-
-        // Next section
-        anchor = new Anchor("Second Chapter", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
-        anchor.setName("Second Chapter");
-
-        // Second parameter is the number of the chapter
-        catPart = new Chapter(new Paragraph(anchor), 1);
-
-        subPara = new Paragraph("Subcategory", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
-        subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("This is a very important message"));
-
-        // now add all this to the document
-        document.add(catPart);
-
-    }
-
-    private static void createTable(Section subCatPart)
-            throws BadElementException {
-        PdfPTable table = new PdfPTable(3);
-
-        // t.setBorderColor(BaseColor.GRAY);
-        // t.setPadding(4);
-        // t.setSpacing(4);
-        // t.setBorderWidth(1);
-
-        PdfPCell c1 = new PdfPCell(new Phrase("Table Header 1"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Table Header 2"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Table Header 3"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(c1);
-        table.setHeaderRows(1);
-
-        table.addCell("1.0");
-        table.addCell("1.1");
-        table.addCell("1.2");
-        table.addCell("2.1");
-        table.addCell("2.2");
-        table.addCell("2.3");
-
-        subCatPart.add(table);
-
     }
 
     private static void addImage(Document document) {
         Image image = null;
         try {
-            image = Image.getInstance("/com/dfms/dairy_farm_management_system/images/logo.png");
+            image = Image.getInstance(Main.class.getResource("/images/logo.png"));
             image.scaleAbsolute(100, 100);
             document.add(image);
         } catch (IOException | DocumentException e) {
