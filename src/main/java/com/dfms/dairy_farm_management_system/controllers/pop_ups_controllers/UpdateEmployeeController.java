@@ -7,13 +7,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
@@ -162,7 +160,7 @@ public class UpdateEmployeeController implements Initializable {
         firstNameInput.setText(employee.getFirstName());
         lastNameInput.setText(employee.getLastName());
         salaryInput.setText(String.valueOf(employee.getSalary()));
-        addressInput.setText(employee.getAdress());
+        addressInput.setText(employee.getAddress());
         cinInput.setText(employee.getCin());
         phoneNumberInput.setText(employee.getPhone());
         contractCombo.setValue(employee.getContractType());

@@ -3,8 +3,6 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,12 +21,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class EmployeeDetailsController implements Initializable {
     @Override
@@ -185,20 +181,22 @@ public class EmployeeDetailsController implements Initializable {
         addEmptyLine(preface, 8);
 
         document.add(preface);
+
         // Start a new page
         document.newPage();
     }
 
     private static void addContent(Document document) throws DocumentException {
-        Anchor anchor = new Anchor("First Chapter", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
-        anchor.setName("First Chapter");
-
-        // Second parameter is the number of the chapter
-        Chapter catPart = new Chapter(new Paragraph(anchor), 1);
-
-        Paragraph subPara = new Paragraph("Subcategory 1", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, BaseColor.BLUE));
-        Section subCatPart = catPart.addSection(subPara);
-        subCatPart.add(new Paragraph("Hello"));
+        Paragraph preface = new Paragraph();
+        preface.add(new Paragraph("Full name: " + current_employee.getFirstName() + " " + current_employee.getLastName(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph("Email: " + current_employee.getEmail(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph("Address: " + current_employee.getAddress(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph("Phone: " + current_employee.getPhone(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph("CIN: " + current_employee.getCin(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph("Salary: " + current_employee.getSalary(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph("Contract type: " + current_employee.getContractType(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(new Paragraph("Recruitment date: " + current_employee.getHireDate(), new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        document.add(preface);
     }
 
     private static void addImage(Document document) {
@@ -233,7 +231,7 @@ public class EmployeeDetailsController implements Initializable {
         System.out.println("Last Name: " + employee.getLastName());
         System.out.println("Email: " + employee.getEmail());
         System.out.println("Phone: " + employee.getPhone());
-        System.out.println("Address: " + employee.getAdress());
+        System.out.println("Address: " + employee.getAddress());
         System.out.println("CIN: " + employee.getCin());
         System.out.println("Salary: " + employee.getSalary());
         System.out.println("Recruitment Date: " + employee.getHireDate());

@@ -1,10 +1,7 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
-
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
@@ -82,7 +79,7 @@ public class User extends Employee {
                 preparedStatement.setString(6, super.getGender().equalsIgnoreCase("Male") ? "M" : "F");
                 preparedStatement.setString(7, super.getPhone());
                 preparedStatement.setFloat(8, super.getSalary());
-                preparedStatement.setString(9, super.getAdress());
+                preparedStatement.setString(9, super.getAddress());
                 preparedStatement.setInt(10, role);
                 preparedStatement.setTimestamp(11, super.getCreatedAt());
                 preparedStatement.setTimestamp(12, super.getUpdatedAt());
@@ -105,7 +102,7 @@ public class User extends Employee {
                 "', `gender` = '" + (super.getGender().equalsIgnoreCase("Male") ? 'M' : 'F') +
                 "', `phone` = '" + super.getPhone() +
                 "', `salary` = '" + super.getSalary() +
-                "', `address` = '" + super.getAdress() +
+                "', `address` = '" + super.getAddress() +
                 "', `role` = '" + role +
                 "', `updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) +
                 "' WHERE `id` = " + this.id;
