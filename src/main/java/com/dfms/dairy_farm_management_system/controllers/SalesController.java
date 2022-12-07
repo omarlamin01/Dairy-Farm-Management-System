@@ -247,9 +247,8 @@ public class SalesController implements Initializable {
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     if (mc.delete()) {
-
                                         displayAlert("success", "Animal Sale deleted successfully", Alert.AlertType.INFORMATION);
-                                        refreshTableMilkSales();
+                                        refreshTableAnimalSales();
                                     } else {
                                         displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
 

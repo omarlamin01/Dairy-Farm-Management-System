@@ -201,7 +201,7 @@ public class Helper {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.show();
+        alert.showAndWait();
     }
 
     public static HashMap<String, Integer> getRoles() {
