@@ -209,8 +209,10 @@ public class EmployeesController implements Initializable {
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
-                                    employee.delete();
-                                    displayEmployees();
+                                    if (employee.delete()) {
+                                        displayAlert("Success", "Employee deleted successfully", Alert.AlertType.INFORMATION);
+                                        displayEmployees();
+                                    }
                                 } catch (Exception e) {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }

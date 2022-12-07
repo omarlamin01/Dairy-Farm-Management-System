@@ -251,15 +251,11 @@ public class SalesController implements Initializable {
                                         refreshTableAnimalSales();
                                     } else {
                                         displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
-
                                     }
                                 } catch (Exception e) {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
                             }
-
-                            //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
-
                         });
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
 
@@ -563,7 +559,9 @@ public class SalesController implements Initializable {
             }
         }
     }
+
     private static int COLUMNS_COUNT = 4;
+
     void exportToPDF() {
 //        FileChooser fileChooser = new FileChooser();
 //        fileChooser.setTitle("Save As");
@@ -677,7 +675,7 @@ public class SalesController implements Initializable {
 
                 //get employee of each row
                 //used a method in my updateEmplyeeController to get the employee of each row based on the cin
-                 CowSalesController controller = new CowSalesController();
+                CowSalesController controller = new CowSalesController();
 
                 for (AnimalSale animalSale : animalsales) {
                     AnimalSale animalsa = controller.getSale(animalSale.getId());
@@ -833,7 +831,7 @@ public class SalesController implements Initializable {
 
                 //get employee of each row
                 //used a method in my updateEmplyeeController to get the employee of each row based on the cin
-               MilkSalesController controller = new MilkSalesController();
+                MilkSalesController controller = new MilkSalesController();
 
                 for (MilkSale MilkSale : milkSales) {
                     MilkSale milksa = controller.getSale(MilkSale.getId());
@@ -853,6 +851,7 @@ public class SalesController implements Initializable {
             }
         }
     }
+
     void exportToExcel2() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
