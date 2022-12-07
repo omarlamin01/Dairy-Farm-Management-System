@@ -252,15 +252,22 @@ public class Helper {
     }
 
     //format string to have the same length
-    public static String formatString(String string, int length) {
+    public static String formatString(String string, String[] labels, int length) {
+        int max = 0;
+        int max_padd_to_add = 0;
         String output = string;
-
-        for (int i = 0; i < length - string.length(); i++) {
-            output += " ";
+        for (String label : labels) {
+            if (label.length() > max) {
+                max = label.length();
+            }
         }
 
-        output += ": ";
-
+        for (int i = 0; i < labels.length; i++) {
+            max_padd_to_add = length - labels[i].length();
+            for (int j = 0; j < max_padd_to_add; j++) {
+                output += " ";
+            }
+        }
         return output;
     }
 }
