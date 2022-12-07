@@ -11,7 +11,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -40,8 +39,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -322,7 +319,7 @@ public class EmployeesController implements Initializable {
         System.out.println("Employee Last Name: " + employee.getLastName());
         System.out.println("Employee Email: " + employee.getEmail());
         System.out.println("Employee Phone: " + employee.getPhone());
-        System.out.println("Employee Address: " + employee.getAdress());
+        System.out.println("Employee Address: " + employee.getAddress());
         System.out.println("Employee Cin: " + employee.getCin());
         System.out.println("Employee gender: " + employee.getGender());
         System.out.println("Employee Recrutement Date: " + employee.getHireDate());
@@ -362,7 +359,7 @@ public class EmployeesController implements Initializable {
                     row.createCell(1).setCellValue(emp.getLastName());
                     row.createCell(2).setCellValue(emp.getEmail());
                     row.createCell(3).setCellValue(emp.getPhone());
-                    row.createCell(4).setCellValue(emp.getAdress());
+                    row.createCell(4).setCellValue(emp.getAddress());
                     row.createCell(5).setCellValue(emp.getCin());
                     if (emp.getGender().equals("M")) {
                         row.createCell(6).setCellValue("Male");
@@ -455,7 +452,7 @@ public class EmployeesController implements Initializable {
                     table.addCell(new PdfPCell(new Paragraph(emp.getLastName()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(emp.getEmail()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(emp.getPhone()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(emp.getAdress()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getAddress()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(emp.getCin()))).setPadding(5);
                     if (emp.getGender().equals("M")) {
                         table.addCell(new PdfPCell(new Paragraph("Male"))).setPadding(5);

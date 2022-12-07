@@ -74,7 +74,7 @@ public class Employee implements Model {
         this.phone = phone;
     }
 
-    public String getAdress() {
+    public String getAddress() {
         return adress;
     }
 
