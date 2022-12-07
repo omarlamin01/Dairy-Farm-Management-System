@@ -4,6 +4,7 @@ import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.Routine;
+import org.apache.commons.lang3.StringUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
@@ -252,22 +253,7 @@ public class Helper {
     }
 
     //format string to have the same length
-    public static String formatString(String string, String[] labels, int length) {
-        int max = 0;
-        int max_padd_to_add = 0;
-        String output = string;
-        for (String label : labels) {
-            if (label.length() > max) {
-                max = label.length();
-            }
-        }
-
-        for (int i = 0; i < labels.length; i++) {
-            max_padd_to_add = length - labels[i].length();
-            for (int j = 0; j < max_padd_to_add; j++) {
-                output += " ";
-            }
-        }
-        return output;
+    public static String formatString(String string, int length) {
+        return StringUtils.rightPad(string, length);
     }
 }

@@ -189,18 +189,16 @@ public class EmployeeDetailsController implements Initializable {
 
     private static void addContent(Document document) throws DocumentException {
         int MAX_LENGTH = 30;
-        String[] labels = {"Full Name", "Email", "Phone", "Address", "CIN", "Salary", "Contract Type", "Recruitment Date"};
         Paragraph preface = new Paragraph();
-
-        String full_name = formatString("Full Name", labels, MAX_LENGTH) + ": " + current_employee.getFirstName() + " " + current_employee.getLastName();
-        String email = formatString("Email", labels, MAX_LENGTH) + ": " + current_employee.getEmail();
-        String phone = formatString("Phone", labels, MAX_LENGTH) + ": " + current_employee.getPhone();
-        String address = formatString("Address", labels, MAX_LENGTH) + ": " + current_employee.getAddress();
-        String cin = formatString("CIN", labels, MAX_LENGTH) + ": " + current_employee.getCin();
-        String salary = formatString("Salary", labels, MAX_LENGTH) + ": " + current_employee.getSalary();
-        String contract_type = formatString("Contract Type", labels, MAX_LENGTH) + ": " + current_employee.getContractType();
-        String hire_date = formatString("Recruitment Date", labels, MAX_LENGTH) + ": " + current_employee.getHireDate();
-        //String role = formatString("Role", labels, MAX_LENGTH) + ": " + current_employee.getRole();
+        String full_name = formatString("Full Name", MAX_LENGTH) + current_employee.getFirstName() + " " + current_employee.getLastName();
+        String email = formatString("Email", MAX_LENGTH) + current_employee.getEmail();
+        String phone = formatString("Phone", MAX_LENGTH) + current_employee.getPhone();
+        String address = formatString("Address", MAX_LENGTH) + current_employee.getAddress();
+        String cin = formatString("CIN", MAX_LENGTH) + current_employee.getCin();
+        String contract_type = formatString("Contract Type", MAX_LENGTH) + current_employee.getContractType();
+        String hire_date = formatString("Hire Date", MAX_LENGTH) + current_employee.getHireDate();
+        String salary = formatString("Salary", MAX_LENGTH) + current_employee.getSalary();
+        //String role =      "Role      : " + current_employee.getRole();
 
         preface.add(new Paragraph(full_name, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         preface.add(new Paragraph(email, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
