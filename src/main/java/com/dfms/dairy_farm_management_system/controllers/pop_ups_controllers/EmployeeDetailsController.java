@@ -179,9 +179,6 @@ public class EmployeeDetailsController implements Initializable {
         preface.add(new Paragraph(intro, new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC, BaseColor.BLACK)));
 
         document.add(preface);
-
-        // Start a new page
-        document.newPage();
     }
 
     private static void addContent(Document document) throws DocumentException {
