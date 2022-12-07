@@ -147,11 +147,11 @@ public class EmployeeDetailsController implements Initializable {
     // Reader
     // under File -> Properties
     private static void addMetaData(Document document) {
-        document.addTitle("My first PDF");
-        document.addSubject("Using iText");
-        document.addKeywords("Java, PDF, iText");
-        document.addAuthor("Lars Vogel");
-        document.addCreator("Lars Vogel");
+        document.addTitle("Employee Details");
+        document.addSubject("Print all employee details");
+        document.addKeywords("employee, details, pdf");
+        document.addAuthor("GRASS LAND DAIRY");
+        document.addCreator("GRASS LAND DAIRY");
     }
 
     private static void addTitlePage(Document document)
@@ -160,7 +160,7 @@ public class EmployeeDetailsController implements Initializable {
         // We add one empty line
         addEmptyLine(preface, 1);
         // Lets write a big header
-        preface.add(new Paragraph("INVOICE", new Font(Font.FontFamily.HELVETICA, 22, Font.BOLD, BaseColor.BLUE)));
+        preface.add(new Paragraph("EMPLOYEE INOFRMATION REPPORT", new Font(Font.FontFamily.HELVETICA, 24, Font.BOLD, BaseColor.BLUE)));
 
         addEmptyLine(preface, 1);
         String address = "GRASS LAND DAIRY\n" +
@@ -169,9 +169,9 @@ public class EmployeeDetailsController implements Initializable {
                 "EMAIL:grass.land.dairy@gmail.com\n" +
                 "DATE: " + new Date().toString();
 
-        preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK)));
+        preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         addEmptyLine(preface, 3);
-        preface.add(new Paragraph("Here is all the information about the employee", new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.BLACK)));
+        preface.add(new Paragraph("Here is all the information about the employee", new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC, BaseColor.BLACK)));
 
         addEmptyLine(preface, 8);
 
