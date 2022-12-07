@@ -3,8 +3,12 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -24,6 +28,8 @@ public class EmployeeDetailsController implements Initializable {
 
     }
 
+    @FXML
+    private Button print_btn;
     @FXML
     private Label header;
     @FXML
@@ -101,6 +107,30 @@ public class EmployeeDetailsController implements Initializable {
             e.printStackTrace();
         }
         return role;
+    }
+
+    @FXML
+    void printEmployeeDetails(MouseEvent event) {
+        Printer printer = Printer.getDefaultPrinter();
+        if (printer != null) {
+            System.out.println("Printer: " + printer.getName());
+
+            PrinterJob job = PrinterJob.createPrinterJob();
+            if (job != null) {
+                System.out.println(job.jobStatusProperty().asString());
+
+                boolean printed = job.printPage(header);
+                if (printed) {
+                    job.endJob();
+                } else {
+                    System.out.println("Printing failed.");
+                }
+            } else {
+                System.out.println("Could not create a printer job.");
+            }
+        } else {
+            System.out.println("No printer found.");
+        }
     }
 
     //print the employee details
