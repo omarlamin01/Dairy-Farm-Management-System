@@ -4,8 +4,6 @@ import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.*;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
-import com.dfms.dairy_farm_management_system.models.Employee;
-import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import com.dfms.dairy_farm_management_system.models.MilkSale;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -17,8 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.print.*;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -56,14 +52,14 @@ public class SalesController implements Initializable {
 
         combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
-                exportToPDF(AnimalSalesTable);
+                exportToPDF();
             } else {
                 exportToExcel();
             }
         });
         combo1.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
-                exportToPDF2(MilkSaleTable);
+                exportToPDF2();
             } else {
                 exportToExcel2();
             }
@@ -569,7 +565,7 @@ public class SalesController implements Initializable {
         }
     }
     private static int COLUMNS_COUNT = 4;
-    void exportToPDF(Node node_to_print) {
+    void exportToPDF() {
 //        FileChooser fileChooser = new FileChooser();
 //        fileChooser.setTitle("Save As");
 //        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
@@ -725,7 +721,7 @@ public class SalesController implements Initializable {
         });
     }
 
-    void exportToPDF2(Node node_to_print) {
+    void exportToPDF2() {
 //        FileChooser fileChooser = new FileChooser();
 //        fileChooser.setTitle("Save As");
 //        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));

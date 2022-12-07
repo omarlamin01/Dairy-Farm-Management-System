@@ -3,9 +3,6 @@ package com.dfms.dairy_farm_management_system.controllers;
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.*;
-import com.dfms.dairy_farm_management_system.models.Animal;
-import com.dfms.dairy_farm_management_system.models.AnimalSale;
-import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -13,13 +10,9 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.print.*;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -64,7 +57,7 @@ public class MilkCollectionController implements Initializable {
         combo.setItems(list);
         combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
-                exportToPDF(MilkCollectionTable);
+                exportToPDF();
             } else {
                 exportToExcel();
             }
@@ -332,7 +325,7 @@ public class MilkCollectionController implements Initializable {
     }
 
     private static int COLUMNS_COUNT = 4;
-    void exportToPDF(Node node_to_print) {
+    void exportToPDF() {
 //        FileChooser fileChooser = new FileChooser();
 //        fileChooser.setTitle("Save As");
 //        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
