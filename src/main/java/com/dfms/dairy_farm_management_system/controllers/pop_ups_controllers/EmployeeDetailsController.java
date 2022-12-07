@@ -2,7 +2,11 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.layout.element.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -12,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -121,19 +126,25 @@ public class EmployeeDetailsController implements Initializable {
         if (file != null) {
             Document document = new Document();
             try {
-                PdfWriter.getInstance(document, new java.io.FileOutputStream(file));
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                PdfWriter.getInstance(document, fileOutputStream);
+                PdfDocument pdfDocument = new PdfDocument();
                 document.open();
-                document.add(new com.itextpdf.text.Paragraph("Employee Details"));
-                document.add(new com.itextpdf.text.Paragraph("Name: " + first_name.getText() + " " + last_name.getText()));
-                document.add(new com.itextpdf.text.Paragraph("Email: " + email.getText()));
-                document.add(new com.itextpdf.text.Paragraph("Address: " + address.getText()));
-                document.add(new com.itextpdf.text.Paragraph("Phone: " + phone.getText()));
-                document.add(new com.itextpdf.text.Paragraph("CIN: " + cin.getText()));
-                document.add(new com.itextpdf.text.Paragraph("Salary: " + salary.getText()));
-                document.add(new com.itextpdf.text.Paragraph("Contract Type: " + contract_type.getText()));
-                document.add(new com.itextpdf.text.Paragraph("Recruitment Date: " + recruitment_date.getText()));
-                document.add(new com.itextpdf.text.Paragraph("Role: " + role.getText()));
+                document.add(new Paragraph("Employee Details"));
+
+                float col = 280f;
+                float[] columnWidths = {col, col};
+                Table table = new Table(columnWidths);
+                table.addCell(new Cell().add((IBlockElement) new Paragraph("Details")));
+                String header = "GRASS LAND DAIRY\n" +
+                        "Souss massa, Taroudant\n" +
+                        "Tel: +212 788 888 888\n" +
+                        "Email: grass.land.dairy@gmail.com";
+                table.addCell(new Cell().add((IBlockElement) new Paragraph(header)));
+
+                document.add((Element) table);
                 document.close();
+
                 displayAlert("Success", "Employee details saved successfully", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 e.printStackTrace();
