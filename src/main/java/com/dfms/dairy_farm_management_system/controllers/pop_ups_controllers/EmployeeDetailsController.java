@@ -160,12 +160,15 @@ public class EmployeeDetailsController implements Initializable {
 
     private static void addTitlePage(Document document) throws DocumentException {
         Paragraph preface = new Paragraph();
+
         // We add one empty line
         addEmptyLine(preface, 1);
+
         // Lets write a big header
         preface.add(new Paragraph("EMPLOYEE INOFRMATION REPPORT", new Font(Font.FontFamily.HELVETICA, 24, Font.BOLD, BaseColor.BLUE)));
 
         addEmptyLine(preface, 1);
+
         String address = "GRASS LAND DAIRY\n" +
                 "Souss massa, Taroudant\n" +
                 "TEL: +212 20 1234567\n" +
@@ -173,8 +176,11 @@ public class EmployeeDetailsController implements Initializable {
                 "DATE: " + new Date().toString();
 
         preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+
         addEmptyLine(preface, 3);
-        preface.add(new Paragraph("Here is all the information about " + current_employee.getFirstName() + " " + current_employee.getLastName(), new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC, BaseColor.BLACK)));
+
+        String intro = "Here is all the information about " + current_employee.getFirstName() + " " + current_employee.getLastName() + ":";
+        preface.add(new Paragraph(intro, new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC, BaseColor.BLACK)));
 
         addEmptyLine(preface, 8);
 
