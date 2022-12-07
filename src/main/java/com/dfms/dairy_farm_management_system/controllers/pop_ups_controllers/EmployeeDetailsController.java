@@ -173,12 +173,10 @@ public class EmployeeDetailsController implements Initializable {
 
         preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
 
-        addEmptyLine(preface, 3);
+        addEmptyLine(preface, 2);
 
         String intro = "Here is all the information about " + current_employee.getFirstName() + " " + current_employee.getLastName() + ":";
         preface.add(new Paragraph(intro, new Font(Font.FontFamily.HELVETICA, 12, Font.ITALIC, BaseColor.BLACK)));
-
-        addEmptyLine(preface, 8);
 
         document.add(preface);
 
