@@ -50,7 +50,7 @@ public class UserDetailsController implements Initializable {
         email.setText(user.getEmail());
         first_name.setText(user.getFirstName());
         last_name.setText(user.getLastName());
-        address.setText(user.getAdress());
+        address.setText(user.getAddress());
         cin.setText(user.getCin());
         phone.setText(user.getPhone());
         role.setText(getRole(user.getRole()));

@@ -115,7 +115,7 @@ public class UpdateUserController implements Initializable {
         emailInput.setText(user.getEmail());
         firstNameInput.setText(user.getFirstName());
         lastNameInput.setText(user.getLastName());
-        addressInput.setText(user.getAdress());
+        addressInput.setText(user.getAddress());
         cinInput.setText(user.getCin());
         phoneNumberInput.setText(user.getPhone());
     }
