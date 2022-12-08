@@ -116,7 +116,7 @@
                   <Button fx:id="manageUsersBtn" alignment="BOTTOM_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#loadManageUsers" onMouseEntered="#navLinkMouseEntred" onMouseExited="#navLinkMouseExited" prefHeight="40.0" prefWidth="224.0" styleClass="nav_link" text="Users">
                       <graphic>
                           <ImageView fitHeight="28.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true" styleClass="nav_link">
-                              <Image url="@../../../icons/stock.png" />
+                              <Image url="@../../../icons/employees.png" />
                           </ImageView>
                       </graphic>
                   </Button>
