@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ReportsController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ReportsController">
  <stylesheets>
      <URL value="@../../../style/style.css" />
      <URL value="@../../../style/tab_pane.css" />
@@ -47,55 +47,7 @@
          </VBox.margin>
      </Label>
      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
-         <Tab text="Employee Salary">
-             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
-                 <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
-                     <font>
-                         <Font size="18.0" />
-                     </font>
-                     <VBox.margin>
-                         <Insets bottom="10.0" />
-                     </VBox.margin>
-                 </Label>
-                 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
-                     <VBox.margin>
-                         <Insets bottom="10.0" />
-                     </VBox.margin>
-                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get employee reports">
-                         <VBox.margin>
-                             <Insets bottom="10.0" />
-                         </VBox.margin>
-                     </Label>
-                     <HBox alignment="CENTER_LEFT" spacing="10.0">
-                         <TextField promptText="Year">
-                             <styleClass>
-                                 <String fx:value="input" />
-                                 <String fx:value="date_input" />
-                             </styleClass>
-                             <HBox.margin>
-                                 <Insets right="10.0" />
-                             </HBox.margin>
-                         </TextField>
-                         <TextField promptText="Employee ID">
-                             <styleClass>
-                                 <String fx:value="input" />
-                                 <String fx:value="verify_input" />
-                             </styleClass>
-                         </TextField>
-                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                             <Button alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
-                                 <graphic>
-                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                         <Image url="@../../../icons/repport_search.png" />
-                                     </ImageView>
-                                 </graphic>
-                             </Button>
-                         </HBox>
-                     </HBox>
-                 </VBox>
-             </VBox>
-         </Tab>
-         <Tab text="Production">
+         <Tab text="Sales">
              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
                  <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                      <font>
@@ -143,7 +95,7 @@
                  </VBox>
              </VBox>
          </Tab>
-         <Tab text="Consommation">
+         <Tab text="Purchases">
              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
                  <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                      <font>
@@ -191,7 +143,7 @@
                  </VBox>
              </VBox>
          </Tab>
-         <Tab text="Animal Statistics">
+         <Tab text="Milk collection">
              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
                  <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
                      <font>
