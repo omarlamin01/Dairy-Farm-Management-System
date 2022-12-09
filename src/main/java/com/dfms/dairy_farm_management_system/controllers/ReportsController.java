@@ -1,16 +1,11 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
-import com.dfms.dairy_farm_management_system.models.Employee;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.css.Style;
-import javafx.css.Stylesheet;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -24,16 +19,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.StyleSheetDocument;
 
-import javax.swing.text.html.StyleSheet;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.chrono.Chronology;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
@@ -52,6 +43,9 @@ public class ReportsController implements Initializable {
 
     @FXML
     private VBox milk_collection_results_area;
+
+    LocalDate start;
+    LocalDate end;
 
     public class DailyMilkCollection {
         private Date collection_date;
@@ -150,6 +144,7 @@ public class ReportsController implements Initializable {
 
         to_date_picker.setOnAction(event -> {
             LocalDate date = to_date_picker.getValue();
+            end = to_date_picker.getValue();
             from_date_picker.setDayCellFactory(d -> new DateCell() {
                 /**
                  * {@inheritDoc}
@@ -167,6 +162,7 @@ public class ReportsController implements Initializable {
 
         from_date_picker.setOnAction(event -> {
             LocalDate date = from_date_picker.getValue();
+            start = from_date_picker.getValue();
             to_date_picker.setDayCellFactory(d -> new DateCell() {
                 /**
                  * {@inheritDoc}
@@ -247,7 +243,7 @@ public class ReportsController implements Initializable {
         //check what user select in the combo box
         export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
-                exportToPDF();
+                exportToPDF(start, end);
             } else {
                 exportToExcel();
             }
@@ -315,94 +311,72 @@ public class ReportsController implements Initializable {
         }
     }
 
-    private void exportToPDF() {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Save As");
-//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-//        File file = fileChooser.showSaveDialog(null);
-//        if (file != null) {
-//            try {
-//                Document document = new Document();
-//                //change document orientation to landscape
-//                document.setPageSize(PageSize.A4);
-//
-//                PdfWriter.getInstance(document, new FileOutputStream(file));
-//                document.open();
-//                try {
-//                    Paragraph title = new Paragraph("Daily milk collection", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-//                    Paragraph text = new Paragraph("This is the list of the employees", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
-//
-//                    //center paragraph
-//                    title.setAlignment(Element.ALIGN_CENTER);
-//                    text.setAlignment(Element.ALIGN_CENTER);
-//                    title.setSpacingAfter(30);
-//                    text.setSpacingAfter(30);
-//
-//                    document.add(title);
-//                    document.add(text);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                }
-//                PdfPTable table = new PdfPTable(COLUMNS_COUNT);
-//
-//                //change pdf orientation to landscape
-//                table.setWidthPercentage(100);
-//                table.setSpacingBefore(11f);
-//                table.setSpacingAfter(11f);
-//                float[] colWidth = new float[COLUMNS_COUNT];
-//                for (int i = 0; i < COLUMNS_COUNT; i++) {
-//                    colWidth[i] = 2f;
-//                }
-//
-//                //add table header
-//                table.addCell(new PdfPCell(new Paragraph("First Name", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-//                table.addCell(new PdfPCell(new Paragraph("Last Name", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-//                table.addCell(new PdfPCell(new Paragraph("Email", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-//                table.addCell(new PdfPCell(new Paragraph("Phone", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-//                table.addCell(new PdfPCell(new Paragraph("Address", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-//                table.addCell(new PdfPCell(new Paragraph("CIN", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-//                table.addCell(new PdfPCell(new Paragraph("Gender", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-//                table.addCell(new PdfPCell(new Paragraph("Hire Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-//                table.addCell(new PdfPCell(new Paragraph("Salary", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-//
-//                //add padding to cells
-//                table.getDefaultCell().setPadding(3);
-//                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
-//                table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
-//
-//
-//                //get employees displayed in table
-//                ObservableList<Employee> employees = employees_table.getItems();
-//
-//                //get employee of each row
-//                //used a method in my updateEmplyeeController to get the employee of each row based on the cin
-//                UpdateEmployeeController controller = new UpdateEmployeeController();
-//
-//                for (Employee employee : employees) {
-//                    Employee emp = controller.getEmployee(employee.getCin());
-//
-//                    table.addCell(new PdfPCell(new Paragraph(emp.getFirstName()))).setPadding(5);
-//                    table.addCell(new PdfPCell(new Paragraph(emp.getLastName()))).setPadding(5);
-//                    table.addCell(new PdfPCell(new Paragraph(emp.getEmail()))).setPadding(5);
-//                    table.addCell(new PdfPCell(new Paragraph(emp.getPhone()))).setPadding(5);
-//                    table.addCell(new PdfPCell(new Paragraph(emp.getAddress()))).setPadding(5);
-//                    table.addCell(new PdfPCell(new Paragraph(emp.getCin()))).setPadding(5);
-//                    if (emp.getGender().equals("M")) {
-//                        table.addCell(new PdfPCell(new Paragraph("Male"))).setPadding(5);
-//                    } else {
-//                        table.addCell(new PdfPCell(new Paragraph("Female"))).setPadding(5);
-//                    }
-//                    table.addCell(new PdfPCell(new Paragraph(emp.getHireDate().toString()))).setPadding(5);
-//                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(emp.getSalary())))).setPadding(5);
-//                }
-//
-//                document.add(table);
-//                document.close();
-//                displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
-//            } catch (Exception e) {
-//                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//            }
-//        }
+    private void exportToPDF(LocalDate start, LocalDate end) {
+        int COLUMNS_COUNT = 4;
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Document document = new Document();
+                //change document orientation to landscape
+                document.setPageSize(PageSize.A4);
+
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+                try {
+                    Paragraph title = new Paragraph("Daily milk collection", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
+                    Paragraph text = new Paragraph("The milk collection between " + start.toString() + " and " + end.toString() + ".", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+
+                    //center paragraph
+                    title.setAlignment(Element.ALIGN_CENTER);
+                    text.setAlignment(Element.ALIGN_CENTER);
+                    title.setSpacingAfter(30);
+                    text.setSpacingAfter(30);
+
+                    document.add(title);
+                    document.add(text);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+                PdfPTable table = new PdfPTable(COLUMNS_COUNT);
+
+                //change pdf orientation to landscape
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(11f);
+                table.setSpacingAfter(11f);
+                float[] colWidth = new float[COLUMNS_COUNT];
+                for (int i = 0; i < COLUMNS_COUNT; i++) {
+                    colWidth[i] = 2f;
+                }
+
+                //add table header
+                table.addCell(new PdfPCell(new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Total day collection", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Morning collection", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Evening collection", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+
+                //add padding to cells
+                table.getDefaultCell().setPadding(3);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+                table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+                for (DailyMilkCollection collection : getData()) {
+                    table.addCell(new PdfPCell(new Paragraph(collection.getCollection_date().toString()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(collection.getTotal_day_collection())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(collection.getMorning_collection())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(collection.getEvening_collection())))).setPadding(5);
+                }
+
+                document.add(table);
+                document.close();
+                displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
     }
 }

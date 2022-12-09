@@ -55,6 +55,7 @@ public class NewUserController implements Initializable {
     }
 
     public void setRoleComboItems() {
+        rolesList = FXCollections.observableArrayList();
         String[] names = getRoles().keySet().toArray(new String[0]);
         for (String name: names) {
             this.rolesList.add(name);
