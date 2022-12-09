@@ -304,18 +304,7 @@ public class EmployeesController implements Initializable {
     void searchEmployee(MouseEvent event) {
         liveSearch(this.search_employee_input, employees_table);
     }
-
-    public void displayEmployeeConsole(Employee employee) {
-        System.out.println("Employee First Name: " + employee.getFirstName());
-        System.out.println("Employee Last Name: " + employee.getLastName());
-        System.out.println("Employee Email: " + employee.getEmail());
-        System.out.println("Employee Phone: " + employee.getPhone());
-        System.out.println("Employee Address: " + employee.getAddress());
-        System.out.println("Employee Cin: " + employee.getCin());
-        System.out.println("Employee gender: " + employee.getGender());
-        System.out.println("Employee Recrutement Date: " + employee.getHireDate());
-    }
-
+    
     void exportToExcel() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
