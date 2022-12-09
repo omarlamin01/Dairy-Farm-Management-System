@@ -25,15 +25,6 @@ public class SettingsController {
     private TableColumn<Role, String> id_col;
 
     @FXML
-    private Button openAddNewEmployeeBtn;
-
-    @FXML
-    private Button openAddNewEmployeeBtn1;
-
-    @FXML
-    private ImageView refresh_table_table;
-
-    @FXML
     private TableColumn<Role, String> role_name_col;
 
     @FXML
@@ -43,12 +34,7 @@ public class SettingsController {
     private TableView<Role> stock_table;
 
     @FXML
-    void openAddRole(MouseEvent event) {
-
-    }
-
-    @FXML
-    void openNewRole(MouseEvent event) throws IOException {
+    void openAddRole(MouseEvent event) throws IOException {
         openNewWindow("Add new role", "add_new_role");
     }
 

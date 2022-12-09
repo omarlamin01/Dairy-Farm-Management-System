@@ -67,14 +67,14 @@
             <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                 <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" prefHeight="40.0" styleClass="button-add" text="Refresh" textAlignment="CENTER">
                     <graphic>
-                        <ImageView fx:id="refresh_table_table" fitHeight="24.0" fitWidth="24.0" onMousePressed="#refreshList" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                             <Image url="@../../../icons/refresh.png" />
                         </ImageView>
                     </graphic>
                 </Button>
                 <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddRole" prefHeight="40.0" styleClass="button-add" text="New role" textAlignment="CENTER">
                     <graphic>
-                        <ImageView fitHeight="24.0" fitWidth="24.0" onMousePressed="#openNewRole" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../icons/add_user.png" />
                             </image>
