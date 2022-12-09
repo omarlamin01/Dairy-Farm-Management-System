@@ -6,12 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Dairy Farm Management System" />
+        <module name="Dairy_Farm_Management_System" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Dairy Farm Management System" target="18" />
-      <module name="Dairy_Farm_Management_System" target="1.5" />
+      <module name="Dairy_Farm_Management_System" target="18" />
     </bytecodeTargetLevel>
   </component>
 </project>

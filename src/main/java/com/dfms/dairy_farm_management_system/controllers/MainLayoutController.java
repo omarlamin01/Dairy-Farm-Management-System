@@ -78,6 +78,9 @@ public class MainLayoutController implements Initializable {
     private Button stock_btn;
 
     @FXML
+    private Button settings_btn;
+
+    @FXML
     private Button MilkClollection_btn;
 
     @FXML
@@ -171,6 +174,12 @@ public class MainLayoutController implements Initializable {
     void loadManageUsers(ActionEvent event) {
         String manageUsersView = "users";
         loadView(manageUsersView);
+    }
+
+    @FXML
+    void loadSettings(ActionEvent event) {
+        String settings = "settings";
+        loadView(settings);
     }
 
     private void loadView(String fxml) {
