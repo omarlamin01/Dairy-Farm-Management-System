@@ -97,6 +97,7 @@ public class EmployeesController implements Initializable {
 
     @FXML
     private TextField search_employee_input;
+
     @FXML
     private ComboBox<String> export_combo;
 
@@ -304,7 +305,7 @@ public class EmployeesController implements Initializable {
     void searchEmployee(MouseEvent event) {
         liveSearch(this.search_employee_input, employees_table);
     }
-    
+
     void exportToExcel() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");

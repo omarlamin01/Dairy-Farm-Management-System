@@ -7,10 +7,12 @@ import javafx.css.Stylesheet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import org.apache.log4j.BasicConfigurator;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.StyleSheetDocument;
 
 import javax.swing.text.html.StyleSheet;
@@ -98,6 +100,7 @@ public class ReportsController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        BasicConfigurator.configure();
         initView();
         search_btn.setOnMouseClicked(event -> { displayData(); });
     }
@@ -222,7 +225,19 @@ public class ReportsController implements Initializable {
         milk_collection_results_area.getChildren().clear();
         milk_collection_results_area.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
+        ComboBox<String> export_combo = new ComboBox<>(FXCollections.observableArrayList("Excel", "PDF"));
+        export_combo.setPromptText("Export");
+        export_combo.setPadding(new Insets(8));
+        export_combo.getStyleClass().add("combo_box");
 
+        //check what user select in the combo box
+        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF();
+            } else {
+                exportToExcel();
+            }
+        });
 
         TableColumn<DailyMilkCollection, String> collection_date = new TableColumn<>("Date");
         collection_date.setCellValueFactory(new PropertyValueFactory<DailyMilkCollection, String>("collection_date"));
@@ -247,6 +262,14 @@ public class ReportsController implements Initializable {
         data_table.setItems(getData());
         data_table.setPrefSize(600, 400);
 
-        milk_collection_results_area.getChildren().add(data_table);
+        milk_collection_results_area.getChildren().addAll(export_combo, data_table);
+    }
+
+    private void exportToExcel() {
+        System.out.println("export to Excel");
+    }
+
+    private void exportToPDF() {
+        System.out.println("export PDF");
     }
 }

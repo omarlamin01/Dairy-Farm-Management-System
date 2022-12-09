@@ -23,7 +23,7 @@
      <URL value="@../../../style/style.css" />
      <URL value="@../../../style/tab_pane.css" />
  </stylesheets>
- <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+ <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content">
      <Label styleClass="header" text="Reports" textAlignment="CENTER">
          <font>
              <Font name="System Bold" size="24.0" />
@@ -195,5 +195,10 @@
              </VBox>
          </Tab>
      </TabPane>
+      <stylesheets>
+         <URL value="@../../../style/style.css" />
+         <URL value="@../../../style/table_view.css" />
+         <URL value="@../../../style/date_picker.css" />
+      </stylesheets>
  </VBox>
 </ScrollPane>
