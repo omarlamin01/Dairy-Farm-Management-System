@@ -3,18 +3,19 @@ package com.dfms.dairy_farm_management_system.models;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class Role implements Model {
     private int id;
     private String name;
-    private String added_date;
+    private Timestamp added_date;
 
     public Role() {
     }
 
-    public Role(int id, String role_name, String added_date) {
+    public Role(int id, String role_name, Timestamp added_date) {
         this.id = id;
         this.name = role_name;
         this.added_date = added_date;
@@ -36,11 +37,11 @@ public class Role implements Model {
         this.name = role_name;
     }
 
-    public String getAddedDate() {
+    public Timestamp getAddedDate() {
         return added_date;
     }
 
-    public void setAddedDate(String added_date) {
+    public void setAddedDate(Timestamp added_date) {
         this.added_date = added_date;
     }
 
@@ -51,7 +52,7 @@ public class Role implements Model {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, this.name);
-            preparedStatement.setString(2, this.added_date);
+            preparedStatement.setTimestamp(2, this.added_date);
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -66,7 +67,7 @@ public class Role implements Model {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
             preparedStatement.setString(1, this.name);
-            preparedStatement.setString(2, this.added_date);
+            preparedStatement.setTimestamp(2, this.added_date);
             preparedStatement.setInt(3, this.id);
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {

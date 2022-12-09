@@ -151,7 +151,7 @@ public class SettingsController implements Initializable {
                 Role role = new Role();
                 role.setId(rs.getInt("id"));
                 role.setName(rs.getString("name"));
-                role.setAddedDate(rs.getString("added_date"));
+                role.setAddedDate(rs.getTimestamp("added_date"));
                 roles.add(role);
             }
         } catch (Exception e) {
