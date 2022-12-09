@@ -14,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.sql.*;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
@@ -56,9 +57,8 @@ public class NewUserController implements Initializable {
 
     public void setRoleComboItems() {
         String[] names = getRoles().keySet().toArray(new String[0]);
-        for (String name: names) {
-            this.rolesList.add(name);
-        }
+        this.rolesList = FXCollections.observableArrayList();
+        Collections.addAll(this.rolesList, names);
         this.roleCombo.setItems(this.rolesList);
     }
 
