@@ -27,6 +27,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
@@ -220,13 +221,19 @@ public class ReportsController implements Initializable {
                     if (resultSet1.next()) {
                         dailyMilkCollection.setEvening_collection(resultSet1.getFloat("evening_collection"));
                     }
-                } catch (SQLException e) {}
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                } finally {
+                    disconnect();
+                }
                 data.add(dailyMilkCollection);
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getSQLState());
+        } finally {
+            disconnect();
         }
         return data;
     }

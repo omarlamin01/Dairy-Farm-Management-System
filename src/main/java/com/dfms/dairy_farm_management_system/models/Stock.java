@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+
 public class Stock implements Model {
     private int id;
     private String name;
@@ -113,8 +115,10 @@ public class Stock implements Model {
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        } finally {
+            disconnect();
         }
+        return false;
     }
 
     @Override
@@ -136,8 +140,10 @@ public class Stock implements Model {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        } finally {
+            disconnect();
         }
+        return false;
     }
 
     @Override
@@ -149,8 +155,10 @@ public class Stock implements Model {
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        } finally {
+            disconnect();
         }
+        return false;
     }
 
     @Override

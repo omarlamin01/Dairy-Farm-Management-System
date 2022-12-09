@@ -12,7 +12,9 @@ import java.time.format.DateTimeFormatter;
 
 import java.util.Date;
 
-public class MilkCollection  implements Model{
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+
+public class MilkCollection implements Model {
     private int id;
     private String cow_id;
     private float quantity;
@@ -51,8 +53,6 @@ public class MilkCollection  implements Model{
     }
 
 
-
-
     public void setId(int id) {
         this.id = id;
     }
@@ -64,7 +64,6 @@ public class MilkCollection  implements Model{
     public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
-
 
 
     public int getId() {
@@ -97,6 +96,8 @@ public class MilkCollection  implements Model{
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            disconnect();
         }
     }
 
@@ -105,10 +106,10 @@ public class MilkCollection  implements Model{
 
 
         String updateQuery = "UPDATE `milk_collections` SET " +
-                "`cow_id` = ?,"+
-                "`period` =?,"+
+                "`cow_id` = ?," +
+                "`period` =?," +
                 "`quantity` = ?," +
- "`updated_at` = ? WHERE `milk_collections`.`id` = " + this.id;
+                "`updated_at` = ? WHERE `milk_collections`.`id` = " + this.id;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(updateQuery);
@@ -120,19 +121,24 @@ public class MilkCollection  implements Model{
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        }}
-
-        @Override
-        public boolean delete () {
-            String deleteQuery = "DELETE FROM `milk_collections` WHERE `milk_collections`.`id` = " + this.id;
-            try {
-                Connection connection = DBConfig.getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
-                return preparedStatement.executeUpdate() != 0;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return false;
-            }
+        } finally {
+            disconnect();
         }
-
     }
+
+    @Override
+    public boolean delete() {
+        String deleteQuery = "DELETE FROM `milk_collections` WHERE `milk_collections`.`id` = " + this.id;
+        try {
+            Connection connection = DBConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            return preparedStatement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            disconnect();
+        }
+    }
+
+}

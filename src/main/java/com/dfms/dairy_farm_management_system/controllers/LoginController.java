@@ -21,6 +21,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
@@ -41,6 +42,8 @@ public class LoginController implements Initializable {
             return resultSet.getString("email");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            disconnect();
         }
         return null;
     }
@@ -63,7 +66,7 @@ public class LoginController implements Initializable {
     @FXML
     private void login(MouseEvent event) throws SQLException {
 
-        if (email_input.getText() == null || password_input.getText() == null){
+        if (email_input.getText() == null || password_input.getText() == null) {
             displayAlert("Error", "Please fill the required fields!", Alert.AlertType.ERROR);
             return;
         }
@@ -99,6 +102,7 @@ public class LoginController implements Initializable {
                 user.setHireDate(resultSet.getDate("hire_date"));
                 user.setContractType(resultSet.getString("contract_type"));
             }
+            disconnect();
             Session.setCurrentUser(user);
             switchToMainLayout(event);
         } else {
@@ -142,6 +146,7 @@ public class LoginController implements Initializable {
                         user.setHireDate(resultSet.getDate("hire_date"));
                         user.setContractType(resultSet.getString("contract_type"));
                     }
+                    disconnect();
                     Session.setCurrentUser(user);
                     //switch to main layout
                     FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
@@ -168,12 +173,18 @@ public class LoginController implements Initializable {
 
     public boolean validatePassword(String email, String password) throws SQLException {
         //check if user exists limit 1
-        String query = "SELECT `password` FROM `users` WHERE email = ? LIMIT 1";
-        PreparedStatement statement = getConnection().prepareStatement(query);
-        statement.setString(1, email);
-        ResultSet resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            return MD5(resultSet.getString("password"), password);
+        try {
+            String query = "SELECT `password` FROM `users` WHERE email = ? LIMIT 1";
+            PreparedStatement statement = getConnection().prepareStatement(query);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return MD5(resultSet.getString("password"), password);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }

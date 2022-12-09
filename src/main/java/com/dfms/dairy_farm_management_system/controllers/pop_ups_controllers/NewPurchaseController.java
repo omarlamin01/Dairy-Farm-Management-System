@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
@@ -134,6 +135,7 @@ public class NewPurchaseController implements Initializable {
             suppliers.put(resultSet.getString("name"), resultSet.getInt("id"));
             supplierNames.add(resultSet.getString("name"));
         }
+        disconnect();
         suppliersCombo.setItems(supplierNames);
     }
     public void setProuctsList() throws SQLException {
@@ -148,7 +150,7 @@ public class NewPurchaseController implements Initializable {
             stocks.put(resultSet.getString("name"), resultSet.getInt("id"));
             products.add(resultSet.getString("name"));
         }
-
+        disconnect();
         stockCombo.setItems(products);
     }
     private boolean update;
@@ -198,6 +200,8 @@ public class NewPurchaseController implements Initializable {
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return purchase;
     }

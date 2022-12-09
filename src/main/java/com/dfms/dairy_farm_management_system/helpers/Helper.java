@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.DoubleConsumer;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class Helper {
@@ -215,6 +216,8 @@ public class Helper {
             }
         } catch (SQLException e) {
             displayAlert("Error", "Error while getting roles", Alert.AlertType.ERROR);
+        } finally {
+            disconnect();
         }
         return rolesList;
     }
