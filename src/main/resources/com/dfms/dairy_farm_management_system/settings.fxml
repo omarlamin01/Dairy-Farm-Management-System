@@ -4,7 +4,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -66,16 +65,16 @@
                 </HBox.margin>
             </Button>
             <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                <Button fx:id="openAddNewEmployeeBtn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" text="Refresh" textAlignment="CENTER">
+                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" prefHeight="40.0" styleClass="button-add" text="Refresh" textAlignment="CENTER">
                     <graphic>
-                        <ImageView fx:id="refresh_table_table" fitHeight="30.0" fitWidth="30.0" onMousePressed="#refreshList" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="refresh_table_table" fitHeight="24.0" fitWidth="24.0" onMousePressed="#refreshList" pickOnBounds="true" preserveRatio="true">
                             <Image url="@../../../icons/refresh.png" />
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button fx:id="openAddNewEmployeeBtn1" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddRole" styleClass="button-add" text="New role" textAlignment="CENTER">
+                <Button alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddRole" prefHeight="40.0" styleClass="button-add" text="New role" textAlignment="CENTER">
                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" onMousePressed="#openNewRole" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="24.0" fitWidth="24.0" onMousePressed="#openNewRole" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../../icons/add_user.png" />
                             </image>
@@ -95,6 +94,5 @@
                 <TableColumn fx:id="actions_col" prefWidth="285.3333435058594" text="Actions" />
             </columns>
         </TableView>
-      <ListView prefHeight="306.0" prefWidth="810.0" />
     </VBox>
 </ScrollPane>
