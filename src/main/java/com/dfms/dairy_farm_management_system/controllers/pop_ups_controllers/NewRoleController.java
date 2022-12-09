@@ -1,6 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import com.dfms.dairy_farm_management_system.models.Role;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -37,14 +38,12 @@ public class NewRoleController {
         } else if (role_name.isEmpty()) {
             displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
         } else {
-            try {
-                String query = "INSERT INTO roles (name) VALUES (?)";
-                preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setString(1, role_name);
-                preparedStatement.executeUpdate();
+            Role role = new Role();
+            role.setName(role_name);
+            if (role.save()) {
                 displayAlert("Success", "Role added successfully", Alert.AlertType.INFORMATION);
-            } catch (Exception e) {
-                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            } else {
+                displayAlert("Error", "Something went wrong", Alert.AlertType.ERROR);
             }
         }
     }
