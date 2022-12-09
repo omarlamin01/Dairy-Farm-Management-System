@@ -39,7 +39,7 @@
                 <Font name="System Bold" size="28.0" />
             </font>
         </Label>
-        <Label text="IN" textFill="#2b9348">
+        <Label text="IN" textFill="#00A300">
             <font>
                 <Font name="System Bold" size="28.0" />
             </font>
