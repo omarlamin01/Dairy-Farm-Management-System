@@ -184,7 +184,7 @@ public class ReportsController implements Initializable {
             PreparedStatement statement = getConnection().prepareStatement(query);
 
             statement.setString(1, "morning");
-            statement.setTimestamp(2, Timestamp.valueOf(max_date.atStartOfDay()));
+            statement.setTimestamp(2, Timestamp.valueOf(max_date.atTime(23, 59, 59)));
             statement.setTimestamp(3, Timestamp.valueOf(min_date.atStartOfDay()));
 
             ResultSet resultSet = statement.executeQuery();
