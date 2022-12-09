@@ -191,11 +191,7 @@
                      </HBox>
                      </HBox>
                  </VBox>
-               <ScrollPane>
-                  <content>
-                     <VBox fx:id="milk_collection_results_area" />
-                  </content>
-               </ScrollPane>
+               <VBox fx:id="milk_collection_results_area" prefHeight="400.0" prefWidth="600.0" />
              </VBox>
          </Tab>
      </TabPane>

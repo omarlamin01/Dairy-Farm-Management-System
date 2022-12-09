@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.StyleSheetDocument;
 
@@ -36,11 +37,55 @@ public class ReportsController implements Initializable {
     @FXML
     private VBox milk_collection_results_area;
 
-    private class DailyMilkCollection {
-        Date collection_date;
-        float total_day_collection;
-        float morning_collection;
-        float evening_collection;
+    public class DailyMilkCollection {
+        private Date collection_date;
+        private float total_day_collection;
+        private float morning_collection;
+        private float evening_collection;
+
+        public Date getCollection_date() {
+            return collection_date;
+        }
+
+        public void setCollection_date(Date collection_date) {
+            this.collection_date = collection_date;
+        }
+
+        public float getTotal_day_collection() {
+            return total_day_collection;
+        }
+
+        public void setTotal_day_collection(float total_day_collection) {
+            this.total_day_collection = total_day_collection;
+        }
+
+        public float getMorning_collection() {
+            return morning_collection;
+        }
+
+        public void setMorning_collection(float morning_collection) {
+            this.morning_collection = morning_collection;
+            total_day_collection += morning_collection;
+        }
+
+        public float getEvening_collection() {
+            return evening_collection;
+        }
+
+        public void setEvening_collection(float evening_collection) {
+            this.evening_collection = evening_collection;
+            total_day_collection += evening_collection;
+        }
+
+        @Override
+        public String toString() {
+            return "DailyMilkCollection{" +
+                    "collection_date=" + collection_date +
+                    ", total_day_collection=" + total_day_collection +
+                    ", morning_collection=" + morning_collection +
+                    ", evening_collection=" + evening_collection +
+                    '}';
+        }
     }
 
     /**
@@ -131,28 +176,38 @@ public class ReportsController implements Initializable {
         try {
             String query =
                     "SELECT `created_at` AS collection_date, " +
-                    "sum(`quantity`) AS total_day_collection " +
-                    "FROM `milk_collections` WHERE `created_at` <= ? AND `created_at` >= ? " +
-                    "ORDER BY `created_at`";
+                    "sum(`quantity`) AS morning_collection " +
+                    "FROM `milk_collections` WHERE `period` = ? AND `created_at` <= ? AND `created_at` >= ? " +
+                    "GROUP BY date(created_at) " +
+                    "ORDER BY `created_at` DESC";
 
             PreparedStatement statement = getConnection().prepareStatement(query);
 
-            statement.setTimestamp(1, Timestamp.valueOf(max_date.atStartOfDay()));
-            statement.setTimestamp(2, Timestamp.valueOf(min_date.atStartOfDay()));
-
-            System.out.println(statement);
-            System.out.println(query);
+            statement.setString(1, "morning");
+            statement.setTimestamp(2, Timestamp.valueOf(max_date.atStartOfDay()));
+            statement.setTimestamp(3, Timestamp.valueOf(min_date.atStartOfDay()));
 
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 DailyMilkCollection dailyMilkCollection = new DailyMilkCollection();
 
-                dailyMilkCollection.collection_date = resultSet.getDate("collection_date");
-                dailyMilkCollection.total_day_collection = resultSet.getFloat("total_day_collection");
-//                dailyMilkCollection.morning_collection = resultSet.getFloat("morning_collection");
-//                dailyMilkCollection.evening_collection = resultSet.getFloat("evening_collection");
+                dailyMilkCollection.setCollection_date(resultSet.getDate("collection_date"));
+                dailyMilkCollection.setMorning_collection(resultSet.getFloat("morning_collection"));
+                try {
+                    String query1 = "SELECT sum(`quantity`) AS evening_collection " +
+                            "FROM `milk_collections` WHERE `period` = ? AND date(`created_at`) = ? ";
 
+                    PreparedStatement preparedStatement = getConnection().prepareStatement(query1);
+
+                    preparedStatement.setString(1, "evening");
+                    preparedStatement.setDate(2, dailyMilkCollection.getCollection_date());
+
+                    ResultSet resultSet1 = preparedStatement.executeQuery();
+                    if (resultSet1.next()) {
+                        dailyMilkCollection.setEvening_collection(resultSet1.getFloat("evening_collection"));
+                    }
+                } catch (SQLException e) {}
                 data.add(dailyMilkCollection);
             }
 
@@ -165,23 +220,30 @@ public class ReportsController implements Initializable {
 
     private void displayData() {
         milk_collection_results_area.getChildren().clear();
+        milk_collection_results_area.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+
         TableColumn<DailyMilkCollection, String> collection_date = new TableColumn<>("Date");
         collection_date.setCellValueFactory(new PropertyValueFactory<DailyMilkCollection, String>("collection_date"));
+        collection_date.setPrefWidth(180);
 
         TableColumn<DailyMilkCollection, String> total_day_collection = new TableColumn<>("Total day collection");
         total_day_collection.setCellValueFactory(new PropertyValueFactory<DailyMilkCollection, String>("total_day_collection"));
+        total_day_collection.setPrefWidth(180);
 
         TableColumn<DailyMilkCollection, String> morning_collection = new TableColumn<>("Morning collection");
         morning_collection.setCellValueFactory(new PropertyValueFactory<DailyMilkCollection, String>("morning_collection"));
+        morning_collection.setPrefWidth(180);
 
         TableColumn<DailyMilkCollection, String> evening_collection = new TableColumn<>("Evening collection");
         evening_collection.setCellValueFactory(new PropertyValueFactory<DailyMilkCollection, String>("evening_collection"));
+        evening_collection.setPrefWidth(180);
+
 
         TableView<DailyMilkCollection> data_table = new TableView<>();
         data_table.getColumns().addAll(collection_date, total_day_collection, morning_collection, evening_collection);
-        data_table.getStylesheets().add("/style/table_view.css");
         data_table.getStyleClass().add("table-view");
         data_table.setItems(getData());
+        data_table.setPrefSize(600, 400);
         milk_collection_results_area.getChildren().add(data_table);
     }
 }
