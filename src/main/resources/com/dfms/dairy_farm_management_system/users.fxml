@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.UsersController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.UsersController">
     <stylesheets>
         <URL value="@../../../style/style.css" />
         <URL value="@../../../style/table_view.css" />
@@ -50,7 +50,7 @@
             <VBox.margin>
                 <Insets bottom="10.0" />
             </VBox.margin>
-            <TextField fx:id="search_user_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="385.0" promptText="Search for an employee..." styleClass="text-field-search">
+            <TextField fx:id="search_user_input" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="286.0" promptText="Search for an employee..." styleClass="text-field-search">
                 <padding>
                     <Insets left="10.0" />
                 </padding>
@@ -67,16 +67,28 @@
             </Button>
             <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                 <ComboBox fx:id="export_combo" promptText="Export" styleClass="combo_box" />
-                <Button fx:id="refresh_table_btn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" styleClass="button-add" text="Refresh" textAlignment="CENTER">
+            <Button fx:id="new_role_btn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openNewRole" prefHeight="40.0" styleClass="button-add" text="New role" textAlignment="CENTER">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/role.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+                <Button fx:id="refresh_table_btn" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#refreshTable" prefHeight="40.0" styleClass="button-add" text="Refresh" textAlignment="CENTER">
                     <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                             <Image url="@../../../icons/refresh.png" />
                         </ImageView>
                     </graphic>
                 </Button>
-            <Button fx:id="openAddNewEmployeeBtn1" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddUser" styleClass="button-add" text="New employee" textAlignment="CENTER">
+            <Button fx:id="openAddNewEmployeeBtn1" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onMousePressed="#openAddUser" prefHeight="40.0" styleClass="button-add" text="New employee" textAlignment="CENTER">
                <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../icons/add_user.png" />
                      </image>

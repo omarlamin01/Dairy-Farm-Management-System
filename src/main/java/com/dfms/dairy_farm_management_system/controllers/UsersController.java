@@ -105,6 +105,8 @@ public class UsersController implements Initializable {
 
     @FXML
     private Button openAddNewEmployeeBtn;
+    @FXML
+    private Button new_role_btn;
 
     //get all the employees
     public ObservableList<User> getUsers() {
@@ -440,5 +442,10 @@ public class UsersController implements Initializable {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
         }
+    }
+
+    @FXML
+    void openNewRole(MouseEvent event) throws IOException {
+        openNewWindow("Add new role", "add_new_role");
     }
 }

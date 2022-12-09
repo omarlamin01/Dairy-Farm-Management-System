@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
@@ -11,6 +13,7 @@ public class Role implements Model {
     private int id;
     private String name;
     private Timestamp added_date;
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
     public Role() {
     }
@@ -48,11 +51,12 @@ public class Role implements Model {
     @Override
     public boolean save() {
         String insertQuery = "INSERT INTO roles (name, added_date) VALUES (?, ?)";
+        LocalDateTime now = LocalDateTime.now();
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, this.name);
-            preparedStatement.setTimestamp(2, this.added_date);
+            preparedStatement.setTimestamp(2, Timestamp.valueOf(dtf.format(now)));
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,13 +66,12 @@ public class Role implements Model {
 
     @Override
     public boolean update() {
-        String updateQuery = "UPDATE roles SET name = ?, added_date = ? WHERE id = ?";
+        String updateQuery = "UPDATE roles SET name = ? WHERE id = ?";
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
             preparedStatement.setString(1, this.name);
-            preparedStatement.setTimestamp(2, this.added_date);
-            preparedStatement.setInt(3, this.id);
+            preparedStatement.setInt(2, this.id);
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
