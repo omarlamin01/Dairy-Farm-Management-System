@@ -1,5 +1,11 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
+import com.dfms.dairy_farm_management_system.models.Employee;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.Style;
@@ -12,10 +18,17 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import org.apache.log4j.BasicConfigurator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.StyleSheetDocument;
 
 import javax.swing.text.html.StyleSheet;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -24,6 +37,7 @@ import java.time.chrono.Chronology;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class ReportsController implements Initializable {
 //  milk collection part
@@ -266,10 +280,129 @@ public class ReportsController implements Initializable {
     }
 
     private void exportToExcel() {
-        System.out.println("export to Excel");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save as");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Milk collection");
+                Row header = sheet.createRow(1);
+
+                header.createCell(1).setCellValue("Date");
+                header.createCell(2).setCellValue("Total day collection");
+                header.createCell(3).setCellValue("Morning collection");
+                header.createCell(4).setCellValue("Evening collection");
+
+                for (DailyMilkCollection collection : getData()) {
+                    Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+
+                    row.createCell(1).setCellValue(collection.getCollection_date().toString());
+                    row.createCell(2).setCellValue(collection.getTotal_day_collection());
+                    row.createCell(3).setCellValue(collection.getMorning_collection());
+                    row.createCell(4).setCellValue(collection.getEvening_collection());
+                }
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Report exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
     }
 
     private void exportToPDF() {
-        System.out.println("export PDF");
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Save As");
+//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+//        File file = fileChooser.showSaveDialog(null);
+//        if (file != null) {
+//            try {
+//                Document document = new Document();
+//                //change document orientation to landscape
+//                document.setPageSize(PageSize.A4);
+//
+//                PdfWriter.getInstance(document, new FileOutputStream(file));
+//                document.open();
+//                try {
+//                    Paragraph title = new Paragraph("Daily milk collection", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
+//                    Paragraph text = new Paragraph("This is the list of the employees", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+//
+//                    //center paragraph
+//                    title.setAlignment(Element.ALIGN_CENTER);
+//                    text.setAlignment(Element.ALIGN_CENTER);
+//                    title.setSpacingAfter(30);
+//                    text.setSpacingAfter(30);
+//
+//                    document.add(title);
+//                    document.add(text);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//                }
+//                PdfPTable table = new PdfPTable(COLUMNS_COUNT);
+//
+//                //change pdf orientation to landscape
+//                table.setWidthPercentage(100);
+//                table.setSpacingBefore(11f);
+//                table.setSpacingAfter(11f);
+//                float[] colWidth = new float[COLUMNS_COUNT];
+//                for (int i = 0; i < COLUMNS_COUNT; i++) {
+//                    colWidth[i] = 2f;
+//                }
+//
+//                //add table header
+//                table.addCell(new PdfPCell(new Paragraph("First Name", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+//                table.addCell(new PdfPCell(new Paragraph("Last Name", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+//                table.addCell(new PdfPCell(new Paragraph("Email", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+//                table.addCell(new PdfPCell(new Paragraph("Phone", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+//                table.addCell(new PdfPCell(new Paragraph("Address", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+//                table.addCell(new PdfPCell(new Paragraph("CIN", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+//                table.addCell(new PdfPCell(new Paragraph("Gender", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+//                table.addCell(new PdfPCell(new Paragraph("Hire Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+//                table.addCell(new PdfPCell(new Paragraph("Salary", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+//
+//                //add padding to cells
+//                table.getDefaultCell().setPadding(3);
+//                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+//                table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+//
+//
+//                //get employees displayed in table
+//                ObservableList<Employee> employees = employees_table.getItems();
+//
+//                //get employee of each row
+//                //used a method in my updateEmplyeeController to get the employee of each row based on the cin
+//                UpdateEmployeeController controller = new UpdateEmployeeController();
+//
+//                for (Employee employee : employees) {
+//                    Employee emp = controller.getEmployee(employee.getCin());
+//
+//                    table.addCell(new PdfPCell(new Paragraph(emp.getFirstName()))).setPadding(5);
+//                    table.addCell(new PdfPCell(new Paragraph(emp.getLastName()))).setPadding(5);
+//                    table.addCell(new PdfPCell(new Paragraph(emp.getEmail()))).setPadding(5);
+//                    table.addCell(new PdfPCell(new Paragraph(emp.getPhone()))).setPadding(5);
+//                    table.addCell(new PdfPCell(new Paragraph(emp.getAddress()))).setPadding(5);
+//                    table.addCell(new PdfPCell(new Paragraph(emp.getCin()))).setPadding(5);
+//                    if (emp.getGender().equals("M")) {
+//                        table.addCell(new PdfPCell(new Paragraph("Male"))).setPadding(5);
+//                    } else {
+//                        table.addCell(new PdfPCell(new Paragraph("Female"))).setPadding(5);
+//                    }
+//                    table.addCell(new PdfPCell(new Paragraph(emp.getHireDate().toString()))).setPadding(5);
+//                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(emp.getSalary())))).setPadding(5);
+//                }
+//
+//                document.add(table);
+//                document.close();
+//                displayAlert("Success", "Employees exported successfully", Alert.AlertType.INFORMATION);
+//            } catch (Exception e) {
+//                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+//            }
+//        }
     }
 }
