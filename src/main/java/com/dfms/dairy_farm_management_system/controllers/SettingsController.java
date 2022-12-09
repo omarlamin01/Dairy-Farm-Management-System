@@ -4,6 +4,7 @@ import com.dfms.dairy_farm_management_system.models.Role;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,15 +15,22 @@ import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
-public class SettingsController {
+public class SettingsController implements Initializable {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        displayRolesTable();
+    }
+
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = getConnection();
@@ -44,16 +52,15 @@ public class SettingsController {
     @FXML
     private TableView<Role> roles_table;
 
-    public void displayStock() {
+    public void displayRolesTable() {
         ObservableList<Role> roles = getRoles();
         id_col.setCellValueFactory(new PropertyValueFactory<>("id"));
         role_name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
-        added_date_col.setCellValueFactory(new PropertyValueFactory<>("type"));
+        added_date_col.setCellValueFactory(new PropertyValueFactory<>("added_date"));
         Callback<TableColumn<Role, String>, TableCell<Role, String>> cellFoctory = (TableColumn<Role, String> param) -> {
             final TableCell<Role, String> cell = new TableCell<Role, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                //Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
