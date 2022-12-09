@@ -73,7 +73,3 @@ ALTER TABLE `routines`
 #change role_id to role in users table
 ALTER TABLE `users`
     CHANGE role_id role int(11) NOT NULL;
-
-#add created_at in roles table
-ALTER TABLE `roles`
-    ADD added_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;

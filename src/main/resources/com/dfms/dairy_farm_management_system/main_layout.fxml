@@ -15,7 +15,7 @@
     <left>
       <ScrollPane fx:id="nav_scroll_pane" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #1E293B;" BorderPane.alignment="CENTER">
          <content>
-              <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" prefWidth="234.0" styleClass="nav_bar">
+              <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" prefWidth="224.0" styleClass="nav_bar">
                   <ImageView fitHeight="102.0" fitWidth="102.0" pickOnBounds="true" preserveRatio="true">
                       <VBox.margin>
                           <Insets bottom="10.0" top="24.0" />

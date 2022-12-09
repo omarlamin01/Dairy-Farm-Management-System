@@ -12,16 +12,13 @@ import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConne
 public class Role implements Model {
     private int id;
     private String name;
-    private Timestamp added_date;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
     public Role() {
     }
 
-    public Role(int id, String role_name, Timestamp added_date) {
+    public Role(int id, String role_name) {
         this.id = id;
         this.name = role_name;
-        this.added_date = added_date;
     }
 
     public int getId() {
@@ -40,23 +37,15 @@ public class Role implements Model {
         this.name = role_name;
     }
 
-    public Timestamp getAddedDate() {
-        return added_date;
-    }
-
-    public void setAddedDate(Timestamp added_date) {
-        this.added_date = added_date;
-    }
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO roles (name, added_date) VALUES (?, ?)";
+        String insertQuery = "INSERT INTO roles (name) VALUES (?)";
         LocalDateTime now = LocalDateTime.now();
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setString(1, this.name);
-            preparedStatement.setTimestamp(2, Timestamp.valueOf(dtf.format(now)));
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
