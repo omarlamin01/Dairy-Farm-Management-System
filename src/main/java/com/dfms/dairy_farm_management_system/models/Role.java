@@ -2,7 +2,7 @@ package com.dfms.dairy_farm_management_system.models;
 
 public class Role {
     private int id;
-    private String role_name;
+    private String name;
     private String added_date;
 
     public Role() {
@@ -10,7 +10,7 @@ public class Role {
 
     public Role(int id, String role_name, String added_date) {
         this.id = id;
-        this.role_name = role_name;
+        this.name = role_name;
         this.added_date = added_date;
     }
 
@@ -22,12 +22,12 @@ public class Role {
         this.id = id;
     }
 
-    public String getRoleName() {
-        return role_name;
+    public String getName() {
+        return name;
     }
 
-    public void setRoleName(String role_name) {
-        this.role_name = role_name;
+    public void setName(String role_name) {
+        this.name = role_name;
     }
 
     public String getAddedDate() {

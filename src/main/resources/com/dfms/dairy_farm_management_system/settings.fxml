@@ -86,7 +86,7 @@
                 </Button>
             </HBox>
         </HBox>
-        <TableView fx:id="stock_table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="689.0">
+        <TableView fx:id="roles_table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="689.0">
             <columns>
                 <TableColumn fx:id="id_col" prefWidth="67.66667175292969" text="ID" />
                 <TableColumn fx:id="role_name_col" prefWidth="203.0" text="Role name" />
