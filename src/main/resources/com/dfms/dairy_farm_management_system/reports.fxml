@@ -4,6 +4,7 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -22,7 +23,7 @@
      <URL value="@../../../style/style.css" />
      <URL value="@../../../style/tab_pane.css" />
  </stylesheets>
- <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
+ <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content">
      <Label styleClass="header" text="Reports" textAlignment="CENTER">
          <font>
              <Font name="System Bold" size="24.0" />
@@ -145,7 +146,7 @@
          </Tab>
          <Tab text="Milk collection">
              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
-                 <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
+                 <Label styleClass="sub_header" text="See milk collection history here" textAlignment="CENTER">
                      <font>
                          <Font size="18.0" />
                      </font>
@@ -157,31 +158,47 @@
                      <VBox.margin>
                          <Insets bottom="10.0" />
                      </VBox.margin>
-                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get animal reports">
+                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get milk collection reports">
                          <VBox.margin>
                              <Insets bottom="10.0" />
                          </VBox.margin>
                      </Label>
                      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
-                         <TextField maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="379.0" promptText="Animal ID">
-                             <styleClass>
-                                 <String fx:value="input" />
-                                 <String fx:value="cow_input" />
-                             </styleClass>
-                         </TextField>
-                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                             <Button alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
-                                 <graphic>
-                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                         <Image url="@../../../icons/repport_search.png" />
-                                     </ImageView>
-                                 </graphic>
-                             </Button>
-                         </HBox>
+                     <DatePicker fx:id="from_date_picker" promptText="From">
+                        <styleClass>
+                           <String fx:value="input" />
+                           <String fx:value="date_input" />
+                        </styleClass>
+                     </DatePicker>
+                     <DatePicker fx:id="to_date_picker" promptText="To">
+                        <styleClass>
+                           <String fx:value="date_input" />
+                           <String fx:value="input" />
+                        </styleClass>
+                     </DatePicker>
+                     <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                        <children>
+                           <Button fx:id="search_btn" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
+                              <graphic>
+                                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../../icons/repport_search.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </Button>
+                        </children>
+                     </HBox>
                      </HBox>
                  </VBox>
+               <VBox fx:id="milk_collection_results_area" prefHeight="400.0" prefWidth="600.0" />
              </VBox>
          </Tab>
      </TabPane>
+      <stylesheets>
+         <URL value="@../../../style/style.css" />
+         <URL value="@../../../style/table_view.css" />
+         <URL value="@../../../style/date_picker.css" />
+      </stylesheets>
  </VBox>
 </ScrollPane>

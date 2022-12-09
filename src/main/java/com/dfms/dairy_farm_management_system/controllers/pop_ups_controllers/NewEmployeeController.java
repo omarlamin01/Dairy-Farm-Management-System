@@ -65,6 +65,7 @@ public class NewEmployeeController implements Initializable {
     }
 
     public void setRoleComboItems() {
+        rolesList = FXCollections.observableArrayList();
         String[] names = getRoles().keySet().toArray(new String[0]);
         this.rolesList = FXCollections.observableArrayList();
         Collections.addAll(this.rolesList, names);

@@ -97,6 +97,7 @@ public class EmployeesController implements Initializable {
 
     @FXML
     private TextField search_employee_input;
+
     @FXML
     private ComboBox<String> export_combo;
 
@@ -271,17 +272,6 @@ public class EmployeesController implements Initializable {
         employees_table.setItems(employees);
     }
 
-    private void deleteEmployee(String cin) {
-        String query = "DELETE FROM `employees` WHERE cin = " + cin;
-        try {
-            statement = connection.createStatement();
-            statement.executeUpdate(query);
-            displayAlert("Success", "Employee deleted successfully", Alert.AlertType.INFORMATION);
-        } catch (Exception e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
-
     //add new employee
 
     public void openAddEmployee(MouseEvent mouseEvent) throws IOException {
@@ -314,17 +304,6 @@ public class EmployeesController implements Initializable {
     @FXML
     void searchEmployee(MouseEvent event) {
         liveSearch(this.search_employee_input, employees_table);
-    }
-
-    public void displayEmployeeConsole(Employee employee) {
-        System.out.println("Employee First Name: " + employee.getFirstName());
-        System.out.println("Employee Last Name: " + employee.getLastName());
-        System.out.println("Employee Email: " + employee.getEmail());
-        System.out.println("Employee Phone: " + employee.getPhone());
-        System.out.println("Employee Address: " + employee.getAddress());
-        System.out.println("Employee Cin: " + employee.getCin());
-        System.out.println("Employee gender: " + employee.getGender());
-        System.out.println("Employee Recrutement Date: " + employee.getHireDate());
     }
 
     void exportToExcel() {
