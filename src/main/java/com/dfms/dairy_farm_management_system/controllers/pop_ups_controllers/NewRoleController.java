@@ -31,11 +31,14 @@ public class NewRoleController {
     @FXML
     void addNewRole(MouseEvent event) {
         String role_name = this.role_name.getText();
-        if (role_name.isEmpty()) {
+        if (!isUnique(role_name)) {
+            displayAlert("Error", "Role name already exists", Alert.AlertType.ERROR);
+            return;
+        } else if (role_name.isEmpty()) {
             displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
         } else {
             try {
-                String query = "INSERT INTO roles (role_name) VALUES (?)";
+                String query = "INSERT INTO roles (name) VALUES (?)";
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, role_name);
                 preparedStatement.executeUpdate();
