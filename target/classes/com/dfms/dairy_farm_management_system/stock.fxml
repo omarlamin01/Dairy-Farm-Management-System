@@ -35,8 +35,8 @@
          <VBox.margin>
              <Insets bottom="10.0" />
          </VBox.margin>
-         <Rectangle arcHeight="5.0" fill="#2b9348" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
-         <Rectangle arcHeight="5.0" fill="#2b9348" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
+         <Rectangle arcHeight="5.0" fill="#00A300" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
+         <Rectangle arcHeight="5.0" fill="#00A300" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
      </Pane>
      <Label styleClass="sub_header" text="Manage your stock here" textAlignment="CENTER">
          <font>
