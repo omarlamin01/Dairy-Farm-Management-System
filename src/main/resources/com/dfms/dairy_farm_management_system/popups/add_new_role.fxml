@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="256.0" prefWidth="517.0" styleClass="main_content"
+      xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewRoleController">
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <children>
+                <Label fx:id="Add_Update" styleClass="header" text="Add" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="24.0"/>
+                    </font>
+                    <HBox.margin>
+                        <Insets/>
+                    </HBox.margin>
+                </Label>
+                <Label styleClass="header_green" text="Race" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="24.0"/>
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+        <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
+            <children>
+                <Rectangle arcHeight="5.0" fill="#2b9348" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK"
+                           strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="300.0"/>
+                <Rectangle arcHeight="5.0" fill="#2b9348" height="14.0" layoutX="26.0" stroke="BLACK"
+                           strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0"/>
+            </children>
+            <VBox.margin>
+                <Insets bottom="10.0"/>
+            </VBox.margin>
+        </Pane>
+        <Label fx:id="Head" styleClass="sub_header" text="Add a new race to the system" textAlignment="CENTER">
+            <font>
+                <Font size="18.0"/>
+            </font>
+            <padding>
+                <Insets bottom="10.0"/>
+            </padding>
+        </Label>
+        <GridPane hgap="12.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <VBox.margin>
+                <Insets/>
+            </VBox.margin>
+            <children>
+                <TextField fx:id="nameRace" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                           promptText="Race name" stylesheets="@../../../../style/style.css">
+                    <styleClass>
+                        <String fx:value="input"/>
+                        <String fx:value="cow_input"/>
+                    </styleClass>
+                    <GridPane.margin>
+                        <Insets/>
+                    </GridPane.margin>
+                </TextField>
+                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                        onMousePressed="#addNewRace" styleClass="btn" text="ADD" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets top="10.0"/>
+                    </GridPane.margin>
+                </Button>
+            </children>
+        </GridPane>
+    </children>
+    <stylesheets>
+        <URL value="@../../../../style/style.css"/>
+        <URL value="@../../../../style/date_picker.css"/>
+    </stylesheets>
+</VBox>

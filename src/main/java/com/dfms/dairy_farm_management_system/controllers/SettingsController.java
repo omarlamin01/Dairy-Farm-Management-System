@@ -9,6 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
+
+import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
+
 public class SettingsController {
 
     @FXML
@@ -44,8 +48,8 @@ public class SettingsController {
     }
 
     @FXML
-    void openNewRole(MouseEvent event) {
-
+    void openNewRole(MouseEvent event) throws IOException {
+        openNewWindow("Add new role", "add_new_role");
     }
 
     @FXML
