@@ -271,17 +271,6 @@ public class EmployeesController implements Initializable {
         employees_table.setItems(employees);
     }
 
-    private void deleteEmployee(String cin) {
-        String query = "DELETE FROM `employees` WHERE cin = " + cin;
-        try {
-            statement = connection.createStatement();
-            statement.executeUpdate(query);
-            displayAlert("Success", "Employee deleted successfully", Alert.AlertType.INFORMATION);
-        } catch (Exception e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
-
     //add new employee
 
     public void openAddEmployee(MouseEvent mouseEvent) throws IOException {

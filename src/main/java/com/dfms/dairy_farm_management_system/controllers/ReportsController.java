@@ -222,6 +222,8 @@ public class ReportsController implements Initializable {
         milk_collection_results_area.getChildren().clear();
         milk_collection_results_area.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
+
+
         TableColumn<DailyMilkCollection, String> collection_date = new TableColumn<>("Date");
         collection_date.setCellValueFactory(new PropertyValueFactory<DailyMilkCollection, String>("collection_date"));
         collection_date.setPrefWidth(180);
@@ -244,6 +246,7 @@ public class ReportsController implements Initializable {
         data_table.getStyleClass().add("table-view");
         data_table.setItems(getData());
         data_table.setPrefSize(600, 400);
+
         milk_collection_results_area.getChildren().add(data_table);
     }
 }
