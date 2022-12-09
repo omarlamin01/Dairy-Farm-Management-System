@@ -1,22 +1,16 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
-import com.dfms.dairy_farm_management_system.Main;
-import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateProductController;
 import com.dfms.dairy_farm_management_system.models.Role;
-import com.dfms.dairy_farm_management_system.models.Stock;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -24,7 +18,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Optional;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
@@ -56,8 +49,8 @@ public class SettingsController {
         id_col.setCellValueFactory(new PropertyValueFactory<>("id"));
         role_name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
         added_date_col.setCellValueFactory(new PropertyValueFactory<>("type"));
-        Callback<TableColumn<Stock, String>, TableCell<Stock, String>> cellFoctory = (TableColumn<Stock, String> param) -> {
-            final TableCell<Stock, String> cell = new TableCell<Stock, String>() {
+        Callback<TableColumn<Role, String>, TableCell<Role, String>> cellFoctory = (TableColumn<Role, String> param) -> {
+            final TableCell<Role, String> cell = new TableCell<Role, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
                 //Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
