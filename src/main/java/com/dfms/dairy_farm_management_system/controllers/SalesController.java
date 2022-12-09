@@ -40,6 +40,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
@@ -170,6 +171,7 @@ public class SalesController implements Initializable {
 
             list.add(animalSale);
         }
+        disconnect();
         return list;
     }
 
@@ -358,6 +360,7 @@ public class SalesController implements Initializable {
 
             list.add(milkSale);
         }
+        disconnect();
         return list;
     }
 

@@ -5,6 +5,7 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.*;
 import java.time.LocalDateTime;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class Animal {
@@ -64,6 +65,8 @@ public class Animal {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return null;
     }
@@ -88,6 +91,8 @@ public class Animal {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return null;
     }
@@ -155,6 +160,8 @@ public class Animal {
             return statement.executeUpdate() != 0;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -181,6 +188,8 @@ public class Animal {
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -194,6 +203,8 @@ public class Animal {
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }

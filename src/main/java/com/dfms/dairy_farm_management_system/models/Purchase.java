@@ -4,9 +4,10 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
-public class Purchase  implements Model{
+public class Purchase implements Model {
     private int id;
     private int supplier_id;
     private String supplier_name;
@@ -22,6 +23,7 @@ public class Purchase  implements Model{
         this.updated_at = Timestamp.valueOf(LocalDateTime.now());
         this.created_at = Timestamp.valueOf(LocalDateTime.now());
     }
+
     public int getId() {
         return id;
     }
@@ -70,7 +72,6 @@ public class Purchase  implements Model{
     }
 
 
-
     public void setProduct_name(String product_name) {
         this.product_name = product_name;
     }
@@ -102,8 +103,8 @@ public class Purchase  implements Model{
 
     public String getSupplier_name() {
         String query = "SELECT `name` FROM `suppliers` WHERE `id` = " + supplier_id;
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -111,13 +112,16 @@ public class Purchase  implements Model{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return null;
     }
+
     public String getProduct_name() {
         String query = "SELECT `name` FROM `stocks` WHERE `id` = " + stock_id;
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -125,15 +129,18 @@ public class Purchase  implements Model{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return null;
     }
+
     @Override
     public boolean save() {
         String insertQuery = "INSERT INTO `purchases` (supplier_id,quantity, stock_id, price, purchase_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?,?)";
         updateQuantity();
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
             preparedStatement.setInt(1, supplier_id);
@@ -149,16 +156,21 @@ public class Purchase  implements Model{
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            disconnect();
         }
     }
+
     public boolean updateQuantity() {
-        String query ="Update stocks set quantity=quantity + '" + quantity + "' where id=  '" + stock_id + "'";
-        Connection connection = getConnection();
+        String query = "Update stocks set quantity=quantity + '" + quantity + "' where id=  '" + stock_id + "'";
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -173,12 +185,14 @@ public class Purchase  implements Model{
                 "`purchase_date` = '" + purchase_date + "', " +
                 "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
                 " WHERE `purchases`.`id` = " + id;
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -186,13 +200,15 @@ public class Purchase  implements Model{
     @Override
     public boolean delete() {
         String query = "DELETE FROM `purchases` WHERE `purchases`.`id` = " + this.id;
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            disconnect();
         }
     }
 

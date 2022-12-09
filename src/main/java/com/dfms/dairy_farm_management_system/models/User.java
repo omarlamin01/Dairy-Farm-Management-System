@@ -3,6 +3,7 @@ package com.dfms.dairy_farm_management_system.models;
 import java.sql.*;
 import java.time.LocalDateTime;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
@@ -48,6 +49,8 @@ public class User extends Employee {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
     }
 
@@ -67,8 +70,8 @@ public class User extends Employee {
             String insertQuery = "INSERT INTO `users` " +
                     "(`first_name`, `last_name`, `cin`, `email`, `password`, `gender`, `phone`, `salary`, `address`, `role`, `created_at`, `updated_at`) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            Connection connection = getConnection();
             try {
+                Connection connection = getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
                 preparedStatement.setString(1, super.getFirstName());
@@ -87,6 +90,8 @@ public class User extends Employee {
                 return preparedStatement.executeUpdate() != 0;
             } catch (SQLException e) {
                 e.printStackTrace();
+            } finally {
+                disconnect();
             }
         }
         return false;
@@ -112,8 +117,10 @@ public class User extends Employee {
             return (preparedStatement.executeUpdate() != 0) && super.update();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        } finally {
+            disconnect();
         }
+        return false;
     }
 
     public boolean updatePassword() {
@@ -127,6 +134,8 @@ public class User extends Employee {
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -140,7 +149,9 @@ public class User extends Employee {
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        } finally {
+            disconnect();
         }
+        return false;
     }
 }

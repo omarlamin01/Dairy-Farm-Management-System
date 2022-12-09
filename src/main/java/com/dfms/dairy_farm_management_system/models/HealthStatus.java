@@ -6,6 +6,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class HealthStatus implements Model {
@@ -99,8 +100,8 @@ public class HealthStatus implements Model {
     @Override
     public boolean save() {
         String query = "INSERT INTO `health_status` (animal_id, weight, breathing, health_score, control_date, notes, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setString(1, animal_id);
@@ -115,6 +116,8 @@ public class HealthStatus implements Model {
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -131,12 +134,14 @@ public class HealthStatus implements Model {
                 "notes = '" + notes + "', " +
                 "updated_at = '" + updated_at +
                 "' WHERE id = " + id;
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -144,12 +149,14 @@ public class HealthStatus implements Model {
     @Override
     public boolean delete() {
         String query = "DELETE FROM `health_status` WHERE id = " + id;
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }

@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
@@ -249,8 +250,8 @@ public class RoutineController implements Initializable {
     public ArrayList<String> getFoods() {
         ArrayList<String> list = new ArrayList<>();
         String query = "SELECT * FROM stocks WHERE type = 'feed'";
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -258,6 +259,8 @@ public class RoutineController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return list;
     }

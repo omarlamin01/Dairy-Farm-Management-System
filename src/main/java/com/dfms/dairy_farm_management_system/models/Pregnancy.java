@@ -6,6 +6,8 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+
 public class Pregnancy implements Model {
     private int id;
     private String cow_id;
@@ -104,6 +106,8 @@ public class Pregnancy implements Model {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            disconnect();
         }
     }
 
@@ -124,6 +128,8 @@ public class Pregnancy implements Model {
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -138,6 +144,8 @@ public class Pregnancy implements Model {
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }

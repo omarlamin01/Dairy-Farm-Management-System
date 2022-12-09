@@ -6,6 +6,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class AnimalSale implements Model {
@@ -49,8 +50,8 @@ public class AnimalSale implements Model {
 
     public String getClientName() {
         String query = "SELECT `name` FROM `clients` WHERE `id` = " + clientId;
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -58,6 +59,8 @@ public class AnimalSale implements Model {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return null;
     }
@@ -102,8 +105,8 @@ public class AnimalSale implements Model {
     @Override
     public boolean save() {
         String insertQuery = "INSERT INTO `animals_sales` (client_id, animal_id, price, sale_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
             preparedStatement.setInt(1, clientId);
@@ -117,6 +120,8 @@ public class AnimalSale implements Model {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            disconnect();
         }
     }
 
@@ -129,12 +134,14 @@ public class AnimalSale implements Model {
                 "`sale_date` = '" + sale_date + "', " +
                 "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
                 " WHERE `animals_sales`.`id` = " + id;
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -142,13 +149,15 @@ public class AnimalSale implements Model {
     @Override
     public boolean delete() {
         String query = "DELETE FROM `animals_sales` WHERE `animals_sales`.`id` = " + this.id;
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            disconnect();
         }
     }
 

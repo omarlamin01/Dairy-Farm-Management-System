@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.sql.Date;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+
 public class Employee implements Model {
     private String first_name;
     private String last_name;
@@ -151,6 +153,8 @@ public class Employee implements Model {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            disconnect();
         }
     }
 
@@ -178,6 +182,8 @@ public class Employee implements Model {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            disconnect();
         }
     }
 
@@ -191,6 +197,8 @@ public class Employee implements Model {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            disconnect();
         }
     }
 

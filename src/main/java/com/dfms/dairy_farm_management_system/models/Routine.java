@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class Routine implements Model {
@@ -23,6 +24,8 @@ public class Routine implements Model {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            disconnect();
         }
         return -1;
     }
@@ -87,6 +90,8 @@ public class Routine implements Model {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return details;
     }
@@ -96,8 +101,8 @@ public class Routine implements Model {
         created_at = Timestamp.valueOf(LocalDateTime.now());
         updated_at = Timestamp.valueOf(LocalDateTime.now());
         String query = "INSERT INTO `routines` (name, note, created_at, updated_at) VALUES (?, ?, ?, ?)";
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setString(1, name);
@@ -108,6 +113,8 @@ public class Routine implements Model {
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -118,8 +125,8 @@ public class Routine implements Model {
         String query = "UPDATE `routines` " +
                 "SET name = ?, note = ?, updated_at = ?" +
                 " WHERE id = " + id;
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setString(1, name);
@@ -129,6 +136,8 @@ public class Routine implements Model {
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -136,12 +145,14 @@ public class Routine implements Model {
     @Override
     public boolean delete() {
         String query = "DELETE FROM `routines` WHERE id = " + id;
-        Connection connection = getConnection();
         try {
+            Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }

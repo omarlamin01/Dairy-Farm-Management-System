@@ -653,7 +653,7 @@ public class AnimalMonitorController implements Initializable {
 
     public ObservableList<HealthStatus> searchForHealthStatus(String searchClause) {
         ObservableList<HealthStatus> monitors = FXCollections.observableArrayList();
-        String query = "SELECT * FROM `health_status` WHERE `animal_id` LIKE '%" + searchClause +"%' OR `health_score` LIKE '%" + searchClause + "%' OR `notes` LIKE '%" + searchClause + "%' ORDER BY `created_at` DESC ";
+        String query = "SELECT * FROM `health_status` WHERE `animal_id` LIKE '%" + searchClause + "%' OR `health_score` LIKE '%" + searchClause + "%' OR `notes` LIKE '%" + searchClause + "%' ORDER BY `created_at` DESC ";
         try {
             ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
             while (resultSet.next()) {
@@ -673,13 +673,15 @@ public class AnimalMonitorController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return monitors;
     }
 
     public ObservableList<Pregnancy> searchForPregnancies(String searchClause) {
         ObservableList<Pregnancy> pregnancies = FXCollections.observableArrayList();
-        String query = "SELECT * FROM `pregnancies` WHERE `cow_id` LIKE '%" + searchClause +"%' OR `notes` LIKE '%" + searchClause + "%' ORDER BY `created_at` DESC ";
+        String query = "SELECT * FROM `pregnancies` WHERE `cow_id` LIKE '%" + searchClause + "%' OR `notes` LIKE '%" + searchClause + "%' ORDER BY `created_at` DESC ";
         try {
             ResultSet resultSet = getConnection().prepareStatement(query).executeQuery();
             while (resultSet.next()) {
@@ -698,6 +700,8 @@ public class AnimalMonitorController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return pregnancies;
     }
@@ -722,6 +726,8 @@ public class AnimalMonitorController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return vaccinations;
     }
@@ -744,6 +750,8 @@ public class AnimalMonitorController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return routines;
     }

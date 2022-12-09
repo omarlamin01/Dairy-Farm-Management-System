@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class RoutineDetails implements Model{
@@ -28,6 +29,8 @@ public class RoutineDetails implements Model{
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            disconnect();
         }
         return -1;
     }
