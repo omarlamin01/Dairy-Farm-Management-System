@@ -98,7 +98,7 @@
          </Tab>
          <Tab text="Purchases">
              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
-                 <Label styleClass="sub_header" text="See your expense here" textAlignment="CENTER">
+                 <Label styleClass="sub_header" text="See your expenses here" textAlignment="CENTER">
                      <font>
                          <Font size="18.0" />
                      </font>
