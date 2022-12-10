@@ -47,7 +47,13 @@ public class ReportsController implements Initializable {
 
     LocalDate start;
     LocalDate end;
-
+    //Purchase items
+    @FXML
+    private DatePicker to_date;
+    @FXML
+    private DatePicker from_date;
+    @FXML
+    private Button btn_serach;
     public class DailyMilkCollection {
         private Date collection_date;
         private float total_day_collection;
