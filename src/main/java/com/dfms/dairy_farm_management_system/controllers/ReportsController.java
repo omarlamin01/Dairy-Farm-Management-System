@@ -492,6 +492,8 @@ public class ReportsController implements Initializable {
                 purchase.setQuantity(resultSet.getFloat("quantity"));
                 purchase.setSupplier_id(resultSet.getInt("supplier_id"));
                 purchase.setStock_id(resultSet.getInt("stock_id"));
+
+                purchase.setPrice(resultSet.getFloat("price"));
                 data.add(purchase);
             }
 
@@ -533,6 +535,11 @@ public class ReportsController implements Initializable {
         TableColumn<Purchase, Float> quantity = new TableColumn<>("Quantity");
         quantity.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("quantity"));
         quantity.setPrefWidth(180);
+
+
+        TableColumn<Purchase, Float> price = new TableColumn<>("Price");
+        price.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("price"));
+        price.setPrefWidth(180);
 
         TableColumn<Purchase, String> supplier = new TableColumn<>("Supplier");
         supplier.setCellValueFactory(new PropertyValueFactory<Purchase, String>("supplier_name"));
