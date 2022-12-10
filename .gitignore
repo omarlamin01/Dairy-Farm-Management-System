@@ -30,3 +30,4 @@ target/classes/com/dfms/dairy_farm_management_system/popups/add_new_animal.fxml
 /target/classes/com/dfms/dairy_farm_management_system/popups/
 /target/classes/com/dfms/dairy_farm_management_system/
 /target/*
+/out/*
