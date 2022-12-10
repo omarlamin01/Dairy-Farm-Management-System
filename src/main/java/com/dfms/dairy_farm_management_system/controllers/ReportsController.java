@@ -1,5 +1,6 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.models.Purchase;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -54,6 +55,10 @@ public class ReportsController implements Initializable {
     private DatePicker from_date;
     @FXML
     private Button btn_serach;
+    @FXML
+    private VBox purchase_results_area;
+    LocalDate start1;
+    LocalDate end1;
     public class DailyMilkCollection {
         private Date collection_date;
         private float total_day_collection;
@@ -117,7 +122,9 @@ public class ReportsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         BasicConfigurator.configure();
         initView();
+        initView2();
         search_btn.setOnMouseClicked(event -> { displayData(); });
+        btn_serach.setOnMouseClicked(event -> { displayData2(); });
     }
 
     private void initView() {
@@ -392,4 +399,161 @@ public class ReportsController implements Initializable {
             }
         }
     }
+    //Purchase
+    private void initView2() {
+        to_date.setDayCellFactory(d -> new DateCell() {
+            /**
+             * {@inheritDoc}
+             *
+             * @param item
+             * @param empty
+             */
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(LocalDate.now()));
+            }
+        });
+
+        from_date.setDayCellFactory(d -> new DateCell() {
+            /**
+             * {@inheritDoc}
+             *
+             * @param item
+             * @param empty
+             */
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(LocalDate.now()));
+            }
+        });
+
+        to_date.setOnAction(event -> {
+            LocalDate date = to_date.getValue();
+            end1= to_date.getValue();
+            from_date.setDayCellFactory(d -> new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isAfter(date));
+                }
+            });
+        });
+
+        from_date.setOnAction(event -> {
+            LocalDate date = from_date.getValue();
+            start1 = from_date.getValue();
+            to_date.setDayCellFactory(d -> new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+                }
+            });
+        });
+
+    }
+    private ObservableList<Purchase> getDataPurchase() {
+        LocalDate min_date = from_date.getValue();
+        LocalDate max_date = to_date.getValue();
+
+        ObservableList<Purchase> data = FXCollections.observableArrayList();
+
+        try {
+            String query =
+                   " SELECT * FROM `purchases` WHERE  `purchase_date` <= ? AND `purchase_date` >= ? " +
+                            "GROUP BY date(purchase_date) " +
+                            "ORDER BY `purchase_date` DESC";
+
+            PreparedStatement statement = getConnection().prepareStatement(query);
+
+
+            statement.setTimestamp(1, Timestamp.valueOf(max_date.atTime(23, 59, 59)));
+            statement.setTimestamp(2, Timestamp.valueOf(min_date.atStartOfDay()));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Purchase purchase = new Purchase();
+                purchase.setPurchase_date(resultSet.getDate("purchase_date"));
+                purchase.setQuantity(resultSet.getFloat("quantity"));
+                purchase.setSupplier_id(resultSet.getInt("supplier_id"));
+                purchase.setStock_id(resultSet.getInt("stock_id"));
+                data.add(purchase);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getSQLState());
+        } finally {
+            disconnect();
+        }
+        return data;
+    }
+
+    private void displayData2() {
+        purchase_results_area.getChildren().clear();
+        purchase_results_area.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+
+        ComboBox<String> export_combo = new ComboBox<>(FXCollections.observableArrayList("Excel", "PDF"));
+        export_combo.setPromptText("Export");
+        export_combo.setPadding(new Insets(8));
+        export_combo.getStyleClass().add("combo_box");
+
+        //check what user select in the combo box
+        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF2(start, end);
+            } else {
+                exportToExcel2();
+            }
+        });
+
+        TableColumn<Purchase, String> purchase_date = new TableColumn<>("Date");
+        purchase_date.setCellValueFactory(new PropertyValueFactory<Purchase, String>("purchase_date"));
+        purchase_date.setPrefWidth(180);
+
+        TableColumn<Purchase, String> product = new TableColumn<>("Product");
+        product.setCellValueFactory(new PropertyValueFactory<Purchase, String>("product_name"));
+        product.setPrefWidth(180);
+
+        TableColumn<Purchase, Float> quantity = new TableColumn<>("Quantity");
+        quantity.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("quantity"));
+        quantity.setPrefWidth(180);
+
+        TableColumn<Purchase, String> supplier = new TableColumn<>("Supplier");
+        supplier.setCellValueFactory(new PropertyValueFactory<Purchase, String>("supplier_name"));
+        supplier.setPrefWidth(180);
+
+
+        TableView<Purchase> data_table = new TableView<>();
+        data_table.getColumns().addAll(purchase_date, product, quantity, supplier);
+        data_table.getStyleClass().add("table-view");
+        data_table.setItems(getDataPurchase());
+        data_table.setPrefSize(600, 400);
+
+        purchase_results_area.getChildren().addAll(export_combo, data_table);
+    }
+
+    private void exportToExcel2() {
+    }
+
+    private void exportToPDF2(LocalDate start, LocalDate end) {
+
+    }
 }
+
+
