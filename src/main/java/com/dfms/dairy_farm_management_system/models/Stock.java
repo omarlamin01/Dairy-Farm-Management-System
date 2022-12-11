@@ -110,7 +110,7 @@ public class Stock implements Model {
             preparedStatement.setString(1, name);
             preparedStatement.setString(2, type);
             preparedStatement.setFloat(3, quantity);
-            preparedStatement.setString(4, availability ? "1" : "0");
+            preparedStatement.setInt(4, availability ? 1 : 0);
             preparedStatement.setString(5, unit);
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
@@ -129,7 +129,7 @@ public class Stock implements Model {
         String updateQuery = "UPDATE `stocks` SET `name` = '" + name +
                 "', `type` = '" + type +
                 "', `quantity` = '" + quantity +
-                "', `availability` = '" + availability +
+                "', `availability` = '" + (availability ? 1 : 0) +
                 "', `unit` = '" + unit +
                 "', `updated_at` = '" + dtf.format(now) +
                 "' WHERE `stocks`.`id` = " + id;
