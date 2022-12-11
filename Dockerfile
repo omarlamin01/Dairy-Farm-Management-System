@@ -1,17 +1,3 @@
-# Start with a base image that contains Java and Maven
-FROM openjdk:8-jdk-alpine as build
-
-# Set the working directory
-WORKDIR /app
-
-# Copy the pom.xml file and download the dependencies
-COPY pom.xml .
-RUN mvn dependency:go-offline
-
-# Copy the rest of the project files and build the project
-COPY src ./src
-RUN mvn package
-
 # Start with a fresh image that only contains the JRE
 FROM openjdk:8-jre-alpine
 
@@ -19,21 +5,19 @@ FROM openjdk:8-jre-alpine
 WORKDIR /app
 
 # Copy the compiled JAR file from the build stage
-COPY --from=build /out/artifacts/Dairy_Farm_Management_System_jar/Dairy_Farm_Management_System.jar ./grass-land-dairy.jar
+COPY /out/artifacts/Dairy_Farm_Management_System_jar/Dairy_Farm_Management_System.jar /app/grass-land-dairy.jar
 
 # Expose the default port for the JavaFX application
 EXPOSE 8080
 
 # Run the JavaFX application when the container starts
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "grass-land-dairy.jar"]
 
-# Start with the official MySQL image
-FROM mysql:8.0
+# TO RUN THE CONTAINER:
+#docker run --name my-mysql-db -e MYSQL_ROOT_PASSWORD=password -d mysql:5.7
+#docker run --name my-javafx-app --link my-mysql-db:mysql -p 8080:8080 my-javafx-app
 
-# Copy the MySQL configuration file
-COPY my.cnf /etc/mysql/conf.d/my.cnf
+# EXECUTE THE SQL FILE:
+COPY /src/main/java/com/dfms/dairy_farm_management_system/connection/dairyfarm.sql /app/dairyfarm.sql
 
-# Set the default password for the root user
-ENV MYSQL_ROOT_PASSWORD password
-
-
+CMD ["mysql", "-u", "root", "-p", "password", "-h", "mysql", "<", "dairyfarm.sql"]
