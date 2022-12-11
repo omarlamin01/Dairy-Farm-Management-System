@@ -551,7 +551,7 @@ public class ReportsController implements Initializable {
         data_table.getColumns().addAll(purchase_date, product, quantity, price,supplier);
         data_table.getStyleClass().add("table-view");
         data_table.setItems(getDataPurchase());
-        data_table.setPrefSize(600, 400);
+        data_table.setPrefSize(900, 400);
 
         purchase_results_area.getChildren().addAll(export_combo, data_table);
     }
@@ -625,7 +625,7 @@ public class ReportsController implements Initializable {
                 document.open();
                 try {
                     Paragraph title = new Paragraph("Purchases List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-                    Paragraph text = new Paragraph("This is the list of the purchases between" + start.toString() + " and " + end.toString() + ".",  FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    Paragraph text = new Paragraph("This is the list of the purchases between " + start.toString() + " and " + end.toString() + ".",  FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
 
                     //center paragraph
                     title.setAlignment(Element.ALIGN_CENTER);
