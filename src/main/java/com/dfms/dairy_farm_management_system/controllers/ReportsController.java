@@ -1,5 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewPurchaseController;
+import com.dfms.dairy_farm_management_system.models.Purchase;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -47,7 +49,17 @@ public class ReportsController implements Initializable {
 
     LocalDate start;
     LocalDate end;
-
+    //Purchase items
+    @FXML
+    private DatePicker to_date;
+    @FXML
+    private DatePicker from_date;
+    @FXML
+    private Button btn_serach;
+    @FXML
+    private VBox purchase_results_area;
+    LocalDate start1;
+    LocalDate end1;
     public class DailyMilkCollection {
         private Date collection_date;
         private float total_day_collection;
@@ -111,7 +123,9 @@ public class ReportsController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         BasicConfigurator.configure();
         initView();
+        initView2();
         search_btn.setOnMouseClicked(event -> { displayData(); });
+        btn_serach.setOnMouseClicked(event -> { displayData2(); });
     }
 
     private void initView() {
@@ -386,4 +400,296 @@ public class ReportsController implements Initializable {
             }
         }
     }
-}
+    //Purchase
+    private void initView2() {
+        to_date.setDayCellFactory(d -> new DateCell() {
+            /**
+             * {@inheritDoc}
+             *
+             * @param item
+             * @param empty
+             */
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(LocalDate.now()));
+            }
+        });
+
+        from_date.setDayCellFactory(d -> new DateCell() {
+            /**
+             * {@inheritDoc}
+             *
+             * @param item
+             * @param empty
+             */
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(LocalDate.now()));
+            }
+        });
+
+        to_date.setOnAction(event -> {
+            LocalDate date = to_date.getValue();
+            end1= to_date.getValue();
+            from_date.setDayCellFactory(d -> new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isAfter(date));
+                }
+            });
+        });
+
+        from_date.setOnAction(event -> {
+            LocalDate date = from_date.getValue();
+            start1 = from_date.getValue();
+            to_date.setDayCellFactory(d -> new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+                }
+            });
+        });
+
+    }
+    private ObservableList<Purchase> getDataPurchase() {
+        LocalDate min_date = from_date.getValue();
+        LocalDate max_date = to_date.getValue();
+
+        ObservableList<Purchase> data = FXCollections.observableArrayList();
+
+        try {
+            String query =
+                   " SELECT * FROM `purchases` WHERE  `purchase_date` <= ? AND `purchase_date` >= ? " +
+                            "GROUP BY date(purchase_date) " +
+                            "ORDER BY `purchase_date` DESC";
+
+            PreparedStatement statement = getConnection().prepareStatement(query);
+
+
+            statement.setTimestamp(1, Timestamp.valueOf(max_date.atTime(23, 59, 59)));
+            statement.setTimestamp(2, Timestamp.valueOf(min_date.atStartOfDay()));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Purchase purchase = new Purchase();
+                purchase.setPurchase_date(resultSet.getDate("purchase_date"));
+                purchase.setQuantity(resultSet.getFloat("quantity"));
+                purchase.setSupplier_id(resultSet.getInt("supplier_id"));
+                purchase.setStock_id(resultSet.getInt("stock_id"));
+
+                purchase.setPrice(resultSet.getFloat("price"));
+                data.add(purchase);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getSQLState());
+        } finally {
+            disconnect();
+        }
+        return data;
+    }
+
+    private void displayData2() {
+        purchase_results_area.getChildren().clear();
+        purchase_results_area.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+
+        ComboBox<String> export_combo = new ComboBox<>(FXCollections.observableArrayList("Excel", "PDF"));
+        export_combo.setPromptText("Export");
+        export_combo.setPadding(new Insets(8));
+        export_combo.getStyleClass().add("combo_box");
+
+        //check what user select in the combo box
+        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF2(start1, end1);
+            } else {
+                exportToExcel2();
+            }
+        });
+
+        TableColumn<Purchase, String> purchase_date = new TableColumn<>("Date");
+        purchase_date.setCellValueFactory(new PropertyValueFactory<Purchase, String>("purchase_date"));
+        purchase_date.setPrefWidth(180);
+
+        TableColumn<Purchase, String> product = new TableColumn<>("Product");
+        product.setCellValueFactory(new PropertyValueFactory<Purchase, String>("product_name"));
+        product.setPrefWidth(180);
+
+        TableColumn<Purchase, Float> quantity = new TableColumn<>("Quantity");
+        quantity.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("quantity"));
+        quantity.setPrefWidth(180);
+
+
+        TableColumn<Purchase, Float> price = new TableColumn<>("Price");
+        price.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("price"));
+        price.setPrefWidth(180);
+
+        TableColumn<Purchase, String> supplier = new TableColumn<>("Supplier");
+        supplier.setCellValueFactory(new PropertyValueFactory<Purchase, String>("supplier_name"));
+        supplier.setPrefWidth(180);
+
+
+        TableView<Purchase> data_table = new TableView<>();
+        data_table.getColumns().addAll(purchase_date, product, quantity, price,supplier);
+        data_table.getStyleClass().add("table-view");
+        data_table.setItems(getDataPurchase());
+        data_table.setPrefSize(900, 400);
+
+        purchase_results_area.getChildren().addAll(export_combo, data_table);
+    }
+    private static int COLUMNS_COUNT = 5;
+    private Statement statemeent;
+    private Connection connection = getConnection();
+    private void exportToExcel2() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Purchases");
+                Row header = sheet.createRow(0);
+                header.createCell(0).setCellValue("Purchase ID");
+                header.createCell(1).setCellValue("Product");
+                header.createCell(2).setCellValue("Price");
+                header.createCell(3).setCellValue("Quantity");
+                header.createCell(4).setCellValue("Supplier");
+                header.createCell(5).setCellValue("Date");
+
+
+                //get all employees from database
+                String query = "SELECT pur.id,st.name,pur.price,s.name,pur.purchase_date,pur.quantity FROM `purchases` pur ,`suppliers` s , `stocks` st where pur.supplier_id=s.id and pur.stock_id=st.id  ";
+                try {
+
+                    statemeent = connection.createStatement();
+                    ResultSet rs = statemeent.executeQuery(query);
+                    while (rs.next()) {
+                        int rowNum = rs.getRow();
+                        Row row = sheet.createRow(rowNum);
+                        row.createCell(0).setCellValue(rs.getString("pur.id"));
+                        row.createCell(1).setCellValue(rs.getString("st.name"));
+                        row.createCell(2).setCellValue(rs.getString("pur.price"));
+                        row.createCell(3).setCellValue(rs.getString("pur.quantity"));
+                        row.createCell(4).setCellValue(rs.getString("s.name"));
+                        row.createCell(5).setCellValue(rs.getString("pur.purchase_date"));
+
+                    }
+                } catch (Exception e) {
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Purchases exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+
+    }
+
+    private void exportToPDF2(LocalDate start, LocalDate end) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Document document = new Document();
+                //change document orientation to landscape
+                document.setPageSize(PageSize.A4.rotate());
+
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+                try {
+                    Paragraph title = new Paragraph("Purchases List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
+                    Paragraph text = new Paragraph("This is the list of the purchases between " + start.toString() + " and " + end.toString() + ".",  FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+
+                    //center paragraph
+                    title.setAlignment(Element.ALIGN_CENTER);
+                    text.setAlignment(Element.ALIGN_CENTER);
+                    title.setSpacingAfter(30);
+                    text.setSpacingAfter(30);
+
+                    document.add(title);
+                    document.add(text);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+                PdfPTable table = new PdfPTable(COLUMNS_COUNT);
+
+                //change pdf orientation to landscape
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(11f);
+                table.setSpacingAfter(11f);
+                float[] colWidth = new float[COLUMNS_COUNT];
+                for (int i = 0; i < COLUMNS_COUNT; i++) {
+                    colWidth[i] = 2f;
+                }
+
+                //add table header
+                table.addCell(new PdfPCell(new Paragraph("Product ", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Quantity", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Supplier", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+
+                //add padding to cells
+                table.getDefaultCell().setPadding(3);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+                table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+
+
+
+                //get employee of each row
+                //used a method in my updateEmplyeeController to get the employee of each row based on the cin
+              /*  NewPurchaseController controller = new NewPurchaseController();*/
+
+                for (Purchase purchase : getDataPurchase()) {
+                   /* Purchase pur = controller.getPurchase(purchase.getId());*/
+
+                    table.addCell(new PdfPCell(new Paragraph(purchase.getProduct_name()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(purchase.getPrice())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(purchase.getQuantity())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(purchase.getSupplier_name()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(purchase.getPurchase_date())))).setPadding(5);
+
+                }
+
+                document.add(table);
+                document.close();
+                displayAlert("Success", "Purchases exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    }
+
+
+
