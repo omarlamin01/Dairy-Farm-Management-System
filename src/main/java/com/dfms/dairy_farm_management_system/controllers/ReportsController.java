@@ -667,16 +667,16 @@ public class ReportsController implements Initializable {
 
                 //get employee of each row
                 //used a method in my updateEmplyeeController to get the employee of each row based on the cin
-                NewPurchaseController controller = new NewPurchaseController();
+              /*  NewPurchaseController controller = new NewPurchaseController();*/
 
                 for (Purchase purchase : getDataPurchase()) {
-                    Purchase pur = controller.getPurchase(purchase.getId());
+                   /* Purchase pur = controller.getPurchase(purchase.getId());*/
 
-                    table.addCell(new PdfPCell(new Paragraph(pur.getProduct_name()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(pur.getPrice())))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(pur.getQuantity())))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(pur.getSupplier_name()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(pur.getPurchase_date())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(purchase.getProduct_name()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(purchase.getPrice())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(purchase.getQuantity())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(purchase.getSupplier_name()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(purchase.getPurchase_date())))).setPadding(5);
 
                 }
 
