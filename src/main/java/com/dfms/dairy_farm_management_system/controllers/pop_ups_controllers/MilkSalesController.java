@@ -28,7 +28,8 @@ public class MilkSalesController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
+        validateDecimalInput(priceOfSale);
+        validateDecimalInput(quantityInput);
     }
 
     @FXML

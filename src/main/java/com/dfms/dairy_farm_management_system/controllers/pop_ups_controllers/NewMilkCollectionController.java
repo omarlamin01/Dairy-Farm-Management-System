@@ -18,8 +18,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 
 public class NewMilkCollectionController implements Initializable {
@@ -53,6 +52,7 @@ public class NewMilkCollectionController implements Initializable {
         }
 
         this.setPeriodComboItems();
+        validateDecimalInput(milkquantity_input);
 
 
     }

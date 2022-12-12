@@ -130,6 +130,8 @@ public class NewPurchaseController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        validateDecimalInput(priceOfSale);
+        validateDecimalInput(quantityInput);
     }
     public void setSupplierList() throws SQLException {
         ObservableList<String> supplierNames = FXCollections.observableArrayList();
