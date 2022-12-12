@@ -73,3 +73,15 @@ ALTER TABLE `routines`
 #change role_id to role in users table
 ALTER TABLE `users`
     CHANGE role_id role int(11) NOT NULL;
+
+# change hire date in employees table to be null
+ALTER TABLE `employees`
+    MODIFY hire_date date NULL;
+
+#change contract_type in employees table to be null
+ALTER TABLE `employees`
+    MODIFY contract_type ENUM('CDI', 'CDD', 'CTT') NULL;
+
+#change pregnancy_status in pregnancies to be a default value
+ALTER TABLE `pregnancies`
+    MODIFY pregnancy_status ENUM('pending', 'finished', 'failed') NOT NULL DEFAULT 'pending';
