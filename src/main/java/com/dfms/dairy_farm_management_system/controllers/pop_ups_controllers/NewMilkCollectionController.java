@@ -18,8 +18,7 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 
 public class NewMilkCollectionController implements Initializable {
@@ -53,6 +52,7 @@ public class NewMilkCollectionController implements Initializable {
         }
 
         this.setPeriodComboItems();
+        validateDecimalInput(milkquantity_input);
 
 
     }
@@ -136,17 +136,17 @@ public class NewMilkCollectionController implements Initializable {
 
         MilkCollection milkCollection = new MilkCollection();
        if (this.update) {
-            milkCollection.setId(this.MilkCollection_ID);
-            milkCollection.setCow_id(cowid.getValue());
-            milkCollection.setPeriod(period_input.getValue());
-            milkCollection.setQuantity(Float.parseFloat(milkquantity_input.getText()));
+
             if (milkCollection.update()) {
               if (period_input.getValue() == null || cowid.getValue() == null || milkquantity_input.getText().isEmpty()) {
                     displayAlert("Error", "Please Fill all field ", Alert.AlertType.ERROR);
                 } else if (Float.parseFloat(milkquantity_input.getText()) == 0) {
                     displayAlert("Error", "Quantity can't be null ", Alert.AlertType.ERROR);
                 } else {
-
+                  milkCollection.setId(this.MilkCollection_ID);
+                  milkCollection.setCow_id(cowid.getValue());
+                  milkCollection.setPeriod(period_input.getValue());
+                  milkCollection.setQuantity(Float.parseFloat(milkquantity_input.getText()));
                 clear();
                 closePopUp(mouseEvent);
                 displayAlert("success", "Milk Collection Updated successfully", Alert.AlertType.INFORMATION);
