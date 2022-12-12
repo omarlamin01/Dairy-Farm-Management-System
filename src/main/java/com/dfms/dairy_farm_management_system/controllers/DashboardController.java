@@ -275,6 +275,7 @@ public class DashboardController implements Initializable {
                         resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE WEEKDAY(CURDATE()) = 5");
                 default -> {
                 }
+
             }
             if (resultSet.next()) {
                 sales = resultSet.getInt(1);

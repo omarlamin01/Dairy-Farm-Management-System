@@ -187,7 +187,7 @@ public class StockController implements Initializable {
 
                         setGraphic(managebtn);
 
-                        //delete employee
+                        //delete product
                         iv_delete.setOnMouseClicked((MouseEvent event) -> {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete Product");
@@ -196,8 +196,10 @@ public class StockController implements Initializable {
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
-                                    product.delete();
-                                    displayStock();
+                                    if (product.delete()) {
+                                        displayAlert("Success", "Product deleted successfully", Alert.AlertType.INFORMATION);
+                                        displayStock();
+                                    }
                                 } catch (Exception e) {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }

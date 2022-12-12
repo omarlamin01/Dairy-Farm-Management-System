@@ -2,7 +2,6 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
@@ -16,11 +15,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController">
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UserDetailsController">
     <children>
         <HBox alignment="CENTER_LEFT" spacing="10.0">
             <children>
-                <Label styleClass="header" text="Employee" textAlignment="CENTER">
+                <Label styleClass="header" text="User" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>
@@ -44,7 +43,7 @@
                 <Insets bottom="10.0" />
             </VBox.margin>
         </Pane>
-        <Label fx:id="header" styleClass="sub_header" text="Here's the details of selected employee" textAlignment="CENTER">
+        <Label fx:id="header" styleClass="sub_header" text="Here's the details of selected user" textAlignment="CENTER">
             <font>
                 <Font size="18.0" />
             </font>
@@ -54,30 +53,8 @@
         </Label>
         <ScrollPane hbarPolicy="NEVER">
             <content>
-                <VBox fx:id="details_layout" maxHeight="848.0" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="556.0">
+                <VBox maxHeight="848.0" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="556.0">
                     <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Button fx:id="print_btn" mnemonicParsing="false" onMousePressed="#printEmployeeDetails" styleClass="button-add" text="print">
-                           <graphic>
-                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../../../icons/print.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <HBox.margin>
-                              <Insets right="16.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Button>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </HBox>
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
                             <children>
                                 <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
@@ -279,96 +256,6 @@
                                         <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@../../../../icons/location.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                </GridPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </HBox>
-                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
-                            <children>
-                                <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="304.0" prefWidth="363.0" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                    <children>
-                                        <Label prefWidth="200.0" text="Salary" GridPane.columnIndex="1">
-                                            <GridPane.margin>
-                                                <Insets left="10.0" />
-                                            </GridPane.margin>
-                                        </Label>
-                                        <Label fx:id="salary" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="9999$" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
-                                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../../icons/money.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                </GridPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </HBox>
-                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
-                            <children>
-                                <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="304.0" prefWidth="363.0" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                    <children>
-                                        <Label prefWidth="200.0" text="Hire date" GridPane.columnIndex="1">
-                                            <GridPane.margin>
-                                                <Insets left="10.0" />
-                                            </GridPane.margin>
-                                        </Label>
-                                        <Label fx:id="recruitment_date" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="2022/10/11" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
-                                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../../icons/calender.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                </GridPane>
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </HBox>
-                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-item">
-                            <children>
-                                <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="28.0" prefWidth="499.0" styleClass="detail-label">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="219.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="304.0" prefWidth="363.0" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                    <children>
-                                        <Label fx:id="contract_type" minHeight="-Infinity" minWidth="-Infinity" styleClass="detail-label-value" text="CDI" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
-                                        <Label prefWidth="200.0" text="Contract type" GridPane.columnIndex="1">
-                                            <GridPane.margin>
-                                                <Insets left="10.0" />
-                                            </GridPane.margin>
-                                        </Label>
-                                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../../icons/category.png" />
                                             </image>
                                         </ImageView>
                                     </children>

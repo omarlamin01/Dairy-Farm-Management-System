@@ -3,6 +3,7 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
+import com.dfms.dairy_farm_management_system.models.MilkSale;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import java.sql.*;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
@@ -188,5 +190,27 @@ public class NewMilkCollectionController implements Initializable {
                milkquantity_input.clear();
                Add_Update.setDisable(false);
            }
+    public MilkCollection getCollection(int milkCollection_ID) {
+        MilkCollection milkCollection = new MilkCollection();
+        String query = "SELECT * FROM `milk_collections`   where id='" + milkCollection_ID + "' LIMIT 1";
+        Connection con = getConnection();
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                milkCollection.setId(rs.getInt("id"));
+                milkCollection.setQuantity(rs.getFloat("quantity"));
+                milkCollection.setPeriod(rs.getString("period"));
+                milkCollection.setCow_id(rs.getString("cow_id"));
+
+
+
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+        return milkCollection;
+    }
        }
 

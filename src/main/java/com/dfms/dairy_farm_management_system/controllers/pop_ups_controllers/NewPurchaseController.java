@@ -2,6 +2,7 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
+import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import com.dfms.dairy_farm_management_system.models.Purchase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,14 +13,12 @@ import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class NewPurchaseController implements Initializable {
@@ -177,5 +176,29 @@ public class NewPurchaseController implements Initializable {
     @FXML
     void refreshTable(MouseEvent event) throws SQLException {
         setProuctsList();
+    }
+    public Purchase getPurchase(int purchase_ID) {
+        Purchase purchase = new Purchase();
+        String query = "SELECT * FROM `purchases`   where id='" + purchase_ID + "' LIMIT 1";
+        Connection con = getConnection();
+        try {
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                purchase.setId(rs.getInt("id"));
+                purchase.setQuantity(rs.getFloat("quantity"));
+                purchase.setStock_id(rs.getInt("stock_id"));
+                purchase.setSupplier_id(rs.getInt("supplier_id"));
+                purchase.setPrice(rs.getInt("price"));
+                purchase.setPurchase_date(rs.getDate("purchase_date"));
+
+
+
+            }
+        } catch (Exception e) {
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+        return purchase;
     }
 }

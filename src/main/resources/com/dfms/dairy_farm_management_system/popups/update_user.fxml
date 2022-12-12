@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<VBox minHeight="-Infinity" minWidth="-Infinity" styleClass="main_content" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateUserController">
+    <children>
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <children>
+                <Label styleClass="header" text="Update" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </Label>
+                <Label styleClass="header_green" text="User" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+        <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT">
+            <children>
+                <Rectangle arcHeight="5.0" fill="#2b9348" height="3.0" layoutX="-1.0" layoutY="6.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="500.0" />
+                <Rectangle arcHeight="5.0" fill="#2b9348" height="14.0" layoutX="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="rectangle" width="14.0" />
+            </children>
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+        </Pane>
+        <Label styleClass="sub_header" text="Update user informations here." textAlignment="CENTER">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <padding>
+                <Insets bottom="10.0" />
+            </padding>
+        </Label>
+        <GridPane hgap="12.0" prefWidth="660.0">
+            <columnConstraints>
+
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="321.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="350.0" minWidth="10.0" prefWidth="321.0" />
+
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="57.0" prefHeight="57.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="57.0" prefHeight="57.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+            <children>
+                <TextField fx:id="lastNameInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="47.0" prefWidth="314.0" promptText="Last name" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1">
+                    <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="name_input" />
+                    </styleClass>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </TextField>
+                <TextField fx:id="firstNameInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="First name" stylesheets="@../../../../style/style.css">
+                    <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="name_input" />
+                    </styleClass>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" left="8.0" />
+                    </GridPane.margin>
+                </TextField>
+                <TextField fx:id="cinInput" promptText="CIN" stylesheets="@../../../../style/style.css" GridPane.rowIndex="2">
+                    <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="cin_input" />
+                    </styleClass>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" left="8.0" />
+                    </GridPane.margin>
+                </TextField>
+                <TextField fx:id="emailInput" promptText="Email" stylesheets="@../../../../style/style.css" GridPane.rowIndex="1">
+                    <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="email_input" />
+                    </styleClass>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" left="8.0" />
+                    </GridPane.margin>
+                </TextField>
+                <TextField fx:id="phoneNumberInput" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Phone number" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="phone_input" />
+                    </styleClass>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </TextField>
+                <ComboBox fx:id="roleCombo" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="660.0" promptText="Role" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" GridPane.rowSpan="2147483647">
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                    <styleClass>
+                        <String fx:value="combo_box" />
+                        <String fx:value="role_input" />
+                    </styleClass>
+                </ComboBox>
+                <TextField fx:id="addressInput" promptText="Adress" stylesheets="@../../../../style/style.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <styleClass>
+                        <String fx:value="input" />
+                        <String fx:value="location_input" />
+                    </styleClass>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" />
+                    </GridPane.margin>
+                </TextField>
+            </children>
+        </GridPane>
+          <Button fx:id="updateBtn" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn" text="Update" />
+    </children>
+    <stylesheets>
+        <URL value="@../../../../style/style.css" />
+        <URL value="@../../../../style/date_picker.css" />
+    </stylesheets>
+</VBox>

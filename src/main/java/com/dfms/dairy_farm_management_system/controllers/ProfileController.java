@@ -92,7 +92,7 @@ public class ProfileController implements Initializable {
         last_name_input.setText(currentUser.getLastName());
         cin_input.setText(currentUser.getCin());
         phone_input.setText(String.valueOf(currentUser.getPhone()));
-        address_input.setText(currentUser.getAdress());
+        address_input.setText(currentUser.getAddress());
         email_input.setText(currentUser.getEmail());
     }
 
