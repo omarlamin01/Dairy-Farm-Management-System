@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
@@ -37,11 +38,11 @@ public class NewAnimalController implements Initializable {
     private ComboBox<String> routineCombo;
     @FXML
     private Button btn_add_animal;
-    PreparedStatement statement = null;
-    ResultSet resultSet = null;
+    PreparedStatement statement;
+    ResultSet resultSet;
 
     String animal_ID;
-    private Connection connection = DBConfig.getConnection();
+    private Connection connection =getConnection();
     private boolean update;
     String query = null;
 
