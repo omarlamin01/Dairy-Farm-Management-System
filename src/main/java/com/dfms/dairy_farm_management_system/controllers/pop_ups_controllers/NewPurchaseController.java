@@ -56,12 +56,7 @@ public class NewPurchaseController implements Initializable {
     void addPurchase(MouseEvent event) {
         Purchase purchase = new Purchase();
         if (this.update) {
-            purchase.setId(this.Purchase_ID);
-            purchase.setStock_id(stocks.get(stockCombo.getValue()));
-            purchase.setPrice(Float.parseFloat(priceOfSale.getText()));
-            purchase.setQuantity(Float.parseFloat(quantityInput.getText()));
-            purchase.setSupplier_id(suppliers.get(suppliersCombo.getValue()));
-            purchase.setPurchase_date(Date.valueOf(operationDate.getValue()));
+
             if (purchase.update()) {
 
                 if (suppliersCombo.getValue() == null || stockCombo.getValue() == null || priceOfSale.getText().isEmpty() || quantityInput.getText().isEmpty()|| operationDate.getValue() == null) {
@@ -73,17 +68,18 @@ public class NewPurchaseController implements Initializable {
                     displayAlert("Error", "Quantity can't be null ", Alert.AlertType.ERROR);
                 }
                 else {
-
+                    purchase.setId(this.Purchase_ID);
+                    purchase.setStock_id(stocks.get(stockCombo.getValue()));
+                    purchase.setPrice(Float.parseFloat(priceOfSale.getText()));
+                    purchase.setQuantity(Float.parseFloat(quantityInput.getText()));
+                    purchase.setSupplier_id(suppliers.get(suppliersCombo.getValue()));
+                    purchase.setPurchase_date(Date.valueOf(operationDate.getValue()));
                     clear();
                     closePopUp(event);
                     displayAlert("success", "Purchase  Updated successfully", Alert.AlertType.INFORMATION);
 
                 } }}else {
-            purchase.setStock_id(stocks.get(stockCombo.getValue()));
-            purchase.setPrice(Float.parseFloat(priceOfSale.getText()));
-            purchase.setQuantity(Float.parseFloat(quantityInput.getText()));
-            purchase.setSupplier_id(suppliers.get(suppliersCombo.getValue()));
-            purchase.setPurchase_date(Date.valueOf(operationDate.getValue()));
+
             if (suppliersCombo.getValue() == null || suppliersCombo.getValue() == null || priceOfSale.getText().isEmpty() || quantityInput.getText().isEmpty()|| operationDate.getValue() == null) {
                 displayAlert("Error", "Please Fill all fields ", Alert.AlertType.ERROR);
             } else if (Float.parseFloat(priceOfSale.getText()) == 0) {

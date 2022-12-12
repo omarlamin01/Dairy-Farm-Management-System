@@ -82,11 +82,7 @@ public class MilkSalesController implements Initializable {
     public void addMilkSale(MouseEvent mouseEvent) {
         MilkSale milkSale = new MilkSale();
         if (this.update) {
-            milkSale.setId(this.MilkSale_ID);
-            milkSale.setQuantity(Float.parseFloat(quantityInput.getText()));
-            milkSale.setPrice(Float.parseFloat(priceOfSale.getText()));
-            milkSale.setClientId(clients.get(clientsCombo.getValue()));
-            milkSale.setSale_date(Date.valueOf(operationDate.getValue()));
+
             if (milkSale.update()) {
 
                 if (clientsCombo.getValue() == null || quantityInput.getText().isEmpty() || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
@@ -94,16 +90,17 @@ public class MilkSalesController implements Initializable {
                 } else if (Float.parseFloat(priceOfSale.getText()) == 0) {
                     displayAlert("Error", "Price can't be null ", Alert.AlertType.ERROR);
                 } else {
-
+                    milkSale.setId(this.MilkSale_ID);
+                    milkSale.setQuantity(Float.parseFloat(quantityInput.getText()));
+                    milkSale.setPrice(Float.parseFloat(priceOfSale.getText()));
+                    milkSale.setClientId(clients.get(clientsCombo.getValue()));
+                    milkSale.setSale_date(Date.valueOf(operationDate.getValue()));
                     clear();
                     closePopUp(mouseEvent);
                     displayAlert("success", "Milk Sale Updated successfully", Alert.AlertType.INFORMATION);
 
                 } }}else {
-            milkSale.setQuantity(Float.parseFloat(quantityInput.getText()));
-            milkSale.setPrice(Float.parseFloat(priceOfSale.getText()));
-            milkSale.setClientId(clients.get(clientsCombo.getValue()));
-            milkSale.setSale_date(Date.valueOf(operationDate.getValue()));
+
         if (clientsCombo.getValue() == null || quantityInput.getText().isEmpty() || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
             displayAlert("Error", "Please Fill all fields ", Alert.AlertType.ERROR);
         } else if (Float.parseFloat(priceOfSale.getText()) == 0||Float.parseFloat(quantityInput.getText()) == 0) {

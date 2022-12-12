@@ -136,17 +136,17 @@ public class NewMilkCollectionController implements Initializable {
 
         MilkCollection milkCollection = new MilkCollection();
        if (this.update) {
-            milkCollection.setId(this.MilkCollection_ID);
-            milkCollection.setCow_id(cowid.getValue());
-            milkCollection.setPeriod(period_input.getValue());
-            milkCollection.setQuantity(Float.parseFloat(milkquantity_input.getText()));
+
             if (milkCollection.update()) {
               if (period_input.getValue() == null || cowid.getValue() == null || milkquantity_input.getText().isEmpty()) {
                     displayAlert("Error", "Please Fill all field ", Alert.AlertType.ERROR);
                 } else if (Float.parseFloat(milkquantity_input.getText()) == 0) {
                     displayAlert("Error", "Quantity can't be null ", Alert.AlertType.ERROR);
                 } else {
-
+                  milkCollection.setId(this.MilkCollection_ID);
+                  milkCollection.setCow_id(cowid.getValue());
+                  milkCollection.setPeriod(period_input.getValue());
+                  milkCollection.setQuantity(Float.parseFloat(milkquantity_input.getText()));
                 clear();
                 closePopUp(mouseEvent);
                 displayAlert("success", "Milk Collection Updated successfully", Alert.AlertType.INFORMATION);
