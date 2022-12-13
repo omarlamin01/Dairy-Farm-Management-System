@@ -5,9 +5,10 @@ import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewAnimalController;
 import com.dfms.dairy_farm_management_system.models.Animal;
+import com.dfms.dairy_farm_management_system.models.Client;
 import com.dfms.dairy_farm_management_system.models.Employee;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
@@ -28,6 +29,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -75,13 +77,15 @@ public class ManageAnimalController implements Initializable {
     private  Connection connection = getConnection();
     private PreparedStatement preparedStatement;
     private  Statement statement;
+    private static int COLUMNS_COUNT = 6;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        BasicConfigurator.configure();
         displayAnimals();
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         export_combo.setItems(list);
-        liveSearch();
+//        liveSearch();
         export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
                 exportToPDF();
@@ -90,6 +94,7 @@ public class ManageAnimalController implements Initializable {
             }
         });
     }
+
     public ObservableList<Animal> getAnimals() {
         ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
         String select_query = "SELECT * from `animals`";
@@ -179,15 +184,17 @@ public class ManageAnimalController implements Initializable {
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
-                                    animal.delete();
-                                    displayAnimals();
+
+                                    if(animal.delete()){
+                                    Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
+                                    alertInfo.setTitle("Delete Cow");
+                                    alertInfo.setHeaderText("Cow deleted successfully");
+                                    alertInfo.showAndWait();
+                                    refreshTableAnimal();}
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
-                                alertInfo.setTitle("Delete Cow");
-                                alertInfo.setHeaderText("Cow deleted successfully");
-                                alertInfo.showAndWait();
+
                             }
                         });
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
@@ -268,35 +275,60 @@ public class ManageAnimalController implements Initializable {
         if (file != null) {
             try {
                 Document document = new Document();
+                //change document orientation to landscape
+                document.setPageSize(PageSize.A4.rotate());
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    document.add(new Paragraph("Animal List"));
-                    document.add(new Paragraph(" "));
+                    Paragraph title = new Paragraph("Animal List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
+                    Paragraph text = new Paragraph("This is the list of the animals", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    title.setAlignment(Element.ALIGN_CENTER);
+                    text.setAlignment(Element.ALIGN_CENTER);
+                    title.setSpacingAfter(30);
+                    text.setSpacingAfter(30);
+                    document.add(title);
+                    document.add(text);
+
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
-                PdfPTable table = new PdfPTable(6);
-                table.addCell("Cow ID");
-                table.addCell("Race");
-                table.addCell("Birth Date");
-                table.addCell("Type");
-                table.addCell("Routine");
-                table.addCell("Purchase Date");
-                //get all animals from database
-                String query = "SELECT * FROM `animals`";
-                try {
-                    Statement statement = connection.createStatement();
-                    ResultSet rs = statement.executeQuery(query);
-                    while (rs.next()) {
-                        table.addCell(rs.getString("id"));
-                        table.addCell(rs.getString("birth_date"));
-                        table.addCell(rs.getString("purchase_date"));
-                        table.addCell(rs.getString("routine"));
-                        table.addCell(rs.getString("race"));
-                        table.addCell(rs.getString("type"));
+                PdfPTable table = new PdfPTable(COLUMNS_COUNT);
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(11f);
+                table.setSpacingAfter(11f);
+                float[] colWidth = new float[COLUMNS_COUNT];
+                for (int i = 0; i < COLUMNS_COUNT; i++) {
+                    colWidth[i] = 2f;
+                }
 
-                    }
+                table.addCell(new PdfPCell(new Paragraph("Cow ID", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Race", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Birth Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Type", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Routine", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Purchase Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+
+                //add padding to cells
+                table.getDefaultCell().setPadding(3);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+                table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+                //get animals displayed in table
+                ObservableList<Animal> list_animals = animals.getItems();
+
+                NewAnimalController controller = new NewAnimalController();
+
+                for (Animal animal : list_animals) {
+                    Animal an = controller.getAnimal(animal.getId());
+
+                    table.addCell(new PdfPCell(new Paragraph(an.getId()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(an.getRaceName()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(an.getBirth_date())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(an.getType()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(an.getRoutineName()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(an.getPurchase_date())))).setPadding(5);
+
+                }
 
                     document.add(table);
                     document.close();
@@ -304,9 +336,7 @@ public class ManageAnimalController implements Initializable {
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
-            } catch (Exception e) {
-                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-            }
+
         }
     }
 
@@ -327,27 +357,20 @@ public class ManageAnimalController implements Initializable {
                 header.createCell(4).setCellValue("Routine");
                 header.createCell(5).setCellValue("Purchase Date");
 
-                //get all employees from database
-                String query = "SELECT * FROM `animals`";
-                try {
-                    Statement statement = connection.createStatement();
-                    ResultSet rs = statement.executeQuery(query);
-                    while (rs.next()) {
-                        int rowNum = rs.getRow();
-                        Row row = sheet.createRow(rowNum);
-                        row.createCell(0).setCellValue(rs.getString("id"));
-                        row.createCell(1).setCellValue(rs.getString("birth_date"));
-                        row.createCell(2).setCellValue(rs.getString("purchase_date"));
-                        row.createCell(3).setCellValue(rs.getString("routine"));
-                        row.createCell(4).setCellValue(rs.getString("race"));
-                        row.createCell(5).setCellValue(rs.getString("type"));
+                ObservableList<Animal> list_animals = animals.getItems();
 
-                    }
-                } catch (Exception e) {
-                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                NewAnimalController controller = new NewAnimalController();
+
+                for (Animal animal : list_animals) {
+                    Animal an = controller.getAnimal(animal.getId());
+                    Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+                    row.createCell(0).setCellValue(animal.getId());
+                    row.createCell(1).setCellValue(animal.getRaceName());
+                    row.createCell(2).setCellValue(animal.getBirth_date());
+                    row.createCell(3).setCellValue(animal.getType());
+                    row.createCell(4).setCellValue(animal.getRoutineName());
+                    row.createCell(5).setCellValue(animal.getPurchase_date());
                 }
-
-
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 workbook.write(fileOutputStream);
                 workbook.close();
@@ -357,6 +380,34 @@ public class ManageAnimalController implements Initializable {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
         }
+    }
+    public void liveSearchClient() {
+        // 1. Wrap the ObservableList in a FilteredList (initially display all data).
+        ObservableList<Animal> listAnimal = getAnimals();
+        FilteredList<Animal> filteredData = new FilteredList<>(listAnimal, p->true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        textField_search.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(animal -> {
+                // If filter text is empty, display all clients.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (animal.getType().toLowerCase().contains(newValue.toLowerCase()) || animal.getRaceName().toLowerCase().contains(newValue.toLowerCase())) {
+                    return true; // Filter matches first name.
+                }return false;
+            });
+        });
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<Animal> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        sortedData.comparatorProperty().bind(animals.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        animals.setItems(sortedData);
     }
 
     public void refreshTable(MouseEvent mouseEvent) {
@@ -372,5 +423,9 @@ public class ManageAnimalController implements Initializable {
     }
     public void openAddNewAnimal(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add New Animal", "add_new_animal");
+    }
+    @FXML
+    void search_animal(MouseEvent event) {
+        liveSearchClient();
     }
 }
