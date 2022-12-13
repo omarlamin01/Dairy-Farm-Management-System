@@ -2,7 +2,6 @@ package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Animal;
-import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -184,27 +183,5 @@ public class NewAnimalController implements Initializable {
         btn_add_animal.setText("Update");
         Add_Update.setText("Update");
 
-    }
-    public Animal getAnimal(String animal_ID) {
-        Animal animal = new Animal();
-        String query = "SELECT * FROM animals   where id='" + animal_ID + "' LIMIT 1";
-        Connection con = getConnection();
-        try {
-            Statement st = con.createStatement();
-            ResultSet rs= st.executeQuery(query);
-            while (rs.next()) {
-                animal.setId(rs.getString("id"));
-                animal.setBirth_date(rs.getDate("birth_date"));
-                animal.setPurchase_date(rs.getDate("purchase_date"));
-                animal.setRoutineId(rs.getInt("routine"));
-                animal.setRaceId(rs.getInt("race"));
-                animal.setType(rs.getString("type"));
-
-            }
-        } catch (Exception e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-            e.printStackTrace();
-        }
-        return animal;
     }
 }
