@@ -65,6 +65,8 @@ public class Animal {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return null;
     }
@@ -89,6 +91,8 @@ public class Animal {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return null;
     }
@@ -156,6 +160,8 @@ public class Animal {
             return statement.executeUpdate() != 0;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -182,6 +188,8 @@ public class Animal {
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
@@ -195,6 +203,8 @@ public class Animal {
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            disconnect();
         }
         return false;
     }
