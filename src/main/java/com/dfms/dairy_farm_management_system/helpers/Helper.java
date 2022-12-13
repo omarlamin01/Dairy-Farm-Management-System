@@ -39,7 +39,7 @@ import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconne
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class Helper {
-    public static final String DEFAULT_PASSWORD = "Pass123";
+    public static final String DEFAULT_PASSWORD = "1234";
 
     public static void centerScreen(Stage stage) {
         Screen screen = Screen.getPrimary();
