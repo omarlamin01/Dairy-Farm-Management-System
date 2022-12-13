@@ -52,7 +52,7 @@
                      <Insets bottom="10.0" />
                  </VBox.margin>
                  <children>
-                     <TextField fx:id="textField_search" maxHeight="40.0" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="281.0" promptText="Search for an animal..." styleClass="text-field-search">
+                     <TextField fx:id="textField_search" maxHeight="40.0" maxWidth="1.7976931348623157E308" onMouseEntered="#search_animal" prefHeight="40.0" prefWidth="281.0" promptText="Search for an animal..." styleClass="text-field-search">
                          <padding>
                              <Insets left="10.0" />
                          </padding>

@@ -18,7 +18,7 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        String first_view = "login_screen";
+        String first_view = "main_layout";
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(first_view + ".fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.initStyle(StageStyle.UNDECORATED);
