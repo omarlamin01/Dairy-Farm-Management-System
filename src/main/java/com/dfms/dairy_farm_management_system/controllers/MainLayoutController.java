@@ -36,6 +36,8 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 public class MainLayoutController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        initNavButtons();
+
         String first_view = "dashboard";
         loadView(first_view);
         dashboard_btn.setStyle("-fx-background-color: #FFC700, #00A300;" +
@@ -48,68 +50,51 @@ public class MainLayoutController implements Initializable {
     }
 
     private PreparedStatement pst;
-    private Connection con = DBConfig.getConnection();
-    private User user;
 
+    private Connection con = DBConfig.getConnection();
+
+    private User user;
 
     @FXML
     private BorderPane borderPane;
 
-
     private Button animal_monitor_btn; //
-
 
     private Button dashboard_btn; //
 
-
     private Button profile_btn; //
-
 
     private Button employees_btn; //
 
-
     private Button manage_animal_btn; //
-
 
     private Button manage_clients_suppliers_btn; //
 
-
     private Button reports_btn; //
-
 
     private Button sales_btn; //
 
-
     private Button stock_btn;
-
 
     private Button MilkClollection_btn;
 
-
     private Button manageUsersBtn;
-
 
     @FXML
     private Button logout;
 
-
     @FXML
     private Label user_name;
-
 
     @FXML
     private ScrollPane nav_scroll_pane;
 
-
     @FXML
     private VBox menu;
 
-
     private Parent root = null;
 
-
     private Button purchase_btn; //
-
 
     private void initNavButtons() {
         dashboard_btn = new Button("Dashboard");
@@ -166,6 +151,7 @@ public class MainLayoutController implements Initializable {
         employees_btn.setGraphicTextGap(10);
         employees_btn.setOnMouseEntered(this::navLinkMouseEntred);
         employees_btn.setOnMouseExited(this::navLinkMouseExited);
+        employees_btn.setOnAction(this::loadEmployees);
         menu.getChildren().add(employees_btn);
 
         animal_monitor_btn = new Button("Animal Monitor");
@@ -184,6 +170,7 @@ public class MainLayoutController implements Initializable {
         animal_monitor_btn.setGraphicTextGap(10);
         animal_monitor_btn.setOnMouseEntered(this::navLinkMouseEntred);
         animal_monitor_btn.setOnMouseExited(this::navLinkMouseExited);
+        animal_monitor_btn.setOnAction(this::loadAnimalMonitor);
         menu.getChildren().add(animal_monitor_btn);
 
         manage_clients_suppliers_btn = new Button("Manage Clients & Suppliers");
@@ -202,6 +189,7 @@ public class MainLayoutController implements Initializable {
         manage_clients_suppliers_btn.setGraphicTextGap(10);
         manage_clients_suppliers_btn.setOnMouseEntered(this::navLinkMouseEntred);
         manage_clients_suppliers_btn.setOnMouseExited(this::navLinkMouseExited);
+        manage_clients_suppliers_btn.setOnAction(this::loadClientsSuppliers);
         menu.getChildren().add(manage_clients_suppliers_btn);
 
         manage_animal_btn = new Button("Manage Animals");
@@ -220,6 +208,7 @@ public class MainLayoutController implements Initializable {
         manage_animal_btn.setGraphicTextGap(10);
         manage_animal_btn.setOnMouseEntered(this::navLinkMouseEntred);
         manage_animal_btn.setOnMouseExited(this::navLinkMouseExited);
+        manage_animal_btn.setOnAction(this::loadManageAnimal);
         menu.getChildren().add(manage_animal_btn);
 
         sales_btn = new Button("Sales");
@@ -238,6 +227,7 @@ public class MainLayoutController implements Initializable {
         sales_btn.setGraphicTextGap(10);
         sales_btn.setOnMouseEntered(this::navLinkMouseEntred);
         sales_btn.setOnMouseExited(this::navLinkMouseExited);
+        sales_btn.setOnAction(this::loadSales);
         menu.getChildren().add(sales_btn);
 
         purchase_btn = new Button("Purchase");
@@ -256,6 +246,7 @@ public class MainLayoutController implements Initializable {
         purchase_btn.setGraphicTextGap(10);
         purchase_btn.setOnMouseEntered(this::navLinkMouseEntred);
         purchase_btn.setOnMouseExited(this::navLinkMouseExited);
+        purchase_btn.setOnAction(this::loadPurchases);
         menu.getChildren().add(purchase_btn);
 
         MilkClollection_btn = new Button("Milk Collection");
@@ -274,6 +265,7 @@ public class MainLayoutController implements Initializable {
         MilkClollection_btn.setGraphicTextGap(10);
         MilkClollection_btn.setOnMouseEntered(this::navLinkMouseEntred);
         MilkClollection_btn.setOnMouseExited(this::navLinkMouseExited);
+        MilkClollection_btn.setOnAction(this::loadMilkCollection);
         menu.getChildren().add(MilkClollection_btn);
 
         manageUsersBtn = new Button("Manage Users");
@@ -292,78 +284,121 @@ public class MainLayoutController implements Initializable {
         manageUsersBtn.setGraphicTextGap(10);
         manageUsersBtn.setOnMouseEntered(this::navLinkMouseEntred);
         manageUsersBtn.setOnMouseExited(this::navLinkMouseExited);
+        manageUsersBtn.setOnAction(this::loadManageUsers);
         menu.getChildren().add(manageUsersBtn);
 
         stock_btn = new Button("Stock");
         Image stock_img = new Image(getClass().getResourceAsStream("/icons/stock.png"));
+        ImageView stock_imageView = new ImageView(stock_img);
+        stock_imageView.getStyleClass().add("nav_link");
+        stock_imageView.setFitWidth(32);
+        stock_imageView.setFitHeight(28);
+        stock_btn.setGraphic(stock_imageView);
+        stock_btn.getStyleClass().add("nav_link");
+        stock_btn.setPrefWidth(225);
+        stock_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        stock_btn.setPrefHeight(40);
+        stock_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        stock_btn.setContentDisplay(ContentDisplay.LEFT);
+        stock_btn.setGraphicTextGap(10);
+        stock_btn.setOnMouseEntered(this::navLinkMouseEntred);
+        stock_btn.setOnMouseExited(this::navLinkMouseExited);
+        stock_btn.setOnAction(this::loadStock);
+        menu.getChildren().add(stock_btn);
+
+        reports_btn = new Button("Reports");
+        Image reports_img = new Image(getClass().getResourceAsStream("/icons/reports.png"));
+        ImageView reports_imageView = new ImageView(reports_img);
+        reports_imageView.getStyleClass().add("nav_link");
+        reports_imageView.setFitWidth(32);
+        reports_imageView.setFitHeight(28);
+        reports_btn.setGraphic(reports_imageView);
+        reports_btn.getStyleClass().add("nav_link");
+        reports_btn.setPrefWidth(225);
+        reports_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        reports_btn.setPrefHeight(40);
+        reports_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        reports_btn.setContentDisplay(ContentDisplay.LEFT);
+        reports_btn.setGraphicTextGap(10);
+        reports_btn.setOnMouseEntered(this::navLinkMouseEntred);
+        reports_btn.setOnMouseExited(this::navLinkMouseExited);
+        reports_btn.setOnAction(this::loadReports);
+        menu.getChildren().add(reports_btn);
+
+        logout = new Button("Logout");
+        Image logout_img = new Image(getClass().getResourceAsStream("/icons/logout.png"));
+        ImageView logout_imageView = new ImageView(logout_img);
+        logout_imageView.getStyleClass().add("nav_link");
+        logout_imageView.setFitWidth(32);
+        logout_imageView.setFitHeight(28);
+        logout.setGraphic(logout_imageView);
+        logout.getStyleClass().add("nav_link");
+        logout.setPrefWidth(225);
+        logout.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        logout.setPrefHeight(40);
+        logout.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        logout.setContentDisplay(ContentDisplay.LEFT);
+        logout.setGraphicTextGap(10);
+        logout.setOnMouseEntered(this::navLinkMouseEntred);
+        logout.setOnMouseExited(this::navLinkMouseExited);
+        logout.setOnMouseClicked(this::logout);
+        menu.getChildren().add(logout);
     }
 
-
-    void LoadStock(ActionEvent event) {
+    void loadStock(ActionEvent event) {
         String stock_view = "stock";
         loadView(stock_view);
     }
-
 
     void loadAnimalMonitor(ActionEvent event) {
         String animal_monitor_view = "animal_monitor";
         loadView(animal_monitor_view);
     }
 
-
     void loadClientsSuppliers(ActionEvent event) {
         String clients_suppliers_view = "clients_suppliers";
         loadView(clients_suppliers_view);
     }
-
 
     void loadDashboard(MouseEvent event) {
         String dashboard_view = "dashboard";
         loadView(dashboard_view);
     }
 
-
     public void loadProfile(MouseEvent mouseEvent) {
         String profile_view = "profile";
         loadView(profile_view);
     }
-
 
     void loadEmployees(ActionEvent event) {
         String employees_view = "employees";
         loadView(employees_view);
     }
 
-
     void loadManageAnimal(ActionEvent event) {
         String manage_animals = "manage_animal";
         loadView(manage_animals);
     }
-
 
     void loadReports(ActionEvent event) {
         String reports_view = "reports";
         loadView(reports_view);
     }
 
-
     void loadSales(ActionEvent event) {
         String sales_view = "sales";
         loadView(sales_view);
     }
-
 
     void loadMilkCollection(ActionEvent event) {
         String milkcollection_view = "milk_collection";
         loadView(milkcollection_view);
     }
 
-
     void loadPurchases(ActionEvent event) {
         String purchase_view = "purchases";
         loadView(purchase_view);
     }
-
 
     void loadManageUsers(ActionEvent event) {
         String manageUsersView = "users";
@@ -384,8 +419,6 @@ public class MainLayoutController implements Initializable {
     }
 
     private void addActiveClassToNavLink() {
-        initNavButtons();
-
         ArrayList<Button> navLinks = menu.getChildren().stream().filter(node -> node instanceof Button).map(node -> (Button) node).collect(Collectors.toCollection(ArrayList::new));
 
         //add background color to active button
@@ -400,14 +433,12 @@ public class MainLayoutController implements Initializable {
         }
     }
 
-
     @FXML
     void navLinkMouseEntred(MouseEvent event) {
         Button button = (Button) event.getSource();
         button.setStyle("-fx-background-color: #FFC700,#00A300;" +
                 "-fx-background-insets: 0, 0 0 0 4;");
     }
-
 
     @FXML
     void navLinkMouseExited(MouseEvent event) {
@@ -419,7 +450,7 @@ public class MainLayoutController implements Initializable {
     }
 
     @FXML
-    private void logout(MouseEvent event) throws IOException {
+    private void logout(MouseEvent event) {
         String login_view = "login_screen";
         //show alert dialog
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -431,7 +462,11 @@ public class MainLayoutController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             Session.logoutUser();
-            logoutSystem(login_view, event);
+            try {
+                logoutSystem(login_view, event);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
