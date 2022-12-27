@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -114,6 +115,7 @@ public class MainLayoutController implements Initializable {
         dashboard_btn.setOnMouseEntered(this::navLinkMouseEntred);
         dashboard_btn.setOnMouseExited(this::navLinkMouseExited);
         dashboard_btn.setOnMouseClicked(this::loadDashboard);
+        dashboard_btn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(dashboard_btn);
 
         profile_btn = new Button("Profile");
@@ -133,6 +135,7 @@ public class MainLayoutController implements Initializable {
         profile_btn.setOnMouseEntered(this::navLinkMouseEntred);
         profile_btn.setOnMouseExited(this::navLinkMouseExited);
         profile_btn.setOnMouseClicked(this::loadProfile);
+        profile_btn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(profile_btn);
 
         employees_btn = new Button("Employees");
@@ -152,6 +155,7 @@ public class MainLayoutController implements Initializable {
         employees_btn.setOnMouseEntered(this::navLinkMouseEntred);
         employees_btn.setOnMouseExited(this::navLinkMouseExited);
         employees_btn.setOnAction(this::loadEmployees);
+        employees_btn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(employees_btn);
 
         animal_monitor_btn = new Button("Animal Monitor");
@@ -171,6 +175,7 @@ public class MainLayoutController implements Initializable {
         animal_monitor_btn.setOnMouseEntered(this::navLinkMouseEntred);
         animal_monitor_btn.setOnMouseExited(this::navLinkMouseExited);
         animal_monitor_btn.setOnAction(this::loadAnimalMonitor);
+        animal_monitor_btn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(animal_monitor_btn);
 
         manage_clients_suppliers_btn = new Button("Manage Clients & Suppliers");
@@ -190,6 +195,7 @@ public class MainLayoutController implements Initializable {
         manage_clients_suppliers_btn.setOnMouseEntered(this::navLinkMouseEntred);
         manage_clients_suppliers_btn.setOnMouseExited(this::navLinkMouseExited);
         manage_clients_suppliers_btn.setOnAction(this::loadClientsSuppliers);
+        manage_clients_suppliers_btn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(manage_clients_suppliers_btn);
 
         manage_animal_btn = new Button("Manage Animals");
@@ -209,6 +215,7 @@ public class MainLayoutController implements Initializable {
         manage_animal_btn.setOnMouseEntered(this::navLinkMouseEntred);
         manage_animal_btn.setOnMouseExited(this::navLinkMouseExited);
         manage_animal_btn.setOnAction(this::loadManageAnimal);
+        manage_animal_btn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(manage_animal_btn);
 
         sales_btn = new Button("Sales");
@@ -228,6 +235,7 @@ public class MainLayoutController implements Initializable {
         sales_btn.setOnMouseEntered(this::navLinkMouseEntred);
         sales_btn.setOnMouseExited(this::navLinkMouseExited);
         sales_btn.setOnAction(this::loadSales);
+        sales_btn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(sales_btn);
 
         purchase_btn = new Button("Purchase");
@@ -247,6 +255,7 @@ public class MainLayoutController implements Initializable {
         purchase_btn.setOnMouseEntered(this::navLinkMouseEntred);
         purchase_btn.setOnMouseExited(this::navLinkMouseExited);
         purchase_btn.setOnAction(this::loadPurchases);
+        purchase_btn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(purchase_btn);
 
         MilkClollection_btn = new Button("Milk Collection");
@@ -266,6 +275,7 @@ public class MainLayoutController implements Initializable {
         MilkClollection_btn.setOnMouseEntered(this::navLinkMouseEntred);
         MilkClollection_btn.setOnMouseExited(this::navLinkMouseExited);
         MilkClollection_btn.setOnAction(this::loadMilkCollection);
+        MilkClollection_btn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(MilkClollection_btn);
 
         manageUsersBtn = new Button("Manage Users");
@@ -285,6 +295,7 @@ public class MainLayoutController implements Initializable {
         manageUsersBtn.setOnMouseEntered(this::navLinkMouseEntred);
         manageUsersBtn.setOnMouseExited(this::navLinkMouseExited);
         manageUsersBtn.setOnAction(this::loadManageUsers);
+        manageUsersBtn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(manageUsersBtn);
 
         stock_btn = new Button("Stock");
@@ -304,6 +315,7 @@ public class MainLayoutController implements Initializable {
         stock_btn.setOnMouseEntered(this::navLinkMouseEntred);
         stock_btn.setOnMouseExited(this::navLinkMouseExited);
         stock_btn.setOnAction(this::loadStock);
+        stock_btn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(stock_btn);
 
         reports_btn = new Button("Reports");
@@ -323,6 +335,7 @@ public class MainLayoutController implements Initializable {
         reports_btn.setOnMouseEntered(this::navLinkMouseEntred);
         reports_btn.setOnMouseExited(this::navLinkMouseExited);
         reports_btn.setOnAction(this::loadReports);
+        reports_btn.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(reports_btn);
 
         logout = new Button("Logout");
@@ -342,6 +355,7 @@ public class MainLayoutController implements Initializable {
         logout.setOnMouseEntered(this::navLinkMouseEntred);
         logout.setOnMouseExited(this::navLinkMouseExited);
         logout.setOnMouseClicked(this::logout);
+        logout.setAlignment(Pos.CENTER_LEFT);
         menu.getChildren().add(logout);
     }
 
