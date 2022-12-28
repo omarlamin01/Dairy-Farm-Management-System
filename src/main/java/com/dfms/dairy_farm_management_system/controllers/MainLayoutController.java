@@ -116,7 +116,6 @@ public class MainLayoutController implements Initializable {
         dashboard_btn.setOnMouseExited(this::navLinkMouseExited);
         dashboard_btn.setOnMouseClicked(this::loadDashboard);
         dashboard_btn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(dashboard_btn);
 
         profile_btn = new Button("Profile");
         Image profile_img = new Image(getClass().getResourceAsStream("/icons/profile.png"));
@@ -136,7 +135,6 @@ public class MainLayoutController implements Initializable {
         profile_btn.setOnMouseExited(this::navLinkMouseExited);
         profile_btn.setOnMouseClicked(this::loadProfile);
         profile_btn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(profile_btn);
 
         employees_btn = new Button("Employees");
         Image employees_img = new Image(getClass().getResourceAsStream("/icons/employees.png"));
@@ -156,7 +154,6 @@ public class MainLayoutController implements Initializable {
         employees_btn.setOnMouseExited(this::navLinkMouseExited);
         employees_btn.setOnAction(this::loadEmployees);
         employees_btn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(employees_btn);
 
         animal_monitor_btn = new Button("Animal Monitor");
         Image animal_monitor_img = new Image(getClass().getResourceAsStream("/icons/monitor.png"));
@@ -176,7 +173,6 @@ public class MainLayoutController implements Initializable {
         animal_monitor_btn.setOnMouseExited(this::navLinkMouseExited);
         animal_monitor_btn.setOnAction(this::loadAnimalMonitor);
         animal_monitor_btn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(animal_monitor_btn);
 
         manage_clients_suppliers_btn = new Button("Manage Clients & Suppliers");
         Image manage_clients_suppliers_img = new Image(getClass().getResourceAsStream("/icons/supplier.png"));
@@ -196,7 +192,6 @@ public class MainLayoutController implements Initializable {
         manage_clients_suppliers_btn.setOnMouseExited(this::navLinkMouseExited);
         manage_clients_suppliers_btn.setOnAction(this::loadClientsSuppliers);
         manage_clients_suppliers_btn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(manage_clients_suppliers_btn);
 
         manage_animal_btn = new Button("Manage Animals");
         Image manage_animal_img = new Image(getClass().getResourceAsStream("/icons/animal.png"));
@@ -216,7 +211,6 @@ public class MainLayoutController implements Initializable {
         manage_animal_btn.setOnMouseExited(this::navLinkMouseExited);
         manage_animal_btn.setOnAction(this::loadManageAnimal);
         manage_animal_btn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(manage_animal_btn);
 
         sales_btn = new Button("Sales");
         Image sales_img = new Image(getClass().getResourceAsStream("/icons/sales.png"));
@@ -236,7 +230,6 @@ public class MainLayoutController implements Initializable {
         sales_btn.setOnMouseExited(this::navLinkMouseExited);
         sales_btn.setOnAction(this::loadSales);
         sales_btn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(sales_btn);
 
         purchase_btn = new Button("Purchase");
         Image purchase_img = new Image(getClass().getResourceAsStream("/icons/purchase.png"));
@@ -256,7 +249,6 @@ public class MainLayoutController implements Initializable {
         purchase_btn.setOnMouseExited(this::navLinkMouseExited);
         purchase_btn.setOnAction(this::loadPurchases);
         purchase_btn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(purchase_btn);
 
         MilkClollection_btn = new Button("Milk Collection");
         Image MilkClollection_img = new Image(getClass().getResourceAsStream("/icons/milk.png"));
@@ -276,7 +268,6 @@ public class MainLayoutController implements Initializable {
         MilkClollection_btn.setOnMouseExited(this::navLinkMouseExited);
         MilkClollection_btn.setOnAction(this::loadMilkCollection);
         MilkClollection_btn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(MilkClollection_btn);
 
         manageUsersBtn = new Button("Manage Users");
         Image manageUsersImg = new Image(getClass().getResourceAsStream("/icons/profile.png"));
@@ -296,7 +287,6 @@ public class MainLayoutController implements Initializable {
         manageUsersBtn.setOnMouseExited(this::navLinkMouseExited);
         manageUsersBtn.setOnAction(this::loadManageUsers);
         manageUsersBtn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(manageUsersBtn);
 
         stock_btn = new Button("Stock");
         Image stock_img = new Image(getClass().getResourceAsStream("/icons/stock.png"));
@@ -316,7 +306,6 @@ public class MainLayoutController implements Initializable {
         stock_btn.setOnMouseExited(this::navLinkMouseExited);
         stock_btn.setOnAction(this::loadStock);
         stock_btn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(stock_btn);
 
         reports_btn = new Button("Reports");
         Image reports_img = new Image(getClass().getResourceAsStream("/icons/reports.png"));
@@ -336,7 +325,6 @@ public class MainLayoutController implements Initializable {
         reports_btn.setOnMouseExited(this::navLinkMouseExited);
         reports_btn.setOnAction(this::loadReports);
         reports_btn.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(reports_btn);
 
         logout = new Button("Logout");
         Image logout_img = new Image(getClass().getResourceAsStream("/icons/logout.png"));
@@ -356,7 +344,51 @@ public class MainLayoutController implements Initializable {
         logout.setOnMouseExited(this::navLinkMouseExited);
         logout.setOnMouseClicked(this::logout);
         logout.setAlignment(Pos.CENTER_LEFT);
-        menu.getChildren().add(logout);
+
+        switch (Session.getCurrentUser().getRoleName()) {
+            case "Admin":
+                menu.getChildren().add(dashboard_btn);
+                menu.getChildren().add(profile_btn);
+                menu.getChildren().add(employees_btn);
+                menu.getChildren().add(animal_monitor_btn);
+                menu.getChildren().add(manage_clients_suppliers_btn);
+                menu.getChildren().add(manage_animal_btn);
+                menu.getChildren().add(sales_btn);
+                menu.getChildren().add(purchase_btn);
+                menu.getChildren().add(MilkClollection_btn);
+                menu.getChildren().add(manageUsersBtn);
+                menu.getChildren().add(stock_btn);
+                menu.getChildren().add(reports_btn);
+                menu.getChildren().add(logout);
+                break;
+
+            case "HR":
+                menu.getChildren().add(dashboard_btn);
+                menu.getChildren().add(profile_btn);
+                menu.getChildren().add(logout);
+                break;
+
+            case "vétérinaire":
+                menu.getChildren().add(dashboard_btn);
+                menu.getChildren().add(profile_btn);
+                menu.getChildren().add(logout);
+                break;
+
+            case "production control":
+                menu.getChildren().add(dashboard_btn);
+                menu.getChildren().add(profile_btn);
+                menu.getChildren().add(logout);
+                break;
+
+            case "sales control":
+                menu.getChildren().add(dashboard_btn);
+                menu.getChildren().add(profile_btn);
+                menu.getChildren().add(logout);
+                break;
+
+            default:
+                break;
+        }
     }
 
     void loadStock(ActionEvent event) {
