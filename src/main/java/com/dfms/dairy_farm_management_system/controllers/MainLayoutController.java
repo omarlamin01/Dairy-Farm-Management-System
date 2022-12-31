@@ -47,127 +47,126 @@ public class MainLayoutController implements Initializable {
     private Connection con = DBConfig.getConnection();
     private User user;
 
-    @FXML
+
     private BorderPane borderPane;
 
-    @FXML
+
     private Button animal_monitor_btn; //
 
-    @FXML
+
     private Button dashboard_btn; //
 
-    @FXML
+
     private Button profile_btn; //
 
-    @FXML
+
     private Button employees_btn; //
 
-    @FXML
+
     private Button manage_animal_btn; //
 
-    @FXML
+
     private Button manage_clients_suppliers_btn; //
 
-    @FXML
+
     private Button reports_btn; //
 
-    @FXML
+
     private Button sales_btn; //
 
-    @FXML
+
     private Button stock_btn;
 
-    @FXML
+
     private Button MilkClollection_btn;
 
-    @FXML
+
     private Button manageUsersBtn;
 
-    @FXML
+
     private Button logout;
 
-    @FXML
+
     private Button logout_btn;
 
-    @FXML
+
     private Label user_name;
 
-    @FXML
+
     private ScrollPane nav_scroll_pane;
 
     private Parent root = null;
 
-    @FXML
+
     private Button purchase_btn; //
 
-    @FXML
+
     void LoadStock(ActionEvent event) {
         String stock_view = "stock";
         loadView(stock_view);
     }
 
-    @FXML
+
     void loadAnimalMonitor(ActionEvent event) {
         String animal_monitor_view = "animal_monitor";
         loadView(animal_monitor_view);
     }
 
-    @FXML
+
     void loadClientsSuppliers(ActionEvent event) {
         String clients_suppliers_view = "clients_suppliers";
         loadView(clients_suppliers_view);
     }
 
-    @FXML
+
     void loadDashboard(MouseEvent event) {
         String dashboard_view = "dashboard";
         loadView(dashboard_view);
     }
 
-    @FXML
+
     public void loadProfile(MouseEvent mouseEvent) {
         String profile_view = "profile";
         loadView(profile_view);
     }
 
-    @FXML
+
     void loadEmployees(ActionEvent event) {
         String employees_view = "employees";
         loadView(employees_view);
     }
 
-    @FXML
+
     void loadManageAnimal(ActionEvent event) {
         String manage_animals = "manage_animal";
         loadView(manage_animals);
     }
 
-    @FXML
+
     void loadReports(ActionEvent event) {
         String reports_view = "reports";
         loadView(reports_view);
     }
 
 
-    @FXML
     void loadSales(ActionEvent event) {
         String sales_view = "sales";
         loadView(sales_view);
     }
 
-    @FXML
+
     void loadMilkCollection(ActionEvent event) {
         String milkcollection_view = "milk_collection";
         loadView(milkcollection_view);
     }
 
-    @FXML
+
     void loadPurchases(ActionEvent event) {
         String purchase_view = "purchases";
         loadView(purchase_view);
     }
 
-    @FXML
+
     void loadManageUsers(ActionEvent event) {
         String manageUsersView = "users";
         loadView(manageUsersView);
@@ -201,14 +200,14 @@ public class MainLayoutController implements Initializable {
         }
     }
 
-    @FXML
+
     void navLinkMouseEntred(MouseEvent event) {
         Button button = (Button) event.getSource();
         button.setStyle("-fx-background-color: #FFC700,#00A300;" +
                 "-fx-background-insets: 0, 0 0 0 4;");
     }
 
-    @FXML
+
     void navLinkMouseExited(MouseEvent event) {
         Button button = (Button) event.getSource();
         if (!button.isFocused()) {
@@ -234,7 +233,7 @@ public class MainLayoutController implements Initializable {
         return navLinks;
     }
 
-    @FXML
+
     private void logout(MouseEvent event) throws IOException {
         String login_view = "login_screen";
         //show alert dialog
