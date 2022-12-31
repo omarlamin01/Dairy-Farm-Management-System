@@ -13,8 +13,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -39,7 +42,7 @@ public class MainLayoutController implements Initializable {
 
         nav_scroll_pane.getStyleClass().clear();
 
-        //load user details
+        // load user details
         getCurrentUser();
     }
 
@@ -48,57 +51,76 @@ public class MainLayoutController implements Initializable {
     private User user;
 
 
+    @FXML
     private BorderPane borderPane;
 
 
-    private Button animal_monitor_btn; //
-
-
+//    private Button animal_monitor_btn; //
+//
+//
     private Button dashboard_btn; //
+//
+//
+//    private Button profile_btn; //
+//
+//
+//    private Button employees_btn; //
+//
+//
+//    private Button manage_animal_btn; //
+//
+//
+//    private Button manage_clients_suppliers_btn; //
+//
+//
+//    private Button reports_btn; //
+//
+//
+//    private Button sales_btn; //
+//
+//
+//    private Button stock_btn;
+//
+//
+//    private Button MilkClollection_btn;
+//
+//
+//    private Button manageUsersBtn;
 
 
-    private Button profile_btn; //
-
-
-    private Button employees_btn; //
-
-
-    private Button manage_animal_btn; //
-
-
-    private Button manage_clients_suppliers_btn; //
-
-
-    private Button reports_btn; //
-
-
-    private Button sales_btn; //
-
-
-    private Button stock_btn;
-
-
-    private Button MilkClollection_btn;
-
-
-    private Button manageUsersBtn;
-
-
+    @FXML
     private Button logout;
 
 
-    private Button logout_btn;
-
-
+    @FXML
     private Label user_name;
 
 
+    @FXML
     private ScrollPane nav_scroll_pane;
+
+
+    @FXML
+    private VBox menu;
+
 
     private Parent root = null;
 
 
     private Button purchase_btn; //
+
+
+    private void initNavButtons() {
+        dashboard_btn = new Button("Dashboard");
+        Image dashboard_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+        dashboard_btn.setGraphic(new ImageView(dashboard_img));
+        dashboard_btn.getStyleClass().add("nav_link");
+//        dashboard_btn.setPrefWidth(600);
+//        dashboard_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+//        dashboard_btn.setPrefWidth(40);
+//        dashboard_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        menu.getChildren().add(dashboard_btn);
+    }
 
 
     void LoadStock(ActionEvent event) {
@@ -201,6 +223,7 @@ public class MainLayoutController implements Initializable {
     }
 
 
+    @FXML
     void navLinkMouseEntred(MouseEvent event) {
         Button button = (Button) event.getSource();
         button.setStyle("-fx-background-color: #FFC700,#00A300;" +
@@ -208,6 +231,7 @@ public class MainLayoutController implements Initializable {
     }
 
 
+    @FXML
     void navLinkMouseExited(MouseEvent event) {
         Button button = (Button) event.getSource();
         if (!button.isFocused()) {
@@ -217,23 +241,25 @@ public class MainLayoutController implements Initializable {
     }
 
     private ArrayList<Button> navLinks() {
+        initNavButtons();
         ArrayList<Button> navLinks = new ArrayList<>();
-        navLinks.add(animal_monitor_btn);
+//        navLinks.add(animal_monitor_btn);
         navLinks.add(dashboard_btn);
-        navLinks.add(profile_btn);
-        navLinks.add(employees_btn);
-        navLinks.add(manage_animal_btn);
-        navLinks.add(manage_clients_suppliers_btn);
-        navLinks.add(reports_btn);
-        navLinks.add(sales_btn);
-        navLinks.add(stock_btn);
-        navLinks.add(MilkClollection_btn);
-        navLinks.add(manageUsersBtn);
+//        navLinks.add(profile_btn);
+//        navLinks.add(employees_btn);
+//        navLinks.add(manage_animal_btn);
+//        navLinks.add(manage_clients_suppliers_btn);
+//        navLinks.add(reports_btn);
+//        navLinks.add(sales_btn);
+//        navLinks.add(stock_btn);
+//        navLinks.add(MilkClollection_btn);
+//        navLinks.add(manageUsersBtn);
         navLinks.add(logout);
         return navLinks;
     }
 
 
+    @FXML
     private void logout(MouseEvent event) throws IOException {
         String login_view = "login_screen";
         //show alert dialog
