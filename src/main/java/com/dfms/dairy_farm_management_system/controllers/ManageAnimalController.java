@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 
@@ -77,7 +78,13 @@ public class ManageAnimalController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        displayAnimals();
+        try {
+            displayAnimals();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         ObservableList<String> list = FXCollections.observableArrayList("PDF", "Excel");
         export_combo.setItems(list);
         liveSearch();
@@ -95,7 +102,7 @@ public class ManageAnimalController implements Initializable {
 
         try {
             statement = connection.prepareStatement(select_query);
-            resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery(select_query);
             while (resultSet.next()) {
                 Animal animal = new Animal();
 
@@ -118,9 +125,14 @@ public class ManageAnimalController implements Initializable {
     }
 
     public void refreshTableAnimal() {
+        ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
         listAnimal.clear();
         listAnimal = getAnimal();
         animals.setItems(listAnimal);
+    }
+
+    private ObservableList<Animal> getAnimal() {
+        return null;
     }
 
     public void displayAnimals() throws SQLException, ClassNotFoundException {
@@ -251,6 +263,7 @@ public class ManageAnimalController implements Initializable {
     }
 
     public void liveSearch() {
+        ObservableList<Animal> listAnimal = getAnimal();
         FilteredList<Animal> filteredData = new FilteredList<>(listAnimal, p -> true);
         textField_search.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(animal -> {
