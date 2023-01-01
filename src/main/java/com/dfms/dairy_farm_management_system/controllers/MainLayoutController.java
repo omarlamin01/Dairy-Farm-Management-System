@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
@@ -55,37 +56,37 @@ public class MainLayoutController implements Initializable {
     private BorderPane borderPane;
 
 
-//    private Button animal_monitor_btn; //
-//
-//
+    private Button animal_monitor_btn; //
+
+
     private Button dashboard_btn; //
-//
-//
-//    private Button profile_btn; //
-//
-//
-//    private Button employees_btn; //
-//
-//
-//    private Button manage_animal_btn; //
-//
-//
-//    private Button manage_clients_suppliers_btn; //
-//
-//
-//    private Button reports_btn; //
-//
-//
-//    private Button sales_btn; //
-//
-//
-//    private Button stock_btn;
-//
-//
-//    private Button MilkClollection_btn;
-//
-//
-//    private Button manageUsersBtn;
+
+
+    private Button profile_btn; //
+
+
+    private Button employees_btn; //
+
+
+    private Button manage_animal_btn; //
+
+
+    private Button manage_clients_suppliers_btn; //
+
+
+    private Button reports_btn; //
+
+
+    private Button sales_btn; //
+
+
+    private Button stock_btn;
+
+
+    private Button MilkClollection_btn;
+
+
+    private Button manageUsersBtn;
 
 
     @FXML
@@ -123,7 +124,178 @@ public class MainLayoutController implements Initializable {
         dashboard_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
         dashboard_btn.setPrefHeight(40);
         dashboard_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        dashboard_btn.setContentDisplay(ContentDisplay.LEFT);
+        dashboard_btn.setGraphicTextGap(10);
+        dashboard_btn.setOnMouseEntered(this::navLinkMouseEntred);
+        dashboard_btn.setOnMouseExited(this::navLinkMouseExited);
+        dashboard_btn.setOnMouseClicked(this::loadDashboard);
         menu.getChildren().add(dashboard_btn);
+
+        profile_btn = new Button("Profile");
+        Image profile_img = new Image(getClass().getResourceAsStream("/icons/profile.png"));
+        ImageView profile_imageView = new ImageView(profile_img);
+        profile_imageView.getStyleClass().add("nav_link");
+        profile_imageView.setFitWidth(32);
+        profile_imageView.setFitHeight(28);
+        profile_btn.setGraphic(profile_imageView);
+        profile_btn.getStyleClass().add("nav_link");
+        profile_btn.setPrefWidth(225);
+        profile_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        profile_btn.setPrefHeight(40);
+        profile_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        profile_btn.setContentDisplay(ContentDisplay.LEFT);
+        profile_btn.setGraphicTextGap(10);
+        profile_btn.setOnMouseEntered(this::navLinkMouseEntred);
+        profile_btn.setOnMouseExited(this::navLinkMouseExited);
+        profile_btn.setOnMouseClicked(this::loadProfile);
+        menu.getChildren().add(profile_btn);
+
+        employees_btn = new Button("Employees");
+        Image employees_img = new Image(getClass().getResourceAsStream("/icons/employees.png"));
+        ImageView employees_imageView = new ImageView(employees_img);
+        employees_imageView.getStyleClass().add("nav_link");
+        employees_imageView.setFitWidth(32);
+        employees_imageView.setFitHeight(28);
+        employees_btn.setGraphic(employees_imageView);
+        employees_btn.getStyleClass().add("nav_link");
+        employees_btn.setPrefWidth(225);
+        employees_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        employees_btn.setPrefHeight(40);
+        employees_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        employees_btn.setContentDisplay(ContentDisplay.LEFT);
+        employees_btn.setGraphicTextGap(10);
+        employees_btn.setOnMouseEntered(this::navLinkMouseEntred);
+        employees_btn.setOnMouseExited(this::navLinkMouseExited);
+        menu.getChildren().add(employees_btn);
+
+        animal_monitor_btn = new Button("Animal Monitor");
+        Image animal_monitor_img = new Image(getClass().getResourceAsStream("/icons/monitor.png"));
+        ImageView animal_monitor_imageView = new ImageView(animal_monitor_img);
+        animal_monitor_imageView.getStyleClass().add("nav_link");
+        animal_monitor_imageView.setFitWidth(32);
+        animal_monitor_imageView.setFitHeight(28);
+        animal_monitor_btn.setGraphic(animal_monitor_imageView);
+        animal_monitor_btn.getStyleClass().add("nav_link");
+        animal_monitor_btn.setPrefWidth(225);
+        animal_monitor_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        animal_monitor_btn.setPrefHeight(40);
+        animal_monitor_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        animal_monitor_btn.setContentDisplay(ContentDisplay.LEFT);
+        animal_monitor_btn.setGraphicTextGap(10);
+        animal_monitor_btn.setOnMouseEntered(this::navLinkMouseEntred);
+        animal_monitor_btn.setOnMouseExited(this::navLinkMouseExited);
+        menu.getChildren().add(animal_monitor_btn);
+
+        manage_clients_suppliers_btn = new Button("Manage Clients & Suppliers");
+        Image manage_clients_suppliers_img = new Image(getClass().getResourceAsStream("/icons/supplier.png"));
+        ImageView manage_clients_suppliers_imageView = new ImageView(manage_clients_suppliers_img);
+        manage_clients_suppliers_imageView.getStyleClass().add("nav_link");
+        manage_clients_suppliers_imageView.setFitWidth(32);
+        manage_clients_suppliers_imageView.setFitHeight(28);
+        manage_clients_suppliers_btn.setGraphic(manage_clients_suppliers_imageView);
+        manage_clients_suppliers_btn.getStyleClass().add("nav_link");
+        manage_clients_suppliers_btn.setPrefWidth(225);
+        manage_clients_suppliers_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        manage_clients_suppliers_btn.setPrefHeight(40);
+        manage_clients_suppliers_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        manage_clients_suppliers_btn.setContentDisplay(ContentDisplay.LEFT);
+        manage_clients_suppliers_btn.setGraphicTextGap(10);
+        manage_clients_suppliers_btn.setOnMouseEntered(this::navLinkMouseEntred);
+        manage_clients_suppliers_btn.setOnMouseExited(this::navLinkMouseExited);
+        menu.getChildren().add(manage_clients_suppliers_btn);
+
+        manage_animal_btn = new Button("Manage Animals");
+        Image manage_animal_img = new Image(getClass().getResourceAsStream("/icons/animal.png"));
+        ImageView manage_animal_imageView = new ImageView(manage_animal_img);
+        manage_animal_imageView.getStyleClass().add("nav_link");
+        manage_animal_imageView.setFitWidth(32);
+        manage_animal_imageView.setFitHeight(28);
+        manage_animal_btn.setGraphic(manage_animal_imageView);
+        manage_animal_btn.getStyleClass().add("nav_link");
+        manage_animal_btn.setPrefWidth(225);
+        manage_animal_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        manage_animal_btn.setPrefHeight(40);
+        manage_animal_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        manage_animal_btn.setContentDisplay(ContentDisplay.LEFT);
+        manage_animal_btn.setGraphicTextGap(10);
+        manage_animal_btn.setOnMouseEntered(this::navLinkMouseEntred);
+        manage_animal_btn.setOnMouseExited(this::navLinkMouseExited);
+        menu.getChildren().add(manage_animal_btn);
+
+        sales_btn = new Button("Sales");
+        Image sales_img = new Image(getClass().getResourceAsStream("/icons/sales.png"));
+        ImageView sales_imageView = new ImageView(sales_img);
+        sales_imageView.getStyleClass().add("nav_link");
+        sales_imageView.setFitWidth(32);
+        sales_imageView.setFitHeight(28);
+        sales_btn.setGraphic(sales_imageView);
+        sales_btn.getStyleClass().add("nav_link");
+        sales_btn.setPrefWidth(225);
+        sales_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        sales_btn.setPrefHeight(40);
+        sales_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        sales_btn.setContentDisplay(ContentDisplay.LEFT);
+        sales_btn.setGraphicTextGap(10);
+        sales_btn.setOnMouseEntered(this::navLinkMouseEntred);
+        sales_btn.setOnMouseExited(this::navLinkMouseExited);
+        menu.getChildren().add(sales_btn);
+
+        purchase_btn = new Button("Purchase");
+        Image purchase_img = new Image(getClass().getResourceAsStream("/icons/purchase.png"));
+        ImageView purchase_imageView = new ImageView(purchase_img);
+        purchase_imageView.getStyleClass().add("nav_link");
+        purchase_imageView.setFitWidth(32);
+        purchase_imageView.setFitHeight(28);
+        purchase_btn.setGraphic(purchase_imageView);
+        purchase_btn.getStyleClass().add("nav_link");
+        purchase_btn.setPrefWidth(225);
+        purchase_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        purchase_btn.setPrefHeight(40);
+        purchase_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        purchase_btn.setContentDisplay(ContentDisplay.LEFT);
+        purchase_btn.setGraphicTextGap(10);
+        purchase_btn.setOnMouseEntered(this::navLinkMouseEntred);
+        purchase_btn.setOnMouseExited(this::navLinkMouseExited);
+        menu.getChildren().add(purchase_btn);
+
+        MilkClollection_btn = new Button("Milk Collection");
+        Image MilkClollection_img = new Image(getClass().getResourceAsStream("/icons/milk.png"));
+        ImageView MilkClollection_imageView = new ImageView(MilkClollection_img);
+        MilkClollection_imageView.getStyleClass().add("nav_link");
+        MilkClollection_imageView.setFitWidth(32);
+        MilkClollection_imageView.setFitHeight(28);
+        MilkClollection_btn.setGraphic(MilkClollection_imageView);
+        MilkClollection_btn.getStyleClass().add("nav_link");
+        MilkClollection_btn.setPrefWidth(225);
+        MilkClollection_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        MilkClollection_btn.setPrefHeight(40);
+        MilkClollection_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        MilkClollection_btn.setContentDisplay(ContentDisplay.LEFT);
+        MilkClollection_btn.setGraphicTextGap(10);
+        MilkClollection_btn.setOnMouseEntered(this::navLinkMouseEntred);
+        MilkClollection_btn.setOnMouseExited(this::navLinkMouseExited);
+        menu.getChildren().add(MilkClollection_btn);
+
+        manageUsersBtn = new Button("Manage Users");
+        Image manageUsersImg = new Image(getClass().getResourceAsStream("/icons/profile.png"));
+        ImageView manageUsersImageView = new ImageView(manageUsersImg);
+        manageUsersImageView.getStyleClass().add("nav_link");
+        manageUsersImageView.setFitWidth(32);
+        manageUsersImageView.setFitHeight(28);
+        manageUsersBtn.setGraphic(manageUsersImageView);
+        manageUsersBtn.getStyleClass().add("nav_link");
+        manageUsersBtn.setPrefWidth(225);
+        manageUsersBtn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        manageUsersBtn.setPrefHeight(40);
+        manageUsersBtn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        manageUsersBtn.setContentDisplay(ContentDisplay.LEFT);
+        manageUsersBtn.setGraphicTextGap(10);
+        manageUsersBtn.setOnMouseEntered(this::navLinkMouseEntred);
+        manageUsersBtn.setOnMouseExited(this::navLinkMouseExited);
+        menu.getChildren().add(manageUsersBtn);
+
+        stock_btn = new Button("Stock");
+        Image stock_img = new Image(getClass().getResourceAsStream("/icons/stock.png"));
     }
 
 
@@ -212,7 +384,9 @@ public class MainLayoutController implements Initializable {
     }
 
     private void addActiveClassToNavLink() {
-        ArrayList<Button> navLinks = navLinks();
+        initNavButtons();
+
+        ArrayList<Button> navLinks = menu.getChildren().stream().filter(node -> node instanceof Button).map(node -> (Button) node).collect(Collectors.toCollection(ArrayList::new));
 
         //add background color to active button
         for (Button button : navLinks) {
@@ -243,25 +417,6 @@ public class MainLayoutController implements Initializable {
                     "-fx-background-insets: 0, 0 0 1 0;");
         }
     }
-
-    private ArrayList<Button> navLinks() {
-        initNavButtons();
-        ArrayList<Button> navLinks = new ArrayList<>();
-//        navLinks.add(animal_monitor_btn);
-        navLinks.add(dashboard_btn);
-//        navLinks.add(profile_btn);
-//        navLinks.add(employees_btn);
-//        navLinks.add(manage_animal_btn);
-//        navLinks.add(manage_clients_suppliers_btn);
-//        navLinks.add(reports_btn);
-//        navLinks.add(sales_btn);
-//        navLinks.add(stock_btn);
-//        navLinks.add(MilkClollection_btn);
-//        navLinks.add(manageUsersBtn);
-        navLinks.add(logout);
-        return navLinks;
-    }
-
 
     @FXML
     private void logout(MouseEvent event) throws IOException {
