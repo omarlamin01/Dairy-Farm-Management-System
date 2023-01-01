@@ -476,18 +476,19 @@ public class MainLayoutController implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             Session.logoutUser();
-            try {
-                logoutSystem(login_view, event);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            logoutSystem(login_view, event);
         }
     }
 
     //logout method
-    private void logoutSystem(String view, MouseEvent event) throws IOException {
+    private void logoutSystem(String view, MouseEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(view + ".fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         Stage stage = new Stage();
         stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
         stage.setTitle("Dairy Farm Management System");
