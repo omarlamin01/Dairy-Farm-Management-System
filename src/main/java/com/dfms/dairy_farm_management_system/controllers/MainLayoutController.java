@@ -112,13 +112,17 @@ public class MainLayoutController implements Initializable {
 
     private void initNavButtons() {
         dashboard_btn = new Button("Dashboard");
-        Image dashboard_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
-        dashboard_btn.setGraphic(new ImageView(dashboard_img));
+        Image dashboard_img = new Image(getClass().getResourceAsStream("/icons/dashboard.png"));
+        ImageView imageView = new ImageView(dashboard_img);
+        imageView.getStyleClass().add("nav_link");
+        imageView.setFitWidth(32);
+        imageView.setFitHeight(28);
+        dashboard_btn.setGraphic(imageView);
         dashboard_btn.getStyleClass().add("nav_link");
-//        dashboard_btn.setPrefWidth(600);
-//        dashboard_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
-//        dashboard_btn.setPrefWidth(40);
-//        dashboard_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        dashboard_btn.setPrefWidth(225);
+        dashboard_btn.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        dashboard_btn.setPrefHeight(40);
+        dashboard_btn.setMaxHeight(Region.USE_COMPUTED_SIZE);
         menu.getChildren().add(dashboard_btn);
     }
 
