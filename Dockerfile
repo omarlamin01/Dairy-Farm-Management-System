@@ -1,11 +1,22 @@
+# Start with a base image containing Java runtime
+FROM openjdk:11
+
+# copy the required files from the local machine to the container
+COPY . /app
+
+# set the working directory to the directory where the files were copied
+WORKDIR /app
+
+# Copy the compiled JAR file from the build stage
+COPY dairyfarm.jar /app/dairyfarm.jar
+
+
+# start the JavaFX application
+CMD ["java", "-jar", "dairyfarm.jar"]
+
+
 ## Start with a fresh image that only contains the JRE
 #FROM openjdk:8-jre-alpine
-#
-## Set the working directory
-#WORKDIR /app
-#
-## Copy the compiled JAR file from the build stage
-#COPY /out/artifacts/Dairy_Farm_Management_System_jar/Dairy_Farm_Management_System.jar /app/grass-land-dairy.jar
 #
 ## Expose the default port for the JavaFX application
 #EXPOSE 8080
@@ -24,18 +35,3 @@
 
 
 #CMD java -jar /app/grass-land-dairy.jar
-
-FROM openjdk:11
-
-# copy the required files from the local machine to the container
-COPY . /app
-
-# set the working directory to the directory where the files were copied
-WORKDIR /app
-
-# Copy the compiled JAR file from the build stage
-COPY dairyfarm.jar /app/dairyfarm.jar
-
-
-# start the JavaFX application
-CMD ["java", "-jar", "dairyfarm.jar"]
