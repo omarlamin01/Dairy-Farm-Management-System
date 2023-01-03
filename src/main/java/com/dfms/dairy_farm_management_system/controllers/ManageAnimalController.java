@@ -127,7 +127,7 @@ public class ManageAnimalController implements Initializable {
     public void refreshTableAnimal() {
         ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
         listAnimal.clear();
-        listAnimal = getAnimal();
+        listAnimal = getAnimals();
         animals.setItems(listAnimal);
     }
 
@@ -136,7 +136,7 @@ public class ManageAnimalController implements Initializable {
     }
 
     public void displayAnimals() throws SQLException, ClassNotFoundException {
-        ObservableList<Animal> list = getAnimal();
+        ObservableList<Animal> list = getAnimals();
         colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
         coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
         colbirth.setCellValueFactory(new PropertyValueFactory<Animal, Date>("birth_date"));
@@ -263,7 +263,7 @@ public class ManageAnimalController implements Initializable {
     }
 
     public void liveSearch() {
-        ObservableList<Animal> listAnimal = getAnimal();
+        ObservableList<Animal> listAnimal = getAnimals();
         FilteredList<Animal> filteredData = new FilteredList<>(listAnimal, p -> true);
         textField_search.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(animal -> {
