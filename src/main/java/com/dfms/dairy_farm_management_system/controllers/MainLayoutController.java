@@ -345,8 +345,9 @@ public class MainLayoutController implements Initializable {
         logout.setOnMouseClicked(this::logout);
         logout.setAlignment(Pos.CENTER_LEFT);
 
-        switch (Session.getCurrentUser().getRoleName()) {
-            case "Admin":
+        //dyanmic nav links according to user role
+        switch (Session.getCurrentUser().getRoleName().toLowerCase()) {
+            case "admin":
                 menu.getChildren().add(dashboard_btn);
                 menu.getChildren().add(profile_btn);
                 menu.getChildren().add(employees_btn);
@@ -362,7 +363,7 @@ public class MainLayoutController implements Initializable {
                 menu.getChildren().add(logout);
                 break;
 
-            case "HR":
+            case "hr":
                 menu.getChildren().add(dashboard_btn);
                 menu.getChildren().add(profile_btn);
                 menu.getChildren().add(logout);
