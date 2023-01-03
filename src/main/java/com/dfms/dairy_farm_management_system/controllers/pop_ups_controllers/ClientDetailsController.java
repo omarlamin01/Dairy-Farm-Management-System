@@ -37,19 +37,20 @@ public class ClientDetailsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
     public void fetchClient(Client client) {
 
         //get the employee from the database
 
         try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM `clients` WHERE id = '" +client.getId() + "' LIMIT 1");
+            preparedStatement = connection.prepareStatement("SELECT * FROM `clients` WHERE id = '" + client.getId() + "' LIMIT 1");
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                header.setText("Client : "+resultSet.getString("name"));
+                header.setText("Client : " + resultSet.getString("name"));
                 name.setText(resultSet.getString("name"));
                 email.setText(resultSet.getString("email"));
                 type.setText(resultSet.getString("type"));
-                phone.setText(String.valueOf(resultSet.getInt("phone")));
+                phone.setText(resultSet.getString("phone"));
             }
         } catch (Exception e) {
             e.printStackTrace();

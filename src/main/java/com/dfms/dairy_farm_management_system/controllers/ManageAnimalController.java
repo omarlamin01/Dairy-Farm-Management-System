@@ -72,9 +72,9 @@ public class ManageAnimalController implements Initializable {
     private TextField textField_search;
 
 
-    private  Connection connection = getConnection();
+    private Connection connection = getConnection();
     private PreparedStatement preparedStatement;
-    private  Statement statement;
+    private Statement statement;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -96,6 +96,7 @@ public class ManageAnimalController implements Initializable {
             }
         });
     }
+
     public ObservableList<Animal> getAnimals() {
         ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
         String select_query = "SELECT * from `animals`";
@@ -127,16 +128,12 @@ public class ManageAnimalController implements Initializable {
     public void refreshTableAnimal() {
         ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
         listAnimal.clear();
-        listAnimal = getAnimal();
+        listAnimal = getAnimals();
         animals.setItems(listAnimal);
     }
 
-    private ObservableList<Animal> getAnimal() {
-        return null;
-    }
-
     public void displayAnimals() throws SQLException, ClassNotFoundException {
-        ObservableList<Animal> list = getAnimal();
+        ObservableList<Animal> list = getAnimals();
         colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
         coltype.setCellValueFactory(new PropertyValueFactory<Animal, String>("type"));
         colbirth.setCellValueFactory(new PropertyValueFactory<Animal, Date>("birth_date"));
@@ -263,7 +260,7 @@ public class ManageAnimalController implements Initializable {
     }
 
     public void liveSearch() {
-        ObservableList<Animal> listAnimal = getAnimal();
+        ObservableList<Animal> listAnimal = getAnimals();
         FilteredList<Animal> filteredData = new FilteredList<>(listAnimal, p -> true);
         textField_search.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(animal -> {
@@ -309,27 +306,28 @@ public class ManageAnimalController implements Initializable {
                 table.addCell("Type");
                 table.addCell("Routine");
                 table.addCell("Purchase Date");
+
                 //get all animals from database
-                String query = "SELECT * FROM `animals`";
-                try {
-                    Statement statement = connection.createStatement();
-                    ResultSet rs = statement.executeQuery(query);
-                    while (rs.next()) {
-                        table.addCell(rs.getString("id"));
-                        table.addCell(rs.getString("birth_date"));
-                        table.addCell(rs.getString("purchase_date"));
-                        table.addCell(rs.getString("routine"));
-                        table.addCell(rs.getString("race"));
-                        table.addCell(rs.getString("type"));
+                for (Animal animal : animals.getItems()) {
+                    String id = animal.getId() != null ? animal.getId() : "-";
+                    String race = animal.getRaceName() != null ? animal.getRaceName() : "-";
+                    String birth_date = animal.getBirth_date() != null ? animal.getBirth_date().toString() : "-";
+                    String type = animal.getType() != null ? animal.getType() : "-";
+                    String routine = animal.getRoutineName() != null ? animal.getRoutineName() : "-";
+                    String purchase_date = animal.getPurchase_date() != null ? animal.getPurchase_date().toString() : "-";
 
-                    }
-
-                    document.add(table);
-                    document.close();
-                    displayAlert("Success", "Animals exported successfully", Alert.AlertType.INFORMATION);
-                } catch (Exception e) {
-                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                    table.addCell(id);
+                    table.addCell(race);
+                    table.addCell(birth_date);
+                    table.addCell(type);
+                    table.addCell(routine);
+                    table.addCell(purchase_date);
                 }
+
+                document.add(table);
+                document.close();
+                displayAlert("Success", "Animals exported successfully", Alert.AlertType.INFORMATION);
+
             } catch (Exception e) {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
@@ -354,23 +352,24 @@ public class ManageAnimalController implements Initializable {
                 header.createCell(5).setCellValue("Purchase Date");
 
                 //get all employees from database
-                String query = "SELECT * FROM `animals`";
-                try {
-                    Statement statement = connection.createStatement();
-                    ResultSet rs = statement.executeQuery(query);
-                    while (rs.next()) {
-                        int rowNum = rs.getRow();
-                        Row row = sheet.createRow(rowNum);
-                        row.createCell(0).setCellValue(rs.getString("id"));
-                        row.createCell(1).setCellValue(rs.getString("birth_date"));
-                        row.createCell(2).setCellValue(rs.getString("purchase_date"));
-                        row.createCell(3).setCellValue(rs.getString("routine"));
-                        row.createCell(4).setCellValue(rs.getString("race"));
-                        row.createCell(5).setCellValue(rs.getString("type"));
+                ObservableList<Animal> list = animals.getItems();
 
-                    }
-                } catch (Exception e) {
-                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                for (Animal animal : list) {
+                    String id = animal.getId() != null ? animal.getId() : "-";
+                    String race = animal.getRaceName() != null ? animal.getRaceName() : "-";
+                    String birth_date = animal.getBirth_date() != null ? animal.getBirth_date().toString() : "-";
+                    String type = animal.getType() != null ? animal.getType() : "-";
+                    String routine = animal.getRoutineName() != null ? animal.getRoutineName() : "-";
+                    String purchase_date = animal.getPurchase_date() != null ? animal.getPurchase_date().toString() : "-";
+
+                    Row row = sheet.createRow(list.indexOf(animal) + 1);
+                    row.createCell(0).setCellValue(id);
+                    row.createCell(1).setCellValue(race);
+                    row.createCell(2).setCellValue(birth_date);
+                    row.createCell(3).setCellValue(type);
+                    row.createCell(4).setCellValue(routine);
+                    row.createCell(5).setCellValue(purchase_date);
+
                 }
 
 
@@ -393,6 +392,7 @@ public class ManageAnimalController implements Initializable {
     void openAddNewRace(MouseEvent event) throws IOException {
         openNewWindow("Add New Race", "add_new_race");
     }
+
     public void openAddNewAnimal(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add New Animal", "add_new_animal");
     }
