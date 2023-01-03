@@ -37,19 +37,20 @@ public class SupplierDetailsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
     public void fetchSupplier(Supplier supplier) {
 
         //get the employee from the database
 
         try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM `suppliers` WHERE id = '" +supplier.getId() + "' LIMIT 1");
+            preparedStatement = connection.prepareStatement("SELECT * FROM `suppliers` WHERE id = '" + supplier.getId() + "' LIMIT 1");
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                header.setText("Supplier : "+resultSet.getString("name"));
+                header.setText("Supplier : " + resultSet.getString("name"));
                 name.setText(resultSet.getString("name"));
                 email.setText(resultSet.getString("email"));
                 type.setText(resultSet.getString("type"));
-                phone.setText(String.valueOf(resultSet.getInt("phone")));
+                phone.setText(resultSet.getString("phone"));
             }
         } catch (Exception e) {
             e.printStackTrace();
