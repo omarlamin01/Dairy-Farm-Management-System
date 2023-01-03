@@ -347,8 +347,8 @@ public class EmployeesController implements Initializable {
                     } else {
                         row.createCell(6).setCellValue("Female");
                     }
-                    row.createCell(7).setCellValue(emp.getHireDate());
-                    row.createCell(8).setCellValue(String.valueOf(emp.getSalary()));
+                    row.createCell(7).setCellValue(emp.getHireDate().toString());
+                    row.createCell(8).setCellValue(emp.getSalary());
                 }
 
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -429,6 +429,8 @@ public class EmployeesController implements Initializable {
                 for (Employee employee : employees) {
                     Employee emp = controller.getEmployee(employee.getCin());
 
+                    String firstName = emp.getFirstName();
+
                     table.addCell(new PdfPCell(new Paragraph(emp.getFirstName()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(emp.getLastName()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(emp.getEmail()))).setPadding(5);
@@ -441,7 +443,7 @@ public class EmployeesController implements Initializable {
                         table.addCell(new PdfPCell(new Paragraph("Female"))).setPadding(5);
                     }
                     table.addCell(new PdfPCell(new Paragraph(emp.getHireDate().toString()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(emp.getSalary())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(emp.getSalary()))).setPadding(5);
                 }
 
                 document.add(table);
