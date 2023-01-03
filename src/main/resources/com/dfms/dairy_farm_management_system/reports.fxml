@@ -9,7 +9,6 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -18,7 +17,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ReportsController">
+<ScrollPane style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dfms.dairy_farm_management_system.controllers.ReportsController">
  <stylesheets>
      <URL value="@../../../style/style.css" />
      <URL value="@../../../style/tab_pane.css" />
@@ -50,7 +49,7 @@
      <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE">
          <Tab text="Sales">
              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_content" stylesheets="@../../../style/style.css">
-                 <Label styleClass="sub_header" text="Manage animal health satatus here" textAlignment="CENTER">
+                 <Label styleClass="sub_header" text="See sales  history here" textAlignment="CENTER">
                      <font>
                          <Font size="18.0" />
                      </font>
@@ -58,42 +57,49 @@
                          <Insets bottom="10.0" />
                      </VBox.margin>
                  </Label>
-                 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
-                     <VBox.margin>
-                         <Insets bottom="10.0" />
-                     </VBox.margin>
-                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get production reports">
-                         <VBox.margin>
-                             <Insets bottom="10.0" />
-                         </VBox.margin>
+               <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
+                  <children>
+                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get milk collection reports">
+                        <VBox.margin>
+                           <Insets bottom="10.0" />
+                        </VBox.margin>
                      </Label>
-                     <HBox alignment="CENTER_LEFT" spacing="10.0">
-                         <TextField promptText="Year">
-                             <styleClass>
+                     <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                        <children>
+                           <DatePicker fx:id="from_date_picker1" promptText="From">
+                              <styleClass>
                                  <String fx:value="input" />
                                  <String fx:value="date_input" />
-                             </styleClass>
-                             <HBox.margin>
-                                 <Insets right="10.0" />
-                             </HBox.margin>
-                         </TextField>
-                         <TextField promptText="Employee ID">
-                             <styleClass>
+                              </styleClass>
+                           </DatePicker>
+                           <DatePicker fx:id="to_date_picker1" promptText="To">
+                              <styleClass>
+                                 <String fx:value="date_input" />
                                  <String fx:value="input" />
-                                 <String fx:value="verify_input" />
-                             </styleClass>
-                         </TextField>
-                         <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
-                             <Button alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="button-add" textAlignment="CENTER">
-                                 <graphic>
-                                     <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                         <Image url="@../../../icons/repport_search.png" />
-                                     </ImageView>
-                                 </graphic>
-                             </Button>
-                         </HBox>
+                              </styleClass>
+                           </DatePicker>
+                           <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                              <children>
+                                 <Button fx:id="search_btn1" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="button-add" textAlignment="CENTER">
+                                    <graphic>
+                                       <ImageView fitHeight="30.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                          <image>
+                                             <Image url="@../../../icons/repport_search.png" />
+                                          </image>
+                                       </ImageView>
+                                    </graphic>
+                                 </Button>
+                              </children>
+                           </HBox>
+                        </children>
                      </HBox>
-                 </VBox>
+                  </children>
+               </VBox>
+               <VBox fx:id="sales_results_area" prefHeight="394.0" prefWidth="691.0">
+                  <VBox.margin>
+                     <Insets top="15.0" />
+                  </VBox.margin>
+               </VBox>
              </VBox>
          </Tab>
          <Tab text="Purchases">

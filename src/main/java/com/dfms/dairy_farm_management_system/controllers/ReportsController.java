@@ -1,6 +1,8 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewPurchaseController;
+import com.dfms.dairy_farm_management_system.models.AnimalSale;
+import com.dfms.dairy_farm_management_system.models.MilkSale;
 import com.dfms.dairy_farm_management_system.models.Purchase;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -46,6 +48,7 @@ public class ReportsController implements Initializable {
 
     @FXML
     private VBox milk_collection_results_area;
+
 
     LocalDate start;
     LocalDate end;
@@ -683,6 +686,276 @@ public class ReportsController implements Initializable {
                 document.add(table);
                 document.close();
                 displayAlert("Success", "Purchases exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    //Sales
+    private void initViewSales() {
+        to_date.setDayCellFactory(d -> new DateCell() {
+            /**
+             * {@inheritDoc}
+             *
+             * @param item
+             * @param empty
+             */
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(LocalDate.now()));
+            }
+        });
+
+        from_date.setDayCellFactory(d -> new DateCell() {
+            /**
+             * {@inheritDoc}
+             *
+             * @param item
+             * @param empty
+             */
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(LocalDate.now()));
+            }
+        });
+
+        to_date.setOnAction(event -> {
+            LocalDate date = to_date.getValue();
+            end1= to_date.getValue();
+            from_date.setDayCellFactory(d -> new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isAfter(date));
+                }
+            });
+        });
+
+        from_date.setOnAction(event -> {
+            LocalDate date = from_date.getValue();
+            start1 = from_date.getValue();
+            to_date.setDayCellFactory(d -> new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+                }
+            });
+        });
+
+    }
+    private ObservableList<MilkSale> getDataSales() {
+        LocalDate min_date = from_date.getValue();
+        LocalDate max_date = to_date.getValue();
+
+        ObservableList<MilkSale> data = FXCollections.observableArrayList();
+
+        try {
+            String query =
+                    " SELECT * FROM `milk_sales` WHERE  `sale_date` <= ? AND `sale_date` >= ? " +
+                            "GROUP BY date(sale_date) " +
+                            "ORDER BY `sale_date` DESC";
+
+            PreparedStatement statement = getConnection().prepareStatement(query);
+
+
+            statement.setTimestamp(1, Timestamp.valueOf(max_date.atTime(23, 59, 59)));
+            statement.setTimestamp(2, Timestamp.valueOf(min_date.atStartOfDay()));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                MilkSale milkSale = new MilkSale();
+                milkSale.setSale_date(resultSet.getDate("sale_date"));
+                milkSale.setQuantity(resultSet.getFloat("quantity"));
+                milkSale.setPrice(resultSet.getInt("price"));
+                milkSale.setClientId(resultSet.getInt("clientId"));
+                data.add(milkSale);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getSQLState());
+        } finally {
+            disconnect();
+        }
+        return data;
+    }
+
+    private void displayDataMlikSales() {
+       milk_collection_results_area.getChildren().clear();
+       milk_collection_results_area.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+
+        ComboBox<String> export_combo = new ComboBox<>(FXCollections.observableArrayList("Excel", "PDF"));
+        export_combo.setPromptText("Export");
+        export_combo.setPadding(new Insets(8));
+        export_combo.getStyleClass().add("combo_box");
+
+        //check what user select in the combo box
+        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDF2(start1, end1);
+            } else {
+                exportToExcel2();
+            }
+        });
+
+        TableColumn<MilkSale, String> sale_date = new TableColumn<>("Date");
+        sale_date.setCellValueFactory(new PropertyValueFactory<MilkSale, String>("sale_date"));
+        sale_date.setPrefWidth(180);
+
+        TableColumn<MilkSale, Float> quantity = new TableColumn<>("Quantity");
+        quantity.setCellValueFactory(new PropertyValueFactory<MilkSale, Float>("quantity"));
+        quantity.setPrefWidth(180);
+
+
+        TableColumn<MilkSale, Float> price = new TableColumn<>("Price");
+        price.setCellValueFactory(new PropertyValueFactory<MilkSale, Float>("price"));
+        price.setPrefWidth(180);
+
+        TableColumn<MilkSale, String> client= new TableColumn<>("Client");
+        client.setCellValueFactory(new PropertyValueFactory<MilkSale, String>("clientName"));
+        client.setPrefWidth(180);
+
+
+        TableView<MilkSale> data_table = new TableView<>();
+        data_table.getColumns().addAll(sale_date, quantity, price,client);
+        data_table.getStyleClass().add("table-view");
+        data_table.setItems(getDataSales());
+        data_table.setPrefSize(900, 400);
+
+        milk_collection_results_area.getChildren().addAll(export_combo, data_table);
+    }
+    private static int COLUMNS_COUNT_Table_MilkSales= 5;
+
+    private void exportToExcelMilkSales() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Milk Sales");
+                Row header = sheet.createRow(1);
+                header.createCell(1).setCellValue("Sale ID");
+                header.createCell(2).setCellValue("Date");
+                header.createCell(3).setCellValue("Quantity");
+                header.createCell(4).setCellValue("Price");
+                header.createCell(5).setCellValue("Client");
+
+
+                for (MilkSale milkSale: getDataSales()) {
+                    Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+                    row.createCell(1).setCellValue(milkSale.getId());
+                    row.createCell(2).setCellValue(milkSale.getSale_date());
+                    row.createCell(3).setCellValue(milkSale.getQuantity());
+                    row.createCell(4).setCellValue(milkSale.getPrice());
+                    row.createCell(4).setCellValue(milkSale.getClientName());
+                }
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Report exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+
+    }
+
+    private void exportToPDFMilkSales(LocalDate start, LocalDate end) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Document document = new Document();
+                //change document orientation to landscape
+                document.setPageSize(PageSize.A4.rotate());
+
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+                try {
+                    Paragraph title = new Paragraph("Milk Sales List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
+                    Paragraph text = new Paragraph("This is the list of the Milk sales between " + start.toString() + " and " + end.toString() + ".",  FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+
+                    //center paragraph
+                    title.setAlignment(Element.ALIGN_CENTER);
+                    text.setAlignment(Element.ALIGN_CENTER);
+                    title.setSpacingAfter(30);
+                    text.setSpacingAfter(30);
+
+                    document.add(title);
+                    document.add(text);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+                PdfPTable table = new PdfPTable(COLUMNS_COUNT_Table_MilkSales);
+
+                //change pdf orientation to landscape
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(11f);
+                table.setSpacingAfter(11f);
+                float[] colWidth = new float[COLUMNS_COUNT_Table_MilkSales];
+                for (int i = 0; i < COLUMNS_COUNT_Table_MilkSales; i++) {
+                    colWidth[i] = 2f;
+                }
+
+                //add table header
+                table.addCell(new PdfPCell(new Paragraph("ID", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Quantity", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Client", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+
+
+                //add padding to cells
+                table.getDefaultCell().setPadding(3);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+                table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+
+
+
+                //get employee of each row
+                //used a method in my updateEmplyeeController to get the employee of each row based on the cin
+                /*  NewPurchaseController controller = new NewPurchaseController();*/
+
+                for (MilkSale milkSale : getDataSales()) {
+                    /* Purchase pur = controller.getPurchase(purchase.getId());*/
+
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(milkSale.getId())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(milkSale.getSale_date())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(milkSale.getQuantity())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(milkSale.getPrice())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(milkSale.getClientName()))).setPadding(5);
+
+
+                }
+
+                document.add(table);
+                document.close();
+                displayAlert("Success", "Milk Sales exported successfully", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
