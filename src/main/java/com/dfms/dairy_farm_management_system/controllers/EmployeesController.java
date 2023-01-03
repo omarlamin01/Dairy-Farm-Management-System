@@ -39,6 +39,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.NumberFormat;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -335,20 +336,29 @@ public class EmployeesController implements Initializable {
 
                 for (Employee employee : employees) {
                     Employee emp = controller.getEmployee(employee.getCin());
+
+                    String firstName = emp.getFirstName() != null ? emp.getFirstName() : "-";
+                    String lastName = emp.getLastName() != null ? emp.getLastName() : "-";
+                    String email = emp.getEmail() != null ? emp.getEmail() : "-";
+                    String phone = emp.getPhone() != null ? emp.getPhone() : "-";
+                    String address = emp.getAddress() != null ? emp.getAddress() : "-";
+                    String cin = emp.getCin() != null ? emp.getCin() : "-";
+                    String gender = emp.getGender() != null
+                            ? emp.getGender().equals("M") ? "Male" : "Female"
+                            : "-";
+                    String hireDate = emp.getHireDate() != null ? emp.getHireDate().toString() : "-";
+                    String salary = emp.getSalary() != 0 ? NumberFormat.getNumberInstance().format(emp.getSalary()) : "-";
+
                     Row row = sheet.createRow(sheet.getLastRowNum() + 1);
-                    row.createCell(0).setCellValue(emp.getFirstName());
-                    row.createCell(1).setCellValue(emp.getLastName());
-                    row.createCell(2).setCellValue(emp.getEmail());
-                    row.createCell(3).setCellValue(emp.getPhone());
-                    row.createCell(4).setCellValue(emp.getAddress());
-                    row.createCell(5).setCellValue(emp.getCin());
-                    if (emp.getGender().equals("M")) {
-                        row.createCell(6).setCellValue("Male");
-                    } else {
-                        row.createCell(6).setCellValue("Female");
-                    }
-                    row.createCell(7).setCellValue(emp.getHireDate().toString());
-                    row.createCell(8).setCellValue(emp.getSalary());
+                    row.createCell(0).setCellValue(firstName);
+                    row.createCell(1).setCellValue(lastName);
+                    row.createCell(2).setCellValue(email);
+                    row.createCell(3).setCellValue(phone);
+                    row.createCell(4).setCellValue(address);
+                    row.createCell(5).setCellValue(cin);
+                    row.createCell(6).setCellValue(gender);
+                    row.createCell(7).setCellValue(hireDate);
+                    row.createCell(8).setCellValue(salary);
                 }
 
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -429,21 +439,27 @@ public class EmployeesController implements Initializable {
                 for (Employee employee : employees) {
                     Employee emp = controller.getEmployee(employee.getCin());
 
-                    String firstName = emp.getFirstName();
+                    String firstName = emp.getFirstName() != null ? emp.getFirstName() : "-";
+                    String lastName = emp.getLastName() != null ? emp.getLastName() : "-";
+                    String email = emp.getEmail() != null ? emp.getEmail() : "-";
+                    String phone = emp.getPhone() != null ? emp.getPhone() : "-";
+                    String address = emp.getAddress() != null ? emp.getAddress() : "-";
+                    String cin = emp.getCin() != null ? emp.getCin() : "-";
+                    String gender = emp.getGender() != null
+                            ? emp.getGender().equals("M") ? "Male" : "Female"
+                            : "-";
+                    String hireDate = emp.getHireDate() != null ? emp.getHireDate().toString() : "-";
+                    String salary = emp.getSalary() != 0 ? NumberFormat.getNumberInstance().format(emp.getSalary()) : "-";
 
-                    table.addCell(new PdfPCell(new Paragraph(emp.getFirstName()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(emp.getLastName()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(emp.getEmail()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(emp.getPhone()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(emp.getAddress()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(emp.getCin()))).setPadding(5);
-                    if (emp.getGender().equals("M")) {
-                        table.addCell(new PdfPCell(new Paragraph("Male"))).setPadding(5);
-                    } else {
-                        table.addCell(new PdfPCell(new Paragraph("Female"))).setPadding(5);
-                    }
-                    table.addCell(new PdfPCell(new Paragraph(emp.getHireDate().toString()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(emp.getSalary()))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(firstName))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(lastName))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(email))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(phone))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(address))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(cin))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(gender))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(hireDate))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(salary))).setPadding(5);
                 }
 
                 document.add(table);
