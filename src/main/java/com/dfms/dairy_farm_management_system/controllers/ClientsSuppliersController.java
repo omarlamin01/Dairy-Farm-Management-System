@@ -264,6 +264,7 @@ public class ClientsSuppliersController implements Initializable {
                             }
 
                         });
+
                         iv_viewDetail.setOnMouseClicked((MouseEvent event) -> {
                             Client client = TableClient.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/client_details.fxml"));
