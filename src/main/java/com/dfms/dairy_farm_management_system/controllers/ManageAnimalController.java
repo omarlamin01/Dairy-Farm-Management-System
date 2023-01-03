@@ -72,9 +72,9 @@ public class ManageAnimalController implements Initializable {
     private TextField textField_search;
 
 
-    private  Connection connection = getConnection();
+    private Connection connection = getConnection();
     private PreparedStatement preparedStatement;
-    private  Statement statement;
+    private Statement statement;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -96,6 +96,7 @@ public class ManageAnimalController implements Initializable {
             }
         });
     }
+
     public ObservableList<Animal> getAnimals() {
         ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
         String select_query = "SELECT * from `animals`";
@@ -129,10 +130,6 @@ public class ManageAnimalController implements Initializable {
         listAnimal.clear();
         listAnimal = getAnimals();
         animals.setItems(listAnimal);
-    }
-
-    private ObservableList<Animal> getAnimal() {
-        return null;
     }
 
     public void displayAnimals() throws SQLException, ClassNotFoundException {
@@ -393,6 +390,7 @@ public class ManageAnimalController implements Initializable {
     void openAddNewRace(MouseEvent event) throws IOException {
         openNewWindow("Add New Race", "add_new_race");
     }
+
     public void openAddNewAnimal(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add New Animal", "add_new_animal");
     }
