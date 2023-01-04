@@ -66,13 +66,13 @@
                      </Label>
                      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
                         <children>
-                           <DatePicker fx:id="from_date_picker1" promptText="From">
+                           <DatePicker fx:id="from_date_milk_sale" promptText="From">
                               <styleClass>
                                  <String fx:value="input" />
                                  <String fx:value="date_input" />
                               </styleClass>
                            </DatePicker>
-                           <DatePicker fx:id="to_date_picker1" promptText="To">
+                           <DatePicker fx:id="to_date_milk_sale" promptText="To">
                               <styleClass>
                                  <String fx:value="date_input" />
                                  <String fx:value="input" />
@@ -80,7 +80,7 @@
                            </DatePicker>
                            <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                               <children>
-                                 <Button fx:id="search_btn1" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="button-add" textAlignment="CENTER">
+                                 <Button fx:id="btn_search_milkSales" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" styleClass="button-add" textAlignment="CENTER">
                                     <graphic>
                                        <ImageView fitHeight="30.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                           <image>

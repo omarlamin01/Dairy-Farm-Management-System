@@ -10,6 +10,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -45,10 +46,13 @@ public class ReportsController implements Initializable {
 
     @FXML
     private Button search_btn;
+    @FXML
+    private  Button btn_search_milkSales;
 
     @FXML
     private VBox milk_collection_results_area;
-
+    @FXML
+    private VBox sales_results_area;
 
     LocalDate start;
     LocalDate end;
@@ -58,11 +62,17 @@ public class ReportsController implements Initializable {
     @FXML
     private DatePicker from_date;
     @FXML
+    private DatePicker to_date_milk_sale;
+    @FXML
+    private DatePicker from_date_milk_sale;
+    @FXML
     private Button btn_serach;
     @FXML
     private VBox purchase_results_area;
     LocalDate start1;
     LocalDate end1;
+    LocalDate startsale;
+    LocalDate endsale;
     public class DailyMilkCollection {
         private Date collection_date;
         private float total_day_collection;
@@ -127,8 +137,11 @@ public class ReportsController implements Initializable {
         BasicConfigurator.configure();
         initView();
         initView2();
+        initViewSales();
         search_btn.setOnMouseClicked(event -> { displayData(); });
         btn_serach.setOnMouseClicked(event -> { displayData2(); });
+        btn_search_milkSales.setOnMouseClicked(event->{displayDataMilkSales();});
+
     }
 
     private void initView() {
@@ -694,7 +707,7 @@ public class ReportsController implements Initializable {
 
     //Sales
     private void initViewSales() {
-        to_date.setDayCellFactory(d -> new DateCell() {
+        to_date_milk_sale.setDayCellFactory(d -> new DateCell() {
             /**
              * {@inheritDoc}
              *
@@ -708,7 +721,7 @@ public class ReportsController implements Initializable {
             }
         });
 
-        from_date.setDayCellFactory(d -> new DateCell() {
+        from_date_milk_sale.setDayCellFactory(d -> new DateCell() {
             /**
              * {@inheritDoc}
              *
@@ -722,9 +735,9 @@ public class ReportsController implements Initializable {
             }
         });
 
-        to_date.setOnAction(event -> {
-            LocalDate date = to_date.getValue();
-            end1= to_date.getValue();
+        to_date_milk_sale.setOnAction(event -> {
+            LocalDate date = to_date_milk_sale.getValue();
+            endsale= to_date_milk_sale.getValue();
             from_date.setDayCellFactory(d -> new DateCell() {
                 /**
                  * {@inheritDoc}
@@ -740,10 +753,10 @@ public class ReportsController implements Initializable {
             });
         });
 
-        from_date.setOnAction(event -> {
-            LocalDate date = from_date.getValue();
-            start1 = from_date.getValue();
-            to_date.setDayCellFactory(d -> new DateCell() {
+        from_date_milk_sale.setOnAction(event -> {
+            LocalDate date = from_date_milk_sale.getValue();
+            startsale= from_date_milk_sale.getValue();
+            to_date_milk_sale.setDayCellFactory(d -> new DateCell() {
                 /**
                  * {@inheritDoc}
                  *
@@ -760,8 +773,8 @@ public class ReportsController implements Initializable {
 
     }
     private ObservableList<MilkSale> getDataSales() {
-        LocalDate min_date = from_date.getValue();
-        LocalDate max_date = to_date.getValue();
+        LocalDate min_date = from_date_milk_sale.getValue();
+        LocalDate max_date = to_date_milk_sale.getValue();
 
         ObservableList<MilkSale> data = FXCollections.observableArrayList();
 
@@ -781,10 +794,11 @@ public class ReportsController implements Initializable {
 
             while (resultSet.next()) {
                 MilkSale milkSale = new MilkSale();
+                milkSale.setId(resultSet.getInt("id"));
                 milkSale.setSale_date(resultSet.getDate("sale_date"));
                 milkSale.setQuantity(resultSet.getFloat("quantity"));
                 milkSale.setPrice(resultSet.getInt("price"));
-                milkSale.setClientId(resultSet.getInt("clientId"));
+                milkSale.setClientId(resultSet.getInt("client_id"));
                 data.add(milkSale);
             }
 
@@ -797,9 +811,9 @@ public class ReportsController implements Initializable {
         return data;
     }
 
-    private void displayDataMlikSales() {
-       milk_collection_results_area.getChildren().clear();
-       milk_collection_results_area.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+    private void displayDataMilkSales() {
+       sales_results_area.getChildren().clear();
+       sales_results_area.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
         ComboBox<String> export_combo = new ComboBox<>(FXCollections.observableArrayList("Excel", "PDF"));
         export_combo.setPromptText("Export");
@@ -809,11 +823,14 @@ public class ReportsController implements Initializable {
         //check what user select in the combo box
         export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
             if (t1.equals("PDF")) {
-                exportToPDF2(start1, end1);
+                exportToPDFMilkSales(startsale, endsale);
             } else {
-                exportToExcel2();
+                exportToExcelMilkSales();
             }
         });
+        TableColumn<MilkSale,Integer> id= new TableColumn<>("ID");
+        id.setCellValueFactory(new PropertyValueFactory<MilkSale,Integer>("id"));
+        id.setPrefWidth(180);
 
         TableColumn<MilkSale, String> sale_date = new TableColumn<>("Date");
         sale_date.setCellValueFactory(new PropertyValueFactory<MilkSale, String>("sale_date"));
@@ -834,12 +851,12 @@ public class ReportsController implements Initializable {
 
 
         TableView<MilkSale> data_table = new TableView<>();
-        data_table.getColumns().addAll(sale_date, quantity, price,client);
+        data_table.getColumns().addAll(id,sale_date, quantity, price,client);
         data_table.getStyleClass().add("table-view");
         data_table.setItems(getDataSales());
         data_table.setPrefSize(900, 400);
 
-        milk_collection_results_area.getChildren().addAll(export_combo, data_table);
+       sales_results_area.getChildren().addAll(export_combo, data_table);
     }
     private static int COLUMNS_COUNT_Table_MilkSales= 5;
 
@@ -866,7 +883,7 @@ public class ReportsController implements Initializable {
                     row.createCell(2).setCellValue(milkSale.getSale_date());
                     row.createCell(3).setCellValue(milkSale.getQuantity());
                     row.createCell(4).setCellValue(milkSale.getPrice());
-                    row.createCell(4).setCellValue(milkSale.getClientName());
+                    row.createCell(5).setCellValue(milkSale.getClientName());
                 }
 
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
