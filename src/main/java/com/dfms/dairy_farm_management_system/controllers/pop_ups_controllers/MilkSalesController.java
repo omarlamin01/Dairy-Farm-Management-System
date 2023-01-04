@@ -125,6 +125,27 @@ public class MilkSalesController implements Initializable {
     }
 
     public void fetchMilkSale(MilkSale milkSale) {
+        this.MilkSale_ID = milkSale.getId();
+        header.setText("Update Milk Sale");
+        this.quantityInput.setText(String.valueOf(milkSale.getQuantity()));
+        this.clientsCombo.setValue(milkSale.getClientName());
+        this.priceOfSale.setText(String.valueOf(milkSale.getPrice()));
+        this.operationDate.setValue(LocalDate.parse(milkSale.getSale_date().toString()));
+        key.setText("Update");
+        add_update.setText("Update");
+        add_update.setOnMouseClicked(mouseEvent -> {
+            milkSale.setQuantity(Float.parseFloat(quantityInput.getText()));
+            milkSale.setClientId(clients.get(clientsCombo.getValue()));
+            milkSale.setPrice(Float.parseFloat(priceOfSale.getText()));
+            milkSale.setSale_date(Date.valueOf(operationDate.getValue()));
+            if (milkSale.update()) {
+                closePopUp(mouseEvent);
+                displayAlert("success", "Milk Sale Updated successfully", Alert.AlertType.INFORMATION);
+            } else {
+                displayAlert("Error", "Error while updating!!!", Alert.AlertType.ERROR);
+            }
+        });
+
 //        animal = getAnimal(AnimalDetailsController.id_animal);
 //        this.MilkSale_ID = ID;
 //        header.setText("Update Milk Sale num :  " + ID);
