@@ -421,7 +421,6 @@ public class SalesController implements Initializable {
 
                         setGraphic(managebtn);
 
-
                         iv_delete.setOnMouseClicked((MouseEvent event) -> {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete Confirmation");
@@ -449,6 +448,7 @@ public class SalesController implements Initializable {
                             //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
 
                         });
+
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
                             MilkSale milkSale = MilkSaleTable.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_milk_sale.fxml"));
@@ -461,7 +461,7 @@ public class SalesController implements Initializable {
                             }
                             MilkSalesController milkSalesController = fxmlLoader.getController();
                             milkSalesController.setUpdate(true);
-                            milkSalesController.fetchMilkSale(milkSale.getId(), milkSale.getQuantity(), milkSale.getPrice(), milkSale.getClientName(), milkSale.getSale_date());
+                            milkSalesController.fetchMilkSale(milkSale);
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update Milk Sale");
