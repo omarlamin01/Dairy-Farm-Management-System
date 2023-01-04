@@ -50,7 +50,6 @@ public class Purchase implements Model {
         this.product_name = getProduct_name();
     }
 
-
     public float getPrice() {
         return price;
     }
@@ -70,7 +69,6 @@ public class Purchase implements Model {
     public Date getPurchase_date() {
         return purchase_date;
     }
-
 
     public void setProduct_name(String product_name) {
         this.product_name = product_name;
@@ -95,7 +93,6 @@ public class Purchase implements Model {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
-
 
     public void setSupplier_name(String supplier_name) {
         this.supplier_name = supplier_name;
@@ -211,7 +208,5 @@ public class Purchase implements Model {
             disconnect();
         }
     }
-
-
 }
 

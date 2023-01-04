@@ -69,20 +69,14 @@ public class PurchasesController  implements Initializable {
     @FXML
     private ImageView refresh_table_table;
 
-
-
     @FXML
     private TableColumn<Purchase, String> supplier_c;
-
 
     @FXML
     private TableColumn<Purchase, String> product_c;
 
-
-
     @FXML
     private TextField search_input;
-
 
     PreparedStatement statement = null;
 
@@ -243,6 +237,7 @@ public class PurchasesController  implements Initializable {
                             //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
 
                         });
+
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
 
                             Purchase purchase = PurchaseTable.getSelectionModel().getSelectedItem();
@@ -256,7 +251,7 @@ public class PurchasesController  implements Initializable {
                             }
                             NewPurchaseController newPurchaseController = fxmlLoader.getController();
                             newPurchaseController.setUpdate(true);
-                            newPurchaseController.fetchPurchase(purchase.getId(), purchase.getProduct_name(),purchase.getQuantity(), purchase.getPrice(), purchase.getSupplier_name(), (Date) purchase.getPurchase_date());
+                            newPurchaseController.fetchPurchase(purchase);
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update Purchase");

@@ -133,19 +133,41 @@ public class CowSalesController implements Initializable {
         }
         }
     }
-    public  void fetchAnimalSale(int ID, String animal, Float price, String client, Date operationdate){
-//        animal = getAnimal(AnimalDetailsController.id_animal);
-        this.AnimalSale_ID = ID;
-        header.setText("Update Animal Sale num :  " + ID);
-        animalsCombo.setValue(animal + "");
-        clientsCombo.setValue(client + "");
-        priceOfSale.setText(price + "");
-        operationDate.setValue(LocalDate.parse(operationdate + ""));
+    public  void fetchAnimalSale(AnimalSale animalSale){
+        this.AnimalSale_ID = animalSale.getId();
+        header.setText("Update Animal Sale");
+        this.animalsCombo.setValue(animalSale.getAnimalId());
+        this.clientsCombo.setValue(animalSale.getClientName());
+        this.priceOfSale.setText(String.valueOf(animalSale.getPrice()));
+        this.operationDate.setValue(LocalDate.parse(animalSale.getSale_date().toString()));
         key.setText("Update");
         add_update.setText("Update");
+        add_update.setOnMouseClicked(mouseEvent -> {
+            animalSale.setAnimalId(animalsCombo.getValue());
+            animalSale.setPrice(Float.parseFloat(priceOfSale.getText()));
+            animalSale.setClientId(clients.get(clientsCombo.getValue()));
+            animalSale.setSale_date(Date.valueOf(operationDate.getValue()));
+            if (animalSale.update()) {
+                closePopUp(mouseEvent);
+                displayAlert("success", "Animal Sale Updated successfully", Alert.AlertType.INFORMATION);
 
-
+            } else {
+                displayAlert("Error", "Error while updating!!!", Alert.AlertType.ERROR);
+            }
+        });
     }
+//        animal = getAnimal(AnimalDetailsController.id_animal);
+//        this.AnimalSale_ID = ID;
+//        header.setText("Update Animal Sale num :  " + ID);
+//        animalsCombo.setValue(animal + "");
+//        clientsCombo.setValue(client + "");
+//        priceOfSale.setText(price + "");
+//        operationDate.setValue(LocalDate.parse(operationdate + ""));
+//        key.setText("Update");
+//        add_update.setText("Update");
+//
+//
+//    }
     private void clear () {
         animalsCombo.getSelectionModel().clearSelection();
         clientsCombo.getSelectionModel().clearSelection();
