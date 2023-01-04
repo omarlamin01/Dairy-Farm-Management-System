@@ -59,7 +59,7 @@
                  </Label>
                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
                   <children>
-                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get milk collection reports">
+                     <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get milk sales reports">
                         <VBox.margin>
                            <Insets bottom="10.0" />
                         </VBox.margin>
@@ -116,7 +116,7 @@
                      </Label>
                      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="report_item">
                         <children>
-                           <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get milk collection reports">
+                           <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" text="Get animal sales reports">
                               <VBox.margin>
                                  <Insets bottom="10.0" />
                               </VBox.margin>
