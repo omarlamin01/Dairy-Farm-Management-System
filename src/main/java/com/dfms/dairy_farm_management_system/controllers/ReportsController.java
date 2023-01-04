@@ -1,6 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewPurchaseController;
+import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.MilkSale;
 import com.dfms.dairy_farm_management_system.models.Purchase;
@@ -43,17 +44,10 @@ public class ReportsController implements Initializable {
 
     @FXML
     private DatePicker to_date_picker;
-
     @FXML
     private Button search_btn;
     @FXML
-    private  Button btn_search_milkSales;
-
-    @FXML
     private VBox milk_collection_results_area;
-    @FXML
-    private VBox sales_results_area;
-
     LocalDate start;
     LocalDate end;
     //Purchase items
@@ -62,17 +56,36 @@ public class ReportsController implements Initializable {
     @FXML
     private DatePicker from_date;
     @FXML
-    private DatePicker to_date_milk_sale;
-    @FXML
-    private DatePicker from_date_milk_sale;
-    @FXML
     private Button btn_serach;
     @FXML
     private VBox purchase_results_area;
     LocalDate start1;
     LocalDate end1;
+
+    //Milk sales attributes
+    @FXML
+    private DatePicker to_date_milk_sale;
+    @FXML
+    private DatePicker from_date_milk_sale;
+    @FXML
+    private  Button btn_search_milkSales;
     LocalDate startsale;
     LocalDate endsale;
+    @FXML
+    private VBox sales_results_area;
+
+    //animal sales attributes
+
+    @FXML
+    private DatePicker to_date_animal_sales;
+    @FXML
+    private DatePicker from_date_animal_sales;
+    @FXML
+    private VBox animal_sales_results_area;
+    @FXML
+    private  Button btn_search_animal_sales;
+    LocalDate start_animal_sales;
+    LocalDate end_animal_sales;
     public class DailyMilkCollection {
         private Date collection_date;
         private float total_day_collection;
@@ -138,9 +151,11 @@ public class ReportsController implements Initializable {
         initView();
         initView2();
         initViewSales();
+        initViewAnimalSales();
         search_btn.setOnMouseClicked(event -> { displayData(); });
         btn_serach.setOnMouseClicked(event -> { displayData2(); });
         btn_search_milkSales.setOnMouseClicked(event->{displayDataMilkSales();});
+        btn_search_animal_sales.setOnMouseClicked(event->{displayDataAnimalSales();});
 
     }
 
@@ -738,7 +753,7 @@ public class ReportsController implements Initializable {
         to_date_milk_sale.setOnAction(event -> {
             LocalDate date = to_date_milk_sale.getValue();
             endsale= to_date_milk_sale.getValue();
-            from_date.setDayCellFactory(d -> new DateCell() {
+            from_date_milk_sale.setDayCellFactory(d -> new DateCell() {
                 /**
                  * {@inheritDoc}
                  *
@@ -973,6 +988,270 @@ public class ReportsController implements Initializable {
                 document.add(table);
                 document.close();
                 displayAlert("Success", "Milk Sales exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    //Animal Sales
+    private void initViewAnimalSales() {
+        to_date_animal_sales.setDayCellFactory(d -> new DateCell() {
+            /**
+             * {@inheritDoc}
+             *
+             * @param item
+             * @param empty
+             */
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(LocalDate.now()));
+            }
+        });
+
+        from_date_animal_sales.setDayCellFactory(d -> new DateCell() {
+            /**
+             * {@inheritDoc}
+             *
+             * @param item
+             * @param empty
+             */
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                setDisable(item.isAfter(LocalDate.now()));
+            }
+        });
+
+        to_date_animal_sales.setOnAction(event -> {
+            LocalDate date = to_date_animal_sales.getValue();
+           end_animal_sales= to_date_animal_sales.getValue();
+            from_date_animal_sales.setDayCellFactory(d -> new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isAfter(date));
+                }
+            });
+        });
+
+        from_date_animal_sales.setOnAction(event -> {
+            LocalDate date = from_date_animal_sales.getValue();
+            start_animal_sales= from_date_animal_sales.getValue();
+            to_date_animal_sales.setDayCellFactory(d -> new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+                }
+            });
+        });
+
+    }
+    private ObservableList<AnimalSale> getDataAnimalSales() {
+        LocalDate min_date = from_date_animal_sales.getValue();
+        LocalDate max_date = to_date_animal_sales.getValue();
+
+        ObservableList<AnimalSale> data = FXCollections.observableArrayList();
+
+        try {
+            String query =
+                    " SELECT * FROM `animals_sales` WHERE  `sale_date` <= ? AND `sale_date` >= ? " +
+                            "GROUP BY date(sale_date) " +
+                            "ORDER BY `sale_date` DESC";
+
+            PreparedStatement statement = getConnection().prepareStatement(query);
+
+
+            statement.setTimestamp(1, Timestamp.valueOf(max_date.atTime(23, 59, 59)));
+            statement.setTimestamp(2, Timestamp.valueOf(min_date.atStartOfDay()));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                AnimalSale animalSale = new AnimalSale();
+                animalSale.setAnimalId(resultSet.getString("animal_id"));
+                animalSale.setSale_date(resultSet.getDate("sale_date"));
+                animalSale.setPrice(resultSet.getInt("price"));
+                animalSale.setClientId(resultSet.getInt("client_id"));
+                data.add(animalSale);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getSQLState());
+        } finally {
+            disconnect();
+        }
+        return data;
+    }
+
+    private void displayDataAnimalSales() {
+        animal_sales_results_area.getChildren().clear();
+        animal_sales_results_area.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+
+        ComboBox<String> export_combo = new ComboBox<>(FXCollections.observableArrayList("Excel", "PDF"));
+        export_combo.setPromptText("Export");
+        export_combo.setPadding(new Insets(8));
+        export_combo.getStyleClass().add("combo_box");
+
+        //check what user select in the combo box
+        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            if (t1.equals("PDF")) {
+                exportToPDFAnimalSales(start_animal_sales, end_animal_sales);
+            } else {
+                exportToExcelAnimalSales();
+            }
+        });
+        TableColumn<AnimalSale,Integer> id= new TableColumn<>("Animal ID");
+        id.setCellValueFactory(new PropertyValueFactory<AnimalSale,Integer>("animalId"));
+        id.setPrefWidth(180);
+
+        TableColumn<AnimalSale, String> sale_date = new TableColumn<>("Date");
+        sale_date.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("sale_date"));
+        sale_date.setPrefWidth(180);
+
+        TableColumn<AnimalSale, Float> price = new TableColumn<>("Price");
+        price.setCellValueFactory(new PropertyValueFactory<AnimalSale, Float>("price"));
+        price.setPrefWidth(180);
+
+        TableColumn<AnimalSale, String> client= new TableColumn<>("Client");
+        client.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("clientName"));
+        client.setPrefWidth(180);
+
+
+        TableView<AnimalSale> data_table = new TableView<>();
+        data_table.getColumns().addAll(id,sale_date,price,client);
+        data_table.getStyleClass().add("table-view");
+        data_table.setItems(getDataAnimalSales());
+        data_table.setPrefSize(900, 400);
+
+        animal_sales_results_area.getChildren().addAll(export_combo, data_table);
+    }
+    private static int COLUMNS_COUNT_Table_AnimalSales= 4;
+
+    private void exportToExcelAnimalSales() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Workbook workbook = new XSSFWorkbook();
+                Sheet sheet = workbook.createSheet("Milk Sales");
+                Row header = sheet.createRow(1);
+                header.createCell(1).setCellValue("Animal ID");
+                header.createCell(2).setCellValue("Date");
+                header.createCell(3).setCellValue("Price");
+                header.createCell(4).setCellValue("Client");
+
+
+                for (AnimalSale animalSale: getDataAnimalSales()) {
+                    Row row = sheet.createRow(sheet.getLastRowNum() + 1);
+                    row.createCell(1).setCellValue(animalSale.getAnimalId());
+                    row.createCell(2).setCellValue(animalSale.getSale_date());
+                    row.createCell(3).setCellValue(animalSale.getPrice());
+                    row.createCell(4).setCellValue(animalSale.getClientName());
+                }
+
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
+                workbook.write(fileOutputStream);
+                workbook.close();
+
+                displayAlert("Success", "Report exported successfully", Alert.AlertType.INFORMATION);
+            } catch (Exception e) {
+                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+
+    }
+
+    private void exportToPDFAnimalSales(LocalDate start, LocalDate end) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save As");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            try {
+                Document document = new Document();
+                //change document orientation to landscape
+                document.setPageSize(PageSize.A4.rotate());
+
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+                try {
+                    Paragraph title = new Paragraph("Animals Sales List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
+                    Paragraph text = new Paragraph("This is the list of the Animals sales between " + start.toString() + " and " + end.toString() + ".",  FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+
+                    //center paragraph
+                    title.setAlignment(Element.ALIGN_CENTER);
+                    text.setAlignment(Element.ALIGN_CENTER);
+                    title.setSpacingAfter(30);
+                    text.setSpacingAfter(30);
+
+                    document.add(title);
+                    document.add(text);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                }
+                PdfPTable table = new PdfPTable(COLUMNS_COUNT_Table_AnimalSales);
+
+                //change pdf orientation to landscape
+                table.setWidthPercentage(100);
+                table.setSpacingBefore(11f);
+                table.setSpacingAfter(11f);
+                float[] colWidth = new float[COLUMNS_COUNT_Table_AnimalSales];
+                for (int i = 0; i < COLUMNS_COUNT_Table_AnimalSales; i++) {
+                    colWidth[i] = 2f;
+                }
+
+                //add table header
+                table.addCell(new PdfPCell(new Paragraph("ID", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table.addCell(new PdfPCell(new Paragraph("Client", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+
+
+                //add padding to cells
+                table.getDefaultCell().setPadding(3);
+                table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
+                table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+
+
+
+                //get employee of each row
+                //used a method in my updateEmplyeeController to get the employee of each row based on the cin
+                /*  NewPurchaseController controller = new NewPurchaseController();*/
+
+                for (AnimalSale animalSale : getDataAnimalSales()) {
+                    /* Purchase pur = controller.getPurchase(purchase.getId());*/
+
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(animalSale.getAnimalId())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(animalSale.getSale_date())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(animalSale.getPrice())))).setPadding(5);
+                    table.addCell(new PdfPCell(new Paragraph(animalSale.getClientName()))).setPadding(5);
+
+
+                }
+
+                document.add(table);
+                document.close();
+                displayAlert("Success", "Animals Sales exported successfully", Alert.AlertType.INFORMATION);
             } catch (Exception e) {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
