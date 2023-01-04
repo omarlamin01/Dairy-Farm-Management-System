@@ -366,24 +366,36 @@ public class MainLayoutController implements Initializable {
             case "hr":
                 menu.getChildren().add(dashboard_btn);
                 menu.getChildren().add(profile_btn);
+                menu.getChildren().add(employees_btn);
+                menu.getChildren().add(manageUsersBtn);
                 menu.getChildren().add(logout);
                 break;
 
             case "vétérinaire":
                 menu.getChildren().add(dashboard_btn);
                 menu.getChildren().add(profile_btn);
+                menu.getChildren().add(animal_monitor_btn);
+                menu.getChildren().add(manage_animal_btn);
+                menu.getChildren().add(stock_btn);
                 menu.getChildren().add(logout);
                 break;
 
             case "production control":
                 menu.getChildren().add(dashboard_btn);
                 menu.getChildren().add(profile_btn);
+                menu.getChildren().add(animal_monitor_btn);
+                menu.getChildren().add(manage_animal_btn);
+                menu.getChildren().add(MilkClollection_btn);
+                menu.getChildren().add(stock_btn);
                 menu.getChildren().add(logout);
                 break;
 
             case "sales control":
                 menu.getChildren().add(dashboard_btn);
                 menu.getChildren().add(profile_btn);
+                menu.getChildren().add(sales_btn);
+                menu.getChildren().add(purchase_btn);
+                menu.getChildren().add(stock_btn);
                 menu.getChildren().add(logout);
                 break;
 
