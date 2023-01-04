@@ -118,6 +118,7 @@ public class UpdateUserController implements Initializable {
         addressInput.setText(user.getAddress());
         cinInput.setText(user.getCin());
         phoneNumberInput.setText(user.getPhone());
+        roleCombo.setValue(user.getRoleName());
     }
 
     public String getRoleName(int id) {
