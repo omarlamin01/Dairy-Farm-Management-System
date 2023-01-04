@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import com.dfms.dairy_farm_management_system.Main;
@@ -14,6 +15,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class SplashScreenController implements Initializable {
     @Override
@@ -26,14 +28,15 @@ public class SplashScreenController implements Initializable {
     private FXMLLoader fxmlLoader;
     private Stage stage;
     private Scene scene;
+    private final int SPLASH_TIME = 2000;
 
     private void splash() {
         new Thread() {
             public void run() {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(SPLASH_TIME);
                 } catch (Exception e) {
-                    System.out.println(e);
+                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
                 Platform.runLater(new Runnable() {
                     @Override
@@ -41,7 +44,7 @@ public class SplashScreenController implements Initializable {
                         try {
                             switchToLoginPage();
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                         }
                     }
                 });
@@ -55,7 +58,7 @@ public class SplashScreenController implements Initializable {
         try {
             scene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
-            e.printStackTrace();
+            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
         centerScreen(stage);
         stage.setScene(scene);
