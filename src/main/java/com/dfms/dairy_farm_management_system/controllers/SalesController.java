@@ -259,6 +259,7 @@ public class SalesController implements Initializable {
                                 }
                             }
                         });
+
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
 
                             AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
@@ -272,7 +273,7 @@ public class SalesController implements Initializable {
                             }
                             CowSalesController cowSalesController = fxmlLoader.getController();
                             cowSalesController.setUpdate(true);
-                            cowSalesController.fetchAnimalSale(animalSale.getId(), animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
+                            cowSalesController.fetchAnimalSale(animalSale);
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update Animal Sale");
