@@ -217,7 +217,7 @@ public class MilkCollectionController implements Initializable {
                             //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
 
                         });
-                       iv_edit.setOnMouseClicked((MouseEvent event) -> {
+                        iv_edit.setOnMouseClicked((MouseEvent event) -> {
 
                             MilkCollection milkcollection = MilkCollectionTable.getSelectionModel().getSelectedItem();
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_milk_collection.fxml"));
@@ -230,7 +230,7 @@ public class MilkCollectionController implements Initializable {
                             }
                             NewMilkCollectionController newMilkCollectionController = fxmlLoader.getController();
                             newMilkCollectionController.setUpdate(true);
-                            newMilkCollectionController.fetchMilkCollection( milkcollection.getId(),milkcollection.getCow_id(), milkcollection.getPeriod(), milkcollection.getQuantity());
+                            newMilkCollectionController.fetchMilkCollection(milkcollection);
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update MilkCollection");
@@ -246,7 +246,7 @@ public class MilkCollectionController implements Initializable {
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 MilkCollectionlDetailsController controller = fxmlLoader.getController();
-                                controller.fetchMilkCollection( mc.getId(),mc.getCow_id(), mc.getPeriod(), mc.getQuantity(), mc.getCreated_at());
+                                controller.fetchMilkCollection(mc.getId(), mc.getCow_id(), mc.getPeriod(), mc.getQuantity(), mc.getCreated_at());
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -274,6 +274,7 @@ public class MilkCollectionController implements Initializable {
 
     private Statement statemeent;
     private Connection connection = getConnection();
+
     void exportToExcel() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
@@ -289,7 +290,6 @@ public class MilkCollectionController implements Initializable {
                 header.createCell(2).setCellValue("Milk Quantity");
                 header.createCell(3).setCellValue("Collection Period");
                 header.createCell(4).setCellValue("Collection Date");
-
 
 
                 //get all employees from database
@@ -325,6 +325,7 @@ public class MilkCollectionController implements Initializable {
     }
 
     private static int COLUMNS_COUNT = 4;
+
     void exportToPDF() {
 //        FileChooser fileChooser = new FileChooser();
 //        fileChooser.setTitle("Save As");
@@ -500,10 +501,9 @@ public class MilkCollectionController implements Initializable {
     @FXML
     void refreshTable(MouseEvent event) throws SQLException {
 
-            refreshTableMilkCollection();
+        refreshTableMilkCollection();
 
     }
-
 
 
 }
