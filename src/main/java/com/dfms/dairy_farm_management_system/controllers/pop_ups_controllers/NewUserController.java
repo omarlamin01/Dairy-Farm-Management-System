@@ -94,7 +94,7 @@ public class NewUserController implements Initializable {
         user.setAdress(adress);
         user.setCin(cin);
         user.setGender(gender);
-        user.setRole(Integer.parseInt(role));
+        user.setRole(getRoles().get(role));
 
         //insert into user table
         if (user.save()) {

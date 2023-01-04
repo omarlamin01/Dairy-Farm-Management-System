@@ -82,13 +82,12 @@ public class LoginController implements Initializable {
             ResultSet resultSet = statement.executeQuery(query);
             User user = new User();
             if (resultSet.next()) {
-
                 user.setId(resultSet.getInt("id"));
                 user.setFirstName(resultSet.getString("first_name"));
                 user.setLastName(resultSet.getString("last_name"));
                 user.setEmail(resultSet.getString("email"));
                 user.setEncryptedPassword(resultSet.getString("password"));
-                user.setRole(resultSet.getInt("id"));
+                user.setRole(resultSet.getInt("role"));
                 user.setSalary(resultSet.getFloat("salary"));
                 user.setGender(resultSet.getString("gender"));
                 user.setPhone(resultSet.getString("phone"));
