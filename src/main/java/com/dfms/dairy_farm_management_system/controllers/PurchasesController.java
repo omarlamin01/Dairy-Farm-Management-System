@@ -251,7 +251,7 @@ public class PurchasesController  implements Initializable {
                             }
                             NewPurchaseController newPurchaseController = fxmlLoader.getController();
                             newPurchaseController.setUpdate(true);
-                            newPurchaseController.fetchPurchase(purchase.getId(), purchase.getProduct_name(),purchase.getQuantity(), purchase.getPrice(), purchase.getSupplier_name(), (Date) purchase.getPurchase_date());
+                            newPurchaseController.fetchPurchase(purchase);
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update Purchase");
