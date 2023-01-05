@@ -174,30 +174,6 @@ public class DashboardController implements Initializable {
 
     //fill BarChart with sales of each day
     public void fillBarChart() {
-//        xAxis.setLabel("Programming Language");
-//
-//        yAxis.setLabel("Percent");
-//
-//        // Series 1 - Data of 2014
-//        XYChart.Series<String, Number> dataSeries1 = new XYChart.Series<String, Number>();
-//        dataSeries1.setName("2014");
-//
-//        dataSeries1.getData().add(new XYChart.Data<String, Number>("Java", 20.973));
-//        dataSeries1.getData().add(new XYChart.Data<String, Number>("C#", 4.429));
-//        dataSeries1.getData().add(new XYChart.Data<String, Number>("PHP", 2.792));
-//
-//        // Series 2 - Data of 2015
-//        XYChart.Series<String, Number> dataSeries2 = new XYChart.Series<String, Number>();
-//        dataSeries2.setName("2015");
-//
-//        dataSeries2.getData().add(new XYChart.Data<String, Number>("Java", 26.983));
-//        dataSeries2.getData().add(new XYChart.Data<String, Number>("C#", 6.569));
-//        dataSeries2.getData().add(new XYChart.Data<String, Number>("PHP", 6.619));
-//
-//        // Add Series to BarChart.
-//        barChart.getData().add(dataSeries1);
-//        barChart.getData().add(dataSeries2);
-
         xAxis.setLabel("Days");
         yAxis.setLabel("Sales");
 
@@ -260,19 +236,19 @@ public class DashboardController implements Initializable {
             //get count of sales of each day
             switch (day) {
                 case "Sun" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE WEEKDAY(CURDATE()) = 6");
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Sunday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Mon" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE WEEKDAY(CURDATE()) = 0");
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Monday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Tue" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE WEEKDAY(CURDATE()) = 1");
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Tuesday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Wed" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE WEEKDAY(CURDATE()) = 2");
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Wednesday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Thu" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE WEEKDAY(CURDATE()) = 3");
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Thursday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Fri" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE WEEKDAY(CURDATE()) = 4");
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Friday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Sat" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE WEEKDAY(CURDATE()) = 5");
+                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Saturday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 default -> {
                 }
 
@@ -300,19 +276,19 @@ public class DashboardController implements Initializable {
             switch (day) {
                 case "Sun" ->
                     //get the sum of price from both tables (animals_sales and milk_sales)
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE WEEKDAY(CURDATE()) = 6 UNION SELECT SUM(price) FROM milk_sales WHERE WEEKDAY(CURDATE()) = 6");
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Sunday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Sunday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Mon" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE WEEKDAY(CURDATE()) = 0 UNION SELECT SUM(price) FROM milk_sales WHERE WEEKDAY(CURDATE()) = 0");
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Monday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Monday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Tue" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE WEEKDAY(CURDATE()) = 1 UNION SELECT SUM(price) FROM milk_sales WHERE WEEKDAY(CURDATE()) = 1");
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Tuesday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Tuesday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Wed" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE WEEKDAY(CURDATE()) = 2 UNION SELECT SUM(price) FROM milk_sales WHERE WEEKDAY(CURDATE()) = 2");
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Wednesday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Wednesday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Thu" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE WEEKDAY(CURDATE()) = 3 UNION SELECT SUM(price) FROM milk_sales WHERE WEEKDAY(CURDATE()) = 3");
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Thursday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Thursday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Fri" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE WEEKDAY(CURDATE()) = 4 UNION SELECT SUM(price) FROM milk_sales WHERE WEEKDAY(CURDATE()) = 4");
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Friday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Friday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 case "Sat" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE WEEKDAY(CURDATE()) = 5 UNION SELECT SUM(price) FROM milk_sales WHERE WEEKDAY(CURDATE()) = 5");
+                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Saturday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Saturday' AND WEEK(sale_date) = WEEK(CURDATE())");
                 default -> {
                 }
             }

@@ -113,7 +113,6 @@ public class MilkSale implements Model{
             e.printStackTrace();
             return false;
         }
-
     }
 
     @Override
