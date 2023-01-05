@@ -131,7 +131,7 @@ public class LoginController implements Initializable {
                         user.setLastName(resultSet.getString("last_name"));
                         user.setEmail(resultSet.getString("email"));
                         user.setPassword(resultSet.getString("password"));
-                        user.setRole(resultSet.getInt("id"));
+                        user.setRole(resultSet.getInt("role"));
                         user.setSalary(resultSet.getFloat("salary"));
                         user.setGender(resultSet.getString("gender"));
                         user.setPhone(resultSet.getString("phone"));
