@@ -85,3 +85,7 @@ ALTER TABLE `employees`
 #change pregnancy_status in pregnancies to be a default value
 ALTER TABLE `pregnancies`
     MODIFY pregnancy_status ENUM('pending', 'finished', 'failed') NOT NULL DEFAULT 'pending';
+
+# change milk_sales table to have an auto-increment id
+ALTER TABLE `milk_sales`
+    MODIFY id int(11) NOT NULL AUTO_INCREMENT;
