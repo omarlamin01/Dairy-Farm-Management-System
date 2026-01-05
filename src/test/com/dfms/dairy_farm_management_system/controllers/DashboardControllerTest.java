@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 public class DashboardControllerTest extends TestCase {
 
+    //Branch Test comment
     public void testGetSalesOfSpecificDay() {
         DashboardController dashboardController = new DashboardController();
         int actual = dashboardController.getSalesOfSpecificDay("Fri", "animals_sales");
