@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+//Equivalence Class Testing
 class HelperMD5Test {
 
     @Test
@@ -28,13 +29,6 @@ class HelperMD5Test {
     }
 
     @Test
-    void testSpecialCharacters() {
-        String password = "!@#$%^&*()_+";
-        String hash = Helper.encryptPassword(password);
-        assertTrue(Helper.MD5(hash, password));
-    }
-
-    @Test
     void testUnicodePassword() {
         String password = "pässwörd✓";
         String hash = Helper.encryptPassword(password);
@@ -51,4 +45,10 @@ class HelperMD5Test {
         String password = "password123";
         assertFalse(Helper.MD5(null, password));
     }
+    @Test
+    void testEncryptedPasswordNotMd5Format() {
+        assertFalse(Helper.MD5("not-a-hash", "password123"));
+    }
+
+
 }
