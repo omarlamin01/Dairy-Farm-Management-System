@@ -335,7 +335,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role_id`, `password`, `created_at`, `updated_at`, `first_name`, `last_name`, `gender`, `cin`, `phone`, `salary`, `email`, `address`) VALUES
-(1, 1, '1234', '2022-11-21 11:08:00', '2022-11-21 11:08:03', 'abdellatif', 'laghjaj', 'M', 'jt00000', '0000000', 9999, 'abc@gmail.com', 'ouled ali');
+(1, 1, '81dc9bdb52d04dc20036dbd8313ed055', '2022-11-21 11:08:00', '2022-11-21 11:08:03', 'abdellatif', 'laghjaj', 'M', 'jt00000', '0000000', 9999, 'abc@gmail.com', 'ouled ali');
 
 -- --------------------------------------------------------
 
