@@ -222,7 +222,6 @@ public class Helper {
         return rolesList;
     }
 
-    //encrypt password
     public static String encryptPassword(String password) {
         String generatedPassword = null;
         // Create MessageDigest instance for MD5
