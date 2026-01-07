@@ -180,21 +180,29 @@ public class CowSalesController implements Initializable {
     }
     public AnimalSale getSale(int animalSale_ID) {
         AnimalSale animalSale = new AnimalSale();
-        String query = "SELECT * FROM `animals_sales`   where id='" + animalSale_ID + "' LIMIT 1";
-        Connection con = getConnection();
-        try(Statement st= con.createStatement();
-            ResultSet rs = st.executeQuery(query)) {
-            while (rs.next()) {
-                animalSale.setId(rs.getInt("id"));
-                animalSale.setAnimalId(rs.getString("animal_id"));
-                animalSale.setPrice(rs.getFloat("price"));
-                animalSale.setClientId(rs.getInt("client_id"));
-                animalSale.setSale_date(rs.getDate("sale_date"));
+        String query = "SELECT * FROM animals_sales WHERE id = ? LIMIT 1";
+
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+
+            ps.setInt(1, animalSale_ID);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    animalSale.setId(rs.getInt("id"));
+                    animalSale.setAnimalId(rs.getString("animal_id"));
+                    animalSale.setPrice(rs.getFloat("price"));
+                    animalSale.setClientId(rs.getInt("client_id"));
+                    animalSale.setSale_date(rs.getDate("sale_date"));
+                }
             }
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             displayAlert(ALERT_ERROR, e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
         }
+
         return animalSale;
     }
+
 }
