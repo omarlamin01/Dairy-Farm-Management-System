@@ -9,13 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
-import java.io.IOException;
-import java.net.URL;
-import java.sql.*;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -27,90 +20,68 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.*;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.function.Consumer;
+
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.*;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class AnimalMonitorController implements Initializable {
+
     private static final String LOGO_ICON_PATH = "file:src/main/resources/images/logo.png";
     private static final String ICON_BTN_STYLE = "-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;";
 
+    // Icons (loaded once)
+    private final Image editImg = new Image(getClass().getResourceAsStream("/images/edit.png"));
+    private final Image deleteImg = new Image(getClass().getResourceAsStream("/images/delete.png"));
+    private final Image viewImg = new Image(getClass().getResourceAsStream("/images/eye.png"));
+
     //Health status tab
-    @FXML
-    TextField healthStatusSearch;
-    @FXML
-    Button healthSearchButton;
-    @FXML
-    Button newStatusButton;
-    @FXML
-    TableView<HealthStatus> healthMonitorTable;
-    @FXML
-    TableColumn<HealthStatus, String> animal_id_col;
-    @FXML
-    TableColumn<HealthStatus, String> healthMonitorNoteCol;
-    @FXML
-    TableColumn<HealthStatus, String> health_score_col;
-    @FXML
-    TableColumn<HealthStatus, String> control_date_col;
-    @FXML
-    TableColumn<HealthStatus, String> healthMonitorActionsCol;
+    @FXML TextField healthStatusSearch;
+    @FXML Button healthSearchButton;
+    @FXML Button newStatusButton;
+    @FXML TableView<HealthStatus> healthMonitorTable;
+    @FXML TableColumn<HealthStatus, String> animal_id_col;
+    @FXML TableColumn<HealthStatus, String> healthMonitorNoteCol;
+    @FXML TableColumn<HealthStatus, String> health_score_col;
+    @FXML TableColumn<HealthStatus, String> control_date_col;
+    @FXML TableColumn<HealthStatus, String> healthMonitorActionsCol;
 
     //Pregnancy tab
-    @FXML
-    TextField pregnancySearch;
-    @FXML
-    Button pregnancySearchButton;
-    @FXML
-    Button newPregnancyButton;
-    @FXML
-    TableView<Pregnancy> pregnancyTable;
-    @FXML
-    TableColumn<Pregnancy, String> cow_id_col;
-    @FXML
-    TableColumn<Pregnancy, String> pregnancyStartDateCol;
-    @FXML
-    TableColumn<Pregnancy, String> pregnancyEndCol;
-    @FXML
-    TableColumn<Pregnancy, String> pregnancyTypeCol;
-    @FXML
-    TableColumn<Pregnancy, String> pregnancyActionsCol;
+    @FXML TextField pregnancySearch;
+    @FXML Button pregnancySearchButton;
+    @FXML Button newPregnancyButton;
+    @FXML TableView<Pregnancy> pregnancyTable;
+    @FXML TableColumn<Pregnancy, String> cow_id_col;
+    @FXML TableColumn<Pregnancy, String> pregnancyStartDateCol;
+    @FXML TableColumn<Pregnancy, String> pregnancyEndCol;
+    @FXML TableColumn<Pregnancy, String> pregnancyTypeCol;
+    @FXML TableColumn<Pregnancy, String> pregnancyActionsCol;
 
     //Vaccine tab
-    @FXML
-    TextField vaccineSearch;
-    @FXML
-    Button vaccineSearchButton;
-    @FXML
-    Button newVaccinationButton;
-    @FXML
-    TableView<Vaccination> vaccinationTable;
-    @FXML
-    TableColumn<Vaccination, String> animalIdCol;
-    @FXML
-    TableColumn<Vaccination, String> vaccineNameCol;
-    @FXML
-    TableColumn<Vaccination, String> ResponsibleNameCol;
-    @FXML
-    TableColumn<Vaccination, String> vaccinationDateCol;
-    @FXML
-    TableColumn<Vaccination, String> vaccinationActions;
+    @FXML TextField vaccineSearch;
+    @FXML Button vaccineSearchButton;
+    @FXML Button newVaccinationButton;
+    @FXML TableView<Vaccination> vaccinationTable;
+    @FXML TableColumn<Vaccination, String> animalIdCol;
+    @FXML TableColumn<Vaccination, String> vaccineNameCol;
+    @FXML TableColumn<Vaccination, String> ResponsibleNameCol;
+    @FXML TableColumn<Vaccination, String> vaccinationDateCol;
+    @FXML TableColumn<Vaccination, String> vaccinationActions;
 
     //Routine monitor tab
-    @FXML
-    Button RoutineSearchButton;
-    @FXML
-    Button newRoutineButton;
-    @FXML
-    TextField routineSearch;
-    @FXML
-    TableView<Routine> routineTable;
-    @FXML
-    TableColumn<Routine, String> routineNameCol;
-    @FXML
-    TableColumn<Routine, String> routineNotesCol;
-    @FXML
-    TableColumn<Routine, String> routineAdditionDateCol;
-    @FXML
-    TableColumn<Routine, String> routineActionsCol;
+    @FXML Button RoutineSearchButton;
+    @FXML Button newRoutineButton;
+    @FXML TextField routineSearch;
+    @FXML TableView<Routine> routineTable;
+    @FXML TableColumn<Routine, String> routineNameCol;
+    @FXML TableColumn<Routine, String> routineNotesCol;
+    @FXML TableColumn<Routine, String> routineAdditionDateCol;
+    @FXML TableColumn<Routine, String> routineActionsCol;
 
     boolean isSearchingForMonitors = false;
     boolean isSearchingForPregnancies = false;
@@ -125,7 +96,10 @@ public class AnimalMonitorController implements Initializable {
         displayRoutines(getRoutines());
     }
 
-    //get all the HealthStatus
+    // ---------------------------
+    // GET ALL DATA
+    // ---------------------------
+
     public ObservableList<HealthStatus> getHealthStatus() {
         ObservableList<HealthStatus> monitors = FXCollections.observableArrayList();
         String query = "SELECT * FROM `health_status`";
@@ -152,81 +126,6 @@ public class AnimalMonitorController implements Initializable {
         return monitors;
     }
 
-    //display all the monitors in the table
-    public void displayMonitors(ObservableList<HealthStatus> monitors) {
-        animal_id_col.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
-        healthMonitorNoteCol.setCellValueFactory(new PropertyValueFactory<>("notes"));
-        health_score_col.setCellValueFactory(new PropertyValueFactory<>("health_score"));
-        control_date_col.setCellValueFactory(new PropertyValueFactory<>("control_date"));
-
-        Image editImg = new Image(getClass().getResourceAsStream("/images/edit.png"));
-        Image deleteImg = new Image(getClass().getResourceAsStream("/images/delete.png"));
-        Image viewImg = new Image(getClass().getResourceAsStream("/images/eye.png"));
-
-        healthMonitorActionsCol.setCellFactory(col -> new TableCell<>() {
-
-            private final Button editBtn = new Button();
-            private final Button deleteBtn = new Button();
-            private final Button viewBtn = new Button();
-            private final HBox box = new HBox(editBtn, deleteBtn, viewBtn);
-
-            {
-                styleIconButton(editBtn, editImg);
-                styleIconButton(deleteBtn, deleteImg);
-                styleIconButton(viewBtn, viewImg);
-
-                box.setStyle("-fx-alignment:center");
-                HBox.setMargin(editBtn, new Insets(1, 1, 0, 3));
-                HBox.setMargin(deleteBtn, new Insets(1, 1, 0, 2));
-                HBox.setMargin(viewBtn, new Insets(1, 1, 0, 1));
-
-                deleteBtn.setOnMouseClicked(event -> {
-                    int index = getRowIndex(event);
-                    if (index < 0 || index >= monitors.size()) return;
-
-                    HealthStatus monitor = monitors.get(index);
-
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Delete");
-                    alert.setHeaderText("Are you sure you want to delete this monitor?");
-                    Optional<ButtonType> result = alert.showAndWait();
-
-                    if (result.isPresent() && result.get() == ButtonType.OK) {
-                        try {
-                            monitor.delete();
-                            displayMonitors(isSearchingForMonitors ? monitors : getHealthStatus());
-                        } catch (Exception e) {
-                            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                        }
-                    }
-                });
-
-                editBtn.setOnMouseClicked(event -> {
-                    int index = getRowIndex(event);
-                    if (index < 0 || index >= monitors.size()) return;
-
-                    HealthStatus monitor = monitors.get(index);
-
-                    showPopup("popups/add_new_health_status.fxml", c -> {
-                        HealthStatusController controller = (HealthStatusController) c;
-                        controller.initData(monitor);
-                    });
-                });
-
-            }
-
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(null);
-                setGraphic(empty ? null : box);
-            }
-        });
-
-        healthMonitorTable.setItems(monitors);
-    }
-
-    //get all the pregnancies
     public ObservableList<Pregnancy> getPregnancies() {
         ObservableList<Pregnancy> pregnancies = FXCollections.observableArrayList();
         String query = "SELECT * FROM `pregnancies`";
@@ -252,101 +151,6 @@ public class AnimalMonitorController implements Initializable {
         return pregnancies;
     }
 
-    //display all the pregnancies in the table
-    public void displayPregnancies(ObservableList<Pregnancy> pregnancies) {
-        cow_id_col.setCellValueFactory(new PropertyValueFactory<>("cow_id"));
-        pregnancyStartDateCol.setCellValueFactory(new PropertyValueFactory<>("start_date"));
-        pregnancyEndCol.setCellValueFactory(new PropertyValueFactory<>("delivery_date"));
-        pregnancyTypeCol.setCellValueFactory(new PropertyValueFactory<>("pregnancy_status"));
-
-        Callback<TableColumn<Pregnancy, String>, TableCell<Pregnancy, String>> cellFoctory =
-                (TableColumn<Pregnancy, String> param) -> new TableCell<>() {
-
-                    Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                    final Button edit_btn = new Button();
-                    Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                    final Button delete_btn = new Button();
-
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-                            return;
-                        }
-
-                        edit_btn.setStyle(ICON_BTN_STYLE);
-                        ImageView iv = new ImageView(edit_img);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        edit_btn.setGraphic(iv);
-
-                        delete_btn.setStyle(ICON_BTN_STYLE);
-                        ImageView iv2 = new ImageView(delete_img);
-                        iv2.setPreserveRatio(true);
-                        iv2.setSmooth(true);
-                        iv2.setCache(true);
-                        delete_btn.setGraphic(iv2);
-
-                        HBox managebtn = new HBox(edit_btn, delete_btn);
-                        managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(delete_btn, new Insets(1, 1, 0, 2));
-
-                        setGraphic(managebtn);
-                        setText(null);
-
-                        delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("Delete");
-                            alert.setHeaderText("Are you sure you want to delete this pregnancy?");
-                            int index = ((TableCell<Pregnancy, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent())
-                                    .getTableRow().getIndex();
-                            Pregnancy pregnancy = pregnancies.get(index);
-                            Optional<ButtonType> result = alert.showAndWait();
-                            if (result.isPresent() && result.get() == ButtonType.OK) {
-                                try {
-                                    pregnancy.delete();
-                                    displayPregnancies(isSearchingForPregnancies ? pregnancies : getPregnancies());
-                                } catch (Exception e) {
-                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                                }
-                            }
-                        });
-
-                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
-                            int index = ((TableCell<Pregnancy, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent())
-                                    .getTableRow().getIndex();
-                            Pregnancy pregnancy = pregnancies.get(index);
-
-                            String url = "popups/add_new_pregnancy.fxml";
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
-                            Scene scene = null;
-                            try {
-                                scene = new Scene(fxmlLoader.load());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            PregnancyController controller = fxmlLoader.getController();
-                            controller.initData(pregnancy);
-                            Stage stage = new Stage();
-                            stage.getIcons().add(new Image(LOGO_ICON_PATH));
-                            stage.setResizable(false);
-                            stage.setScene(scene);
-                            centerScreen(stage);
-                            stage.show();
-                        });
-                    }
-                };
-
-        pregnancyActionsCol.setCellFactory(cellFoctory);
-        pregnancyTable.setItems(pregnancies);
-    }
-
-    //get all the vaccinations
     public ObservableList<Vaccination> getVaccinations() {
         ObservableList<Vaccination> vaccinations = FXCollections.observableArrayList();
         String query = "SELECT * FROM `vaccination`";
@@ -371,98 +175,6 @@ public class AnimalMonitorController implements Initializable {
         return vaccinations;
     }
 
-    //display all the vaccinations in the table
-    public void displayVaccinations(ObservableList<Vaccination> vaccinations) {
-        animalIdCol.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
-        vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("vaccine_name"));
-        ResponsibleNameCol.setCellValueFactory(new PropertyValueFactory<>("responsible_name"));
-        vaccinationDateCol.setCellValueFactory(new PropertyValueFactory<>("vaccination_date"));
-
-        Callback<TableColumn<Vaccination, String>, TableCell<Vaccination, String>> cellFoctory =
-                (TableColumn<Vaccination, String> param) -> new TableCell<>() {
-
-                    Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                    final Button edit_btn = new Button();
-                    Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                    final Button delete_btn = new Button();
-
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-                            return;
-                        }
-
-                        edit_btn.setStyle(ICON_BTN_STYLE);
-                        ImageView iv = new ImageView(edit_img);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        edit_btn.setGraphic(iv);
-
-                        delete_btn.setStyle(ICON_BTN_STYLE);
-                        ImageView iv2 = new ImageView(delete_img);
-                        iv2.setPreserveRatio(true);
-                        iv2.setSmooth(true);
-                        iv2.setCache(true);
-                        delete_btn.setGraphic(iv2);
-
-                        HBox managebtn = new HBox(edit_btn, delete_btn);
-                        managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(delete_btn, new Insets(1, 1, 0, 2));
-
-                        setGraphic(managebtn);
-                        setText(null);
-
-                        delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("Delete");
-                            alert.setHeaderText("Are you sure you want to delete this vaccination?");
-                            int index = getRowIndex(event);
-                            Vaccination vaccination = vaccinations.get(index);
-                            Optional<ButtonType> result = alert.showAndWait();
-                            if (result.isPresent() && result.get() == ButtonType.OK) {
-                                try {
-                                    vaccination.delete();
-                                    displayVaccinations(isSearchingForVaccinations ? vaccinations : getVaccinations());
-                                } catch (Exception e) {
-                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                                }
-                            }
-                        });
-
-                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
-                            int index = getRowIndex(event);
-                            Vaccination vaccination = vaccinations.get(index);
-                            String url = "popups/add_new_vaccination.fxml";
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
-                            Scene scene = null;
-                            try {
-                                scene = new Scene(fxmlLoader.load());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            VaccinationController controller = fxmlLoader.getController();
-                            controller.initData(vaccination);
-                            Stage stage = new Stage();
-                            stage.getIcons().add(new Image(LOGO_ICON_PATH));
-                            stage.setResizable(false);
-                            stage.setScene(scene);
-                            centerScreen(stage);
-                            stage.show();
-                        });
-                    }
-                };
-
-        vaccinationActions.setCellFactory(cellFoctory);
-        vaccinationTable.setItems(vaccinations);
-    }
-
-    //get all the routines
     public ObservableList<Routine> getRoutines() {
         ObservableList<Routine> routines = FXCollections.observableArrayList();
         String query = "SELECT * FROM `routines`";
@@ -486,72 +198,141 @@ public class AnimalMonitorController implements Initializable {
         return routines;
     }
 
-    //display all the routines in the table
+    // ---------------------------
+    // DISPLAY TABLES
+    // ---------------------------
+
+    public void displayMonitors(ObservableList<HealthStatus> monitors) {
+        animal_id_col.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
+        healthMonitorNoteCol.setCellValueFactory(new PropertyValueFactory<>("notes"));
+        health_score_col.setCellValueFactory(new PropertyValueFactory<>("health_score"));
+        control_date_col.setCellValueFactory(new PropertyValueFactory<>("control_date"));
+
+        healthMonitorActionsCol.setCellFactory(col ->
+                buildThreeActionsCell(
+                        monitors,
+                        "Are you sure you want to delete this monitor?",
+                        monitor -> {
+                            try {
+                                monitor.delete();
+                                displayMonitors(isSearchingForMonitors ? monitors : getHealthStatus());
+                            } catch (Exception e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                            }
+                        },
+                        monitor -> showPopup("popups/add_new_health_status.fxml", c -> {
+                            HealthStatusController controller = (HealthStatusController) c;
+                            controller.initData(monitor);
+                        }),
+                        monitor -> { /* view optional */ }
+                )
+        );
+
+        healthMonitorTable.setItems(monitors);
+    }
+
+    public void displayPregnancies(ObservableList<Pregnancy> pregnancies) {
+        cow_id_col.setCellValueFactory(new PropertyValueFactory<>("cow_id"));
+        pregnancyStartDateCol.setCellValueFactory(new PropertyValueFactory<>("start_date"));
+        pregnancyEndCol.setCellValueFactory(new PropertyValueFactory<>("delivery_date"));
+        pregnancyTypeCol.setCellValueFactory(new PropertyValueFactory<>("pregnancy_status"));
+
+        pregnancyActionsCol.setCellFactory(col ->
+                buildTwoActionsCell(
+                        pregnancies,
+                        "Are you sure you want to delete this pregnancy?",
+                        pregnancy -> {
+                            try {
+                                pregnancy.delete();
+                                displayPregnancies(isSearchingForPregnancies ? pregnancies : getPregnancies());
+                            } catch (Exception e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                            }
+                        },
+                        pregnancy -> {
+                            String url = "popups/add_new_pregnancy.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            PregnancyController controller = fxmlLoader.getController();
+                            controller.initData(pregnancy);
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image(LOGO_ICON_PATH));
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
+                        }
+                )
+        );
+
+        pregnancyTable.setItems(pregnancies);
+    }
+
+    public void displayVaccinations(ObservableList<Vaccination> vaccinations) {
+        animalIdCol.setCellValueFactory(new PropertyValueFactory<>("animal_id"));
+        vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("vaccine_name"));
+        ResponsibleNameCol.setCellValueFactory(new PropertyValueFactory<>("responsible_name"));
+        vaccinationDateCol.setCellValueFactory(new PropertyValueFactory<>("vaccination_date"));
+
+        vaccinationActions.setCellFactory(col ->
+                buildTwoActionsCell(
+                        vaccinations,
+                        "Are you sure you want to delete this vaccination?",
+                        vaccination -> {
+                            try {
+                                vaccination.delete();
+                                displayVaccinations(isSearchingForVaccinations ? vaccinations : getVaccinations());
+                            } catch (Exception e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                            }
+                        },
+                        vaccination -> {
+                            String url = "popups/add_new_vaccination.fxml";
+                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                            Scene scene = null;
+                            try {
+                                scene = new Scene(fxmlLoader.load());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            VaccinationController controller = fxmlLoader.getController();
+                            controller.initData(vaccination);
+                            Stage stage = new Stage();
+                            stage.getIcons().add(new Image(LOGO_ICON_PATH));
+                            stage.setResizable(false);
+                            stage.setScene(scene);
+                            centerScreen(stage);
+                            stage.show();
+                        }
+                )
+        );
+
+        vaccinationTable.setItems(vaccinations);
+    }
+
     public void displayRoutines(ObservableList<Routine> routines) {
         routineNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         routineNotesCol.setCellValueFactory(new PropertyValueFactory<>("note"));
         routineAdditionDateCol.setCellValueFactory(new PropertyValueFactory<>("created_at"));
 
-        Callback<TableColumn<Routine, String>, TableCell<Routine, String>> cellFoctory =
-                (TableColumn<Routine, String> param) -> new TableCell<>() {
-
-                    Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                    final Button edit_btn = new Button();
-                    Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                    final Button delete_btn = new Button();
-
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-                            return;
-                        }
-
-                        edit_btn.setStyle(ICON_BTN_STYLE);
-                        ImageView iv = new ImageView(edit_img);
-                        iv.setPreserveRatio(true);
-                        iv.setSmooth(true);
-                        iv.setCache(true);
-                        edit_btn.setGraphic(iv);
-
-                        delete_btn.setStyle(ICON_BTN_STYLE);
-                        ImageView iv2 = new ImageView(delete_img);
-                        iv2.setPreserveRatio(true);
-                        iv2.setSmooth(true);
-                        iv2.setCache(true);
-                        delete_btn.setGraphic(iv2);
-
-                        HBox managebtn = new HBox(edit_btn, delete_btn);
-                        managebtn.setStyle("-fx-alignment:center");
-                        HBox.setMargin(edit_btn, new Insets(1, 1, 0, 3));
-                        HBox.setMargin(delete_btn, new Insets(1, 1, 0, 2));
-
-                        setGraphic(managebtn);
-                        setText(null);
-
-                        delete_btn.setOnMouseClicked((MouseEvent event) -> {
-                            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                            alert.setTitle("Delete");
-                            alert.setHeaderText("Are you sure you want to delete this routine?");
-                            int index = getRowIndex(event);
-                            Routine routine = routines.get(index);
-                            Optional<ButtonType> result = alert.showAndWait();
-                            if (result.isPresent() && result.get() == ButtonType.OK) {
-                                try {
-                                    routine.delete();
-                                    displayRoutines(isSearchingForRoutines ? routines : getRoutines());
-                                } catch (Exception e) {
-                                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                                }
+        routineActionsCol.setCellFactory(col ->
+                buildTwoActionsCell(
+                        routines,
+                        "Are you sure you want to delete this routine?",
+                        routine -> {
+                            try {
+                                routine.delete();
+                                displayRoutines(isSearchingForRoutines ? routines : getRoutines());
+                            } catch (Exception e) {
+                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                             }
-                        });
-
-                        edit_btn.setOnMouseClicked((MouseEvent event) -> {
-                            int index = getRowIndex(event);
-                            Routine routine = routines.get(index);
+                        },
+                        routine -> {
                             String url = "popups/add_new_routine.fxml";
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
                             Scene scene = null;
@@ -568,13 +349,16 @@ public class AnimalMonitorController implements Initializable {
                             RoutineController controller = fxmlLoader.getController();
                             controller.initData(routine);
                             stage.show();
-                        });
-                    }
-                };
+                        }
+                )
+        );
 
-        routineActionsCol.setCellFactory(cellFoctory);
         routineTable.setItems(routines);
     }
+
+    // ---------------------------
+    // OPEN ADD WINDOWS
+    // ---------------------------
 
     @FXML
     public void openAddHealthStatus(MouseEvent mouseEvent) throws IOException {
@@ -595,6 +379,10 @@ public class AnimalMonitorController implements Initializable {
     public void openAddVaccination(MouseEvent mouseEvent) throws IOException {
         openNewWindow("Add vaccination", "add_new_vaccination");
     }
+
+    // ---------------------------
+    // SEARCH QUERIES
+    // ---------------------------
 
     public ObservableList<HealthStatus> searchForHealthStatus(String searchClause) {
         ObservableList<HealthStatus> monitors = FXCollections.observableArrayList();
@@ -637,6 +425,7 @@ public class AnimalMonitorController implements Initializable {
         return monitors;
     }
 
+    // ✅ FIXED: no concatenation, real placeholders
     public ObservableList<Pregnancy> searchForPregnancies(String searchClause) {
         ObservableList<Pregnancy> pregnancies = FXCollections.observableArrayList();
 
@@ -754,6 +543,10 @@ public class AnimalMonitorController implements Initializable {
         return routines;
     }
 
+    // ---------------------------
+    // SEARCH HANDLERS
+    // ---------------------------
+
     @FXML
     public void healthStatusSearch(MouseEvent mouseEvent) {
         String searchClause = healthStatusSearch.getText().trim();
@@ -802,13 +595,128 @@ public class AnimalMonitorController implements Initializable {
         }
     }
 
-    private void styleIconButton(Button btn, Image img) {
+    // ---------------------------
+    // DUPLICATION-FREE ACTION CELLS
+    // ---------------------------
+
+    private <T> TableCell<T, String> buildTwoActionsCell(
+            ObservableList<T> list,
+            String deleteConfirmText,
+            Consumer<T> onDelete,
+            Consumer<T> onEdit
+    ) {
+        return new TableCell<>() {
+
+            private final Button editBtn = createIconButton(editImg);
+            private final Button deleteBtn = createIconButton(deleteImg);
+            private final HBox box = createActionsBox(editBtn, deleteBtn);
+
+            {
+                deleteBtn.setOnMouseClicked(event -> {
+                    int index = getIndexSafe();
+                    if (index < 0 || index >= list.size()) return;
+
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Delete");
+                    alert.setHeaderText(deleteConfirmText);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        onDelete.accept(list.get(index));
+                    }
+                });
+
+                editBtn.setOnMouseClicked(event -> {
+                    int index = getIndexSafe();
+                    if (index < 0 || index >= list.size()) return;
+                    onEdit.accept(list.get(index));
+                });
+            }
+
+            private int getIndexSafe() {
+                return getTableRow() == null ? -1 : getTableRow().getIndex();
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(null);
+                setGraphic(empty ? null : box);
+            }
+        };
+    }
+
+    private <T> TableCell<T, String> buildThreeActionsCell(
+            ObservableList<T> list,
+            String deleteConfirmText,
+            Consumer<T> onDelete,
+            Consumer<T> onEdit,
+            Consumer<T> onView
+    ) {
+        return new TableCell<>() {
+
+            private final Button editBtn = createIconButton(editImg);
+            private final Button deleteBtn = createIconButton(deleteImg);
+            private final Button viewBtn = createIconButton(viewImg);
+            private final HBox box = createActionsBox(editBtn, deleteBtn, viewBtn);
+
+            {
+                deleteBtn.setOnMouseClicked(event -> {
+                    int index = getIndexSafe();
+                    if (index < 0 || index >= list.size()) return;
+
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Delete");
+                    alert.setHeaderText(deleteConfirmText);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        onDelete.accept(list.get(index));
+                    }
+                });
+
+                editBtn.setOnMouseClicked(event -> {
+                    int index = getIndexSafe();
+                    if (index < 0 || index >= list.size()) return;
+                    onEdit.accept(list.get(index));
+                });
+
+                viewBtn.setOnMouseClicked(event -> {
+                    int index = getIndexSafe();
+                    if (index < 0 || index >= list.size()) return;
+                    onView.accept(list.get(index));
+                });
+            }
+
+            private int getIndexSafe() {
+                return getTableRow() == null ? -1 : getTableRow().getIndex();
+            }
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(null);
+                setGraphic(empty ? null : box);
+            }
+        };
+    }
+
+    private Button createIconButton(Image img) {
+        Button btn = new Button();
         btn.setStyle(ICON_BTN_STYLE);
         ImageView iv = new ImageView(img);
         iv.setPreserveRatio(true);
         iv.setSmooth(true);
         iv.setCache(true);
         btn.setGraphic(iv);
+        return btn;
+    }
+
+    private HBox createActionsBox(Button... buttons) {
+        HBox box = new HBox(buttons);
+        box.setStyle("-fx-alignment:center");
+        for (int i = 0; i < buttons.length; i++) {
+            HBox.setMargin(buttons[i], new Insets(1, 1, 0, i == 0 ? 3 : 2));
+        }
+        return box;
     }
 
     private <T> void showPopup(String fxmlPath, java.util.function.Consumer<Object> initController) {
