@@ -52,19 +52,19 @@ public class LoginController implements Initializable {
     private Circle close_btn;
 
     @FXML
-    private TextField email_input;
+    TextField email_input;
 
     @FXML
     private Label forget_password;
 
     @FXML
-    private Button login_btn;
+    Button login_btn;
 
     @FXML
-    private PasswordField password_input;
+    PasswordField password_input;
 
     @FXML
-    private void login(MouseEvent event) throws SQLException {
+    void login(MouseEvent event) throws SQLException {
 
         if (email_input.getText() == null || password_input.getText() == null) {
             displayAlert("Error", "Please fill the required fields!", Alert.AlertType.ERROR);
@@ -131,7 +131,7 @@ public class LoginController implements Initializable {
                         user.setLastName(resultSet.getString("last_name"));
                         user.setEmail(resultSet.getString("email"));
                         user.setPassword(resultSet.getString("password"));
-                        user.setRole(resultSet.getInt("id"));
+                        user.setRole(resultSet.getInt("role"));
                         user.setSalary(resultSet.getFloat("salary"));
                         user.setGender(resultSet.getString("gender"));
                         user.setPhone(resultSet.getString("phone"));

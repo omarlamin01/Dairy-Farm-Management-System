@@ -46,14 +46,15 @@ public class Vaccination implements Model {
         String full_name = null;
         String query = "SELECT first_name, last_name FROM users WHERE id = " + getResponsible_id();
         Connection connection = getConnection();
-        try {
-            Statement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery(query);
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
             while (resultSet.next()) {
                 full_name = resultSet.getString(1) + " " + resultSet.getString(2);
                 setResponsible_name(full_name);
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         } finally {
             disconnect();
@@ -77,14 +78,15 @@ public class Vaccination implements Model {
         String name = null;
         String query = "SELECT name FROM stocks WHERE id = " + getVaccine_id();
         Connection connection = getConnection();
-        try {
-            Statement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery(query);
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
             while (resultSet.next()) {
                 name = resultSet.getString(1);
                 setVaccine_name(name);
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         } finally {
             disconnect();
@@ -126,9 +128,7 @@ public class Vaccination implements Model {
         created_at = Timestamp.valueOf(LocalDateTime.now());
         String query = "INSERT INTO `vaccination` (animal_id, responsible_id, vaccine_id, vaccination_date, updated_at, created_at) VALUES(?, ?, ?, ?, ?, ?)";
         Connection connection = getConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, animal_id);
             statement.setInt(2, responsible_id);
             statement.setInt(3, vaccine_id);
@@ -137,7 +137,8 @@ public class Vaccination implements Model {
             statement.setTimestamp(6, created_at);
 
             return statement.executeUpdate() != 0;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -150,9 +151,7 @@ public class Vaccination implements Model {
                 "animal_id = ?, responsible_id = ?, vaccine_id = ?, vaccination_date = ?, updated_at = ?" +
                 " WHERE id = " + id;
         Connection connection = getConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, animal_id);
             statement.setInt(2, responsible_id);
             statement.setInt(3, vaccine_id);
@@ -160,7 +159,8 @@ public class Vaccination implements Model {
             statement.setTimestamp(5, updated_at);
 
             return statement.executeUpdate() != 0;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -170,10 +170,10 @@ public class Vaccination implements Model {
     public boolean delete() {
         String query = "DELETE FROM `vaccination` WHERE id = " + id;
         Connection connection = getConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             return statement.executeUpdate() != 0;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
