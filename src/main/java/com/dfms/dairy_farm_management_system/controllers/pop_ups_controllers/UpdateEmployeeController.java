@@ -127,32 +127,45 @@ public class UpdateEmployeeController implements Initializable {
 
     private User getUser(String employee_cin) {
         User user = new User();
-        String query = "SELECT * FROM `users` WHERE cin = '" + employee_cin.toUpperCase() + "'"+SQL_LIMIT_1;
-        Connection con = getConnection();
-        try(Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query)) {
-            while (rs.next()) {
-                user.setId(rs.getInt("id"));
-                user.setRole(rs.getInt("role"));
-                user.setFirstName(rs.getString("first_name"));
-                user.setLastName(rs.getString("last_name"));
-                user.setEmail(rs.getString("email"));
-                user.setPhone(rs.getString("phone"));
-                user.setCin(rs.getString("cin"));
-                user.setGender(rs.getString("gender"));
-            }
-            query = "SELECT * FROM `employees` WHERE cin = '" + employee_cin.toUpperCase() + "'"+SQL_LIMIT_1;
-            try(ResultSet rs2= st.executeQuery(query)) {
+
+        String userQuery = "SELECT * FROM users WHERE cin = ?" + SQL_LIMIT_1;
+        String empQuery  = "SELECT * FROM employees WHERE cin = ?" + SQL_LIMIT_1;
+
+        try (Connection con = getConnection();
+             PreparedStatement psUser = con.prepareStatement(userQuery)) {
+
+            psUser.setString(1, employee_cin.toUpperCase());
+
+            try (ResultSet rs = psUser.executeQuery()) {
                 if (rs.next()) {
-                    user.setAdress(rs.getString("address"));
-                    user.setHireDate(rs.getDate("hire_date"));
-                    user.setSalary(rs.getFloat("salary"));
+                    user.setId(rs.getInt("id"));
+                    user.setRole(rs.getInt("role"));
+                    user.setFirstName(rs.getString("first_name"));
+                    user.setLastName(rs.getString("last_name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPhone(rs.getString("phone"));
+                    user.setCin(rs.getString("cin"));
+                    user.setGender(rs.getString("gender"));
                 }
             }
-        } catch (Exception e) {
+
+            try (PreparedStatement psEmp = con.prepareStatement(empQuery)) {
+                psEmp.setString(1, employee_cin.toUpperCase());
+
+                try (ResultSet rs2 = psEmp.executeQuery()) {
+                    if (rs2.next()) {
+                        user.setAdress(rs2.getString("address"));
+                        user.setHireDate(rs2.getDate("hire_date"));
+                        user.setSalary(rs2.getFloat("salary"));
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
             displayAlert(ALERT_ERROR, e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
         }
+
         roleCombo.setValue(getRoleName(user.getRole()));
         return user;
     }
@@ -179,43 +192,53 @@ public class UpdateEmployeeController implements Initializable {
 
     public String getRoleName(int id) {
         String roleName = "";
-        String query = "SELECT * FROM `roles` WHERE `id` = '" + id + "'"+SQL_LIMIT_1;
-        try(PreparedStatement ps = connection.prepareStatement(query);
-            ResultSet resultSet = ps.executeQuery()) {
-            if (resultSet.next()) {
-                roleName = resultSet.getString("name");
+        String query = "SELECT name FROM roles WHERE id = ?" + SQL_LIMIT_1;
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    roleName = rs.getString("name");
+                }
             }
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return roleName;
     }
 
+
     public Employee getEmployee(String employee_cin) {
         Employee employee = new Employee();
-        String query = "SELECT * FROM `employees` WHERE cin = '" + employee_cin.toUpperCase() + "'"+SQL_LIMIT_1;
-        Connection con = getConnection();
-        try(Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query)) {
-            while (rs.next()) {
-                employee.setFirstName(rs.getString("first_name"));
-                employee.setLastName(rs.getString("last_name"));
-                employee.setEmail(rs.getString("email"));
-                employee.setPhone(rs.getString("phone"));
-                employee.setAdress(rs.getString("address"));
-                employee.setCin(rs.getString("cin"));
-                employee.setGender(rs.getString("gender"));
-                employee.setHireDate(rs.getDate("hire_date"));
-                employee.setSalary(rs.getFloat("salary"));
-                employee.setContractType(rs.getString("contract_type"));
-                //TODO: set role
+        String query = "SELECT * FROM employees WHERE cin = ?" + SQL_LIMIT_1;
+
+        try (Connection con = getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+
+            ps.setString(1, employee_cin.toUpperCase());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    employee.setFirstName(rs.getString("first_name"));
+                    employee.setLastName(rs.getString("last_name"));
+                    employee.setEmail(rs.getString("email"));
+                    employee.setPhone(rs.getString("phone"));
+                    employee.setAdress(rs.getString("address"));
+                    employee.setCin(rs.getString("cin"));
+                    employee.setGender(rs.getString("gender"));
+                    employee.setHireDate(rs.getDate("hire_date"));
+                    employee.setSalary(rs.getFloat("salary"));
+                    employee.setContractType(rs.getString("contract_type"));
+                }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             displayAlert(ALERT_ERROR, e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
         }
         return employee;
     }
+
 
     public void setRoleComboItems() {
         this.rolesList = FXCollections.observableArrayList();
