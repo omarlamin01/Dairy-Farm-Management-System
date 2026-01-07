@@ -140,14 +140,16 @@ public class RoutineDetails implements Model{
     @Override
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        String query = "UPDATE `routine_has_feeds` SET stock_id = ?, routine_id = ?, quantity = ?, feeding_time = ?, updated_at = ? WHERE id = " + id;
+        String query = "UPDATE routine_has_feeds " +
+                "SET stock_id = ?, routine_id = ?, quantity = ?, feeding_time = ?, updated_at = ? " +
+                "WHERE id = ?";
         try (PreparedStatement statement = getConnection().prepareStatement(query)) {
-
             statement.setInt(1, stock_id);
             statement.setInt(2, routine_id);
             statement.setFloat(3, quantity);
             statement.setString(4, feeding_time);
             statement.setTimestamp(5, updated_at);
+            statement.setInt(6, id);
 
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
@@ -160,8 +162,9 @@ public class RoutineDetails implements Model{
 
     @Override
     public boolean delete() {
-        String query = "DELETE FROM `routine_has_feeds` WHERE id = " + id;
+        String query = "DELETE FROM routine_has_feeds WHERE id = ?";
         try (PreparedStatement statement = getConnection().prepareStatement(query)) {
+            statement.setInt(1, id);
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -170,4 +173,5 @@ public class RoutineDetails implements Model{
         }
         return false;
     }
+
 }
