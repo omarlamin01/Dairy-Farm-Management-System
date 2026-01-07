@@ -18,6 +18,9 @@ import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConne
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class UpdateEmployeeController implements Initializable {
+    private static final String ALERT_ERROR = "Error";
+    private static final String SQL_LIMIT_1 = " LIMIT 1";
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setRoleComboItems();
@@ -69,7 +72,7 @@ public class UpdateEmployeeController implements Initializable {
     @FXML
     void updateEmployee(MouseEvent event) {
         if (inputsAreEmpty()) {
-            displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
+            displayAlert(ALERT_ERROR, "Please fill all the fields", Alert.AlertType.ERROR);
             return;
         }
         String cin = cinInput.getText();
@@ -90,13 +93,13 @@ public class UpdateEmployeeController implements Initializable {
             displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
             closePopUp(event);
         } else {
-            displayAlert("Error", "Error while updating employee", Alert.AlertType.ERROR);
+            displayAlert(ALERT_ERROR, "Error while updating employee", Alert.AlertType.ERROR);
         }
     }
 
     public void updateUser(MouseEvent event) {
         if (inputsAreEmpty()) {
-            displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
+            displayAlert(ALERT_ERROR, "Please fill all the fields", Alert.AlertType.ERROR);
             return;
         }
         String cin = cinInput.getText();
@@ -118,17 +121,16 @@ public class UpdateEmployeeController implements Initializable {
             displayAlert("Success", "Employee updated successfully", Alert.AlertType.INFORMATION);
             closePopUp(event);
         } else {
-            displayAlert("Error", "Error while updating employee", Alert.AlertType.ERROR);
+            displayAlert(ALERT_ERROR, "Error while updating employee", Alert.AlertType.ERROR);
         }
     }
 
     private User getUser(String employee_cin) {
         User user = new User();
-        String query = "SELECT * FROM `users` WHERE cin = '" + employee_cin.toUpperCase() + "' LIMIT 1";
+        String query = "SELECT * FROM `users` WHERE cin = '" + employee_cin.toUpperCase() + "'"+SQL_LIMIT_1;
         Connection con = getConnection();
-        try {
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+        try(Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
                 user.setId(rs.getInt("id"));
                 user.setRole(rs.getInt("role"));
@@ -139,15 +141,16 @@ public class UpdateEmployeeController implements Initializable {
                 user.setCin(rs.getString("cin"));
                 user.setGender(rs.getString("gender"));
             }
-            query = "SELECT * FROM `employees` WHERE cin = '" + employee_cin.toUpperCase() + "' LIMIT 1";
-            rs = st.executeQuery(query);
-            if (rs.next()) {
-                user.setAdress(rs.getString("address"));
-                user.setHireDate(rs.getDate("hire_date"));
-                user.setSalary(rs.getFloat("salary"));
+            query = "SELECT * FROM `employees` WHERE cin = '" + employee_cin.toUpperCase() + "'"+SQL_LIMIT_1;
+            try(ResultSet rs2= st.executeQuery(query)) {
+                if (rs.next()) {
+                    user.setAdress(rs.getString("address"));
+                    user.setHireDate(rs.getDate("hire_date"));
+                    user.setSalary(rs.getFloat("salary"));
+                }
             }
         } catch (Exception e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            displayAlert(ALERT_ERROR, e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
         }
         roleCombo.setValue(getRoleName(user.getRole()));
@@ -176,9 +179,9 @@ public class UpdateEmployeeController implements Initializable {
 
     public String getRoleName(int id) {
         String roleName = "";
-        try {
-            statement = connection.createStatement();
-            ResultSet resultSet = connection.prepareStatement("SELECT * FROM `roles` WHERE `id` = '" + id + "' LIMIT 1").executeQuery();
+        String query = "SELECT * FROM `roles` WHERE `id` = '" + id + "'"+SQL_LIMIT_1;
+        try(PreparedStatement ps = connection.prepareStatement(query);
+            ResultSet resultSet = ps.executeQuery()) {
             if (resultSet.next()) {
                 roleName = resultSet.getString("name");
             }
@@ -190,11 +193,10 @@ public class UpdateEmployeeController implements Initializable {
 
     public Employee getEmployee(String employee_cin) {
         Employee employee = new Employee();
-        String query = "SELECT * FROM `employees` WHERE cin = '" + employee_cin.toUpperCase() + "' LIMIT 1";
+        String query = "SELECT * FROM `employees` WHERE cin = '" + employee_cin.toUpperCase() + "'"+SQL_LIMIT_1;
         Connection con = getConnection();
-        try {
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+        try(Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
                 employee.setFirstName(rs.getString("first_name"));
                 employee.setLastName(rs.getString("last_name"));
@@ -209,7 +211,7 @@ public class UpdateEmployeeController implements Initializable {
                 //TODO: set role
             }
         } catch (Exception e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            displayAlert(ALERT_ERROR, e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
         }
         return employee;

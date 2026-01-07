@@ -32,6 +32,11 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class RoutineController implements Initializable {
+    private static final String ALERT_ERROR = "ERROR";
+    private static final String ALERT_SUCCESS = "SUCCESS";
+    private static final String CSS_INPUT = "input";
+    private static final String LABEL_STYLE_BOLD_14 = "-fx-font-size: 14px; -fx-font-weight: bold;";
+
     @FXML
     TextField routineName;
     @FXML
@@ -80,12 +85,12 @@ public class RoutineController implements Initializable {
                 }
                 if (detailsAreSaved) {
                     closePopUp(mouseEvent);
-                    displayAlert("SUCCESS", "Routine saved successfully", Alert.AlertType.INFORMATION);
+                    displayAlert(ALERT_SUCCESS, "Routine saved successfully", Alert.AlertType.INFORMATION);
                 } else {
-                    displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
+                    displayAlert(ALERT_ERROR, "Some error happened while saving!", Alert.AlertType.ERROR);
                 }
             } else {
-                displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
+                displayAlert(ALERT_ERROR, "Some error happened while saving!", Alert.AlertType.ERROR);
             }
         });
     }
@@ -130,12 +135,12 @@ public class RoutineController implements Initializable {
                 }
                 if (detailsAreSaved) {
                     closePopUp(mouseEvent);
-                    displayAlert("SUCCESS", "Routine updated successfully", Alert.AlertType.INFORMATION);
+                    displayAlert(ALERT_SUCCESS, "Routine updated successfully", Alert.AlertType.INFORMATION);
                 } else {
-                    displayAlert("ERROR", "Some error happened while updating!", Alert.AlertType.ERROR);
+                    displayAlert(ALERT_ERROR, "Some error happened while updating!", Alert.AlertType.ERROR);
                 }
             } else {
-                displayAlert("ERROR", "Some error happened while updating!", Alert.AlertType.ERROR);
+                displayAlert(ALERT_ERROR, "Some error happened while updating!", Alert.AlertType.ERROR);
             }
         });
     }
@@ -173,7 +178,7 @@ public class RoutineController implements Initializable {
         hBox.setSpacing(60);
         VBox foodType = new VBox();
         Label label = new Label("Food type");
-        label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        label.setStyle(LABEL_STYLE_BOLD_14);
         CheckBox checkBox = new CheckBox(food);
         checkBox.getStyleClass().add("main_content");
         VBox.setMargin(checkBox, new Insets(10, 0, 0, 0));
@@ -182,10 +187,10 @@ public class RoutineController implements Initializable {
         hBox.getChildren().add(foodType);
         VBox foodQuantity = new VBox();
         Label label1 = new Label("Food Quantity");
-        label1.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        label1.setStyle(LABEL_STYLE_BOLD_14);
         TextField quantity = new TextField();
         quantity.setPromptText("Quantity");
-        quantity.getStyleClass().add("input");
+        quantity.getStyleClass().add(CSS_INPUT);
         quantity.getStyleClass().add("quantity_input");
         VBox.setMargin(quantity, new Insets(10, 0, 0, 0));
         foodQuantity.getChildren().add(label1);
@@ -193,11 +198,11 @@ public class RoutineController implements Initializable {
         hBox.getChildren().add(foodQuantity);
         VBox feedingTime = new VBox();
         Label label2 = new Label("Feeding Time");
-        label2.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        label2.setStyle(LABEL_STYLE_BOLD_14);
         ObservableList<String> periods = FXCollections.observableArrayList("Morning", "Evening");
         ComboBox<String> period = new ComboBox<String>(periods);
         period.setPromptText("Period");
-        period.getStyleClass().add("input");
+        period.getStyleClass().add(CSS_INPUT);
         period.getStyleClass().add("clock_input");
         VBox.setMargin(period, new Insets(10, 0, 0, 8));
         feedingTime.getChildren().add(label2);
@@ -211,7 +216,7 @@ public class RoutineController implements Initializable {
         hBox.setSpacing(60);
         VBox foodType = new VBox();
         Label label = new Label("Food type");
-        label.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        label.setStyle(LABEL_STYLE_BOLD_14);
         CheckBox checkBox = new CheckBox(food);
         checkBox.setSelected(true);
         checkBox.getStyleClass().add("main_content");
@@ -221,11 +226,11 @@ public class RoutineController implements Initializable {
         hBox.getChildren().add(foodType);
         VBox foodQuantity = new VBox();
         Label label1 = new Label("Food Quantity");
-        label1.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        label1.setStyle(LABEL_STYLE_BOLD_14);
         TextField quantity = new TextField();
         quantity.setText(String.valueOf(detail.getQuantity()));
         quantity.setPromptText("Quantity");
-        quantity.getStyleClass().add("input");
+        quantity.getStyleClass().add(CSS_INPUT);
         quantity.getStyleClass().add("quantity_input");
         VBox.setMargin(quantity, new Insets(10, 0, 0, 0));
         foodQuantity.getChildren().add(label1);
@@ -233,12 +238,12 @@ public class RoutineController implements Initializable {
         hBox.getChildren().add(foodQuantity);
         VBox feedingTime = new VBox();
         Label label2 = new Label("Feeding Time");
-        label2.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        label2.setStyle(LABEL_STYLE_BOLD_14);
         ObservableList<String> periods = FXCollections.observableArrayList("Morning", "Evening");
         ComboBox<String> period = new ComboBox<String>(periods);
         period.setValue(detail.getFeeding_time());
         period.setPromptText("Period");
-        period.getStyleClass().add("input");
+        period.getStyleClass().add(CSS_INPUT);
         period.getStyleClass().add("clock_input");
         VBox.setMargin(period, new Insets(10, 0, 0, 8));
         feedingTime.getChildren().add(label2);
@@ -252,10 +257,12 @@ public class RoutineController implements Initializable {
         String query = "SELECT * FROM stocks WHERE type = 'feed'";
         try {
             Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                list.add(resultSet.getString("name"));
+            try (PreparedStatement statement = connection.prepareStatement(query);
+                 ResultSet resultSet = statement.executeQuery()) {
+
+                while (resultSet.next()) {
+                    list.add(resultSet.getString("name"));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

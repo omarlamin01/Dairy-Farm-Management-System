@@ -6,6 +6,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class MilkSale implements Model{
@@ -42,8 +43,7 @@ public class MilkSale implements Model{
     public String getClientName() {
         String query = "SELECT name FROM clients WHERE id = " + clientId;
         Connection connection = getConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try(PreparedStatement statement=connection.prepareStatement(query)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 return resultSet.getString("name");
@@ -98,9 +98,7 @@ public class MilkSale implements Model{
     public boolean save() {
         String query = "INSERT INTO milk_sales (quantity, price, client_id, sale_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
         Connection connection = getConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-
+        try(PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setFloat(1, quantity);
             statement.setFloat(2, price);
             statement.setInt(3, clientId);
@@ -125,10 +123,8 @@ public class MilkSale implements Model{
                 "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
                 " WHERE `milk_sales`.`id` = " + id;
 
-
         Connection connection = getConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try(PreparedStatement statement = connection.prepareStatement(query);) {
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -139,9 +135,7 @@ public class MilkSale implements Model{
     @Override
     public boolean delete() {
         String deleteQuery = "DELETE FROM `milk_sales` WHERE `milk_sales`.`id` = " + this.id;
-        try {
-            Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+        try (PreparedStatement preparedStatement = getConnection().prepareStatement(deleteQuery)) {
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();

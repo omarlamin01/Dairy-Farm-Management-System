@@ -22,6 +22,9 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class CowSalesController implements Initializable {
+    private static final String ALERT_ERROR = "Error";
+    private static final String ALERT_SUCCESS = "success";
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -87,7 +90,7 @@ public class CowSalesController implements Initializable {
     }
     private boolean update;
     public void setUpdate(boolean b) {
-     this.update = b;
+        this.update = b;
     }
     @FXML
     public void addCowSale(MouseEvent mouseEvent) {
@@ -97,9 +100,9 @@ public class CowSalesController implements Initializable {
             if (animalSale.update()) {
 
                 if (clientsCombo.getValue() == null || animalsCombo.getValue() == null || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
-                    displayAlert("Error", "Please Fill all fields ", Alert.AlertType.ERROR);
+                    displayAlert(ALERT_ERROR, "Please Fill all fields ", Alert.AlertType.ERROR);
                 } else if (Float.parseFloat(priceOfSale.getText()) == 0) {
-                    displayAlert("Error", "Price can't be null ", Alert.AlertType.ERROR);
+                    displayAlert(ALERT_ERROR, "Price can't be null ", Alert.AlertType.ERROR);
                 } else {
                     animalSale.setId(this.AnimalSale_ID);
                     animalSale.setAnimalId(animalsCombo.getValue());
@@ -108,29 +111,29 @@ public class CowSalesController implements Initializable {
                     animalSale.setSale_date(Date.valueOf(operationDate.getValue()));
                     clear();
                     closePopUp(mouseEvent);
-                    displayAlert("success", "Animal Sale Updated successfully", Alert.AlertType.INFORMATION);
+                    displayAlert(ALERT_SUCCESS, "Animal Sale Updated successfully", Alert.AlertType.INFORMATION);
 
                 } }}else {
 
-        if (clientsCombo.getValue() == null || animalsCombo.getValue() == null || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
-            displayAlert("Error", "Please Fill all fields ", Alert.AlertType.ERROR);
-        } else if (Float.parseFloat(priceOfSale.getText()) == 0) {
-            displayAlert("Error", "Price can't be null ", Alert.AlertType.ERROR);
-        } else {
-
-            animalSale.setAnimalId(animalsCombo.getValue());
-            animalSale.setPrice(Float.parseFloat(priceOfSale.getText()));
-            animalSale.setClientId(clients.get(clientsCombo.getValue()));
-            animalSale.setSale_date(Date.valueOf(operationDate.getValue()));
-            if (animalSale.save()) {
-                closePopUp(mouseEvent);
-                displayAlert("success", "Sale added successfully", Alert.AlertType.INFORMATION);
-
+            if (clientsCombo.getValue() == null || animalsCombo.getValue() == null || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
+                displayAlert(ALERT_ERROR, "Please Fill all fields ", Alert.AlertType.ERROR);
+            } else if (Float.parseFloat(priceOfSale.getText()) == 0) {
+                displayAlert(ALERT_ERROR, "Price can't be null ", Alert.AlertType.ERROR);
             } else {
-                displayAlert("Error", "Error while saving!!!", Alert.AlertType.ERROR);
-            }
 
-        }
+                animalSale.setAnimalId(animalsCombo.getValue());
+                animalSale.setPrice(Float.parseFloat(priceOfSale.getText()));
+                animalSale.setClientId(clients.get(clientsCombo.getValue()));
+                animalSale.setSale_date(Date.valueOf(operationDate.getValue()));
+                if (animalSale.save()) {
+                    closePopUp(mouseEvent);
+                    displayAlert(ALERT_SUCCESS, "Sale added successfully", Alert.AlertType.INFORMATION);
+
+                } else {
+                    displayAlert(ALERT_ERROR, "Error while saving!!!", Alert.AlertType.ERROR);
+                }
+
+            }
         }
     }
     public  void fetchAnimalSale(AnimalSale animalSale){
@@ -149,14 +152,14 @@ public class CowSalesController implements Initializable {
             animalSale.setSale_date(Date.valueOf(operationDate.getValue()));
             if (animalSale.update()) {
                 closePopUp(mouseEvent);
-                displayAlert("success", "Animal Sale Updated successfully", Alert.AlertType.INFORMATION);
+                displayAlert(ALERT_SUCCESS, "Animal Sale Updated successfully", Alert.AlertType.INFORMATION);
 
             } else {
-                displayAlert("Error", "Error while updating!!!", Alert.AlertType.ERROR);
+                displayAlert(ALERT_ERROR, "Error while updating!!!", Alert.AlertType.ERROR);
             }
         });
     }
-//        animal = getAnimal(AnimalDetailsController.id_animal);
+    //        animal = getAnimal(AnimalDetailsController.id_animal);
 //        this.AnimalSale_ID = ID;
 //        header.setText("Update Animal Sale num :  " + ID);
 //        animalsCombo.setValue(animal + "");
@@ -179,20 +182,17 @@ public class CowSalesController implements Initializable {
         AnimalSale animalSale = new AnimalSale();
         String query = "SELECT * FROM `animals_sales`   where id='" + animalSale_ID + "' LIMIT 1";
         Connection con = getConnection();
-        try {
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
+        try(Statement st= con.createStatement();
+            ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
                 animalSale.setId(rs.getInt("id"));
                 animalSale.setAnimalId(rs.getString("animal_id"));
                 animalSale.setPrice(rs.getFloat("price"));
                 animalSale.setClientId(rs.getInt("client_id"));
                 animalSale.setSale_date(rs.getDate("sale_date"));
-
-
             }
         } catch (Exception e) {
-            displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+            displayAlert(ALERT_ERROR, e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
         }
         return animalSale;
