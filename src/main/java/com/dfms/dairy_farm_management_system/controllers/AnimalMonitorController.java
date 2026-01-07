@@ -22,7 +22,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -30,7 +30,7 @@ import javafx.util.Callback;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.*;
 
-public class AnimalMonitorController implements Initializable{
+public class AnimalMonitorController implements Initializable {
     private static final String LOGO_ICON_PATH = "file:src/main/resources/images/logo.png";
     private static final String ICON_BTN_STYLE = "-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;";
 
@@ -213,7 +213,6 @@ public class AnimalMonitorController implements Initializable{
                     });
                 });
 
-                // viewBtn handler optional (if you have a popup for details, put it here)
             }
 
             @Override
@@ -226,7 +225,6 @@ public class AnimalMonitorController implements Initializable{
 
         healthMonitorTable.setItems(monitors);
     }
-
 
     //get all the pregnancies
     public ObservableList<Pregnancy> getPregnancies() {
@@ -260,45 +258,38 @@ public class AnimalMonitorController implements Initializable{
         pregnancyStartDateCol.setCellValueFactory(new PropertyValueFactory<>("start_date"));
         pregnancyEndCol.setCellValueFactory(new PropertyValueFactory<>("delivery_date"));
         pregnancyTypeCol.setCellValueFactory(new PropertyValueFactory<>("pregnancy_status"));
-        Callback<TableColumn<Pregnancy, String>, TableCell<Pregnancy, String>> cellFoctory = (TableColumn<Pregnancy, String> param) -> {
-            final TableCell<Pregnancy, String> cell = new TableCell<Pregnancy, String>() {
-                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                final Button edit_btn = new Button();
-                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                final Button delete_btn = new Button();
 
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    //that cell created only on non-empty rows
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        edit_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(edit_img);
+        Callback<TableColumn<Pregnancy, String>, TableCell<Pregnancy, String>> cellFoctory =
+                (TableColumn<Pregnancy, String> param) -> new TableCell<>() {
+
+                    Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                    final Button edit_btn = new Button();
+                    Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                    final Button delete_btn = new Button();
+
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        }
+
+                        edit_btn.setStyle(ICON_BTN_STYLE);
+                        ImageView iv = new ImageView(edit_img);
                         iv.setPreserveRatio(true);
                         iv.setSmooth(true);
                         iv.setCache(true);
                         edit_btn.setGraphic(iv);
 
-                        setGraphic(edit_btn);
-                        setText(null);
-
-                        delete_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv2 = new ImageView();
-
-                        iv2.setImage(delete_img);
+                        delete_btn.setStyle(ICON_BTN_STYLE);
+                        ImageView iv2 = new ImageView(delete_img);
                         iv2.setPreserveRatio(true);
                         iv2.setSmooth(true);
                         iv2.setCache(true);
                         delete_btn.setGraphic(iv2);
-
-
-                        setGraphic(delete_btn);
-
-                        setText(null);
 
                         HBox managebtn = new HBox(edit_btn, delete_btn);
                         managebtn.setStyle("-fx-alignment:center");
@@ -307,14 +298,16 @@ public class AnimalMonitorController implements Initializable{
 
                         setGraphic(managebtn);
                         setText(null);
+
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete");
                             alert.setHeaderText("Are you sure you want to delete this pregnancy?");
-                            int index = ((TableCell<Pregnancy, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            int index = ((TableCell<Pregnancy, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent())
+                                    .getTableRow().getIndex();
                             Pregnancy pregnancy = pregnancies.get(index);
                             Optional<ButtonType> result = alert.showAndWait();
-                            if (result.get() == ButtonType.OK) {
+                            if (result.isPresent() && result.get() == ButtonType.OK) {
                                 try {
                                     pregnancy.delete();
                                     displayPregnancies(isSearchingForPregnancies ? pregnancies : getPregnancies());
@@ -323,9 +316,12 @@ public class AnimalMonitorController implements Initializable{
                                 }
                             }
                         });
+
                         edit_btn.setOnMouseClicked((MouseEvent event) -> {
-                            int index = ((TableCell<HealthStatus, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+                            int index = ((TableCell<Pregnancy, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent())
+                                    .getTableRow().getIndex();
                             Pregnancy pregnancy = pregnancies.get(index);
+
                             String url = "popups/add_new_pregnancy.fxml";
                             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
                             Scene scene = null;
@@ -344,10 +340,8 @@ public class AnimalMonitorController implements Initializable{
                             stage.show();
                         });
                     }
-                }
-            };
-            return cell;
-        };
+                };
+
         pregnancyActionsCol.setCellFactory(cellFoctory);
         pregnancyTable.setItems(pregnancies);
     }
@@ -383,45 +377,38 @@ public class AnimalMonitorController implements Initializable{
         vaccineNameCol.setCellValueFactory(new PropertyValueFactory<>("vaccine_name"));
         ResponsibleNameCol.setCellValueFactory(new PropertyValueFactory<>("responsible_name"));
         vaccinationDateCol.setCellValueFactory(new PropertyValueFactory<>("vaccination_date"));
-        Callback<TableColumn<Vaccination, String>, TableCell<Vaccination, String>> cellFoctory = (TableColumn<Vaccination, String> param) -> {
-            final TableCell<Vaccination, String> cell = new TableCell<Vaccination, String>() {
-                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                final Button edit_btn = new Button();
-                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                final Button delete_btn = new Button();
 
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    //that cell created only on non-empty rows
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        edit_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(edit_img);
+        Callback<TableColumn<Vaccination, String>, TableCell<Vaccination, String>> cellFoctory =
+                (TableColumn<Vaccination, String> param) -> new TableCell<>() {
+
+                    Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                    final Button edit_btn = new Button();
+                    Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                    final Button delete_btn = new Button();
+
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        }
+
+                        edit_btn.setStyle(ICON_BTN_STYLE);
+                        ImageView iv = new ImageView(edit_img);
                         iv.setPreserveRatio(true);
                         iv.setSmooth(true);
                         iv.setCache(true);
                         edit_btn.setGraphic(iv);
 
-                        setGraphic(edit_btn);
-                        setText(null);
-
-                        delete_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv2 = new ImageView();
-
-                        iv2.setImage(delete_img);
+                        delete_btn.setStyle(ICON_BTN_STYLE);
+                        ImageView iv2 = new ImageView(delete_img);
                         iv2.setPreserveRatio(true);
                         iv2.setSmooth(true);
                         iv2.setCache(true);
                         delete_btn.setGraphic(iv2);
-
-
-                        setGraphic(delete_btn);
-
-                        setText(null);
 
                         HBox managebtn = new HBox(edit_btn, delete_btn);
                         managebtn.setStyle("-fx-alignment:center");
@@ -430,6 +417,7 @@ public class AnimalMonitorController implements Initializable{
 
                         setGraphic(managebtn);
                         setText(null);
+
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete");
@@ -437,7 +425,7 @@ public class AnimalMonitorController implements Initializable{
                             int index = getRowIndex(event);
                             Vaccination vaccination = vaccinations.get(index);
                             Optional<ButtonType> result = alert.showAndWait();
-                            if (result.get() == ButtonType.OK) {
+                            if (result.isPresent() && result.get() == ButtonType.OK) {
                                 try {
                                     vaccination.delete();
                                     displayVaccinations(isSearchingForVaccinations ? vaccinations : getVaccinations());
@@ -446,6 +434,7 @@ public class AnimalMonitorController implements Initializable{
                                 }
                             }
                         });
+
                         edit_btn.setOnMouseClicked((MouseEvent event) -> {
                             int index = getRowIndex(event);
                             Vaccination vaccination = vaccinations.get(index);
@@ -467,10 +456,8 @@ public class AnimalMonitorController implements Initializable{
                             stage.show();
                         });
                     }
-                }
-            };
-            return cell;
-        };
+                };
+
         vaccinationActions.setCellFactory(cellFoctory);
         vaccinationTable.setItems(vaccinations);
     }
@@ -504,45 +491,38 @@ public class AnimalMonitorController implements Initializable{
         routineNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         routineNotesCol.setCellValueFactory(new PropertyValueFactory<>("note"));
         routineAdditionDateCol.setCellValueFactory(new PropertyValueFactory<>("created_at"));
-        Callback<TableColumn<Routine, String>, TableCell<Routine, String>> cellFoctory = (TableColumn<Routine, String> param) -> {
-            final TableCell<Routine, String> cell = new TableCell<Routine, String>() {
-                Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
-                final Button edit_btn = new Button();
-                Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
-                final Button delete_btn = new Button();
 
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    //that cell created only on non-empty rows
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        edit_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv = new ImageView();
-                        iv.setImage(edit_img);
+        Callback<TableColumn<Routine, String>, TableCell<Routine, String>> cellFoctory =
+                (TableColumn<Routine, String> param) -> new TableCell<>() {
+
+                    Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                    final Button edit_btn = new Button();
+                    Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                    final Button delete_btn = new Button();
+
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                            return;
+                        }
+
+                        edit_btn.setStyle(ICON_BTN_STYLE);
+                        ImageView iv = new ImageView(edit_img);
                         iv.setPreserveRatio(true);
                         iv.setSmooth(true);
                         iv.setCache(true);
                         edit_btn.setGraphic(iv);
 
-                        setGraphic(edit_btn);
-                        setText(null);
-
-                        delete_btn.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
-                        ImageView iv2 = new ImageView();
-
-                        iv2.setImage(delete_img);
+                        delete_btn.setStyle(ICON_BTN_STYLE);
+                        ImageView iv2 = new ImageView(delete_img);
                         iv2.setPreserveRatio(true);
                         iv2.setSmooth(true);
                         iv2.setCache(true);
                         delete_btn.setGraphic(iv2);
-
-
-                        setGraphic(delete_btn);
-
-                        setText(null);
 
                         HBox managebtn = new HBox(edit_btn, delete_btn);
                         managebtn.setStyle("-fx-alignment:center");
@@ -551,6 +531,7 @@ public class AnimalMonitorController implements Initializable{
 
                         setGraphic(managebtn);
                         setText(null);
+
                         delete_btn.setOnMouseClicked((MouseEvent event) -> {
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete");
@@ -558,7 +539,7 @@ public class AnimalMonitorController implements Initializable{
                             int index = getRowIndex(event);
                             Routine routine = routines.get(index);
                             Optional<ButtonType> result = alert.showAndWait();
-                            if (result.get() == ButtonType.OK) {
+                            if (result.isPresent() && result.get() == ButtonType.OK) {
                                 try {
                                     routine.delete();
                                     displayRoutines(isSearchingForRoutines ? routines : getRoutines());
@@ -567,6 +548,7 @@ public class AnimalMonitorController implements Initializable{
                                 }
                             }
                         });
+
                         edit_btn.setOnMouseClicked((MouseEvent event) -> {
                             int index = getRowIndex(event);
                             Routine routine = routines.get(index);
@@ -588,10 +570,8 @@ public class AnimalMonitorController implements Initializable{
                             stage.show();
                         });
                     }
-                }
-            };
-            return cell;
-        };
+                };
+
         routineActionsCol.setCellFactory(cellFoctory);
         routineTable.setItems(routines);
     }
@@ -659,13 +639,20 @@ public class AnimalMonitorController implements Initializable{
 
     public ObservableList<Pregnancy> searchForPregnancies(String searchClause) {
         ObservableList<Pregnancy> pregnancies = FXCollections.observableArrayList();
-        String query = "SELECT * FROM `pregnancies` WHERE `cow_id` LIKE '%" + searchClause + "%' OR `notes` LIKE '%" + searchClause + "%' ORDER BY `created_at` DESC ";
-        try(Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement(query)) {
+
+        String query =
+                "SELECT * FROM `pregnancies` " +
+                        "WHERE `cow_id` LIKE ? OR `notes` LIKE ? " +
+                        "ORDER BY `created_at` DESC";
+
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
             String like = "%" + searchClause + "%";
             ps.setString(1, like);
             ps.setString(2, like);
-            try(ResultSet resultSet = ps.executeQuery()) {
+
+            try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
                     Pregnancy pregnancy = new Pregnancy();
 
@@ -681,11 +668,13 @@ public class AnimalMonitorController implements Initializable{
                     pregnancies.add(pregnancy);
                 }
             }
+
         } catch (SQLException e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         } finally {
             disconnect();
         }
+
         return pregnancies;
     }
 
@@ -730,7 +719,6 @@ public class AnimalMonitorController implements Initializable{
         return vaccinations;
     }
 
-
     public ObservableList<Routine> searchForRoutines(String searchClause) {
         ObservableList<Routine> routines = FXCollections.observableArrayList();
 
@@ -765,7 +753,6 @@ public class AnimalMonitorController implements Initializable{
         }
         return routines;
     }
-
 
     @FXML
     public void healthStatusSearch(MouseEvent mouseEvent) {
@@ -814,6 +801,7 @@ public class AnimalMonitorController implements Initializable{
             displayRoutines(getRoutines());
         }
     }
+
     private void styleIconButton(Button btn, Image img) {
         btn.setStyle(ICON_BTN_STYLE);
         ImageView iv = new ImageView(img);
@@ -841,5 +829,4 @@ public class AnimalMonitorController implements Initializable{
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
 }
