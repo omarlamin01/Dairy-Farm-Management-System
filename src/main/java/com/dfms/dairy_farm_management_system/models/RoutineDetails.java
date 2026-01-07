@@ -1,16 +1,16 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
-public class RoutineDetails implements Model{
+public class RoutineDetails implements Model {
     private int id;
     private int stock_id;
     private String stock_name;
@@ -19,6 +19,26 @@ public class RoutineDetails implements Model{
     private String feeding_time;
     private Timestamp created_at;
     private Timestamp updated_at;
+
+    @FunctionalInterface
+    private interface StatementBinder {
+        void bind(PreparedStatement st) throws SQLException;
+    }
+
+    private boolean executeUpdate(String sql, StatementBinder binder) {
+        try (Connection connection = getConnection();
+             PreparedStatement st = connection.prepareStatement(sql)) {
+
+            binder.bind(st);
+            return st.executeUpdate() != 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            disconnect();
+        }
+    }
 
     public static int getLastId() {
         String query = "SELECT id FROM routine_has_feeds ORDER BY created_at DESC LIMIT 1";
@@ -50,8 +70,10 @@ public class RoutineDetails implements Model{
     public void setStock_id(int stock_id) {
         this.stock_id = stock_id;
 
-        String query = "SELECT `name` FROM `stocks` WHERE `id` = ?";
-        try (PreparedStatement statement = getConnection().prepareStatement(query)) {
+        String query = "SELECT name FROM stocks WHERE id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
             statement.setInt(1, stock_id);
 
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -118,60 +140,41 @@ public class RoutineDetails implements Model{
     public boolean save() {
         created_at = Timestamp.valueOf(LocalDateTime.now());
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        String query = "INSERT INTO `routine_has_feeds` (stock_id, routine_id, quantity, feeding_time, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = getConnection().prepareStatement(query)) {
 
-            statement.setInt(1, stock_id);
-            statement.setInt(2, routine_id);
-            statement.setFloat(3, quantity);
-            statement.setString(4, feeding_time);
-            statement.setTimestamp(5, created_at);
-            statement.setTimestamp(6, updated_at);
+        String sql = "INSERT INTO routine_has_feeds " +
+                "(stock_id, routine_id, quantity, feeding_time, created_at, updated_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
-            return statement.executeUpdate() != 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disconnect();
-        }
-        return false;
+        return executeUpdate(sql, st -> {
+            st.setInt(1, stock_id);
+            st.setInt(2, routine_id);
+            st.setFloat(3, quantity);
+            st.setString(4, feeding_time);
+            st.setTimestamp(5, created_at);
+            st.setTimestamp(6, updated_at);
+        });
     }
 
     @Override
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        String query = "UPDATE routine_has_feeds " +
+
+        String sql = "UPDATE routine_has_feeds " +
                 "SET stock_id = ?, routine_id = ?, quantity = ?, feeding_time = ?, updated_at = ? " +
                 "WHERE id = ?";
-        try (PreparedStatement statement = getConnection().prepareStatement(query)) {
-            statement.setInt(1, stock_id);
-            statement.setInt(2, routine_id);
-            statement.setFloat(3, quantity);
-            statement.setString(4, feeding_time);
-            statement.setTimestamp(5, updated_at);
-            statement.setInt(6, id);
-
-            return statement.executeUpdate() != 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disconnect();
-        }
-        return false;
+        return executeUpdate(sql, st -> {
+            st.setInt(1, stock_id);
+            st.setInt(2, routine_id);
+            st.setFloat(3, quantity);
+            st.setString(4, feeding_time);
+            st.setTimestamp(5, updated_at);
+            st.setInt(6, id);
+        });
     }
-
     @Override
     public boolean delete() {
-        String query = "DELETE FROM routine_has_feeds WHERE id = ?";
-        try (PreparedStatement statement = getConnection().prepareStatement(query)) {
-            statement.setInt(1, id);
-            return statement.executeUpdate() != 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disconnect();
-        }
-        return false;
-    }
+        String sql = "DELETE FROM routine_has_feeds WHERE id = ?";
 
+        return executeUpdate(sql, st -> st.setInt(1, id));
+    }
 }
