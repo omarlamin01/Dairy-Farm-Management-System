@@ -29,7 +29,6 @@ public class Routine implements Model {
         }
         return -1;
     }
-
     public int getId() {
         return id;
     }
@@ -72,23 +71,22 @@ public class Routine implements Model {
 
     public ArrayList<RoutineDetails> getDetails() {
         ArrayList<RoutineDetails> details = new ArrayList<>();
-        String query = "SELECT * FROM `routine_has_feeds` WHERE `routine_id` = " + id;
-
-        try (PreparedStatement ps = getConnection().prepareStatement(query);
-             ResultSet resultSet = ps.executeQuery()) {
-
-            while (resultSet.next()) {
-                RoutineDetails routineDetails = new RoutineDetails();
-
-                routineDetails.setId(resultSet.getInt("id"));
-                routineDetails.setStock_id(resultSet.getInt("stock_id"));
-                routineDetails.setRoutine_id(resultSet.getInt("routine_id"));
-                routineDetails.setQuantity(resultSet.getFloat("quantity"));
-                routineDetails.setFeeding_time(resultSet.getString("feeding_time"));
-                routineDetails.setCreated_at(resultSet.getTimestamp("created_at"));
-                routineDetails.setUpdated_at(resultSet.getTimestamp("updated_at"));
-
-                details.add(routineDetails);
+        String query = "SELECT * FROM routine_has_feeds WHERE routine_id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, id);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    RoutineDetails routineDetails = new RoutineDetails();
+                    routineDetails.setId(resultSet.getInt("id"));
+                    routineDetails.setStock_id(resultSet.getInt("stock_id"));
+                    routineDetails.setRoutine_id(resultSet.getInt("routine_id"));
+                    routineDetails.setQuantity(resultSet.getFloat("quantity"));
+                    routineDetails.setFeeding_time(resultSet.getString("feeding_time"));
+                    routineDetails.setCreated_at(resultSet.getTimestamp("created_at"));
+                    routineDetails.setUpdated_at(resultSet.getTimestamp("updated_at"));
+                    details.add(routineDetails);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -126,20 +124,15 @@ public class Routine implements Model {
     @Override
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        String query = "UPDATE `routines` " +
-                "SET name = ?, note = ?, updated_at = ?" +
-                " WHERE id = " + id;
+        String query = "UPDATE routines SET name = ?, note = ?, updated_at = ? WHERE id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
-        try {
-            Connection connection = getConnection();
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-
-                statement.setString(1, name);
-                statement.setString(2, note);
-                statement.setTimestamp(3, updated_at);
-
-                return statement.executeUpdate() != 0;
-            }
+            statement.setString(1, name);
+            statement.setString(2, note);
+            statement.setTimestamp(3, updated_at);
+            statement.setInt(4, id);
+            return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -150,13 +143,12 @@ public class Routine implements Model {
 
     @Override
     public boolean delete() {
-        String query = "DELETE FROM `routines` WHERE id = " + id;
+        String query = "DELETE FROM routines WHERE id = ?";
 
-        try {
-            Connection connection = getConnection();
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                return statement.executeUpdate() != 0;
-            }
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -164,4 +156,5 @@ public class Routine implements Model {
         }
         return false;
     }
+
 }
