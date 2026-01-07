@@ -41,18 +41,21 @@ public class MilkSale implements Model{
     }
 
     public String getClientName() {
-        String query = "SELECT name FROM clients WHERE id = " + clientId;
-        Connection connection = getConnection();
-        try(PreparedStatement statement=connection.prepareStatement(query)) {
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                return resultSet.getString("name");
+        String query = "SELECT name FROM clients WHERE id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, clientId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("name");
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return clientName;
     }
+
 
     public void setSale_date(Date sale_date) {
         this.sale_date = sale_date;
@@ -115,31 +118,33 @@ public class MilkSale implements Model{
 
     @Override
     public boolean update() {
-        String query = "UPDATE `milk_sales` SET " +
-                  "`client_id` = '" + clientId + "', " +
-                "`quantity` = '" + quantity + "', " +
-                "`price` = '" + price + "', " +
-                "`sale_date` = '" + sale_date + "', " +
-                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
-                " WHERE `milk_sales`.`id` = " + id;
-
-        Connection connection = getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(query);) {
+        String query = "UPDATE milk_sales SET client_id = ?, quantity = ?, price = ?, sale_date = ?, updated_at = ? WHERE id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, clientId);
+            statement.setFloat(2, quantity);
+            statement.setFloat(3, price);
+            statement.setDate(4, sale_date);
+            statement.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
+            statement.setInt(6, id);
             return statement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     @Override
     public boolean delete() {
-        String deleteQuery = "DELETE FROM `milk_sales` WHERE `milk_sales`.`id` = " + this.id;
-        try (PreparedStatement preparedStatement = getConnection().prepareStatement(deleteQuery)) {
+        String deleteQuery = "DELETE FROM milk_sales WHERE id = ?";
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+            preparedStatement.setInt(1, this.id);
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
+
 }
