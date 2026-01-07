@@ -42,26 +42,10 @@ public class Vaccination implements Model {
     }
 
     public String getResponsible_name() {
-        String query = "SELECT first_name, last_name FROM users WHERE id = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setInt(1, getResponsible_id());
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    String fullName = resultSet.getString(1) + " " + resultSet.getString(2);
-                    setResponsible_name(fullName);
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disconnect();
+        String fullName = fetchFullNameByUserId(getResponsible_id());
+        if (fullName != null) {
+            setResponsible_name(fullName);
         }
-
         return responsible_name;
     }
 
@@ -78,26 +62,13 @@ public class Vaccination implements Model {
     }
 
     public String getVaccine_name() {
-        String query = "SELECT name FROM stocks WHERE id = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setInt(1, getVaccine_id());
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    String name = resultSet.getString(1);
-                    setVaccine_name(name);
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disconnect();
+        String name = fetchSingleString(
+                "SELECT name FROM stocks WHERE id = ?",
+                getVaccine_id()
+        );
+        if (name != null) {
+            setVaccine_name(name);
         }
-
         return vaccine_name;
     }
 
@@ -131,32 +102,22 @@ public class Vaccination implements Model {
 
     @Override
     public boolean save() {
-        updated_at = Timestamp.valueOf(LocalDateTime.now());
-        created_at = Timestamp.valueOf(LocalDateTime.now());
+        Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+        updated_at = now;
+        created_at = now;
 
         String query = "INSERT INTO `vaccination` " +
                 "(animal_id, responsible_id, vaccine_id, vaccination_date, updated_at, created_at) " +
                 "VALUES(?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setString(1, animal_id);
-            statement.setInt(2, responsible_id);
-            statement.setInt(3, vaccine_id);
-            statement.setDate(4, vaccination_date);
-            statement.setTimestamp(5, updated_at);
-            statement.setTimestamp(6, created_at);
-
-            return statement.executeUpdate() != 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disconnect();
-        }
-
-        return false;
+        return executeUpdate(query, ps -> {
+            ps.setString(1, animal_id);
+            ps.setInt(2, responsible_id);
+            ps.setInt(3, vaccine_id);
+            ps.setDate(4, vaccination_date);
+            ps.setTimestamp(5, updated_at);
+            ps.setTimestamp(6, created_at);
+        });
     }
 
     @Override
@@ -167,36 +128,39 @@ public class Vaccination implements Model {
                 "animal_id = ?, responsible_id = ?, vaccine_id = ?, vaccination_date = ?, updated_at = ? " +
                 "WHERE id = ?";
 
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setString(1, animal_id);
-            statement.setInt(2, responsible_id);
-            statement.setInt(3, vaccine_id);
-            statement.setDate(4, vaccination_date);
-            statement.setTimestamp(5, updated_at);
-            statement.setInt(6, id);
-
-            return statement.executeUpdate() != 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            disconnect();
-        }
-
-        return false;
+        return executeUpdate(query, ps -> {
+            ps.setString(1, animal_id);
+            ps.setInt(2, responsible_id);
+            ps.setInt(3, vaccine_id);
+            ps.setDate(4, vaccination_date);
+            ps.setTimestamp(5, updated_at);
+            ps.setInt(6, id);
+        });
     }
 
     @Override
     public boolean delete() {
         String query = "DELETE FROM `vaccination` WHERE id = ?";
+        return executeUpdate(query, ps -> ps.setInt(1, id));
+    }
+
+    // -------------------------
+    // Helpers to reduce duplication
+    // -------------------------
+
+    private String fetchFullNameByUserId(int userId) {
+        String query = "SELECT first_name, last_name FROM users WHERE id = ?";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setInt(1, id);
-            return statement.executeUpdate() != 0;
+            statement.setInt(1, userId);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString(1) + " " + rs.getString(2);
+                }
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -204,6 +168,44 @@ public class Vaccination implements Model {
             disconnect();
         }
 
+        return null;
+    }
+
+    private String fetchSingleString(String query, int idParam) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, idParam);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                return rs.next() ? rs.getString(1) : null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnect();
+        }
+
+        return null;
+    }
+
+    private interface StatementFiller {
+        void fill(PreparedStatement ps) throws SQLException;
+    }
+
+    private boolean executeUpdate(String query, StatementFiller filler) {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            filler.fill(statement);
+            return statement.executeUpdate() != 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            disconnect();
+        }
         return false;
     }
 }
