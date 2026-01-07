@@ -54,20 +54,23 @@ public class Animal {
     }
 
     public String getRoutineName() {
-        String query = "SELECT `name` FROM `routines` WHERE `id` = " + routineId;
-        ;
-        try {
-            Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                return resultSet.getString("name");
+        String query = "SELECT `name` FROM `routines` WHERE `id` = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, routineId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("name");
+                }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            disconnect();
         }
+
         return null;
     }
 
@@ -81,21 +84,26 @@ public class Animal {
     }
 
     public String getRaceName() {
-        String query = "SELECT `name` FROM `races` WHERE `id` = " + raceId;
-        try {
-            Connection connection = getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                return resultSet.getString("name");
+        String query = "SELECT `name` FROM `races` WHERE `id` = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, raceId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("name");
+                }
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            disconnect();
         }
+
         return null;
     }
+
 
     public void setRaceId(int raceId) {
         this.raceId = raceId;
@@ -143,10 +151,11 @@ public class Animal {
     }
 
     public boolean add() {
-        String query = "INSERT INTO `animals` (`id`, `birth_date`, `purchase_date`, `routine`, `race`, `type`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        Connection connection = getConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
+        String query = "INSERT INTO `animals` (`id`, `birth_date`, `purchase_date`, `routine`, `race`, `type`, `created_at`, `updated_at`) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setString(1, id);
             statement.setDate(2, birth_date);
@@ -158,54 +167,59 @@ public class Animal {
             statement.setTimestamp(8, updated_at);
 
             return statement.executeUpdate() != 0;
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            disconnect();
+            return false;
         }
-        return false;
     }
+
 
 
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        Connection connection = DBConfig.getConnection();
-        String query_update = "UPDATE `animals` SET " +
-                "`birth_date` = ?," +
-                "`purchase_date` =?," +
-                "`routine` = ?," +
-                "`race` = ?," +
-                "`type` = ?," +
-                "`updated_at` = ? WHERE `animals`.`id` = '" + id + "'";
-        try {
-            PreparedStatement statement = connection.prepareStatement(query_update);
+
+        String query = "UPDATE `animals` SET " +
+                "`birth_date` = ?, " +
+                "`purchase_date` = ?, " +
+                "`routine` = ?, " +
+                "`race` = ?, " +
+                "`type` = ?, " +
+                "`updated_at` = ? " +
+                "WHERE `id` = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
             statement.setDate(1, birth_date);
             statement.setDate(2, purchase_date);
             statement.setInt(3, routineId);
             statement.setInt(4, raceId);
             statement.setString(5, type);
             statement.setTimestamp(6, updated_at);
+            statement.setString(7, id);
+
             return statement.executeUpdate() != 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            disconnect();
+            return false;
         }
-        return false;
     }
-
 
     public boolean delete() {
-        String query = "DELETE FROM `animals` WHERE `animals`.`id` = '" + id + "'";
-        Connection connection = getConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
+        String query = "DELETE FROM `animals` WHERE `id` = ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, id);
             return statement.executeUpdate() != 0;
+
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            disconnect();
+            return false;
         }
-        return false;
     }
+
 }
