@@ -64,73 +64,38 @@ public class LoginController implements Initializable {
     PasswordField password_input;
 
     @FXML
-    void login(MouseEvent event) throws SQLException {
-
+    void login(MouseEvent event) {
         if (email_input.getText() == null || password_input.getText() == null) {
             displayAlert("Error", "Please fill the required fields!", Alert.AlertType.ERROR);
             return;
         }
-
-        String email = email_input.getText().trim();
-        String password = password_input.getText().trim();
-
-        if (validatePassword(email, password)) {
-            //store logged in user in session
-            String query = "SELECT * FROM `users` WHERE email = '" + email + "'";
-            String Query = "SELECT * FROM `employees` WHERE email = '" + email + "'";
-            Statement statement = getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            User user = new User();
-            if (resultSet.next()) {
-                user.setId(resultSet.getInt("id"));
-                user.setFirstName(resultSet.getString("first_name"));
-                user.setLastName(resultSet.getString("last_name"));
-                user.setEmail(resultSet.getString("email"));
-                user.setEncryptedPassword(resultSet.getString("password"));
-                user.setRole(resultSet.getInt("role"));
-                user.setSalary(resultSet.getFloat("salary"));
-                user.setGender(resultSet.getString("gender"));
-                user.setPhone(resultSet.getString("phone"));
-                user.setAdress(resultSet.getString("address"));
-                user.setCin(resultSet.getString("cin"));
-                user.setCreatedAt(resultSet.getTimestamp("created_at"));
-                user.setUpdatedAt(resultSet.getTimestamp("updated_at"));
-            }
-            resultSet = statement.executeQuery(Query);
-            if (resultSet.next()) {
-                user.setHireDate(resultSet.getDate("hire_date"));
-                user.setContractType(resultSet.getString("contract_type"));
-            }
-            disconnect();
-            Session.setCurrentUser(user);
-            switchToMainLayout(event);
-        } else {
-            displayAlert("Invalid email or password", "Please check your email and password and try again", Alert.AlertType.ERROR);
-        }
+        attemptLogin(email_input.getText().trim(), password_input.getText().trim(), (Node) event.getSource());
     }
 
     @FXML
     void loginWithEnter(KeyEvent event) {
-        //check if enter key is pressed
         if (event.getCode().toString().equals("ENTER")) {
-            try {
-                String email = email_input.getText().trim();
-                String password = password_input.getText().trim();
+            attemptLogin(email_input.getText().trim(), password_input.getText().trim(), (Node) event.getSource());
+        }
+    }
 
-                if (validatePassword(email, password)) {
-                    //store logged in user in session
-                    String query = "SELECT * FROM `users` WHERE email = '" + email + "'";
-                    String Query = "SELECT * FROM `employees` WHERE email = '" + email + "'";
-                    Statement statement = getConnection().createStatement();
-                    ResultSet resultSet = statement.executeQuery(query);
-                    User user = new User();
+    private void attemptLogin(String email, String password, Node sourceNode) {
+        try {
+            if (validatePassword(email, password)) {
+                Connection connection = getConnection();
+                User user = new User();
+                
+                // Secure query for User details
+                String userQuery = "SELECT * FROM `users` WHERE email = ?";
+                try (PreparedStatement userStmt = connection.prepareStatement(userQuery)) {
+                    userStmt.setString(1, email);
+                    ResultSet resultSet = userStmt.executeQuery();
                     if (resultSet.next()) {
-
                         user.setId(resultSet.getInt("id"));
                         user.setFirstName(resultSet.getString("first_name"));
                         user.setLastName(resultSet.getString("last_name"));
                         user.setEmail(resultSet.getString("email"));
-                        user.setPassword(resultSet.getString("password"));
+                        user.setEncryptedPassword(resultSet.getString("password"));
                         user.setRole(resultSet.getInt("role"));
                         user.setSalary(resultSet.getFloat("salary"));
                         user.setGender(resultSet.getString("gender"));
@@ -140,33 +105,43 @@ public class LoginController implements Initializable {
                         user.setCreatedAt(resultSet.getTimestamp("created_at"));
                         user.setUpdatedAt(resultSet.getTimestamp("updated_at"));
                     }
-                    resultSet = statement.executeQuery(Query);
+                }
+
+                // Secure query for Employee details
+                String empQuery = "SELECT * FROM `employees` WHERE email = ?";
+                try (PreparedStatement empStmt = connection.prepareStatement(empQuery)) {
+                    empStmt.setString(1, email);
+                    ResultSet resultSet = empStmt.executeQuery();
                     if (resultSet.next()) {
                         user.setHireDate(resultSet.getDate("hire_date"));
                         user.setContractType(resultSet.getString("contract_type"));
                     }
-                    disconnect();
-                    Session.setCurrentUser(user);
-                    //switch to main layout
-                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
-                    Stage stage = new Stage();
-                    Scene scene = null;
-                    try {
-                        scene = new Scene(fxmlLoader.load());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    stage.setTitle("Dairy Farm Management System");
-                    stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-                    stage.setScene(scene);
-                    ((Node) event.getSource()).getScene().getWindow().hide();
-                    stage.show();
-                } else {
-                    displayAlert("Invalid email or password", "Please check your email and password and try again", Alert.AlertType.ERROR);
                 }
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+
+                disconnect();
+                Session.setCurrentUser(user);
+                
+                // Switch to main layout
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
+                Stage stage = new Stage();
+                Scene scene = null;
+                try {
+                    scene = new Scene(fxmlLoader.load());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage.setTitle("Dairy Farm Management System");
+                stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                stage.setScene(scene);
+                
+                sourceNode.getScene().getWindow().hide();
+                stage.show();
+            } else {
+                displayAlert("Invalid email or password", "Please check your email and password and try again", Alert.AlertType.ERROR);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            displayAlert("Database Error", "An error occurred while logging in.", Alert.AlertType.ERROR);
         }
     }
 

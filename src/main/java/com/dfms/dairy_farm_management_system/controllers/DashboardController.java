@@ -272,28 +272,27 @@ public class DashboardController implements Initializable {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         }
         try {
-            //get count of sales of each day
+            String dayName = "";
             switch (day) {
-                case "Sun" ->
-                    //get the sum of price from both tables (animals_sales and milk_sales)
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Sunday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Sunday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Mon" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Monday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Monday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Tue" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Tuesday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Tuesday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Wed" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Wednesday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Wednesday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Thu" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Thursday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Thursday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Fri" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Friday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Friday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Sat" ->
-                        resultSet = statement.executeQuery("SELECT SUM(price) FROM animals_sales WHERE DAYNAME(sale_date) = 'Saturday' AND WEEK(sale_date) = WEEK(CURDATE()) UNION SELECT SUM(price) FROM milk_sales WHERE DAYNAME(sale_date) = 'Saturday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                default -> {
-                }
+                case "Sun" -> dayName = "Sunday";
+                case "Mon" -> dayName = "Monday";
+                case "Tue" -> dayName = "Tuesday";
+                case "Wed" -> dayName = "Wednesday";
+                case "Thu" -> dayName = "Thursday";
+                case "Fri" -> dayName = "Friday";
+                case "Sat" -> dayName = "Saturday";
             }
-            if (resultSet.next()) {
-                earnings = resultSet.getInt(1);
+
+            if (!dayName.isEmpty()) {
+                String query = String.format(
+                    "SELECT (SELECT COALESCE(SUM(price), 0) FROM animals_sales WHERE DAYNAME(sale_date) = '%s' AND WEEK(sale_date) = WEEK(CURDATE())) + " +
+                    "(SELECT COALESCE(SUM(price), 0) FROM milk_sales WHERE DAYNAME(sale_date) = '%s' AND WEEK(sale_date) = WEEK(CURDATE()))",
+                    dayName, dayName
+                );
+                resultSet = statement.executeQuery(query);
+                if (resultSet.next()) {
+                    earnings = resultSet.getInt(1);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
