@@ -1,15 +1,15 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-
 public class AnimalSale implements Model {
+
     private int id;
     private int clientId;
     private String clientName;
@@ -23,7 +23,6 @@ public class AnimalSale implements Model {
         this.updated_at = Timestamp.valueOf(LocalDateTime.now());
         this.created_at = Timestamp.valueOf(LocalDateTime.now());
     }
-
 
     public int getId() {
         return id;
@@ -41,8 +40,6 @@ public class AnimalSale implements Model {
         this.clientId = clientId;
         this.clientName = getClientName();
     }
-
-
 
     public String getAnimalId() {
         return animalId;
@@ -67,7 +64,6 @@ public class AnimalSale implements Model {
 
     public void setAnimalId(String animalId) {
         this.animalId = animalId;
-
     }
 
     public float getPrice() {
@@ -104,7 +100,8 @@ public class AnimalSale implements Model {
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO `animals_sales` (client_id, animal_id, price, sale_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
+        String insertQuery =
+            "INSERT INTO `animals_sales` (client_id, animal_id, price, sale_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -127,13 +124,25 @@ public class AnimalSale implements Model {
 
     @Override
     public boolean update() {
-        String query = "UPDATE `animals_sales` SET " +
-                "`client_id` = '" + clientId + "', " +
-                "`animal_id` = '" + animalId + "', " +
-                "`price` = '" + price + "', " +
-                "`sale_date` = '" + sale_date + "', " +
-                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
-                " WHERE `animals_sales`.`id` = " + id;
+        String query =
+            "UPDATE `animals_sales` SET " +
+            "`client_id` = '" +
+            clientId +
+            "', " +
+            "`animal_id` = '" +
+            animalId +
+            "', " +
+            "`price` = '" +
+            price +
+            "', " +
+            "`sale_date` = '" +
+            sale_date +
+            "', " +
+            "`updated_at` = '" +
+            Timestamp.valueOf(LocalDateTime.now()) +
+            "'" +
+            " WHERE `animals_sales`.`id` = " +
+            id;
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -160,5 +169,4 @@ public class AnimalSale implements Model {
             disconnect();
         }
     }
-
 }

@@ -1,9 +1,17 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.connection.Session;
 import com.dfms.dairy_farm_management_system.models.User;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.*;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,16 +24,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.*;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class LoginController implements Initializable {
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         email_input.setText(getEmail());
@@ -84,7 +84,7 @@ public class LoginController implements Initializable {
             if (validatePassword(email, password)) {
                 Connection connection = getConnection();
                 User user = new User();
-                
+
                 // Secure query for User details
                 String userQuery = "SELECT * FROM `users` WHERE email = ?";
                 try (PreparedStatement userStmt = connection.prepareStatement(userQuery)) {
@@ -120,7 +120,7 @@ public class LoginController implements Initializable {
 
                 disconnect();
                 Session.setCurrentUser(user);
-                
+
                 // Switch to main layout
                 FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main_layout.fxml"));
                 Stage stage = new Stage();
@@ -133,11 +133,15 @@ public class LoginController implements Initializable {
                 stage.setTitle("Dairy Farm Management System");
                 stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                 stage.setScene(scene);
-                
+
                 sourceNode.getScene().getWindow().hide();
                 stage.show();
             } else {
-                displayAlert("Invalid email or password", "Please check your email and password and try again", Alert.AlertType.ERROR);
+                displayAlert(
+                    "Invalid email or password",
+                    "Please check your email and password and try again",
+                    Alert.AlertType.ERROR
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();

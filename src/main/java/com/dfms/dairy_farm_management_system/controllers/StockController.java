@@ -1,5 +1,8 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateProductController;
 import com.dfms.dairy_farm_management_system.models.Employee;
@@ -8,6 +11,14 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.print.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.*;
+import java.util.Optional;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,9 +26,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.print.*;
-
-import java.awt.print.*;
-
 import javafx.print.Paper;
 import javafx.print.PrinterJob;
 import javafx.scene.Node;
@@ -39,17 +47,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.sql.*;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class StockController implements Initializable {
 
     @Override
@@ -62,13 +59,16 @@ public class StockController implements Initializable {
         displayStock();
 
         //check what user select in the combo box
-        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-            if (t1.equals("PDF")) {
-                exportToPDF();
-            } else {
-                exportToExcel();
-            }
-        });
+        export_combo
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((observableValue, s, t1) -> {
+                if (t1.equals("PDF")) {
+                    exportToPDF();
+                } else {
+                    exportToExcel();
+                }
+            });
 
         liveSearch(search_stock_input, stock_table);
     }
@@ -77,9 +77,9 @@ public class StockController implements Initializable {
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = getConnection();
+
     @FXML
     private TableColumn<Stock, String> actions_col;
-
 
     @FXML
     private TableColumn<Stock, String> product_qunatity_col;
@@ -142,10 +142,14 @@ public class StockController implements Initializable {
         product_type_col.setCellValueFactory(new PropertyValueFactory<>("type"));
         product_qunatity_col.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         availability_col.setCellValueFactory(new PropertyValueFactory<>("availability"));
-        Callback<TableColumn<Stock, String>, TableCell<Stock, String>> cellFoctory = (TableColumn<Stock, String> param) -> {
+        Callback<TableColumn<Stock, String>, TableCell<Stock, String>> cellFoctory = (TableColumn<
+            Stock,
+            String
+        > param) -> {
             final TableCell<Stock, String> cell = new TableCell<Stock, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
+
                 //Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
 
                 @Override
@@ -162,7 +166,6 @@ public class StockController implements Initializable {
                         //iv_view_details.setPreserveRatio(true);
                         //iv_view_details.setSmooth(true);
                         //iv_view_details.setCache(true);
-
 
                         ImageView iv_edit = new ImageView();
                         iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
@@ -197,7 +200,11 @@ public class StockController implements Initializable {
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     if (product.delete()) {
-                                        displayAlert("Success", "Product deleted successfully", Alert.AlertType.INFORMATION);
+                                        displayAlert(
+                                            "Success",
+                                            "Product deleted successfully",
+                                            Alert.AlertType.INFORMATION
+                                        );
                                         displayStock();
                                     }
                                 } catch (Exception e) {
@@ -209,7 +216,11 @@ public class StockController implements Initializable {
                         //update employee
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
                             Stock product = stock_table.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/update_product.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(
+                                Main.class.getResource(
+                                    "/com/dfms/dairy_farm_management_system/popups/update_product.fxml"
+                                )
+                            );
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
@@ -229,26 +240,26 @@ public class StockController implements Initializable {
                         });
 
                         //view employee details
-//                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
-//                            Stock product = stock_table.getSelectionModel().getSelectedItem();
-//                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
-//                            Scene scene = null;
-//                            try {
-//                                scene = new Scene(fxmlLoader.load());
-//                                ProductDetailsController controller = fxmlLoader.getController();
-//                                controller.fetchProduct(product);
-//                            } catch (IOException e) {
-//                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                                e.printStackTrace();
-//                            }
-//                            Stage stage = new Stage();
-//                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
-//                            stage.setTitle("Product Details");
-//                            stage.setResizable(false);
-//                            stage.setScene(scene);
-//                            centerScreen(stage);
-//                            stage.show();
-//                        });
+                        //                        iv_view_details.setOnMouseClicked((MouseEvent event) -> {
+                        //                            Stock product = stock_table.getSelectionModel().getSelectedItem();
+                        //                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
+                        //                            Scene scene = null;
+                        //                            try {
+                        //                                scene = new Scene(fxmlLoader.load());
+                        //                                ProductDetailsController controller = fxmlLoader.getController();
+                        //                                controller.fetchProduct(product);
+                        //                            } catch (IOException e) {
+                        //                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                        //                                e.printStackTrace();
+                        //                            }
+                        //                            Stage stage = new Stage();
+                        //                            stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
+                        //                            stage.setTitle("Product Details");
+                        //                            stage.setResizable(false);
+                        //                            stage.setScene(scene);
+                        //                            centerScreen(stage);
+                        //                            stage.show();
+                        //                        });
                     }
                 }
             };
@@ -272,7 +283,12 @@ public class StockController implements Initializable {
     void exportToExcel() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser
+            .getExtensionFilters()
+            .addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+            );
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
@@ -307,7 +323,6 @@ public class StockController implements Initializable {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
 
-
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 workbook.write(fileOutputStream);
                 workbook.close();
@@ -334,8 +349,14 @@ public class StockController implements Initializable {
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    Paragraph title = new Paragraph("Stock List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-                    Paragraph text = new Paragraph("This is the list of the products", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    Paragraph title = new Paragraph(
+                        "Stock List",
+                        FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK)
+                    );
+                    Paragraph text = new Paragraph(
+                        "This is the list of the products",
+                        FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK)
+                    );
 
                     //center paragraph
                     title.setAlignment(Element.ALIGN_CENTER);
@@ -362,13 +383,73 @@ public class StockController implements Initializable {
                 table.setWidths(colWidth);
 
                 //add table headers
-                table.addCell(new PdfPCell(new Paragraph("Product ID", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Product Name", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Product Type", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Quantity", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Availability", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Unit", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Added Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Product ID",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Product Name",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Product Type",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Quantity",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Availability",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Unit", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Added Date",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
 
                 //add padding to cells
                 table.getDefaultCell().setPadding(3);
@@ -404,19 +485,24 @@ public class StockController implements Initializable {
     }
 
     public void liveSearch(TextField search_input, TableView table) {
-        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty()) {
-                refreshTable();
-            } else {
-                ObservableList<Stock> filteredList = FXCollections.observableArrayList();
-                ObservableList<Stock> products = getProducts();
-                for (Stock product : products) {
-                    if (product.getName().toLowerCase().contains(newValue.toLowerCase()) || product.getType().toLowerCase().contains(newValue.toLowerCase())) {
-                        filteredList.add(product);
+        search_input
+            .textProperty()
+            .addListener((observable, oldValue, newValue) -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    refreshTable();
+                } else {
+                    ObservableList<Stock> filteredList = FXCollections.observableArrayList();
+                    ObservableList<Stock> products = getProducts();
+                    for (Stock product : products) {
+                        if (
+                            product.getName().toLowerCase().contains(newValue.toLowerCase()) ||
+                            product.getType().toLowerCase().contains(newValue.toLowerCase())
+                        ) {
+                            filteredList.add(product);
+                        }
                     }
+                    table.setItems(filteredList);
                 }
-                table.setItems(filteredList);
-            }
-        });
+            });
     }
 }

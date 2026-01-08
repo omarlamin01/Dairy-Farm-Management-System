@@ -1,5 +1,11 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import javafx.application.Platform;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -8,13 +14,6 @@ import javafx.stage.Window;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 class LoginControllerLoginTest {
 

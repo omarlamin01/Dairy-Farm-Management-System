@@ -1,26 +1,25 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
-import com.dfms.dairy_farm_management_system.models.User;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
+import com.dfms.dairy_farm_management_system.models.User;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 public class UserDetailsController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
     @FXML
     private Label header;
+
     @FXML
     private Label address;
 

@@ -1,8 +1,8 @@
 package com.dfms.dairy_farm_management_system.helpers;
 
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 //Equivalence Class Testing
 class HelperMD5Test {
@@ -45,10 +45,9 @@ class HelperMD5Test {
         String password = "password123";
         assertFalse(Helper.MD5(null, password));
     }
+
     @Test
     void testEncryptedPasswordNotMd5Format() {
         assertFalse(Helper.MD5("not-a-hash", "password123"));
     }
-
-
 }

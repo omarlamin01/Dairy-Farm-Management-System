@@ -1,7 +1,16 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Animal;
+import java.net.URL;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,34 +18,32 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
-import java.net.URL;
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-
 public class NewAnimalController implements Initializable {
+
     @FXML
     private Label Add_Update;
 
     @FXML
     private Label Head;
+
     @FXML
     private ComboBox<String> typeCombo;
+
     @FXML
     private ComboBox<String> raceCombo;
+
     @FXML
     private DatePicker birthDate;
+
     @FXML
     private DatePicker purchaseDate;
+
     @FXML
     private ComboBox<String> routineCombo;
+
     @FXML
     private Button btn_add_animal;
+
     PreparedStatement statement = null;
     ResultSet resultSet = null;
 
@@ -44,7 +51,6 @@ public class NewAnimalController implements Initializable {
     private Connection connection = DBConfig.getConnection();
     private boolean update;
     String query = null;
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -130,7 +136,9 @@ public class NewAnimalController implements Initializable {
             animal.setBirth_date(Date.valueOf(birthDate.getValue()));
             animal.setPurchase_date(Date.valueOf(purchaseDate.getValue()));
             animal.setRaceId(getRaces().get(raceCombo.getValue()) == null ? 0 : getRaces().get(raceCombo.getValue()));
-            animal.setRoutineId(getRoutines().get(routineCombo.getValue()) == null ? 0 : getRoutines().get(routineCombo.getValue()));
+            animal.setRoutineId(
+                getRoutines().get(routineCombo.getValue()) == null ? 0 : getRoutines().get(routineCombo.getValue())
+            );
             animal.setType(typeCombo.getValue());
             if (animal.update()) {
                 clear();
@@ -144,7 +152,9 @@ public class NewAnimalController implements Initializable {
             animal.setBirth_date(Date.valueOf(birthDate.getValue()));
             animal.setPurchase_date(Date.valueOf(purchaseDate.getValue()));
             animal.setRaceId(getRaces().get(raceCombo.getValue()) == null ? 0 : getRaces().get(raceCombo.getValue()));
-            animal.setRoutineId(getRoutines().get(routineCombo.getValue()) == null ? 0 : getRoutines().get(routineCombo.getValue()));
+            animal.setRoutineId(
+                getRoutines().get(routineCombo.getValue()) == null ? 0 : getRoutines().get(routineCombo.getValue())
+            );
             animal.setType(typeCombo.getValue());
             String id = animal.getType() + random.nextInt();
             animal.setId(id);
@@ -156,23 +166,31 @@ public class NewAnimalController implements Initializable {
                 displayAlert("Error", "Some error happened while saving!", Alert.AlertType.ERROR);
             }
         }
-
     }
 
     public void setUpdate(boolean b) {
         this.update = b;
     }
+
     public boolean inputesAreEmpty() {
-        if (this.birthDate.getValue()==null
-                || this.typeCombo.getValue()==null
-                || this.raceCombo.getValue()==null
-                || this.purchaseDate.getValue()==null
-                || this.routineCombo.getValue()==null)
-            return true;
+        if (
+            this.birthDate.getValue() == null ||
+            this.typeCombo.getValue() == null ||
+            this.raceCombo.getValue() == null ||
+            this.purchaseDate.getValue() == null ||
+            this.routineCombo.getValue() == null
+        ) return true;
         return false;
     }
-    public void fetchAnimal(String id_animal, String race_animal, LocalDate birthdate, String
-            routine_animal, LocalDate purchasedate, String type_animal) {
+
+    public void fetchAnimal(
+        String id_animal,
+        String race_animal,
+        LocalDate birthdate,
+        String routine_animal,
+        LocalDate purchasedate,
+        String type_animal
+    ) {
         this.animal_ID = id_animal;
         Head.setText("Update Cow Num: " + id_animal);
         birthDate.setValue(birthdate);
@@ -182,6 +200,5 @@ public class NewAnimalController implements Initializable {
         purchaseDate.setValue(purchasedate);
         btn_add_animal.setText("Update");
         Add_Update.setText("Update");
-
     }
 }

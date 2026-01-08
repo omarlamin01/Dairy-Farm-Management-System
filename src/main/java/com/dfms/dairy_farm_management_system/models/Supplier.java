@@ -1,17 +1,17 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-
 public class Supplier implements Model {
+
     private int id;
     private String nameSupplier;
     private String typeSupplier;
@@ -83,7 +83,8 @@ public class Supplier implements Model {
 
     @Override
     public boolean save() {
-        String query = "INSERT INTO `suppliers` (name, type, phone, email, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?)";
+        String query =
+            "INSERT INTO `suppliers` (name, type, phone, email, created_at, updated_at) VALUES(?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -107,13 +108,15 @@ public class Supplier implements Model {
     @Override
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        String query = "UPDATE `suppliers` SET " +
-                "`name` =?,"+
-                "`type` = ?," +
-                "`phone` = ?," +
-                "`email` = ?," +
-                "`updated_at` =?" +
-                "WHERE `id` = " + id;
+        String query =
+            "UPDATE `suppliers` SET " +
+            "`name` =?," +
+            "`type` = ?," +
+            "`phone` = ?," +
+            "`email` = ?," +
+            "`updated_at` =?" +
+            "WHERE `id` = " +
+            id;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -130,7 +133,6 @@ public class Supplier implements Model {
         }
         return false;
     }
-
 
     @Override
     public boolean delete() {

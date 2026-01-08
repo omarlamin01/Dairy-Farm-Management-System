@@ -1,12 +1,13 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import java.sql.*;
-import java.time.LocalDateTime;
-
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
+import java.sql.*;
+import java.time.LocalDateTime;
+
 public class Vaccination implements Model {
+
     private int id;
     private String animal_id;
     private int responsible_id;
@@ -62,10 +63,7 @@ public class Vaccination implements Model {
     }
 
     public String getVaccine_name() {
-        String name = fetchSingleString(
-                "SELECT name FROM stocks WHERE id = ?",
-                getVaccine_id()
-        );
+        String name = fetchSingleString("SELECT name FROM stocks WHERE id = ?", getVaccine_id());
         if (name != null) {
             setVaccine_name(name);
         }
@@ -106,9 +104,10 @@ public class Vaccination implements Model {
         updated_at = now;
         created_at = now;
 
-        String query = "INSERT INTO `vaccination` " +
-                "(animal_id, responsible_id, vaccine_id, vaccination_date, updated_at, created_at) " +
-                "VALUES(?, ?, ?, ?, ?, ?)";
+        String query =
+            "INSERT INTO `vaccination` " +
+            "(animal_id, responsible_id, vaccine_id, vaccination_date, updated_at, created_at) " +
+            "VALUES(?, ?, ?, ?, ?, ?)";
 
         return executeUpdate(query, ps -> {
             ps.setString(1, animal_id);
@@ -124,9 +123,10 @@ public class Vaccination implements Model {
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
 
-        String query = "UPDATE `vaccination` SET " +
-                "animal_id = ?, responsible_id = ?, vaccine_id = ?, vaccination_date = ?, updated_at = ? " +
-                "WHERE id = ?";
+        String query =
+            "UPDATE `vaccination` SET " +
+            "animal_id = ?, responsible_id = ?, vaccine_id = ?, vaccination_date = ?, updated_at = ? " +
+            "WHERE id = ?";
 
         return executeUpdate(query, ps -> {
             ps.setString(1, animal_id);
@@ -151,9 +151,10 @@ public class Vaccination implements Model {
     private String fetchFullNameByUserId(int userId) {
         String query = "SELECT first_name, last_name FROM users WHERE id = ?";
 
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
+        try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)
+        ) {
             statement.setInt(1, userId);
 
             try (ResultSet rs = statement.executeQuery()) {
@@ -161,7 +162,6 @@ public class Vaccination implements Model {
                     return rs.getString(1) + " " + rs.getString(2);
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -172,15 +172,15 @@ public class Vaccination implements Model {
     }
 
     private String fetchSingleString(String query, int idParam) {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
+        try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)
+        ) {
             statement.setInt(1, idParam);
 
             try (ResultSet rs = statement.executeQuery()) {
                 return rs.next() ? rs.getString(1) : null;
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -195,12 +195,12 @@ public class Vaccination implements Model {
     }
 
     private boolean executeUpdate(String query, StatementFiller filler) {
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
+        try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)
+        ) {
             filler.fill(statement);
             return statement.executeUpdate() != 0;
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

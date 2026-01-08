@@ -1,18 +1,17 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
-import javafx.scene.control.Alert;
-import org.junit.jupiter.api.*;
-import org.mockito.MockedStatic;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import javafx.scene.control.Alert;
+import org.junit.jupiter.api.*;
+import org.mockito.MockedStatic;
 
 class DashboardControllerEarningsEquivalenceTest {
 
@@ -97,8 +96,7 @@ class DashboardControllerEarningsEquivalenceTest {
     void nullDay_throwsNullPointerException_currentBehavior() throws Exception {
         when(connection.createStatement()).thenReturn(statement);
 
-        assertThrows(NullPointerException.class,
-                () -> controller.getEarningsOfSpecificDay(null));
+        assertThrows(NullPointerException.class, () -> controller.getEarningsOfSpecificDay(null));
     }
 
     // -----------------------
@@ -133,11 +131,14 @@ class DashboardControllerEarningsEquivalenceTest {
     void createStatementThrowsSQLException_currentBehaviorMayThrowNPE() throws Exception {
         when(connection.createStatement()).thenThrow(new SQLException("db down"));
 
-        try (MockedStatic<?> helper = mockStatic(Class.forName("com.dfms.dairy_farm_management_system.helpers.Helper"))) {
-            helper.when(() -> displayAlert(anyString(), anyString(), any(Alert.AlertType.class))).thenAnswer(inv -> null);
+        try (
+            MockedStatic<?> helper = mockStatic(Class.forName("com.dfms.dairy_farm_management_system.helpers.Helper"))
+        ) {
+            helper
+                .when(() -> displayAlert(anyString(), anyString(), any(Alert.AlertType.class)))
+                .thenAnswer(inv -> null);
 
-            assertThrows(NullPointerException.class,
-                    () -> controller.getEarningsOfSpecificDay("Thu"));
+            assertThrows(NullPointerException.class, () -> controller.getEarningsOfSpecificDay("Thu"));
         }
     }
 

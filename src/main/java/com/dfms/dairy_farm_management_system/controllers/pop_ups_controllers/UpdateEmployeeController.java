@@ -1,8 +1,14 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.User;
+import java.net.URL;
+import java.sql.*;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,14 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
-import java.net.URL;
-import java.sql.*;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class UpdateEmployeeController implements Initializable {
+
     private static final String ALERT_ERROR = "Error";
     private static final String SQL_LIMIT_1 = " LIMIT 1";
 
@@ -129,11 +129,9 @@ public class UpdateEmployeeController implements Initializable {
         User user = new User();
 
         String userQuery = "SELECT * FROM users WHERE cin = ?" + SQL_LIMIT_1;
-        String empQuery  = "SELECT * FROM employees WHERE cin = ?" + SQL_LIMIT_1;
+        String empQuery = "SELECT * FROM employees WHERE cin = ?" + SQL_LIMIT_1;
 
-        try (Connection con = getConnection();
-             PreparedStatement psUser = con.prepareStatement(userQuery)) {
-
+        try (Connection con = getConnection(); PreparedStatement psUser = con.prepareStatement(userQuery)) {
             psUser.setString(1, employee_cin.toUpperCase());
 
             try (ResultSet rs = psUser.executeQuery()) {
@@ -160,7 +158,6 @@ public class UpdateEmployeeController implements Initializable {
                     }
                 }
             }
-
         } catch (SQLException e) {
             displayAlert(ALERT_ERROR, e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
@@ -193,29 +190,24 @@ public class UpdateEmployeeController implements Initializable {
     public String getRoleName(int id) {
         String roleName = "";
         String query = "SELECT name FROM roles WHERE id = ?" + SQL_LIMIT_1;
-        try (Connection con = getConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
+        try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     roleName = rs.getString("name");
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return roleName;
     }
 
-
     public Employee getEmployee(String employee_cin) {
         Employee employee = new Employee();
         String query = "SELECT * FROM employees WHERE cin = ?" + SQL_LIMIT_1;
 
-        try (Connection con = getConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
-
+        try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, employee_cin.toUpperCase());
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -239,7 +231,6 @@ public class UpdateEmployeeController implements Initializable {
         return employee;
     }
 
-
     public void setRoleComboItems() {
         this.rolesList = FXCollections.observableArrayList();
         String[] names = getRoles().keySet().toArray(new String[0]);
@@ -254,8 +245,17 @@ public class UpdateEmployeeController implements Initializable {
     }
 
     public boolean inputsAreEmpty() {
-        if (this.firstNameInput.getText().isEmpty() || this.lastNameInput.getText().isEmpty() || this.emailInput.getText().isEmpty() || this.phoneNumberInput.getText().isEmpty() || this.addressInput.getText().isEmpty() || this.cinInput.getText().isEmpty() || this.salaryInput.getText().isEmpty() || this.hireDate.getValue() == null || this.contractCombo.getValue() == null)
-            return true;
+        if (
+            this.firstNameInput.getText().isEmpty() ||
+            this.lastNameInput.getText().isEmpty() ||
+            this.emailInput.getText().isEmpty() ||
+            this.phoneNumberInput.getText().isEmpty() ||
+            this.addressInput.getText().isEmpty() ||
+            this.cinInput.getText().isEmpty() ||
+            this.salaryInput.getText().isEmpty() ||
+            this.hireDate.getValue() == null ||
+            this.contractCombo.getValue() == null
+        ) return true;
         return false;
     }
 }

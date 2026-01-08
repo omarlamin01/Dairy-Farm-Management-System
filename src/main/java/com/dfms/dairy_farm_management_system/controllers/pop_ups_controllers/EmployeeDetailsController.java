@@ -1,17 +1,12 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,20 +17,25 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
 import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 
 public class EmployeeDetailsController implements Initializable {
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
     @FXML
     private Button print_btn;
+
     @FXML
     private Label header;
+
     @FXML
     private Label address;
 
@@ -81,7 +81,9 @@ public class EmployeeDetailsController implements Initializable {
         ResultSet resultSet = null;
 
         try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM `employees` WHERE cin = '" + employee.getCin() + "' LIMIT 1");
+            preparedStatement = connection.prepareStatement(
+                "SELECT * FROM `employees` WHERE cin = '" + employee.getCin() + "' LIMIT 1"
+            );
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 header.setText(resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
@@ -143,7 +145,6 @@ public class EmployeeDetailsController implements Initializable {
         }
     }
 
-
     // iText allows to add metadata to the PDF which can be viewed in your Adobe
     // Reader
     // under File -> Properties
@@ -162,24 +163,34 @@ public class EmployeeDetailsController implements Initializable {
         addEmptyLine(preface, 1);
 
         // Lets write a big header
-        Paragraph title = new Paragraph("EMPLOYEE INOFRMATION REPPORT", new Font(Font.FontFamily.HELVETICA, 22, Font.BOLD, BaseColor.BLUE));
+        Paragraph title = new Paragraph(
+            "EMPLOYEE INOFRMATION REPPORT",
+            new Font(Font.FontFamily.HELVETICA, 22, Font.BOLD, BaseColor.BLUE)
+        );
         //center the title
         title.setAlignment(Element.ALIGN_CENTER);
         preface.add(title);
 
         addEmptyLine(preface, 1);
 
-        String address = "GRASS LAND DAIRY\n" +
-                "Souss massa, Taroudant\n" +
-                "TEL: +212 20 1234567\n" +
-                "EMAIL:grass.land.dairy@gmail.com\n" +
-                "DATE: " + new Date().toString();
+        String address =
+            "GRASS LAND DAIRY\n" +
+            "Souss massa, Taroudant\n" +
+            "TEL: +212 20 1234567\n" +
+            "EMAIL:grass.land.dairy@gmail.com\n" +
+            "DATE: " +
+            new Date().toString();
 
         preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
 
         addEmptyLine(preface, 4);
 
-        String intro = "Here is all the information about " + current_employee.getFirstName() + " " + current_employee.getLastName() + ":";
+        String intro =
+            "Here is all the information about " +
+            current_employee.getFirstName() +
+            " " +
+            current_employee.getLastName() +
+            ":";
         preface.add(new Paragraph(intro, new Font(Font.FontFamily.HELVETICA, 14, Font.BOLDITALIC, BaseColor.BLACK)));
 
         addEmptyLine(preface, 1);
@@ -190,7 +201,12 @@ public class EmployeeDetailsController implements Initializable {
     private static void addContent(Document document) throws DocumentException {
         int MAX_LENGTH = 22;
         Paragraph preface = new Paragraph();
-        String full_name = formatString("Full Name:", MAX_LENGTH) + ": " + current_employee.getFirstName() + " " + current_employee.getLastName();
+        String full_name =
+            formatString("Full Name:", MAX_LENGTH) +
+            ": " +
+            current_employee.getFirstName() +
+            " " +
+            current_employee.getLastName();
         String email = formatString("Email:", MAX_LENGTH) + ": " + current_employee.getEmail();
         String phone = formatString("Phone:", MAX_LENGTH) + ": " + current_employee.getPhone();
         String address = formatString("Address:", MAX_LENGTH) + ": " + current_employee.getAddress();
@@ -206,7 +222,9 @@ public class EmployeeDetailsController implements Initializable {
         preface.add(new Paragraph(address, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         preface.add(new Paragraph(cin, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         preface.add(new Paragraph(salary, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
-        preface.add(new Paragraph(contract_type, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
+        preface.add(
+            new Paragraph(contract_type, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK))
+        );
         preface.add(new Paragraph(hire_date, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         //preface.add(new Paragraph(role, new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, BaseColor.BLACK)));
         document.add(preface);
@@ -229,8 +247,9 @@ public class EmployeeDetailsController implements Initializable {
     private static void addOutro(Document document) throws DocumentException {
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
-        String outro = "Thank you for using our application\n" +
-                "For more information please contact us at grass.land.dairy@gmail.com";
+        String outro =
+            "Thank you for using our application\n" +
+            "For more information please contact us at grass.land.dairy@gmail.com";
         preface.add(new Paragraph(outro, new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.BLACK)));
         addEmptyLine(preface, 1);
         document.add(preface);

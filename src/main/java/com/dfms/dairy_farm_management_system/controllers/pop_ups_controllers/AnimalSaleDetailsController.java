@@ -1,14 +1,14 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import java.net.URL;
+import java.sql.Date;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-import java.net.URL;
-import java.sql.Date;
-import java.util.ResourceBundle;
-
 public class AnimalSaleDetailsController implements Initializable {
+
     @FXML
     private Label Operationdate;
 
@@ -28,16 +28,13 @@ public class AnimalSaleDetailsController implements Initializable {
     private Label name;
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
-    }
-    public void fetchAnimalSale(int id, String cow, Float price, String naame, Date Opdate)  {
-
+    public void fetchAnimalSale(int id, String cow, Float price, String naame, Date Opdate) {
         header.setText("Here's all the information about AnimalSale Num: " + id);
-        cow_id.setText(cow+"");
-        Price.setText(price+"");
-        name.setText(naame+"");
-        Operationdate.setText(Opdate+" ");
-
+        cow_id.setText(cow + "");
+        Price.setText(price + "");
+        name.setText(naame + "");
+        Operationdate.setText(Opdate + " ");
     }
 }

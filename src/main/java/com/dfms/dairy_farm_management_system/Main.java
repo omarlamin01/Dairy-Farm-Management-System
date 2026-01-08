@@ -1,6 +1,10 @@
 package com.dfms.dairy_farm_management_system;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import java.io.IOException;
+import java.util.Date;
 //import com.dfms.dairy_farm_management_system.models.Employee;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,12 +14,8 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.IOException;
-import java.util.Date;
-
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class Main extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
         String first_view = "splash_screen";

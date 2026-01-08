@@ -1,15 +1,10 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Stock;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,9 +12,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 public class UpdateProductController implements Initializable {
 
@@ -114,10 +113,12 @@ public class UpdateProductController implements Initializable {
     }
 
     public boolean inputsAreEmpty() {
-        return (this.product_name.getText().isEmpty()
-                || this.product_quantity.getText().isEmpty()
-                || this.mesure_unit_combo.getValue() == null
-                || this.product_type_combo.getValue() == null);
+        return (
+            this.product_name.getText().isEmpty() ||
+            this.product_quantity.getText().isEmpty() ||
+            this.mesure_unit_combo.getValue() == null ||
+            this.product_type_combo.getValue() == null
+        );
     }
 
     public void setComboBoxes() {

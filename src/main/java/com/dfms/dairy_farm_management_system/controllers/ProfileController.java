@@ -1,7 +1,11 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.connection.Session;
 import com.dfms.dairy_farm_management_system.models.User;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -18,18 +22,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class ProfileController implements Initializable {
+
     @FXML
     private TextField address_input;
 
     @FXML
     private TextField cin_input;
-
 
     @FXML
     private TextField email_input;
@@ -103,7 +102,7 @@ public class ProfileController implements Initializable {
             if (new_password_input.getText().equals(confirm_new_password_input.getText())) {
                 currentUser.setEmail(email_input.getText());
                 currentUser.setPassword(new_password_input.getText());
-                if(currentUser.updatePassword()) {
+                if (currentUser.updatePassword()) {
                     displayAlert("Done", "Profile updated successfully", Alert.AlertType.INFORMATION);
                     getUserData();
                     resetPasswordsField();
@@ -126,7 +125,7 @@ public class ProfileController implements Initializable {
         currentUser.setCin(cin_input.getText());
         currentUser.setPhone(phone_input.getText());
         currentUser.setAdress(address_input.getText());
-        if(currentUser.update()) {
+        if (currentUser.update()) {
             displayAlert("Done", "Profile updated successfully", Alert.AlertType.INFORMATION);
             getUserData();
         } else {
@@ -190,7 +189,6 @@ public class ProfileController implements Initializable {
                 StackPane.setMargin(hidePassword, new Insets(0, 10, 10, 0));
                 StackPane.setAlignment(hidePassword, Pos.CENTER_RIGHT);
                 break;
-
             case "new_password_input":
                 StackPane.setMargin(textField, new Insets(0, 10, 0, 0));
                 StackPane.setMargin(passwordField, new Insets(0, 10, 0, 0));
@@ -201,7 +199,6 @@ public class ProfileController implements Initializable {
                 StackPane.setMargin(hidePassword, new Insets(0, 20, 0, 0));
                 StackPane.setAlignment(hidePassword, Pos.CENTER_RIGHT);
                 break;
-
             case "confirm_new_password_input":
                 StackPane.setMargin(textField, new Insets(0, 0, 0, 0));
                 StackPane.setMargin(passwordField, new Insets(0, 0, 0, 0));
@@ -214,14 +211,14 @@ public class ProfileController implements Initializable {
                 break;
         }
 
-        showPassword.setOnMousePressed((event) -> {
+        showPassword.setOnMousePressed(event -> {
             textField.toFront();
             hidePassword.toFront();
             passwordField.toBack();
             showPassword.toBack();
         });
 
-        hidePassword.setOnMousePressed((event) -> {
+        hidePassword.setOnMousePressed(event -> {
             textField.toBack();
             hidePassword.toBack();
             passwordField.toFront();

@@ -1,9 +1,19 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
+
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.AnimalDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewAnimalController;
 import com.dfms.dairy_farm_management_system.models.Animal;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.*;
+import java.util.Date;
+import java.util.Optional;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,18 +30,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.*;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.openNewWindow;
-
 public class ManageAnimalTest implements Initializable {
+
     @FXML
     private TableView<Animal> animals;
 
@@ -49,20 +49,25 @@ public class ManageAnimalTest implements Initializable {
 
     @FXML
     private TableColumn<Animal, String> colroutine;
+
     @FXML
     private TableColumn<Animal, String> colactions;
+
     @FXML
     private ComboBox<String> export_combo;
+
     @FXML
     private TextField textField_search;
 
     private Connection connection = getConnection();
     private PreparedStatement preparedStatement;
     private Statement statement;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         displayAnimals();
     }
+
     public ObservableList<Animal> getAnimals() {
         ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
         String select_query = "SELECT * from `animals`";
@@ -86,6 +91,7 @@ public class ManageAnimalTest implements Initializable {
         }
         return listAnimal;
     }
+
     public void displayAnimals() {
         ObservableList<Animal> list = getAnimals();
         colid.setCellValueFactory(new PropertyValueFactory<Animal, String>("id"));
@@ -95,14 +101,16 @@ public class ManageAnimalTest implements Initializable {
         colroutine.setCellValueFactory(new PropertyValueFactory<Animal, String>("routineName"));
         animals.setItems(list);
     }
+
     @FXML
     void openAddNewRace(MouseEvent event) throws IOException {
-//        openNewWindow("Add New Race", "add_new_race");
+        //        openNewWindow("Add New Race", "add_new_race");
     }
-//    public void openAddNewAnimal(MouseEvent mouseEvent) throws IOException {
-//        openNewWindow("Add New Animal", "add_new_animal");
-//    }
+
+    //    public void openAddNewAnimal(MouseEvent mouseEvent) throws IOException {
+    //        openNewWindow("Add New Animal", "add_new_animal");
+    //    }
     public void refreshTable(MouseEvent mouseEvent) {
         //refreshTableAnimal();
     }
-    }
+}

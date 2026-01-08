@@ -1,7 +1,13 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Employee;
+import java.net.URL;
+import java.sql.*;
+import java.util.Collections;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,14 +16,8 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
-import java.net.URL;
-import java.sql.*;
-import java.util.Collections;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class NewEmployeeController implements Initializable {
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setGenderComboItems();
@@ -31,28 +31,39 @@ public class NewEmployeeController implements Initializable {
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = DBConfig.getConnection();
+
     @FXML
     TextField lastNameInput;
+
     @FXML
     TextField firstNameInput;
+
     @FXML
     TextField adressInput;
+
     @FXML
     TextField emailInput;
+
     @FXML
     TextField phoneNumberInput;
+
     @FXML
     TextField salaryInput;
+
     @FXML
     ComboBox<String> genderCombo;
+
     @FXML
     ComboBox<String> roleCombo;
+
     @FXML
     DatePicker hireDate;
+
     @FXML
     ComboBox<String> contractCombo;
 
     ObservableList<String> rolesList;
+
     @FXML
     private TextField cininput;
 
@@ -75,7 +86,43 @@ public class NewEmployeeController implements Initializable {
     @FXML
     public void addEmployee(MouseEvent mouseEvent) throws SQLException {
         this.connection = DBConfig.getConnection();
-        System.out.println("Employee: { " + "First name: \"" + this.firstNameInput.getText() + "\", " + "Last name: \"" + this.lastNameInput.getText() + "\", " + "Email: \"" + this.emailInput.getText() + "\", " + "Phone: \"" + this.phoneNumberInput.getText() + "\", " + "Adress: \"" + this.adressInput.getText() + "\", " + "CIN: \"" + this.cininput.getText() + "\", " + "Salary: \"" + this.salaryInput.getText() + "\", " + "Hire date: \"" + this.hireDate.getValue() + "\", " + "Contract type: \"" + this.contractCombo.getValue() + "\", " + "Gender: \"" + this.genderCombo.getValue() + "\", " + "Role: \"" + this.roleCombo.getValue() + "\"" + " }");
+        System.out.println(
+            "Employee: { " +
+                "First name: \"" +
+                this.firstNameInput.getText() +
+                "\", " +
+                "Last name: \"" +
+                this.lastNameInput.getText() +
+                "\", " +
+                "Email: \"" +
+                this.emailInput.getText() +
+                "\", " +
+                "Phone: \"" +
+                this.phoneNumberInput.getText() +
+                "\", " +
+                "Adress: \"" +
+                this.adressInput.getText() +
+                "\", " +
+                "CIN: \"" +
+                this.cininput.getText() +
+                "\", " +
+                "Salary: \"" +
+                this.salaryInput.getText() +
+                "\", " +
+                "Hire date: \"" +
+                this.hireDate.getValue() +
+                "\", " +
+                "Contract type: \"" +
+                this.contractCombo.getValue() +
+                "\", " +
+                "Gender: \"" +
+                this.genderCombo.getValue() +
+                "\", " +
+                "Role: \"" +
+                this.roleCombo.getValue() +
+                "\"" +
+                " }"
+        );
 
         if (inputesAreEmpty()) {
             displayAlert("Error", "Please fill all the fields", Alert.AlertType.ERROR);
@@ -136,24 +183,26 @@ public class NewEmployeeController implements Initializable {
 
     //check if all inputs are filled
     public boolean inputesAreEmpty() {
-        if (this.firstNameInput.getText().isEmpty()
-                || this.lastNameInput.getText().isEmpty()
-                || this.emailInput.getText().isEmpty()
-                || this.phoneNumberInput.getText().isEmpty()
-                || this.adressInput.getText().isEmpty()
-                || this.cininput.getText().isEmpty()
-                || this.salaryInput.getText().isEmpty()
-                || this.hireDate.getValue() == null
-                || this.contractCombo.getValue() == null
-                || this.genderCombo.getValue() == null
-                || this.roleCombo.getValue() == null)
-            return true;
+        if (
+            this.firstNameInput.getText().isEmpty() ||
+            this.lastNameInput.getText().isEmpty() ||
+            this.emailInput.getText().isEmpty() ||
+            this.phoneNumberInput.getText().isEmpty() ||
+            this.adressInput.getText().isEmpty() ||
+            this.cininput.getText().isEmpty() ||
+            this.salaryInput.getText().isEmpty() ||
+            this.hireDate.getValue() == null ||
+            this.contractCombo.getValue() == null ||
+            this.genderCombo.getValue() == null ||
+            this.roleCombo.getValue() == null
+        ) return true;
         return false;
     }
 
     //check if email, cin and phone are unique
     public boolean isUnique(String email, String cin, String phone) {
-        String query = "SELECT * FROM `employees` WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
+        String query =
+            "SELECT * FROM `employees` WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
         try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);

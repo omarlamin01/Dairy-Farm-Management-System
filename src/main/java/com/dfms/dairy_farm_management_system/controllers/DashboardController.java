@@ -1,18 +1,17 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.executeQuery;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+
+import java.net.URL;
+import java.sql.*;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
 import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
-
-import java.net.URL;
-import java.sql.*;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.executeQuery;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class DashboardController implements Initializable {
 
@@ -61,13 +60,16 @@ public class DashboardController implements Initializable {
 
     @FXML
     private Text total_employees;
+
     @FXML
     private BarChart<String, Number> barChart;
 
     @FXML
     private PieChart pieChart;
+
     @FXML
     private LineChart<String, Number> lineChart;
+
     @FXML
     private CategoryAxis xAxis;
 
@@ -235,23 +237,43 @@ public class DashboardController implements Initializable {
         try {
             //get count of sales of each day
             switch (day) {
-                case "Sun" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Sunday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Mon" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Monday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Tue" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Tuesday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Wed" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Wednesday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Thu" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Thursday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Fri" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Friday' AND WEEK(sale_date) = WEEK(CURDATE())");
-                case "Sat" ->
-                        resultSet = statement.executeQuery("SELECT COUNT(*) FROM " + table + " WHERE DAYNAME(sale_date) = 'Saturday' AND WEEK(sale_date) = WEEK(CURDATE())");
+                case "Sun" -> resultSet = statement.executeQuery(
+                    "SELECT COUNT(*) FROM " +
+                        table +
+                        " WHERE DAYNAME(sale_date) = 'Sunday' AND WEEK(sale_date) = WEEK(CURDATE())"
+                );
+                case "Mon" -> resultSet = statement.executeQuery(
+                    "SELECT COUNT(*) FROM " +
+                        table +
+                        " WHERE DAYNAME(sale_date) = 'Monday' AND WEEK(sale_date) = WEEK(CURDATE())"
+                );
+                case "Tue" -> resultSet = statement.executeQuery(
+                    "SELECT COUNT(*) FROM " +
+                        table +
+                        " WHERE DAYNAME(sale_date) = 'Tuesday' AND WEEK(sale_date) = WEEK(CURDATE())"
+                );
+                case "Wed" -> resultSet = statement.executeQuery(
+                    "SELECT COUNT(*) FROM " +
+                        table +
+                        " WHERE DAYNAME(sale_date) = 'Wednesday' AND WEEK(sale_date) = WEEK(CURDATE())"
+                );
+                case "Thu" -> resultSet = statement.executeQuery(
+                    "SELECT COUNT(*) FROM " +
+                        table +
+                        " WHERE DAYNAME(sale_date) = 'Thursday' AND WEEK(sale_date) = WEEK(CURDATE())"
+                );
+                case "Fri" -> resultSet = statement.executeQuery(
+                    "SELECT COUNT(*) FROM " +
+                        table +
+                        " WHERE DAYNAME(sale_date) = 'Friday' AND WEEK(sale_date) = WEEK(CURDATE())"
+                );
+                case "Sat" -> resultSet = statement.executeQuery(
+                    "SELECT COUNT(*) FROM " +
+                        table +
+                        " WHERE DAYNAME(sale_date) = 'Saturday' AND WEEK(sale_date) = WEEK(CURDATE())"
+                );
                 default -> {
                 }
-
             }
             if (resultSet.next()) {
                 sales = resultSet.getInt(1);
@@ -286,8 +308,9 @@ public class DashboardController implements Initializable {
             if (!dayName.isEmpty()) {
                 String query = String.format(
                     "SELECT (SELECT COALESCE(SUM(price), 0) FROM animals_sales WHERE DAYNAME(sale_date) = '%s' AND WEEK(sale_date) = WEEK(CURDATE())) + " +
-                    "(SELECT COALESCE(SUM(price), 0) FROM milk_sales WHERE DAYNAME(sale_date) = '%s' AND WEEK(sale_date) = WEEK(CURDATE()))",
-                    dayName, dayName
+                        "(SELECT COALESCE(SUM(price), 0) FROM milk_sales WHERE DAYNAME(sale_date) = '%s' AND WEEK(sale_date) = WEEK(CURDATE()))",
+                    dayName,
+                    dayName
                 );
                 resultSet = statement.executeQuery(query);
                 if (resultSet.next()) {

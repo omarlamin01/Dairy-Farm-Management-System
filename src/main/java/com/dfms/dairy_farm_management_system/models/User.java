@@ -1,13 +1,14 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import java.sql.*;
-import java.time.LocalDateTime;
-
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
+import java.sql.*;
+import java.time.LocalDateTime;
+
 public class User extends Employee {
+
     private int id;
     private String password;
     private int role;
@@ -67,9 +68,10 @@ public class User extends Employee {
         if (!super.save()) {
             return false;
         } else {
-            String insertQuery = "INSERT INTO `users` " +
-                    "(`first_name`, `last_name`, `cin`, `email`, `password`, `gender`, `phone`, `salary`, `address`, `role`, `created_at`, `updated_at`) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String insertQuery =
+                "INSERT INTO `users` " +
+                "(`first_name`, `last_name`, `cin`, `email`, `password`, `gender`, `phone`, `salary`, `address`, `role`, `created_at`, `updated_at`) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             try {
                 Connection connection = getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -99,18 +101,30 @@ public class User extends Employee {
 
     @Override
     public boolean update() {
-        String query = "UPDATE `users` SET" +
-                " `first_name` = '" + super.getFirstName() +
-                "', `last_name` = '" + super.getLastName() +
-                "', `cin` = '" + super.getCin() +
-                "', `email` = '" + super.getEmail() +
-                "', `gender` = '" + (super.getGender().equalsIgnoreCase("Male") ? 'M' : 'F') +
-                "', `phone` = '" + super.getPhone() +
-                "', `salary` = '" + super.getSalary() +
-                "', `address` = '" + super.getAddress() +
-                "', `role` = '" + role +
-                "', `updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) +
-                "' WHERE `id` = " + this.id;
+        String query =
+            "UPDATE `users` SET" +
+            " `first_name` = '" +
+            super.getFirstName() +
+            "', `last_name` = '" +
+            super.getLastName() +
+            "', `cin` = '" +
+            super.getCin() +
+            "', `email` = '" +
+            super.getEmail() +
+            "', `gender` = '" +
+            (super.getGender().equalsIgnoreCase("Male") ? 'M' : 'F') +
+            "', `phone` = '" +
+            super.getPhone() +
+            "', `salary` = '" +
+            super.getSalary() +
+            "', `address` = '" +
+            super.getAddress() +
+            "', `role` = '" +
+            role +
+            "', `updated_at` = '" +
+            Timestamp.valueOf(LocalDateTime.now()) +
+            "' WHERE `id` = " +
+            this.id;
         try {
             Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);

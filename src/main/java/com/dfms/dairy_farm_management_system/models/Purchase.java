@@ -1,13 +1,14 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-
 public class Purchase implements Model {
+
     private int id;
     private int supplier_id;
     private String supplier_name;
@@ -134,7 +135,8 @@ public class Purchase implements Model {
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO `purchases` (supplier_id,quantity, stock_id, price, purchase_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?,?)";
+        String insertQuery =
+            "INSERT INTO `purchases` (supplier_id,quantity, stock_id, price, purchase_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?,?)";
         updateQuantity();
         try {
             Connection connection = getConnection();
@@ -148,8 +150,6 @@ public class Purchase implements Model {
             preparedStatement.setTimestamp(6, created_at);
             preparedStatement.setTimestamp(7, updated_at);
             return preparedStatement.executeUpdate() != 0;
-
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -174,14 +174,28 @@ public class Purchase implements Model {
 
     @Override
     public boolean update() {
-        String query = "UPDATE `purchases` SET " +
-                "`supplier_id` = '" + supplier_id + "', " +
-                "`quantity` = '" + quantity + "', " +
-                "`stock_id` = '" + stock_id + "', " +
-                "`price` = '" + price + "', " +
-                "`purchase_date` = '" + purchase_date + "', " +
-                "`updated_at` = '" + Timestamp.valueOf(LocalDateTime.now()) + "'" +
-                " WHERE `purchases`.`id` = " + id;
+        String query =
+            "UPDATE `purchases` SET " +
+            "`supplier_id` = '" +
+            supplier_id +
+            "', " +
+            "`quantity` = '" +
+            quantity +
+            "', " +
+            "`stock_id` = '" +
+            stock_id +
+            "', " +
+            "`price` = '" +
+            price +
+            "', " +
+            "`purchase_date` = '" +
+            purchase_date +
+            "', " +
+            "`updated_at` = '" +
+            Timestamp.valueOf(LocalDateTime.now()) +
+            "'" +
+            " WHERE `purchases`.`id` = " +
+            id;
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -209,4 +223,3 @@ public class Purchase implements Model {
         }
     }
 }
-

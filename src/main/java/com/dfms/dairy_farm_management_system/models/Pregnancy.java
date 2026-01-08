@@ -1,14 +1,14 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-
 public class Pregnancy implements Model {
+
     private int id;
     private String cow_id;
     private Date start_date;
@@ -89,7 +89,8 @@ public class Pregnancy implements Model {
 
     @Override
     public boolean save() {
-        String query = "INSERT INTO `pregnancies` (`cow_id`, `start_date`, `delivery_date`, `pregnancy_status`, `notes`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query =
+            "INSERT INTO `pregnancies` (`cow_id`, `start_date`, `delivery_date`, `pregnancy_status`, `notes`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -114,14 +115,27 @@ public class Pregnancy implements Model {
     @Override
     public boolean update() {
         this.updated_at = Timestamp.valueOf(LocalDateTime.now());
-        String query = "UPDATE `pregnancies` SET " +
-                "`cow_id` = '" + cow_id + "'," +
-                " `start_date` = " + start_date + "," +
-                " `delivery_date` = " + delivery_date + "," +
-                " `pregnancy_status` = '" + pregnancy_status + "'," +
-                " `notes` = '" + notes + "'," +
-                " `updated_at` = " + updated_at +
-                " WHERE id = " + id;
+        String query =
+            "UPDATE `pregnancies` SET " +
+            "`cow_id` = '" +
+            cow_id +
+            "'," +
+            " `start_date` = " +
+            start_date +
+            "," +
+            " `delivery_date` = " +
+            delivery_date +
+            "," +
+            " `pregnancy_status` = '" +
+            pregnancy_status +
+            "'," +
+            " `notes` = '" +
+            notes +
+            "'," +
+            " `updated_at` = " +
+            updated_at +
+            " WHERE id = " +
+            id;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);

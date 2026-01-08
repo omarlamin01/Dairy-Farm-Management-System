@@ -1,20 +1,19 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import javafx.scene.text.Text;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import javafx.scene.text.Text;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 
 class DashboardControllerInitDashboardCoverageTest {
 
@@ -68,8 +67,7 @@ class DashboardControllerInitDashboardCoverageTest {
         rsBySql.put("SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()", rsNextTrueString("120"));
 
         try (MockedStatic<DBConfig> db = mockStatic(DBConfig.class)) {
-            db.when(() -> DBConfig.executeQuery(anyString()))
-                    .thenAnswer(inv -> rsBySql.get(inv.getArgument(0)));
+            db.when(() -> DBConfig.executeQuery(anyString())).thenAnswer(inv -> rsBySql.get(inv.getArgument(0)));
 
             controller.initDashboard();
         }
@@ -109,8 +107,7 @@ class DashboardControllerInitDashboardCoverageTest {
         rsBySql.put("SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()", rsNextTrueString("120"));
 
         try (MockedStatic<DBConfig> db = mockStatic(DBConfig.class)) {
-            db.when(() -> DBConfig.executeQuery(anyString()))
-                    .thenAnswer(inv -> rsBySql.get(inv.getArgument(0)));
+            db.when(() -> DBConfig.executeQuery(anyString())).thenAnswer(inv -> rsBySql.get(inv.getArgument(0)));
 
             controller.initDashboard();
         }
@@ -141,13 +138,12 @@ class DashboardControllerInitDashboardCoverageTest {
         rsBySql.put("SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()", rsNextTrueString("120"));
 
         try (MockedStatic<DBConfig> db = mockStatic(DBConfig.class)) {
-            db.when(() -> DBConfig.executeQuery(anyString()))
-                    .thenAnswer(inv -> rsBySql.get(inv.getArgument(0)));
+            db.when(() -> DBConfig.executeQuery(anyString())).thenAnswer(inv -> rsBySql.get(inv.getArgument(0)));
 
             controller.initDashboard();
         }
 
-        assertEquals("0", todaySales.getText());     // proves condition (getString==null) true branch
+        assertEquals("0", todaySales.getText()); // proves condition (getString==null) true branch
         assertEquals("$120", todayEarnings.getText());
     }
 
@@ -173,8 +169,7 @@ class DashboardControllerInitDashboardCoverageTest {
         rsBySql.put("SELECT SUM(price) FROM animals_sales WHERE sale_date = CURDATE()", rsNextTrueString(null));
 
         try (MockedStatic<DBConfig> db = mockStatic(DBConfig.class)) {
-            db.when(() -> DBConfig.executeQuery(anyString()))
-                    .thenAnswer(inv -> rsBySql.get(inv.getArgument(0)));
+            db.when(() -> DBConfig.executeQuery(anyString())).thenAnswer(inv -> rsBySql.get(inv.getArgument(0)));
 
             controller.initDashboard();
         }

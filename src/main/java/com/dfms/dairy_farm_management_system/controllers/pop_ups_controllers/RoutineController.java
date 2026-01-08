@@ -1,7 +1,20 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+
 import com.dfms.dairy_farm_management_system.models.Routine;
 import com.dfms.dairy_farm_management_system.models.RoutineDetails;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,21 +26,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-
 public class RoutineController implements Initializable {
+
     private static final String ALERT_ERROR = "ERROR";
     private static final String ALERT_SUCCESS = "SUCCESS";
     private static final String CSS_INPUT = "input";
@@ -35,10 +35,13 @@ public class RoutineController implements Initializable {
 
     @FXML
     TextField routineName;
+
     @FXML
     TextArea routineNotes;
+
     @FXML
     VBox foodList;
+
     @FXML
     Button routineBtn;
 
@@ -67,9 +70,11 @@ public class RoutineController implements Initializable {
 
         boolean routineOk = isUpdate ? routine.update() : routine.save();
         if (!routineOk) {
-            displayAlert(ALERT_ERROR,
-                    isUpdate ? "Some error happened while updating!" : "Some error happened while saving!",
-                    Alert.AlertType.ERROR);
+            displayAlert(
+                ALERT_ERROR,
+                isUpdate ? "Some error happened while updating!" : "Some error happened while saving!",
+                Alert.AlertType.ERROR
+            );
             return;
         }
 
@@ -84,16 +89,20 @@ public class RoutineController implements Initializable {
 
         if (!detailsOk) {
             revertChanges(routine, savedDetails);
-            displayAlert(ALERT_ERROR,
-                    isUpdate ? "Some error happened while updating!" : "Some error happened while saving!",
-                    Alert.AlertType.ERROR);
+            displayAlert(
+                ALERT_ERROR,
+                isUpdate ? "Some error happened while updating!" : "Some error happened while saving!",
+                Alert.AlertType.ERROR
+            );
             return;
         }
 
         closePopUp(mouseEvent);
-        displayAlert(ALERT_SUCCESS,
-                isUpdate ? "Routine updated successfully" : "Routine saved successfully",
-                Alert.AlertType.INFORMATION);
+        displayAlert(
+            ALERT_SUCCESS,
+            isUpdate ? "Routine updated successfully" : "Routine saved successfully",
+            Alert.AlertType.INFORMATION
+        );
     }
 
     private boolean buildAndSaveDetails(Routine routine, ArrayList<RoutineDetails> savedDetails) {
@@ -103,8 +112,12 @@ public class RoutineController implements Initializable {
                 continue;
             }
 
-            String foodQuantity = ((TextField) (((VBox) ((HBox) box).getChildren().get(1)).getChildren().get(1))).getText();
-            String foodPeriod = ((ComboBox<String>) (((VBox) ((HBox) box).getChildren().get(2)).getChildren().get(1))).getValue();
+            String foodQuantity = (
+                (TextField) (((VBox) ((HBox) box).getChildren().get(1)).getChildren().get(1))
+            ).getText();
+            String foodPeriod = (
+                (ComboBox<String>) (((VBox) ((HBox) box).getChildren().get(2)).getChildren().get(1))
+            ).getValue();
 
             RoutineDetails detail = new RoutineDetails();
             // detail.setStock_id(getFoods().get(checkBox.getText())); // keep commented as in your original
@@ -206,9 +219,10 @@ public class RoutineController implements Initializable {
 
         try {
             Connection connection = getConnection();
-            try (PreparedStatement statement = connection.prepareStatement(query);
-                 ResultSet resultSet = statement.executeQuery()) {
-
+            try (
+                PreparedStatement statement = connection.prepareStatement(query);
+                ResultSet resultSet = statement.executeQuery()
+            ) {
                 while (resultSet.next()) {
                     list.add(resultSet.getString("name"));
                 }

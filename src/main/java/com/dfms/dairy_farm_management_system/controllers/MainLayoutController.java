@@ -1,9 +1,20 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.connection.Session;
 import com.dfms.dairy_farm_management_system.models.User;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,27 +33,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
-import static com.dfms.dairy_farm_management_system.helpers.Helper.centerScreen;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-
 public class MainLayoutController implements Initializable {
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initNavButtons();
 
         String first_view = "dashboard";
         loadView(first_view);
-        dashboard_btn.setStyle("-fx-background-color: #FFC700, #00A300;" +
-                "-fx-background-insets: 0, 0 0 0 4;");
+        dashboard_btn.setStyle("-fx-background-color: #FFC700, #00A300;" + "-fx-background-insets: 0, 0 0 0 4;");
 
         nav_scroll_pane.getStyleClass().clear();
 
@@ -362,7 +361,6 @@ public class MainLayoutController implements Initializable {
                 menu.getChildren().add(reports_btn);
                 menu.getChildren().add(logout);
                 break;
-
             case "hr":
                 menu.getChildren().add(dashboard_btn);
                 menu.getChildren().add(profile_btn);
@@ -370,7 +368,6 @@ public class MainLayoutController implements Initializable {
                 menu.getChildren().add(manageUsersBtn);
                 menu.getChildren().add(logout);
                 break;
-
             case "vétérinaire":
                 menu.getChildren().add(dashboard_btn);
                 menu.getChildren().add(profile_btn);
@@ -379,7 +376,6 @@ public class MainLayoutController implements Initializable {
                 menu.getChildren().add(stock_btn);
                 menu.getChildren().add(logout);
                 break;
-
             case "production control":
                 menu.getChildren().add(dashboard_btn);
                 menu.getChildren().add(profile_btn);
@@ -389,7 +385,6 @@ public class MainLayoutController implements Initializable {
                 menu.getChildren().add(stock_btn);
                 menu.getChildren().add(logout);
                 break;
-
             case "sales control":
                 menu.getChildren().add(dashboard_btn);
                 menu.getChildren().add(profile_btn);
@@ -398,7 +393,6 @@ public class MainLayoutController implements Initializable {
                 menu.getChildren().add(stock_btn);
                 menu.getChildren().add(logout);
                 break;
-
             default:
                 break;
         }
@@ -478,16 +472,19 @@ public class MainLayoutController implements Initializable {
     }
 
     private void addActiveClassToNavLink() {
-        ArrayList<Button> navLinks = menu.getChildren().stream().filter(node -> node instanceof Button).map(node -> (Button) node).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Button> navLinks = menu
+            .getChildren()
+            .stream()
+            .filter(node -> node instanceof Button)
+            .map(node -> (Button) node)
+            .collect(Collectors.toCollection(ArrayList::new));
 
         //add background color to active button
         for (Button button : navLinks) {
             if (button.isFocused()) {
-                button.setStyle("-fx-background-color: #FFC700, #00A300;" +
-                        "-fx-background-insets: 0, 0 0 0 4;");
+                button.setStyle("-fx-background-color: #FFC700, #00A300;" + "-fx-background-insets: 0, 0 0 0 4;");
             } else {
-                button.setStyle("-fx-background-color: #1B2434, #1E293B;" +
-                        "-fx-background-insets: 0, 0 0 1 0;");
+                button.setStyle("-fx-background-color: #1B2434, #1E293B;" + "-fx-background-insets: 0, 0 0 1 0;");
             }
         }
     }
@@ -495,16 +492,14 @@ public class MainLayoutController implements Initializable {
     @FXML
     void navLinkMouseEntred(MouseEvent event) {
         Button button = (Button) event.getSource();
-        button.setStyle("-fx-background-color: #FFC700,#00A300;" +
-                "-fx-background-insets: 0, 0 0 0 4;");
+        button.setStyle("-fx-background-color: #FFC700,#00A300;" + "-fx-background-insets: 0, 0 0 0 4;");
     }
 
     @FXML
     void navLinkMouseExited(MouseEvent event) {
         Button button = (Button) event.getSource();
         if (!button.isFocused()) {
-            button.setStyle("-fx-background-color: #1B2434, #1E293B;" +
-                    "-fx-background-insets: 0, 0 0 1 0;");
+            button.setStyle("-fx-background-color: #1B2434, #1E293B;" + "-fx-background-insets: 0, 0 0 1 0;");
         }
     }
 

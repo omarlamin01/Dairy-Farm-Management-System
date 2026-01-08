@@ -1,14 +1,13 @@
 package com.dfms.dairy_farm_management_system.helpers;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.scene.control.TextField;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 //Code Coverage Testing
 class HelperValidateEmailInputCoverageTest {
@@ -37,6 +36,7 @@ class HelperValidateEmailInputCoverageTest {
             fail("Interrupted while waiting for JavaFX thread");
         }
     }
+
     @Test
     void validEmail_shouldSetTransparentBorder() {
         TextField tf = new TextField();
@@ -46,6 +46,7 @@ class HelperValidateEmailInputCoverageTest {
 
         assertEquals("-fx-border-color: transparent", tf.getStyle());
     }
+
     @Test
     void invalidEmail_shouldSetRedBorder() {
         TextField tf = new TextField();

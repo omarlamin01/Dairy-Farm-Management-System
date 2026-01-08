@@ -1,5 +1,9 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.NewPurchaseController;
 import com.dfms.dairy_farm_management_system.models.Animal;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
@@ -9,6 +13,12 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URL;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -26,51 +36,53 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.net.URL;
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-
 public class ReportsController implements Initializable {
-//  milk collection part
+
+    //  milk collection part
     @FXML
     private DatePicker from_date_picker;
 
     @FXML
     private DatePicker to_date_picker;
+
     @FXML
     private Button search_btn;
+
     @FXML
     private VBox milk_collection_results_area;
+
     LocalDate start;
     LocalDate end;
+
     //Purchase items
     @FXML
     private DatePicker to_date;
+
     @FXML
     private DatePicker from_date;
+
     @FXML
     private Button btn_serach;
+
     @FXML
     private VBox purchase_results_area;
+
     LocalDate start1;
     LocalDate end1;
 
     //Milk sales attributes
     @FXML
     private DatePicker to_date_milk_sale;
+
     @FXML
     private DatePicker from_date_milk_sale;
+
     @FXML
-    private  Button btn_search_milkSales;
+    private Button btn_search_milkSales;
+
     LocalDate startsale;
     LocalDate endsale;
+
     @FXML
     private VBox sales_results_area;
 
@@ -78,15 +90,21 @@ public class ReportsController implements Initializable {
 
     @FXML
     private DatePicker to_date_animal_sales;
+
     @FXML
     private DatePicker from_date_animal_sales;
+
     @FXML
     private VBox animal_sales_results_area;
+
     @FXML
-    private  Button btn_search_animal_sales;
+    private Button btn_search_animal_sales;
+
     LocalDate start_animal_sales;
     LocalDate end_animal_sales;
+
     public class DailyMilkCollection {
+
         private Date collection_date;
         private float total_day_collection;
         private float morning_collection;
@@ -128,12 +146,18 @@ public class ReportsController implements Initializable {
 
         @Override
         public String toString() {
-            return "DailyMilkCollection{" +
-                    "collection_date=" + collection_date +
-                    ", total_day_collection=" + total_day_collection +
-                    ", morning_collection=" + morning_collection +
-                    ", evening_collection=" + evening_collection +
-                    '}';
+            return (
+                "DailyMilkCollection{" +
+                "collection_date=" +
+                collection_date +
+                ", total_day_collection=" +
+                total_day_collection +
+                ", morning_collection=" +
+                morning_collection +
+                ", evening_collection=" +
+                evening_collection +
+                '}'
+            );
         }
     }
 
@@ -152,46 +176,23 @@ public class ReportsController implements Initializable {
         initView2();
         initViewSales();
         initViewAnimalSales();
-        search_btn.setOnMouseClicked(event -> { displayData(); });
-        btn_serach.setOnMouseClicked(event -> { displayData2(); });
-        btn_search_milkSales.setOnMouseClicked(event->{displayDataMilkSales();});
-        btn_search_animal_sales.setOnMouseClicked(event->{displayDataAnimalSales();});
-
+        search_btn.setOnMouseClicked(event -> {
+            displayData();
+        });
+        btn_serach.setOnMouseClicked(event -> {
+            displayData2();
+        });
+        btn_search_milkSales.setOnMouseClicked(event -> {
+            displayDataMilkSales();
+        });
+        btn_search_animal_sales.setOnMouseClicked(event -> {
+            displayDataAnimalSales();
+        });
     }
 
     private void initView() {
-        to_date_picker.setDayCellFactory(d -> new DateCell() {
-            /**
-             * {@inheritDoc}
-             *
-             * @param item
-             * @param empty
-             */
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                setDisable(item.isAfter(LocalDate.now()));
-            }
-        });
-
-        from_date_picker.setDayCellFactory(d -> new DateCell() {
-            /**
-             * {@inheritDoc}
-             *
-             * @param item
-             * @param empty
-             */
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                setDisable(item.isAfter(LocalDate.now()));
-            }
-        });
-
-        to_date_picker.setOnAction(event -> {
-            LocalDate date = to_date_picker.getValue();
-            end = to_date_picker.getValue();
-            from_date_picker.setDayCellFactory(d -> new DateCell() {
+        to_date_picker.setDayCellFactory(d ->
+            new DateCell() {
                 /**
                  * {@inheritDoc}
                  *
@@ -201,29 +202,66 @@ public class ReportsController implements Initializable {
                 @Override
                 public void updateItem(LocalDate item, boolean empty) {
                     super.updateItem(item, empty);
-                    setDisable(item.isAfter(date));
+                    setDisable(item.isAfter(LocalDate.now()));
                 }
-            });
+            }
+        );
+
+        from_date_picker.setDayCellFactory(d ->
+            new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isAfter(LocalDate.now()));
+                }
+            }
+        );
+
+        to_date_picker.setOnAction(event -> {
+            LocalDate date = to_date_picker.getValue();
+            end = to_date_picker.getValue();
+            from_date_picker.setDayCellFactory(d ->
+                new DateCell() {
+                    /**
+                     * {@inheritDoc}
+                     *
+                     * @param item
+                     * @param empty
+                     */
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setDisable(item.isAfter(date));
+                    }
+                }
+            );
         });
 
         from_date_picker.setOnAction(event -> {
             LocalDate date = from_date_picker.getValue();
             start = from_date_picker.getValue();
-            to_date_picker.setDayCellFactory(d -> new DateCell() {
-                /**
-                 * {@inheritDoc}
-                 *
-                 * @param item
-                 * @param empty
-                 */
-                @Override
-                public void updateItem(LocalDate item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+            to_date_picker.setDayCellFactory(d ->
+                new DateCell() {
+                    /**
+                     * {@inheritDoc}
+                     *
+                     * @param item
+                     * @param empty
+                     */
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+                    }
                 }
-            });
+            );
         });
-
     }
 
     private ObservableList<DailyMilkCollection> getData() {
@@ -234,11 +272,11 @@ public class ReportsController implements Initializable {
 
         try {
             String query =
-                    "SELECT `created_at` AS collection_date, " +
-                    "sum(`quantity`) AS morning_collection " +
-                    "FROM `milk_collections` WHERE `period` = ? AND `created_at` <= ? AND `created_at` >= ? " +
-                    "GROUP BY date(created_at) " +
-                    "ORDER BY `created_at` DESC";
+                "SELECT `created_at` AS collection_date, " +
+                "sum(`quantity`) AS morning_collection " +
+                "FROM `milk_collections` WHERE `period` = ? AND `created_at` <= ? AND `created_at` >= ? " +
+                "GROUP BY date(created_at) " +
+                "ORDER BY `created_at` DESC";
 
             PreparedStatement statement = getConnection().prepareStatement(query);
 
@@ -254,8 +292,9 @@ public class ReportsController implements Initializable {
                 dailyMilkCollection.setCollection_date(resultSet.getDate("collection_date"));
                 dailyMilkCollection.setMorning_collection(resultSet.getFloat("morning_collection"));
                 try {
-                    String query1 = "SELECT sum(`quantity`) AS evening_collection " +
-                            "FROM `milk_collections` WHERE `period` = ? AND date(`created_at`) = ? ";
+                    String query1 =
+                        "SELECT sum(`quantity`) AS evening_collection " +
+                        "FROM `milk_collections` WHERE `period` = ? AND date(`created_at`) = ? ";
 
                     PreparedStatement preparedStatement = getConnection().prepareStatement(query1);
 
@@ -273,7 +312,6 @@ public class ReportsController implements Initializable {
                 }
                 data.add(dailyMilkCollection);
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getSQLState());
@@ -293,30 +331,38 @@ public class ReportsController implements Initializable {
         export_combo.getStyleClass().add("combo_box");
 
         //check what user select in the combo box
-        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-            if (t1.equals("PDF")) {
-                exportToPDF(start, end);
-            } else {
-                exportToExcel();
-            }
-        });
+        export_combo
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((observableValue, s, t1) -> {
+                if (t1.equals("PDF")) {
+                    exportToPDF(start, end);
+                } else {
+                    exportToExcel();
+                }
+            });
 
         TableColumn<DailyMilkCollection, String> collection_date = new TableColumn<>("Date");
         collection_date.setCellValueFactory(new PropertyValueFactory<DailyMilkCollection, String>("collection_date"));
         collection_date.setPrefWidth(180);
 
         TableColumn<DailyMilkCollection, String> total_day_collection = new TableColumn<>("Total day collection");
-        total_day_collection.setCellValueFactory(new PropertyValueFactory<DailyMilkCollection, String>("total_day_collection"));
+        total_day_collection.setCellValueFactory(
+            new PropertyValueFactory<DailyMilkCollection, String>("total_day_collection")
+        );
         total_day_collection.setPrefWidth(180);
 
         TableColumn<DailyMilkCollection, String> morning_collection = new TableColumn<>("Morning collection");
-        morning_collection.setCellValueFactory(new PropertyValueFactory<DailyMilkCollection, String>("morning_collection"));
+        morning_collection.setCellValueFactory(
+            new PropertyValueFactory<DailyMilkCollection, String>("morning_collection")
+        );
         morning_collection.setPrefWidth(180);
 
         TableColumn<DailyMilkCollection, String> evening_collection = new TableColumn<>("Evening collection");
-        evening_collection.setCellValueFactory(new PropertyValueFactory<DailyMilkCollection, String>("evening_collection"));
+        evening_collection.setCellValueFactory(
+            new PropertyValueFactory<DailyMilkCollection, String>("evening_collection")
+        );
         evening_collection.setPrefWidth(180);
-
 
         TableView<DailyMilkCollection> data_table = new TableView<>();
         data_table.getColumns().addAll(collection_date, total_day_collection, morning_collection, evening_collection);
@@ -330,7 +376,12 @@ public class ReportsController implements Initializable {
     private void exportToExcel() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save as");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser
+            .getExtensionFilters()
+            .addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+            );
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
@@ -379,8 +430,14 @@ public class ReportsController implements Initializable {
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    Paragraph title = new Paragraph("Daily milk collection", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-                    Paragraph text = new Paragraph("The milk collection between " + start.toString() + " and " + end.toString() + ".", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    Paragraph title = new Paragraph(
+                        "Daily milk collection",
+                        FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK)
+                    );
+                    Paragraph text = new Paragraph(
+                        "The milk collection between " + start.toString() + " and " + end.toString() + ".",
+                        FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK)
+                    );
 
                     //center paragraph
                     title.setAlignment(Element.ALIGN_CENTER);
@@ -406,10 +463,43 @@ public class ReportsController implements Initializable {
                 }
 
                 //add table header
-                table.addCell(new PdfPCell(new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Total day collection", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Morning collection", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Evening collection", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Total day collection",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Morning collection",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Evening collection",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
 
                 //add padding to cells
                 table.getDefaultCell().setPadding(3);
@@ -417,10 +507,18 @@ public class ReportsController implements Initializable {
                 table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
 
                 for (DailyMilkCollection collection : getData()) {
-                    table.addCell(new PdfPCell(new Paragraph(collection.getCollection_date().toString()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(collection.getTotal_day_collection())))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(collection.getMorning_collection())))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(collection.getEvening_collection())))).setPadding(5);
+                    table
+                        .addCell(new PdfPCell(new Paragraph(collection.getCollection_date().toString())))
+                        .setPadding(5);
+                    table
+                        .addCell(new PdfPCell(new Paragraph(String.valueOf(collection.getTotal_day_collection()))))
+                        .setPadding(5);
+                    table
+                        .addCell(new PdfPCell(new Paragraph(String.valueOf(collection.getMorning_collection()))))
+                        .setPadding(5);
+                    table
+                        .addCell(new PdfPCell(new Paragraph(String.valueOf(collection.getEvening_collection()))))
+                        .setPadding(5);
                 }
 
                 document.add(table);
@@ -431,40 +529,11 @@ public class ReportsController implements Initializable {
             }
         }
     }
+
     //Purchase
     private void initView2() {
-        to_date.setDayCellFactory(d -> new DateCell() {
-            /**
-             * {@inheritDoc}
-             *
-             * @param item
-             * @param empty
-             */
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                setDisable(item.isAfter(LocalDate.now()));
-            }
-        });
-
-        from_date.setDayCellFactory(d -> new DateCell() {
-            /**
-             * {@inheritDoc}
-             *
-             * @param item
-             * @param empty
-             */
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                setDisable(item.isAfter(LocalDate.now()));
-            }
-        });
-
-        to_date.setOnAction(event -> {
-            LocalDate date = to_date.getValue();
-            end1= to_date.getValue();
-            from_date.setDayCellFactory(d -> new DateCell() {
+        to_date.setDayCellFactory(d ->
+            new DateCell() {
                 /**
                  * {@inheritDoc}
                  *
@@ -474,30 +543,68 @@ public class ReportsController implements Initializable {
                 @Override
                 public void updateItem(LocalDate item, boolean empty) {
                     super.updateItem(item, empty);
-                    setDisable(item.isAfter(date));
+                    setDisable(item.isAfter(LocalDate.now()));
                 }
-            });
+            }
+        );
+
+        from_date.setDayCellFactory(d ->
+            new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isAfter(LocalDate.now()));
+                }
+            }
+        );
+
+        to_date.setOnAction(event -> {
+            LocalDate date = to_date.getValue();
+            end1 = to_date.getValue();
+            from_date.setDayCellFactory(d ->
+                new DateCell() {
+                    /**
+                     * {@inheritDoc}
+                     *
+                     * @param item
+                     * @param empty
+                     */
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setDisable(item.isAfter(date));
+                    }
+                }
+            );
         });
 
         from_date.setOnAction(event -> {
             LocalDate date = from_date.getValue();
             start1 = from_date.getValue();
-            to_date.setDayCellFactory(d -> new DateCell() {
-                /**
-                 * {@inheritDoc}
-                 *
-                 * @param item
-                 * @param empty
-                 */
-                @Override
-                public void updateItem(LocalDate item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+            to_date.setDayCellFactory(d ->
+                new DateCell() {
+                    /**
+                     * {@inheritDoc}
+                     *
+                     * @param item
+                     * @param empty
+                     */
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+                    }
                 }
-            });
+            );
         });
-
     }
+
     private ObservableList<Purchase> getDataPurchase() {
         LocalDate min_date = from_date.getValue();
         LocalDate max_date = to_date.getValue();
@@ -506,12 +613,11 @@ public class ReportsController implements Initializable {
 
         try {
             String query =
-                   " SELECT * FROM `purchases` WHERE  `purchase_date` <= ? AND `purchase_date` >= ? " +
-                            "GROUP BY date(purchase_date) " +
-                            "ORDER BY `purchase_date` DESC";
+                " SELECT * FROM `purchases` WHERE  `purchase_date` <= ? AND `purchase_date` >= ? " +
+                "GROUP BY date(purchase_date) " +
+                "ORDER BY `purchase_date` DESC";
 
             PreparedStatement statement = getConnection().prepareStatement(query);
-
 
             statement.setTimestamp(1, Timestamp.valueOf(max_date.atTime(23, 59, 59)));
             statement.setTimestamp(2, Timestamp.valueOf(min_date.atStartOfDay()));
@@ -528,7 +634,6 @@ public class ReportsController implements Initializable {
                 purchase.setPrice(resultSet.getFloat("price"));
                 data.add(purchase);
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getSQLState());
@@ -548,13 +653,16 @@ public class ReportsController implements Initializable {
         export_combo.getStyleClass().add("combo_box");
 
         //check what user select in the combo box
-        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-            if (t1.equals("PDF")) {
-                exportToPDF2(start1, end1);
-            } else {
-                exportToExcel2();
-            }
-        });
+        export_combo
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((observableValue, s, t1) -> {
+                if (t1.equals("PDF")) {
+                    exportToPDF2(start1, end1);
+                } else {
+                    exportToExcel2();
+                }
+            });
 
         TableColumn<Purchase, String> purchase_date = new TableColumn<>("Date");
         purchase_date.setCellValueFactory(new PropertyValueFactory<Purchase, String>("purchase_date"));
@@ -568,7 +676,6 @@ public class ReportsController implements Initializable {
         quantity.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("quantity"));
         quantity.setPrefWidth(180);
 
-
         TableColumn<Purchase, Float> price = new TableColumn<>("Price");
         price.setCellValueFactory(new PropertyValueFactory<Purchase, Float>("price"));
         price.setPrefWidth(180);
@@ -577,22 +684,28 @@ public class ReportsController implements Initializable {
         supplier.setCellValueFactory(new PropertyValueFactory<Purchase, String>("supplier_name"));
         supplier.setPrefWidth(180);
 
-
         TableView<Purchase> data_table = new TableView<>();
-        data_table.getColumns().addAll(purchase_date, product, quantity, price,supplier);
+        data_table.getColumns().addAll(purchase_date, product, quantity, price, supplier);
         data_table.getStyleClass().add("table-view");
         data_table.setItems(getDataPurchase());
         data_table.setPrefSize(900, 400);
 
         purchase_results_area.getChildren().addAll(export_combo, data_table);
     }
+
     private static int COLUMNS_COUNT = 5;
     private Statement statemeent;
     private Connection connection = getConnection();
+
     private void exportToExcel2() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser
+            .getExtensionFilters()
+            .addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+            );
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
@@ -606,11 +719,10 @@ public class ReportsController implements Initializable {
                 header.createCell(4).setCellValue("Supplier");
                 header.createCell(5).setCellValue("Date");
 
-
                 //get all employees from database
-                String query = "SELECT pur.id,st.name,pur.price,s.name,pur.purchase_date,pur.quantity FROM `purchases` pur ,`suppliers` s , `stocks` st where pur.supplier_id=s.id and pur.stock_id=st.id  ";
+                String query =
+                    "SELECT pur.id,st.name,pur.price,s.name,pur.purchase_date,pur.quantity FROM `purchases` pur ,`suppliers` s , `stocks` st where pur.supplier_id=s.id and pur.stock_id=st.id  ";
                 try {
-
                     statemeent = connection.createStatement();
                     ResultSet rs = statemeent.executeQuery(query);
                     while (rs.next()) {
@@ -622,12 +734,10 @@ public class ReportsController implements Initializable {
                         row.createCell(3).setCellValue(rs.getString("pur.quantity"));
                         row.createCell(4).setCellValue(rs.getString("s.name"));
                         row.createCell(5).setCellValue(rs.getString("pur.purchase_date"));
-
                     }
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
-
 
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 workbook.write(fileOutputStream);
@@ -638,7 +748,6 @@ public class ReportsController implements Initializable {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
         }
-
     }
 
     private void exportToPDF2(LocalDate start, LocalDate end) {
@@ -655,8 +764,18 @@ public class ReportsController implements Initializable {
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    Paragraph title = new Paragraph("Purchases List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-                    Paragraph text = new Paragraph("This is the list of the purchases between " + start.toString() + " and " + end.toString() + ".",  FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    Paragraph title = new Paragraph(
+                        "Purchases List",
+                        FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK)
+                    );
+                    Paragraph text = new Paragraph(
+                        "This is the list of the purchases between " +
+                            start.toString() +
+                            " and " +
+                            end.toString() +
+                            ".",
+                        FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK)
+                    );
 
                     //center paragraph
                     title.setAlignment(Element.ALIGN_CENTER);
@@ -682,33 +801,70 @@ public class ReportsController implements Initializable {
                 }
 
                 //add table header
-                table.addCell(new PdfPCell(new Paragraph("Product ", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Quantity", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Supplier", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Product ",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Quantity",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Supplier",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
 
                 //add padding to cells
                 table.getDefaultCell().setPadding(3);
                 table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
                 table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
 
-
-
-
                 //get employee of each row
                 //used a method in my updateEmplyeeController to get the employee of each row based on the cin
-              /*  NewPurchaseController controller = new NewPurchaseController();*/
+                /*  NewPurchaseController controller = new NewPurchaseController();*/
 
                 for (Purchase purchase : getDataPurchase()) {
-                   /* Purchase pur = controller.getPurchase(purchase.getId());*/
+                    /* Purchase pur = controller.getPurchase(purchase.getId());*/
 
                     table.addCell(new PdfPCell(new Paragraph(purchase.getProduct_name()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(purchase.getPrice())))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(purchase.getQuantity())))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(purchase.getSupplier_name()))).setPadding(5);
-                    table.addCell(new PdfPCell(new Paragraph(String.valueOf(purchase.getPurchase_date())))).setPadding(5);
-
+                    table
+                        .addCell(new PdfPCell(new Paragraph(String.valueOf(purchase.getPurchase_date()))))
+                        .setPadding(5);
                 }
 
                 document.add(table);
@@ -722,38 +878,8 @@ public class ReportsController implements Initializable {
 
     //Sales
     private void initViewSales() {
-        to_date_milk_sale.setDayCellFactory(d -> new DateCell() {
-            /**
-             * {@inheritDoc}
-             *
-             * @param item
-             * @param empty
-             */
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                setDisable(item.isAfter(LocalDate.now()));
-            }
-        });
-
-        from_date_milk_sale.setDayCellFactory(d -> new DateCell() {
-            /**
-             * {@inheritDoc}
-             *
-             * @param item
-             * @param empty
-             */
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                setDisable(item.isAfter(LocalDate.now()));
-            }
-        });
-
-        to_date_milk_sale.setOnAction(event -> {
-            LocalDate date = to_date_milk_sale.getValue();
-            endsale= to_date_milk_sale.getValue();
-            from_date_milk_sale.setDayCellFactory(d -> new DateCell() {
+        to_date_milk_sale.setDayCellFactory(d ->
+            new DateCell() {
                 /**
                  * {@inheritDoc}
                  *
@@ -763,30 +889,68 @@ public class ReportsController implements Initializable {
                 @Override
                 public void updateItem(LocalDate item, boolean empty) {
                     super.updateItem(item, empty);
-                    setDisable(item.isAfter(date));
+                    setDisable(item.isAfter(LocalDate.now()));
                 }
-            });
+            }
+        );
+
+        from_date_milk_sale.setDayCellFactory(d ->
+            new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isAfter(LocalDate.now()));
+                }
+            }
+        );
+
+        to_date_milk_sale.setOnAction(event -> {
+            LocalDate date = to_date_milk_sale.getValue();
+            endsale = to_date_milk_sale.getValue();
+            from_date_milk_sale.setDayCellFactory(d ->
+                new DateCell() {
+                    /**
+                     * {@inheritDoc}
+                     *
+                     * @param item
+                     * @param empty
+                     */
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setDisable(item.isAfter(date));
+                    }
+                }
+            );
         });
 
         from_date_milk_sale.setOnAction(event -> {
             LocalDate date = from_date_milk_sale.getValue();
-            startsale= from_date_milk_sale.getValue();
-            to_date_milk_sale.setDayCellFactory(d -> new DateCell() {
-                /**
-                 * {@inheritDoc}
-                 *
-                 * @param item
-                 * @param empty
-                 */
-                @Override
-                public void updateItem(LocalDate item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+            startsale = from_date_milk_sale.getValue();
+            to_date_milk_sale.setDayCellFactory(d ->
+                new DateCell() {
+                    /**
+                     * {@inheritDoc}
+                     *
+                     * @param item
+                     * @param empty
+                     */
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+                    }
                 }
-            });
+            );
         });
-
     }
+
     private ObservableList<MilkSale> getDataSales() {
         LocalDate min_date = from_date_milk_sale.getValue();
         LocalDate max_date = to_date_milk_sale.getValue();
@@ -795,12 +959,11 @@ public class ReportsController implements Initializable {
 
         try {
             String query =
-                    " SELECT * FROM `milk_sales` WHERE  `sale_date` <= ? AND `sale_date` >= ? " +
-                            "GROUP BY date(sale_date) " +
-                            "ORDER BY `sale_date` DESC";
+                " SELECT * FROM `milk_sales` WHERE  `sale_date` <= ? AND `sale_date` >= ? " +
+                "GROUP BY date(sale_date) " +
+                "ORDER BY `sale_date` DESC";
 
             PreparedStatement statement = getConnection().prepareStatement(query);
-
 
             statement.setTimestamp(1, Timestamp.valueOf(max_date.atTime(23, 59, 59)));
             statement.setTimestamp(2, Timestamp.valueOf(min_date.atStartOfDay()));
@@ -816,7 +979,6 @@ public class ReportsController implements Initializable {
                 milkSale.setClientId(resultSet.getInt("client_id"));
                 data.add(milkSale);
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getSQLState());
@@ -827,8 +989,8 @@ public class ReportsController implements Initializable {
     }
 
     private void displayDataMilkSales() {
-       sales_results_area.getChildren().clear();
-       sales_results_area.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        sales_results_area.getChildren().clear();
+        sales_results_area.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
         ComboBox<String> export_combo = new ComboBox<>(FXCollections.observableArrayList("Excel", "PDF"));
         export_combo.setPromptText("Export");
@@ -836,15 +998,18 @@ public class ReportsController implements Initializable {
         export_combo.getStyleClass().add("combo_box");
 
         //check what user select in the combo box
-        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-            if (t1.equals("PDF")) {
-                exportToPDFMilkSales(startsale, endsale);
-            } else {
-                exportToExcelMilkSales();
-            }
-        });
-        TableColumn<MilkSale,Integer> id= new TableColumn<>("ID");
-        id.setCellValueFactory(new PropertyValueFactory<MilkSale,Integer>("id"));
+        export_combo
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((observableValue, s, t1) -> {
+                if (t1.equals("PDF")) {
+                    exportToPDFMilkSales(startsale, endsale);
+                } else {
+                    exportToExcelMilkSales();
+                }
+            });
+        TableColumn<MilkSale, Integer> id = new TableColumn<>("ID");
+        id.setCellValueFactory(new PropertyValueFactory<MilkSale, Integer>("id"));
         id.setPrefWidth(180);
 
         TableColumn<MilkSale, String> sale_date = new TableColumn<>("Date");
@@ -855,30 +1020,34 @@ public class ReportsController implements Initializable {
         quantity.setCellValueFactory(new PropertyValueFactory<MilkSale, Float>("quantity"));
         quantity.setPrefWidth(180);
 
-
         TableColumn<MilkSale, Float> price = new TableColumn<>("Price");
         price.setCellValueFactory(new PropertyValueFactory<MilkSale, Float>("price"));
         price.setPrefWidth(180);
 
-        TableColumn<MilkSale, String> client= new TableColumn<>("Client");
+        TableColumn<MilkSale, String> client = new TableColumn<>("Client");
         client.setCellValueFactory(new PropertyValueFactory<MilkSale, String>("clientName"));
         client.setPrefWidth(180);
 
-
         TableView<MilkSale> data_table = new TableView<>();
-        data_table.getColumns().addAll(id,sale_date, quantity, price,client);
+        data_table.getColumns().addAll(id, sale_date, quantity, price, client);
         data_table.getStyleClass().add("table-view");
         data_table.setItems(getDataSales());
         data_table.setPrefSize(900, 400);
 
-       sales_results_area.getChildren().addAll(export_combo, data_table);
+        sales_results_area.getChildren().addAll(export_combo, data_table);
     }
-    private static int COLUMNS_COUNT_Table_MilkSales= 5;
+
+    private static int COLUMNS_COUNT_Table_MilkSales = 5;
 
     private void exportToExcelMilkSales() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser
+            .getExtensionFilters()
+            .addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+            );
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
@@ -891,8 +1060,7 @@ public class ReportsController implements Initializable {
                 header.createCell(4).setCellValue("Price");
                 header.createCell(5).setCellValue("Client");
 
-
-                for (MilkSale milkSale: getDataSales()) {
+                for (MilkSale milkSale : getDataSales()) {
                     Row row = sheet.createRow(sheet.getLastRowNum() + 1);
                     row.createCell(1).setCellValue(milkSale.getId());
                     row.createCell(2).setCellValue(milkSale.getSale_date());
@@ -910,7 +1078,6 @@ public class ReportsController implements Initializable {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
         }
-
     }
 
     private void exportToPDFMilkSales(LocalDate start, LocalDate end) {
@@ -927,8 +1094,18 @@ public class ReportsController implements Initializable {
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    Paragraph title = new Paragraph("Milk Sales List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-                    Paragraph text = new Paragraph("This is the list of the Milk sales between " + start.toString() + " and " + end.toString() + ".",  FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    Paragraph title = new Paragraph(
+                        "Milk Sales List",
+                        FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK)
+                    );
+                    Paragraph text = new Paragraph(
+                        "This is the list of the Milk sales between " +
+                            start.toString() +
+                            " and " +
+                            end.toString() +
+                            ".",
+                        FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK)
+                    );
 
                     //center paragraph
                     title.setAlignment(Element.ALIGN_CENTER);
@@ -954,20 +1131,49 @@ public class ReportsController implements Initializable {
                 }
 
                 //add table header
-                table.addCell(new PdfPCell(new Paragraph("ID", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Quantity", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Client", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("ID", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Quantity",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Client", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
 
                 //add padding to cells
                 table.getDefaultCell().setPadding(3);
                 table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
                 table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-
-
 
                 //get employee of each row
                 //used a method in my updateEmplyeeController to get the employee of each row based on the cin
@@ -981,8 +1187,6 @@ public class ReportsController implements Initializable {
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(milkSale.getQuantity())))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(milkSale.getPrice())))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(milkSale.getClientName()))).setPadding(5);
-
-
                 }
 
                 document.add(table);
@@ -996,38 +1200,8 @@ public class ReportsController implements Initializable {
 
     //Animal Sales
     private void initViewAnimalSales() {
-        to_date_animal_sales.setDayCellFactory(d -> new DateCell() {
-            /**
-             * {@inheritDoc}
-             *
-             * @param item
-             * @param empty
-             */
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                setDisable(item.isAfter(LocalDate.now()));
-            }
-        });
-
-        from_date_animal_sales.setDayCellFactory(d -> new DateCell() {
-            /**
-             * {@inheritDoc}
-             *
-             * @param item
-             * @param empty
-             */
-            @Override
-            public void updateItem(LocalDate item, boolean empty) {
-                super.updateItem(item, empty);
-                setDisable(item.isAfter(LocalDate.now()));
-            }
-        });
-
-        to_date_animal_sales.setOnAction(event -> {
-            LocalDate date = to_date_animal_sales.getValue();
-           end_animal_sales= to_date_animal_sales.getValue();
-            from_date_animal_sales.setDayCellFactory(d -> new DateCell() {
+        to_date_animal_sales.setDayCellFactory(d ->
+            new DateCell() {
                 /**
                  * {@inheritDoc}
                  *
@@ -1037,30 +1211,68 @@ public class ReportsController implements Initializable {
                 @Override
                 public void updateItem(LocalDate item, boolean empty) {
                     super.updateItem(item, empty);
-                    setDisable(item.isAfter(date));
+                    setDisable(item.isAfter(LocalDate.now()));
                 }
-            });
+            }
+        );
+
+        from_date_animal_sales.setDayCellFactory(d ->
+            new DateCell() {
+                /**
+                 * {@inheritDoc}
+                 *
+                 * @param item
+                 * @param empty
+                 */
+                @Override
+                public void updateItem(LocalDate item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setDisable(item.isAfter(LocalDate.now()));
+                }
+            }
+        );
+
+        to_date_animal_sales.setOnAction(event -> {
+            LocalDate date = to_date_animal_sales.getValue();
+            end_animal_sales = to_date_animal_sales.getValue();
+            from_date_animal_sales.setDayCellFactory(d ->
+                new DateCell() {
+                    /**
+                     * {@inheritDoc}
+                     *
+                     * @param item
+                     * @param empty
+                     */
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setDisable(item.isAfter(date));
+                    }
+                }
+            );
         });
 
         from_date_animal_sales.setOnAction(event -> {
             LocalDate date = from_date_animal_sales.getValue();
-            start_animal_sales= from_date_animal_sales.getValue();
-            to_date_animal_sales.setDayCellFactory(d -> new DateCell() {
-                /**
-                 * {@inheritDoc}
-                 *
-                 * @param item
-                 * @param empty
-                 */
-                @Override
-                public void updateItem(LocalDate item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+            start_animal_sales = from_date_animal_sales.getValue();
+            to_date_animal_sales.setDayCellFactory(d ->
+                new DateCell() {
+                    /**
+                     * {@inheritDoc}
+                     *
+                     * @param item
+                     * @param empty
+                     */
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setDisable(item.isBefore(date) || item.isAfter(LocalDate.now()));
+                    }
                 }
-            });
+            );
         });
-
     }
+
     private ObservableList<AnimalSale> getDataAnimalSales() {
         LocalDate min_date = from_date_animal_sales.getValue();
         LocalDate max_date = to_date_animal_sales.getValue();
@@ -1069,12 +1281,11 @@ public class ReportsController implements Initializable {
 
         try {
             String query =
-                    " SELECT * FROM `animals_sales` WHERE  `sale_date` <= ? AND `sale_date` >= ? " +
-                            "GROUP BY date(sale_date) " +
-                            "ORDER BY `sale_date` DESC";
+                " SELECT * FROM `animals_sales` WHERE  `sale_date` <= ? AND `sale_date` >= ? " +
+                "GROUP BY date(sale_date) " +
+                "ORDER BY `sale_date` DESC";
 
             PreparedStatement statement = getConnection().prepareStatement(query);
-
 
             statement.setTimestamp(1, Timestamp.valueOf(max_date.atTime(23, 59, 59)));
             statement.setTimestamp(2, Timestamp.valueOf(min_date.atStartOfDay()));
@@ -1089,7 +1300,6 @@ public class ReportsController implements Initializable {
                 animalSale.setClientId(resultSet.getInt("client_id"));
                 data.add(animalSale);
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getSQLState());
@@ -1109,15 +1319,18 @@ public class ReportsController implements Initializable {
         export_combo.getStyleClass().add("combo_box");
 
         //check what user select in the combo box
-        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-            if (t1.equals("PDF")) {
-                exportToPDFAnimalSales(start_animal_sales, end_animal_sales);
-            } else {
-                exportToExcelAnimalSales();
-            }
-        });
-        TableColumn<AnimalSale,Integer> id= new TableColumn<>("Animal ID");
-        id.setCellValueFactory(new PropertyValueFactory<AnimalSale,Integer>("animalId"));
+        export_combo
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((observableValue, s, t1) -> {
+                if (t1.equals("PDF")) {
+                    exportToPDFAnimalSales(start_animal_sales, end_animal_sales);
+                } else {
+                    exportToExcelAnimalSales();
+                }
+            });
+        TableColumn<AnimalSale, Integer> id = new TableColumn<>("Animal ID");
+        id.setCellValueFactory(new PropertyValueFactory<AnimalSale, Integer>("animalId"));
         id.setPrefWidth(180);
 
         TableColumn<AnimalSale, String> sale_date = new TableColumn<>("Date");
@@ -1128,25 +1341,30 @@ public class ReportsController implements Initializable {
         price.setCellValueFactory(new PropertyValueFactory<AnimalSale, Float>("price"));
         price.setPrefWidth(180);
 
-        TableColumn<AnimalSale, String> client= new TableColumn<>("Client");
+        TableColumn<AnimalSale, String> client = new TableColumn<>("Client");
         client.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("clientName"));
         client.setPrefWidth(180);
 
-
         TableView<AnimalSale> data_table = new TableView<>();
-        data_table.getColumns().addAll(id,sale_date,price,client);
+        data_table.getColumns().addAll(id, sale_date, price, client);
         data_table.getStyleClass().add("table-view");
         data_table.setItems(getDataAnimalSales());
         data_table.setPrefSize(900, 400);
 
         animal_sales_results_area.getChildren().addAll(export_combo, data_table);
     }
-    private static int COLUMNS_COUNT_Table_AnimalSales= 4;
+
+    private static int COLUMNS_COUNT_Table_AnimalSales = 4;
 
     private void exportToExcelAnimalSales() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser
+            .getExtensionFilters()
+            .addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+            );
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
@@ -1158,8 +1376,7 @@ public class ReportsController implements Initializable {
                 header.createCell(3).setCellValue("Price");
                 header.createCell(4).setCellValue("Client");
 
-
-                for (AnimalSale animalSale: getDataAnimalSales()) {
+                for (AnimalSale animalSale : getDataAnimalSales()) {
                     Row row = sheet.createRow(sheet.getLastRowNum() + 1);
                     row.createCell(1).setCellValue(animalSale.getAnimalId());
                     row.createCell(2).setCellValue(animalSale.getSale_date());
@@ -1176,7 +1393,6 @@ public class ReportsController implements Initializable {
                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
             }
         }
-
     }
 
     private void exportToPDFAnimalSales(LocalDate start, LocalDate end) {
@@ -1193,8 +1409,18 @@ public class ReportsController implements Initializable {
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    Paragraph title = new Paragraph("Animals Sales List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-                    Paragraph text = new Paragraph("This is the list of the Animals sales between " + start.toString() + " and " + end.toString() + ".",  FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    Paragraph title = new Paragraph(
+                        "Animals Sales List",
+                        FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK)
+                    );
+                    Paragraph text = new Paragraph(
+                        "This is the list of the Animals sales between " +
+                            start.toString() +
+                            " and " +
+                            end.toString() +
+                            ".",
+                        FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK)
+                    );
 
                     //center paragraph
                     title.setAlignment(Element.ALIGN_CENTER);
@@ -1220,19 +1446,39 @@ public class ReportsController implements Initializable {
                 }
 
                 //add table header
-                table.addCell(new PdfPCell(new Paragraph("ID", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Client", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("ID", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Client", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
 
                 //add padding to cells
                 table.getDefaultCell().setPadding(3);
                 table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
                 table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-
-
 
                 //get employee of each row
                 //used a method in my updateEmplyeeController to get the employee of each row based on the cin
@@ -1245,8 +1491,6 @@ public class ReportsController implements Initializable {
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(animalSale.getSale_date())))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(animalSale.getPrice())))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(animalSale.getClientName()))).setPadding(5);
-
-
                 }
 
                 document.add(table);
@@ -1257,8 +1501,4 @@ public class ReportsController implements Initializable {
             }
         }
     }
-
-    }
-
-
-
+}
