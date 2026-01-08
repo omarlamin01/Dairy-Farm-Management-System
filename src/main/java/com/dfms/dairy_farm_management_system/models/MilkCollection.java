@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
 public class MilkCollection implements Model {
     private int id;
@@ -84,15 +85,14 @@ public class MilkCollection implements Model {
         String insertQuery = "INSERT INTO milk_collections (period,quantity,cow_id,created_at, updated_at) VALUES (?,?,?,?,?)";
         try {
             Connection connection = DBConfig.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
-
-
-            preparedStatement.setString(1, period);
-            preparedStatement.setFloat(2, quantity);
-            preparedStatement.setString(3, cow_id);
-            preparedStatement.setTimestamp(4, created_at);
-            preparedStatement.setTimestamp(5, updated_at);
-            return preparedStatement.executeUpdate() != 0;
+            try(PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                preparedStatement.setString(1, period);
+                preparedStatement.setFloat(2, quantity);
+                preparedStatement.setString(3, cow_id);
+                preparedStatement.setTimestamp(4, created_at);
+                preparedStatement.setTimestamp(5, updated_at);
+                return preparedStatement.executeUpdate() != 0;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -103,21 +103,19 @@ public class MilkCollection implements Model {
 
     @Override
     public boolean update() {
-
-
-        String updateQuery = "UPDATE `milk_collections` SET " +
-                "`cow_id` = ?," +
-                "`period` =?," +
-                "`quantity` = ?," +
-                "`updated_at` = ? WHERE `milk_collections`.`id` = " + this.id;
+        String updateQuery =
+                "UPDATE milk_collections SET cow_id = ?, period = ?, quantity = ?, updated_at = ? WHERE id = ?";
         try {
             Connection connection = DBConfig.getConnection();
-            PreparedStatement statement = connection.prepareStatement(updateQuery);
-            statement.setString(1, cow_id);
-            statement.setString(2, period);
-            statement.setFloat(3, quantity);
-            statement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
-            return statement.executeUpdate() != 0;
+            try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+                statement.setString(1, cow_id);
+                statement.setString(2, period);
+                statement.setFloat(3, quantity);
+                statement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+                statement.setInt(5, this.id);
+
+                return statement.executeUpdate() != 0;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -125,14 +123,17 @@ public class MilkCollection implements Model {
             disconnect();
         }
     }
+
 
     @Override
     public boolean delete() {
-        String deleteQuery = "DELETE FROM `milk_collections` WHERE `milk_collections`.`id` = " + this.id;
+        String deleteQuery = "DELETE FROM milk_collections WHERE id = ?";
         try {
             Connection connection = DBConfig.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
-            return preparedStatement.executeUpdate() != 0;
+            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                preparedStatement.setInt(1, this.id);
+                return preparedStatement.executeUpdate() != 0;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -140,5 +141,6 @@ public class MilkCollection implements Model {
             disconnect();
         }
     }
+
 
 }
