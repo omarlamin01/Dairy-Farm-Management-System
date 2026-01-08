@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: dairy_farm_app
+    depends_on:
+      - db
+    environment:
+      - DB_USER=root
+      - DB_PASSWORD=root_password
+      - DB_URL=jdbc:mysql://db:3306/dairyfarm
+    ports:
+      - "8080:8080" # If your app has a web server component
+    # To display GUI on Linux host (requires allowing xhost)
+    # volumes:
+    #   - /tmp/.X11-unix:/tmp/.X11-unix
+    # environment:
+    #   - DISPLAY=$DISPLAY
+
+  db:
+    image: mysql:8.0
+    container_name: dairy_farm_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: dairyfarm
+    volumes:
+      - ./dairyfarm.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/mysql
+    ports:
+      - "3307:3306" # Expose DB on host port 3307 to avoid conflict with local MySQL
+
+volumes:
+  db_data:
