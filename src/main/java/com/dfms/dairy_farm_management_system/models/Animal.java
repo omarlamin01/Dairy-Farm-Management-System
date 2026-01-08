@@ -54,29 +54,15 @@ public class Animal {
     }
 
     public String getRoutineName() {
-        String query = "SELECT `name` FROM `routines` WHERE `id` = ?";
+        return routineName;
+    }
 
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setInt(1, routineId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getString("name");
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    public void setRoutineName(String routineName) {
+        this.routineName = routineName;
     }
 
     public void setRoutineId(int routine) {
         this.routineId = routine;
-
     }
 
     public int getRaceId() {
@@ -84,30 +70,15 @@ public class Animal {
     }
 
     public String getRaceName() {
-        String query = "SELECT `name` FROM `races` WHERE `id` = ?";
-
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setInt(1, raceId);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getString("name");
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return raceName;
     }
 
+    public void setRaceName(String raceName) {
+        this.raceName = raceName;
+    }
 
     public void setRaceId(int raceId) {
         this.raceId = raceId;
-
     }
 
     public String getType() {

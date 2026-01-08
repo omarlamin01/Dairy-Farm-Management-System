@@ -99,7 +99,11 @@ public class ManageAnimalController implements Initializable {
 
     public ObservableList<Animal> getAnimals() {
         ObservableList<Animal> listAnimal = FXCollections.observableArrayList();
-        String select_query = "SELECT * from `animals`";
+        // Fetch all data in one go
+        String select_query = "SELECT a.*, r.name as race_name, rt.name as routine_name " +
+                              "FROM `animals` a " +
+                              "LEFT JOIN `races` r ON a.race = r.id " +
+                              "LEFT JOIN `routines` rt ON a.routine = rt.id";
 
         try {
             statement = connection.prepareStatement(select_query);
@@ -115,6 +119,10 @@ public class ManageAnimalController implements Initializable {
                 animal.setType(resultSet.getString("type"));
                 animal.setCreated_at(resultSet.getTimestamp("created_at"));
                 animal.setUpdated_at(resultSet.getTimestamp("updated_at"));
+
+                // Set the joined names directly
+                animal.setRaceName(resultSet.getString("race_name"));
+                animal.setRoutineName(resultSet.getString("routine_name"));
 
                 listAnimal.add(animal);
             }

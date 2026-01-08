@@ -16,8 +16,10 @@ public class DBConfig {
     // Connect to database
     public static Connection getConnection() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            if (conn == null || conn.isClosed()) {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
