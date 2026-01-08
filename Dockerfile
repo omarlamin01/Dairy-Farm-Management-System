@@ -1,25 +1,24 @@
-# Start with a base image containing Java runtime and MySQL server
-FROM openjdk:11
-RUN apt-get update && \
-    apt-get install -y mysql-server
+# Stage 1: Build the application
+FROM maven:3.8.5-openjdk-18-slim AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+# Package the application (skip tests in Docker build to save time/complexity, assume CI runs tests)
+RUN mvn clean package -DskipTests
 
-# Copy the database schema and data to the container
-COPY dairyfarm.sql /docker-entrypoint-initdb.d/dairyfarm.sql
+# Stage 2: Run the application
+FROM openjdk:18-slim
+WORKDIR /app
+# Copy the Fat JAR from the build stage
+COPY --from=build /app/target/Dairy_Farm_Management_System-1.0-SNAPSHOT.jar app.jar
 
-# Create a new database user and grant permissions
-ENV MYSQL_ROOT_PASSWORD=password
-ENV MYSQL_USER=dairyfarm
-ENV MYSQL_PASSWORD=dairyfarmpassword
-ENV MYSQL_DATABASE=dairyfarm
-RUN /etc/init.d/mysql start && \
-    mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';" && \
-    mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';"
+# Environment variables (can be overridden by docker-compose)
+ENV DB_USER=root
+ENV DB_PASSWORD=password
+ENV DB_HOST=localhost
 
-# Copy the compiled JAR file from the build stage
-COPY dairyfarm.jar /app/dairyfarm.jar
-
-# Expose the default port for the JavaFX application
-EXPOSE 8080
-
-# Start the MySQL server and run the JavaFX application when the container starts
-CMD /etc/init.d/mysql start && java -jar /app/dairyfarm.jar
+# Command to run the application
+# Note: Since this is a GUI app, it needs an X Server (Display) to actually show UI.
+# This CMD will start it, but it might fail without a display. 
+# For headless environments, specific flags are needed, but for "running", this is correct.
+CMD ["java", "-jar", "app.jar"]

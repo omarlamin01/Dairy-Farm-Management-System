@@ -8,16 +8,18 @@ import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
 
 public class DBConfig {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/dairyfarm";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "";
+    private static final String DB_USER = System.getenv("DB_USER") != null ? System.getenv("DB_USER") : "root";
+    private static final String DB_PASSWORD = System.getenv("DB_PASSWORD") != null ? System.getenv("DB_PASSWORD") : "";
     private static Connection conn = null;
 
 
     // Connect to database
     public static Connection getConnection() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            if (conn == null || conn.isClosed()) {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            }
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
