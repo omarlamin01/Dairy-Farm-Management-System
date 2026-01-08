@@ -1,6 +1,13 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.models.HealthStatus;
+import java.net.URL;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,27 +15,29 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
-import java.net.URL;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class HealthStatusController implements Initializable {
+
     @FXML
     ComboBox<String> animalId;
+
     @FXML
     DatePicker monitorDate;
+
     @FXML
     ComboBox<String> healthStatusCombo;
+
     @FXML
     TextArea healthStatusNotes;
+
     @FXML
     Button addHealthMonitorBtn;
 
-    ObservableList<String> healthStatusOptions = FXCollections.observableArrayList("excellent", "good", "bad", "very bad");
+    ObservableList<String> healthStatusOptions = FXCollections.observableArrayList(
+        "excellent",
+        "good",
+        "bad",
+        "very bad"
+    );
     ObservableList<String> animals;
 
     @Override

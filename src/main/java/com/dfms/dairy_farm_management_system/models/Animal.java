@@ -1,14 +1,14 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
-
-import java.sql.*;
-import java.time.LocalDateTime;
-
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import java.sql.*;
+import java.time.LocalDateTime;
+
 public class Animal {
+
     private String id;
     private Date birth_date;
     private Date purchase_date;
@@ -107,27 +107,46 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Animal{" +
-                "id='" + id + '\'' +
-                ", birth_date=" + birth_date +
-                ", purchase_date=" + purchase_date +
-                ", routineId=" + routineId +
-                ", routineName='" + routineName + '\'' +
-                ", raceId=" + raceId +
-                ", raceName='" + raceName + '\'' +
-                ", type='" + type + '\'' +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at + '\'' +
-                '}';
+        return (
+            "Animal{" +
+            "id='" +
+            id +
+            '\'' +
+            ", birth_date=" +
+            birth_date +
+            ", purchase_date=" +
+            purchase_date +
+            ", routineId=" +
+            routineId +
+            ", routineName='" +
+            routineName +
+            '\'' +
+            ", raceId=" +
+            raceId +
+            ", raceName='" +
+            raceName +
+            '\'' +
+            ", type='" +
+            type +
+            '\'' +
+            ", created_at=" +
+            created_at +
+            ", updated_at=" +
+            updated_at +
+            '\'' +
+            '}'
+        );
     }
 
     public boolean add() {
-        String query = "INSERT INTO `animals` (`id`, `birth_date`, `purchase_date`, `routine`, `race`, `type`, `created_at`, `updated_at`) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query =
+            "INSERT INTO `animals` (`id`, `birth_date`, `purchase_date`, `routine`, `race`, `type`, `created_at`, `updated_at`) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
+        try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)
+        ) {
             statement.setString(1, id);
             statement.setDate(2, birth_date);
             statement.setDate(3, purchase_date);
@@ -138,30 +157,29 @@ public class Animal {
             statement.setTimestamp(8, updated_at);
 
             return statement.executeUpdate() != 0;
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-
-
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
 
-        String query = "UPDATE `animals` SET " +
-                "`birth_date` = ?, " +
-                "`purchase_date` = ?, " +
-                "`routine` = ?, " +
-                "`race` = ?, " +
-                "`type` = ?, " +
-                "`updated_at` = ? " +
-                "WHERE `id` = ?";
+        String query =
+            "UPDATE `animals` SET " +
+            "`birth_date` = ?, " +
+            "`purchase_date` = ?, " +
+            "`routine` = ?, " +
+            "`race` = ?, " +
+            "`type` = ?, " +
+            "`updated_at` = ? " +
+            "WHERE `id` = ?";
 
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
+        try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)
+        ) {
             statement.setDate(1, birth_date);
             statement.setDate(2, purchase_date);
             statement.setInt(3, routineId);
@@ -171,7 +189,6 @@ public class Animal {
             statement.setString(7, id);
 
             return statement.executeUpdate() != 0;
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -181,16 +198,15 @@ public class Animal {
     public boolean delete() {
         String query = "DELETE FROM `animals` WHERE `id` = ?";
 
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
+        try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)
+        ) {
             statement.setString(1, id);
             return statement.executeUpdate() != 0;
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
-
 }

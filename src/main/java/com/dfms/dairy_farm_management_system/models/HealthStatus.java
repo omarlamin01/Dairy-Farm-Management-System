@@ -1,15 +1,15 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-
 public class HealthStatus implements Model {
+
     private int id;
     private String animal_id;
     private int weight;
@@ -99,7 +99,8 @@ public class HealthStatus implements Model {
 
     @Override
     public boolean save() {
-        String query = "INSERT INTO `health_status` (animal_id, weight, breathing, health_score, control_date, notes, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query =
+            "INSERT INTO `health_status` (animal_id, weight, breathing, health_score, control_date, notes, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -125,15 +126,30 @@ public class HealthStatus implements Model {
     @Override
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
-        String query = "UPDATE `health_status` SET " +
-                "animal_id = '" + animal_id + "', " +
-                "weight = '" + weight + "', " +
-                "breathing = '" + breathing + "', " +
-                "health_score = '" + health_score + "', " +
-                "control_date = '" + control_date + "', " +
-                "notes = '" + notes + "', " +
-                "updated_at = '" + updated_at +
-                "' WHERE id = " + id;
+        String query =
+            "UPDATE `health_status` SET " +
+            "animal_id = '" +
+            animal_id +
+            "', " +
+            "weight = '" +
+            weight +
+            "', " +
+            "breathing = '" +
+            breathing +
+            "', " +
+            "health_score = '" +
+            health_score +
+            "', " +
+            "control_date = '" +
+            control_date +
+            "', " +
+            "notes = '" +
+            notes +
+            "', " +
+            "updated_at = '" +
+            updated_at +
+            "' WHERE id = " +
+            id;
         try {
             Connection connection = getConnection();
             PreparedStatement statement = connection.prepareStatement(query);

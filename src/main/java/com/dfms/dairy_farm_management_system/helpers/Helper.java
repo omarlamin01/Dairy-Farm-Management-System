@@ -1,10 +1,23 @@
 package com.dfms.dairy_farm_management_system.helpers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.Routine;
-import org.apache.commons.lang3.StringUtils;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.function.DoubleConsumer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableDoubleValue;
@@ -21,24 +34,11 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Text;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.function.DoubleConsumer;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-
 public class Helper {
+
     public static final String DEFAULT_PASSWORD = "Pass123";
 
     public static void centerScreen(Stage stage) {
@@ -92,45 +92,66 @@ public class Helper {
     //validate inputs to accept only numbers
     public static void validateNumericInput(TextField textField) {
         // force the field to be numeric only
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                if (!newValue.matches("\\d*")) {
-                    textField.setText(newValue.replaceAll("\\D", ""));
+        textField
+            .textProperty()
+            .addListener(
+                new ChangeListener<String>() {
+                    @Override
+                    public void changed(
+                        ObservableValue<? extends String> observable,
+                        String oldValue,
+                        String newValue
+                    ) {
+                        if (!newValue.matches("\\d*")) {
+                            textField.setText(newValue.replaceAll("\\D", ""));
+                        }
+                    }
                 }
-            }
-        });
+            );
     }
 
     //validate inputs to accept only decimal numbers and one dot
     public static void validateDecimalInput(TextField textField) {
         // force the field to be numeric only
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                //accept only numbers and only one dot
-                if (!newValue.matches("\\d*\\.?\\d*")) {
-                    textField.setText(newValue.replaceAll("[^\\d.]", ""));
+        textField
+            .textProperty()
+            .addListener(
+                new ChangeListener<String>() {
+                    @Override
+                    public void changed(
+                        ObservableValue<? extends String> observable,
+                        String oldValue,
+                        String newValue
+                    ) {
+                        //accept only numbers and only one dot
+                        if (!newValue.matches("\\d*\\.?\\d*")) {
+                            textField.setText(newValue.replaceAll("[^\\d.]", ""));
+                        }
+                    }
                 }
-            }
-        });
+            );
     }
 
     //validate inputs to accept only + and numbers
     public static void validatePhoneInput(TextField textField) {
         // force the field to be numeric only
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                //accept only phone numbers format
-                if (!newValue.matches("\\+?\\d*")) {
-                    textField.setText(newValue.replaceAll("[^\\d+]", ""));
+        textField
+            .textProperty()
+            .addListener(
+                new ChangeListener<String>() {
+                    @Override
+                    public void changed(
+                        ObservableValue<? extends String> observable,
+                        String oldValue,
+                        String newValue
+                    ) {
+                        //accept only phone numbers format
+                        if (!newValue.matches("\\+?\\d*")) {
+                            textField.setText(newValue.replaceAll("[^\\d+]", ""));
+                        }
+                    }
                 }
-            }
-        });
+            );
     }
 
     public static void setErrorOnInput(TextField textField, String error) {
@@ -166,34 +187,52 @@ public class Helper {
     //validate email input
     public static void validateEmailInput(TextField textField) {
         // email should be a valid email otherwise error
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                if (!newValue.matches("^(?=.{1,64}@)[\\p{L}0-9_-]+(\\.[\\p{L}0-9_-]+)*@"
-                        + "[^-][\\p{L}0-9-]+(\\.[\\p{L}0-9-]+)*(\\.[\\p{L}]{2,})$")) {
-                    textField.setStyle("-fx-border-color: red");
-                } else {
-                    textField.setStyle("-fx-border-color: transparent");
+        textField
+            .textProperty()
+            .addListener(
+                new ChangeListener<String>() {
+                    @Override
+                    public void changed(
+                        ObservableValue<? extends String> observable,
+                        String oldValue,
+                        String newValue
+                    ) {
+                        if (
+                            !newValue.matches(
+                                "^(?=.{1,64}@)[\\p{L}0-9_-]+(\\.[\\p{L}0-9_-]+)*@" +
+                                    "[^-][\\p{L}0-9-]+(\\.[\\p{L}0-9-]+)*(\\.[\\p{L}]{2,})$"
+                            )
+                        ) {
+                            textField.setStyle("-fx-border-color: red");
+                        } else {
+                            textField.setStyle("-fx-border-color: transparent");
+                        }
+                    }
                 }
-            }
-        });
+            );
     }
 
     //validate password input
     public static void validatePasswordInput(TextField textField) {
         //password must be at least 8 characters long
-        textField.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                if (newValue.length() < 8) {
-                    textField.setStyle("-fx-border-color: red");
-                } else {
-                    textField.setStyle("-fx-border-color: transparent");
+        textField
+            .textProperty()
+            .addListener(
+                new ChangeListener<String>() {
+                    @Override
+                    public void changed(
+                        ObservableValue<? extends String> observable,
+                        String oldValue,
+                        String newValue
+                    ) {
+                        if (newValue.length() < 8) {
+                            textField.setStyle("-fx-border-color: red");
+                        } else {
+                            textField.setStyle("-fx-border-color: transparent");
+                        }
+                    }
                 }
-            }
-        });
+            );
     }
 
     //display alert message
@@ -251,7 +290,9 @@ public class Helper {
     }
 
     public static int getRowIndex(MouseEvent event) {
-        return ((TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()).getTableRow().getIndex();
+        return (
+            (TableCell<Routine, String>) ((HBox) ((Button) event.getSource()).getParent()).getParent()
+        ).getTableRow().getIndex();
     }
 
     //format string to have the same length

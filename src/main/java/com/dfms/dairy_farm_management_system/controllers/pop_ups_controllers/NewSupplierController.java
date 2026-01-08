@@ -1,17 +1,16 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.models.Client;
 import com.dfms.dairy_farm_management_system.models.Supplier;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
 
 public class NewSupplierController implements Initializable {
 
@@ -35,6 +34,7 @@ public class NewSupplierController implements Initializable {
 
     @FXML
     private Button add_supplier_btn;
+
     private int supplier_ID;
     private boolean update;
 
@@ -44,7 +44,6 @@ public class NewSupplierController implements Initializable {
         validatePhoneInput(phoneNumberInput);
         validateEmailInput(emailInput);
     }
-
 
     public void setTypeComboItems() {
         this.typeCombo.setItems(FXCollections.observableArrayList("Company", "Person"));
@@ -69,46 +68,49 @@ public class NewSupplierController implements Initializable {
             } else {
                 displayAlert("Warning", "Supplier not updated", Alert.AlertType.WARNING);
             }
-        }else{
+        } else {
             supplier.setNameSupplier(this.SupplierName.getText());
             supplier.setPhoneSupplier(this.phoneNumberInput.getText());
             supplier.setEmailSupplier(this.emailInput.getText());
             supplier.setTypeSupplier(this.typeCombo.getValue());
 
-        if (supplier.save()) {
-            displayAlert("SUCESS", "Supplier added successfully.", Alert.AlertType.INFORMATION);
-            this.clear();
-        } else {
-            displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
+            if (supplier.save()) {
+                displayAlert("SUCESS", "Supplier added successfully.", Alert.AlertType.INFORMATION);
+                this.clear();
+            } else {
+                displayAlert("ERROR", "Some error happened while saving!", Alert.AlertType.ERROR);
+            }
         }
-    }}
+    }
+
     public void fetchSupplier(Supplier supplier) {
         this.supplier_ID = supplier.getId();
-        head.setText("Update Supplier Num: " +supplier.getId());
+        head.setText("Update Supplier Num: " + supplier.getId());
         SupplierName.setText(supplier.getNameSupplier());
         emailInput.setText(supplier.getEmailSupplier());
         phoneNumberInput.setText(supplier.getPhoneSupplier());
         typeCombo.setValue(supplier.getTypeSupplier());
         add_supplier_btn.setText("Update");
         add_update.setText("Update");
-
     }
+
     private void clear() {
         typeCombo.getSelectionModel().clearSelection();
         SupplierName.setText("");
         phoneNumberInput.setText("");
         emailInput.setText("");
-
-
     }
+
     public boolean inputesAreEmpty() {
-        if (this.SupplierName.getText().isEmpty()
-                || this.phoneNumberInput.getText().isEmpty()
-                || this.emailInput.getText().isEmpty()
-                || this.typeCombo.getValue()==null)
-            return true;
+        if (
+            this.SupplierName.getText().isEmpty() ||
+            this.phoneNumberInput.getText().isEmpty() ||
+            this.emailInput.getText().isEmpty() ||
+            this.typeCombo.getValue() == null
+        ) return true;
         return false;
     }
+
     public void setUpdate(boolean b) {
         this.update = b;
     }

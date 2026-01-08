@@ -1,15 +1,15 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+public class MilkSale implements Model {
 
-public class MilkSale implements Model{
     private int id;
     private int clientId;
     private String clientName;
@@ -18,7 +18,8 @@ public class MilkSale implements Model{
     private Date sale_date;
     private Timestamp created_at;
     private Timestamp updated_at;
-    public MilkSale(){
+
+    public MilkSale() {
         this.created_at = Timestamp.valueOf(LocalDateTime.now());
         this.updated_at = Timestamp.valueOf(LocalDateTime.now());
     }
@@ -42,8 +43,10 @@ public class MilkSale implements Model{
 
     public String getClientName() {
         String query = "SELECT name FROM clients WHERE id = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)
+        ) {
             statement.setInt(1, clientId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -55,7 +58,6 @@ public class MilkSale implements Model{
         }
         return clientName;
     }
-
 
     public void setSale_date(Date sale_date) {
         this.sale_date = sale_date;
@@ -99,9 +101,10 @@ public class MilkSale implements Model{
 
     @Override
     public boolean save() {
-        String query = "INSERT INTO milk_sales (quantity, price, client_id, sale_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
+        String query =
+            "INSERT INTO milk_sales (quantity, price, client_id, sale_date, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
         Connection connection = getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setFloat(1, quantity);
             statement.setFloat(2, price);
             statement.setInt(3, clientId);
@@ -118,9 +121,12 @@ public class MilkSale implements Model{
 
     @Override
     public boolean update() {
-        String query = "UPDATE milk_sales SET client_id = ?, quantity = ?, price = ?, sale_date = ?, updated_at = ? WHERE id = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        String query =
+            "UPDATE milk_sales SET client_id = ?, quantity = ?, price = ?, sale_date = ?, updated_at = ? WHERE id = ?";
+        try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)
+        ) {
             statement.setInt(1, clientId);
             statement.setFloat(2, quantity);
             statement.setFloat(3, price);
@@ -137,8 +143,10 @@ public class MilkSale implements Model{
     @Override
     public boolean delete() {
         String deleteQuery = "DELETE FROM milk_sales WHERE id = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+        try (
+            Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)
+        ) {
             preparedStatement.setInt(1, this.id);
             return preparedStatement.executeUpdate() != 0;
         } catch (SQLException e) {
@@ -146,5 +154,4 @@ public class MilkSale implements Model{
             return false;
         }
     }
-
 }

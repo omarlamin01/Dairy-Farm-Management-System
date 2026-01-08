@@ -1,18 +1,17 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
-public class Race{
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+public class Race {
+
     private int id_race;
     private String name;
 
-    public Race() {
-
-    }
+    public Race() {}
 
     public void setId(int id) {
         this.id_race = id;
@@ -49,5 +48,4 @@ public class Race{
         }
         return false;
     }
-
 }

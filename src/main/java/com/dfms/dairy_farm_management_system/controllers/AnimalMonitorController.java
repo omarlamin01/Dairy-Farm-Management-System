@@ -1,9 +1,18 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.*;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.*;
 import com.dfms.dairy_farm_management_system.models.*;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.*;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,16 +29,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.*;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.function.Consumer;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.*;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class AnimalMonitorController implements Initializable {
 
     private static final String LOGO_ICON_PATH = "file:src/main/resources/images/logo.png";
@@ -41,47 +40,113 @@ public class AnimalMonitorController implements Initializable {
     private final Image viewImg = new Image(getClass().getResourceAsStream("/images/eye.png"));
 
     //Health status tab
-    @FXML TextField healthStatusSearch;
-    @FXML Button healthSearchButton;
-    @FXML Button newStatusButton;
-    @FXML TableView<HealthStatus> healthMonitorTable;
-    @FXML TableColumn<HealthStatus, String> animal_id_col;
-    @FXML TableColumn<HealthStatus, String> healthMonitorNoteCol;
-    @FXML TableColumn<HealthStatus, String> health_score_col;
-    @FXML TableColumn<HealthStatus, String> control_date_col;
-    @FXML TableColumn<HealthStatus, String> healthMonitorActionsCol;
+    @FXML
+    TextField healthStatusSearch;
+
+    @FXML
+    Button healthSearchButton;
+
+    @FXML
+    Button newStatusButton;
+
+    @FXML
+    TableView<HealthStatus> healthMonitorTable;
+
+    @FXML
+    TableColumn<HealthStatus, String> animal_id_col;
+
+    @FXML
+    TableColumn<HealthStatus, String> healthMonitorNoteCol;
+
+    @FXML
+    TableColumn<HealthStatus, String> health_score_col;
+
+    @FXML
+    TableColumn<HealthStatus, String> control_date_col;
+
+    @FXML
+    TableColumn<HealthStatus, String> healthMonitorActionsCol;
 
     //Pregnancy tab
-    @FXML TextField pregnancySearch;
-    @FXML Button pregnancySearchButton;
-    @FXML Button newPregnancyButton;
-    @FXML TableView<Pregnancy> pregnancyTable;
-    @FXML TableColumn<Pregnancy, String> cow_id_col;
-    @FXML TableColumn<Pregnancy, String> pregnancyStartDateCol;
-    @FXML TableColumn<Pregnancy, String> pregnancyEndCol;
-    @FXML TableColumn<Pregnancy, String> pregnancyTypeCol;
-    @FXML TableColumn<Pregnancy, String> pregnancyActionsCol;
+    @FXML
+    TextField pregnancySearch;
+
+    @FXML
+    Button pregnancySearchButton;
+
+    @FXML
+    Button newPregnancyButton;
+
+    @FXML
+    TableView<Pregnancy> pregnancyTable;
+
+    @FXML
+    TableColumn<Pregnancy, String> cow_id_col;
+
+    @FXML
+    TableColumn<Pregnancy, String> pregnancyStartDateCol;
+
+    @FXML
+    TableColumn<Pregnancy, String> pregnancyEndCol;
+
+    @FXML
+    TableColumn<Pregnancy, String> pregnancyTypeCol;
+
+    @FXML
+    TableColumn<Pregnancy, String> pregnancyActionsCol;
 
     //Vaccine tab
-    @FXML TextField vaccineSearch;
-    @FXML Button vaccineSearchButton;
-    @FXML Button newVaccinationButton;
-    @FXML TableView<Vaccination> vaccinationTable;
-    @FXML TableColumn<Vaccination, String> animalIdCol;
-    @FXML TableColumn<Vaccination, String> vaccineNameCol;
-    @FXML TableColumn<Vaccination, String> ResponsibleNameCol;
-    @FXML TableColumn<Vaccination, String> vaccinationDateCol;
-    @FXML TableColumn<Vaccination, String> vaccinationActions;
+    @FXML
+    TextField vaccineSearch;
+
+    @FXML
+    Button vaccineSearchButton;
+
+    @FXML
+    Button newVaccinationButton;
+
+    @FXML
+    TableView<Vaccination> vaccinationTable;
+
+    @FXML
+    TableColumn<Vaccination, String> animalIdCol;
+
+    @FXML
+    TableColumn<Vaccination, String> vaccineNameCol;
+
+    @FXML
+    TableColumn<Vaccination, String> ResponsibleNameCol;
+
+    @FXML
+    TableColumn<Vaccination, String> vaccinationDateCol;
+
+    @FXML
+    TableColumn<Vaccination, String> vaccinationActions;
 
     //Routine monitor tab
-    @FXML Button RoutineSearchButton;
-    @FXML Button newRoutineButton;
-    @FXML TextField routineSearch;
-    @FXML TableView<Routine> routineTable;
-    @FXML TableColumn<Routine, String> routineNameCol;
-    @FXML TableColumn<Routine, String> routineNotesCol;
-    @FXML TableColumn<Routine, String> routineAdditionDateCol;
-    @FXML TableColumn<Routine, String> routineActionsCol;
+    @FXML
+    Button RoutineSearchButton;
+
+    @FXML
+    Button newRoutineButton;
+
+    @FXML
+    TextField routineSearch;
+
+    @FXML
+    TableView<Routine> routineTable;
+
+    @FXML
+    TableColumn<Routine, String> routineNameCol;
+
+    @FXML
+    TableColumn<Routine, String> routineNotesCol;
+
+    @FXML
+    TableColumn<Routine, String> routineAdditionDateCol;
+
+    @FXML
+    TableColumn<Routine, String> routineActionsCol;
 
     boolean isSearchingForMonitors = false;
     boolean isSearchingForPregnancies = false;
@@ -209,23 +274,26 @@ public class AnimalMonitorController implements Initializable {
         control_date_col.setCellValueFactory(new PropertyValueFactory<>("control_date"));
 
         healthMonitorActionsCol.setCellFactory(col ->
-                buildThreeActionsCell(
-                        monitors,
-                        "Are you sure you want to delete this monitor?",
-                        monitor -> {
-                            try {
-                                monitor.delete();
-                                displayMonitors(isSearchingForMonitors ? monitors : getHealthStatus());
-                            } catch (Exception e) {
-                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                            }
-                        },
-                        monitor -> showPopup("popups/add_new_health_status.fxml", c -> {
-                            HealthStatusController controller = (HealthStatusController) c;
-                            controller.initData(monitor);
-                        }),
-                        monitor -> { /* view optional */ }
-                )
+            buildThreeActionsCell(
+                monitors,
+                "Are you sure you want to delete this monitor?",
+                monitor -> {
+                    try {
+                        monitor.delete();
+                        displayMonitors(isSearchingForMonitors ? monitors : getHealthStatus());
+                    } catch (Exception e) {
+                        displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                    }
+                },
+                monitor ->
+                    showPopup("popups/add_new_health_status.fxml", c -> {
+                        HealthStatusController controller = (HealthStatusController) c;
+                        controller.initData(monitor);
+                    }),
+                monitor -> {
+                    /* view optional */
+                }
+            )
         );
 
         healthMonitorTable.setItems(monitors);
@@ -238,36 +306,36 @@ public class AnimalMonitorController implements Initializable {
         pregnancyTypeCol.setCellValueFactory(new PropertyValueFactory<>("pregnancy_status"));
 
         pregnancyActionsCol.setCellFactory(col ->
-                buildTwoActionsCell(
-                        pregnancies,
-                        "Are you sure you want to delete this pregnancy?",
-                        pregnancy -> {
-                            try {
-                                pregnancy.delete();
-                                displayPregnancies(isSearchingForPregnancies ? pregnancies : getPregnancies());
-                            } catch (Exception e) {
-                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                            }
-                        },
-                        pregnancy -> {
-                            String url = "popups/add_new_pregnancy.fxml";
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
-                            Scene scene = null;
-                            try {
-                                scene = new Scene(fxmlLoader.load());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            PregnancyController controller = fxmlLoader.getController();
-                            controller.initData(pregnancy);
-                            Stage stage = new Stage();
-                            stage.getIcons().add(new Image(LOGO_ICON_PATH));
-                            stage.setResizable(false);
-                            stage.setScene(scene);
-                            centerScreen(stage);
-                            stage.show();
-                        }
-                )
+            buildTwoActionsCell(
+                pregnancies,
+                "Are you sure you want to delete this pregnancy?",
+                pregnancy -> {
+                    try {
+                        pregnancy.delete();
+                        displayPregnancies(isSearchingForPregnancies ? pregnancies : getPregnancies());
+                    } catch (Exception e) {
+                        displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                    }
+                },
+                pregnancy -> {
+                    String url = "popups/add_new_pregnancy.fxml";
+                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(fxmlLoader.load());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    PregnancyController controller = fxmlLoader.getController();
+                    controller.initData(pregnancy);
+                    Stage stage = new Stage();
+                    stage.getIcons().add(new Image(LOGO_ICON_PATH));
+                    stage.setResizable(false);
+                    stage.setScene(scene);
+                    centerScreen(stage);
+                    stage.show();
+                }
+            )
         );
 
         pregnancyTable.setItems(pregnancies);
@@ -280,36 +348,36 @@ public class AnimalMonitorController implements Initializable {
         vaccinationDateCol.setCellValueFactory(new PropertyValueFactory<>("vaccination_date"));
 
         vaccinationActions.setCellFactory(col ->
-                buildTwoActionsCell(
-                        vaccinations,
-                        "Are you sure you want to delete this vaccination?",
-                        vaccination -> {
-                            try {
-                                vaccination.delete();
-                                displayVaccinations(isSearchingForVaccinations ? vaccinations : getVaccinations());
-                            } catch (Exception e) {
-                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                            }
-                        },
-                        vaccination -> {
-                            String url = "popups/add_new_vaccination.fxml";
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
-                            Scene scene = null;
-                            try {
-                                scene = new Scene(fxmlLoader.load());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            VaccinationController controller = fxmlLoader.getController();
-                            controller.initData(vaccination);
-                            Stage stage = new Stage();
-                            stage.getIcons().add(new Image(LOGO_ICON_PATH));
-                            stage.setResizable(false);
-                            stage.setScene(scene);
-                            centerScreen(stage);
-                            stage.show();
-                        }
-                )
+            buildTwoActionsCell(
+                vaccinations,
+                "Are you sure you want to delete this vaccination?",
+                vaccination -> {
+                    try {
+                        vaccination.delete();
+                        displayVaccinations(isSearchingForVaccinations ? vaccinations : getVaccinations());
+                    } catch (Exception e) {
+                        displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                    }
+                },
+                vaccination -> {
+                    String url = "popups/add_new_vaccination.fxml";
+                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(fxmlLoader.load());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    VaccinationController controller = fxmlLoader.getController();
+                    controller.initData(vaccination);
+                    Stage stage = new Stage();
+                    stage.getIcons().add(new Image(LOGO_ICON_PATH));
+                    stage.setResizable(false);
+                    stage.setScene(scene);
+                    centerScreen(stage);
+                    stage.show();
+                }
+            )
         );
 
         vaccinationTable.setItems(vaccinations);
@@ -321,36 +389,36 @@ public class AnimalMonitorController implements Initializable {
         routineAdditionDateCol.setCellValueFactory(new PropertyValueFactory<>("created_at"));
 
         routineActionsCol.setCellFactory(col ->
-                buildTwoActionsCell(
-                        routines,
-                        "Are you sure you want to delete this routine?",
-                        routine -> {
-                            try {
-                                routine.delete();
-                                displayRoutines(isSearchingForRoutines ? routines : getRoutines());
-                            } catch (Exception e) {
-                                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-                            }
-                        },
-                        routine -> {
-                            String url = "popups/add_new_routine.fxml";
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
-                            Scene scene = null;
-                            try {
-                                scene = new Scene(fxmlLoader.load());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            Stage stage = new Stage();
-                            stage.getIcons().add(new Image(LOGO_ICON_PATH));
-                            stage.setResizable(false);
-                            stage.setScene(scene);
-                            centerScreen(stage);
-                            RoutineController controller = fxmlLoader.getController();
-                            controller.initData(routine);
-                            stage.show();
-                        }
-                )
+            buildTwoActionsCell(
+                routines,
+                "Are you sure you want to delete this routine?",
+                routine -> {
+                    try {
+                        routine.delete();
+                        displayRoutines(isSearchingForRoutines ? routines : getRoutines());
+                    } catch (Exception e) {
+                        displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+                    }
+                },
+                routine -> {
+                    String url = "popups/add_new_routine.fxml";
+                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(url));
+                    Scene scene = null;
+                    try {
+                        scene = new Scene(fxmlLoader.load());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Stage stage = new Stage();
+                    stage.getIcons().add(new Image(LOGO_ICON_PATH));
+                    stage.setResizable(false);
+                    stage.setScene(scene);
+                    centerScreen(stage);
+                    RoutineController controller = fxmlLoader.getController();
+                    controller.initData(routine);
+                    stage.show();
+                }
+            )
         );
 
         routineTable.setItems(routines);
@@ -388,13 +456,11 @@ public class AnimalMonitorController implements Initializable {
         ObservableList<HealthStatus> monitors = FXCollections.observableArrayList();
 
         String query =
-                "SELECT * FROM `health_status` " +
-                        "WHERE `animal_id` LIKE ? OR `health_score` LIKE ? OR `notes` LIKE ? " +
-                        "ORDER BY `created_at` DESC";
+            "SELECT * FROM `health_status` " +
+            "WHERE `animal_id` LIKE ? OR `health_score` LIKE ? OR `notes` LIKE ? " +
+            "ORDER BY `created_at` DESC";
 
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             String like = "%" + searchClause + "%";
             ps.setString(1, like);
             ps.setString(2, like);
@@ -415,7 +481,6 @@ public class AnimalMonitorController implements Initializable {
                     monitors.add(healthStatus);
                 }
             }
-
         } catch (SQLException e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         } finally {
@@ -430,13 +495,9 @@ public class AnimalMonitorController implements Initializable {
         ObservableList<Pregnancy> pregnancies = FXCollections.observableArrayList();
 
         String query =
-                "SELECT * FROM `pregnancies` " +
-                        "WHERE `cow_id` LIKE ? OR `notes` LIKE ? " +
-                        "ORDER BY `created_at` DESC";
+            "SELECT * FROM `pregnancies` " + "WHERE `cow_id` LIKE ? OR `notes` LIKE ? " + "ORDER BY `created_at` DESC";
 
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             String like = "%" + searchClause + "%";
             ps.setString(1, like);
             ps.setString(2, like);
@@ -457,7 +518,6 @@ public class AnimalMonitorController implements Initializable {
                     pregnancies.add(pregnancy);
                 }
             }
-
         } catch (SQLException e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         } finally {
@@ -471,14 +531,12 @@ public class AnimalMonitorController implements Initializable {
         ObservableList<Vaccination> vaccinations = FXCollections.observableArrayList();
 
         String query =
-                "SELECT * FROM `vaccination` " +
-                        "WHERE `animal_id` LIKE ? " +
-                        "   OR `vaccine_id` IN (SELECT id FROM stocks WHERE name LIKE ?) " +
-                        "   OR `responsible_id` IN (SELECT id FROM users WHERE first_name LIKE ? OR last_name LIKE ?)";
+            "SELECT * FROM `vaccination` " +
+            "WHERE `animal_id` LIKE ? " +
+            "   OR `vaccine_id` IN (SELECT id FROM stocks WHERE name LIKE ?) " +
+            "   OR `responsible_id` IN (SELECT id FROM users WHERE first_name LIKE ? OR last_name LIKE ?)";
 
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             String like = "%" + searchClause + "%";
             ps.setString(1, like);
             ps.setString(2, like);
@@ -498,7 +556,6 @@ public class AnimalMonitorController implements Initializable {
                     vaccinations.add(vaccination);
                 }
             }
-
         } catch (SQLException e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         } finally {
@@ -512,13 +569,9 @@ public class AnimalMonitorController implements Initializable {
         ObservableList<Routine> routines = FXCollections.observableArrayList();
 
         String query =
-                "SELECT * FROM `routines` " +
-                        "WHERE `name` LIKE ? OR `note` LIKE ? " +
-                        "ORDER BY `created_at` DESC";
+            "SELECT * FROM `routines` " + "WHERE `name` LIKE ? OR `note` LIKE ? " + "ORDER BY `created_at` DESC";
 
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             String like = "%" + searchClause + "%";
             ps.setString(1, like);
             ps.setString(2, like);
@@ -534,7 +587,6 @@ public class AnimalMonitorController implements Initializable {
                     routines.add(routine);
                 }
             }
-
         } catch (SQLException e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
         } finally {
@@ -600,13 +652,12 @@ public class AnimalMonitorController implements Initializable {
     // ---------------------------
 
     private <T> TableCell<T, String> buildTwoActionsCell(
-            ObservableList<T> list,
-            String deleteConfirmText,
-            Consumer<T> onDelete,
-            Consumer<T> onEdit
+        ObservableList<T> list,
+        String deleteConfirmText,
+        Consumer<T> onDelete,
+        Consumer<T> onEdit
     ) {
         return new TableCell<>() {
-
             private final Button editBtn = createIconButton(editImg);
             private final Button deleteBtn = createIconButton(deleteImg);
             private final HBox box = createActionsBox(editBtn, deleteBtn);
@@ -646,14 +697,13 @@ public class AnimalMonitorController implements Initializable {
     }
 
     private <T> TableCell<T, String> buildThreeActionsCell(
-            ObservableList<T> list,
-            String deleteConfirmText,
-            Consumer<T> onDelete,
-            Consumer<T> onEdit,
-            Consumer<T> onView
+        ObservableList<T> list,
+        String deleteConfirmText,
+        Consumer<T> onDelete,
+        Consumer<T> onEdit,
+        Consumer<T> onView
     ) {
         return new TableCell<>() {
-
             private final Button editBtn = createIconButton(editImg);
             private final Button deleteBtn = createIconButton(deleteImg);
             private final Button viewBtn = createIconButton(viewImg);

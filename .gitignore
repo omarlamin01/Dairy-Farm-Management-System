@@ -1,33 +1,29 @@
-# User-specific stuff
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
-.idea/**/misc.xml
-*.iml
-.idea/misc.xml
-Dairy Farm Management System.iml
+# Maven / Build
+target/
 *.class
+*.jar
+*.war
+*.ear
+/out/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Eclipse
+.settings/
 .classpath
 .project
-.settings/
-*/target/**
-target/classes/com/dfms/dairy_farm_management_system/popups/add_new_cow_sale.fxml
-target/classes/com/dfms/dairy_farm_management_system/popups/add_new_pregnancy.fxml
-target/classes/com/dfms/dairy_farm_management_system/popups/add_new_health_status.fxml
-target/classes/com/dfms/dairy_farm_management_system/popups/add_new_vaccination.fxml
-target/classes/icons/clock.png
-target/classes/icons/note.png
-target/classes/icons/routine.png
-target/classes/com/dfms/dairy_farm_management_system/animal_monitor.fxml
-target/classes/com/dfms/dairy_farm_management_system/sales.fxml
-target/classes/module-info.class
-target/classes/com/dfms/dairy_farm_management_system/popups/add_new_routine.fxml
-target/classes/com/dfms/dairy_farm_management_system/dashboard.fxml
-target/classes/com/dfms/dairy_farm_management_system/Main.class
-target/classes/com/dfms/dairy_farm_management_system/popups/add_new_animal.fxml
-/target/classes/com/dfms/dairy_farm_management_system/popups/
-/target/classes/com/dfms/dairy_farm_management_system/
-/target/*
-/out/*
+
+# Node.js (Prettier)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# OS specific
+.DS_Store
+Thumbs.db

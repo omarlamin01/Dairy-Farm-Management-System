@@ -1,20 +1,20 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Stock;
+import java.net.URL;
+import java.sql.*;
+import java.util.Random;
+import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
-import java.net.URL;
-import java.sql.*;
-import java.util.Random;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class NewProductController implements Initializable {
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeComboBoxes();
@@ -24,11 +24,13 @@ public class NewProductController implements Initializable {
     private Statement statement;
     private PreparedStatement preparedStatement;
     private Connection connection = DBConfig.getConnection();
+
     @FXML
     private ComboBox<String> mesure_unit_combo;
 
     @FXML
     private TextField product_name;
+
     @FXML
     private TextField product_quantity;
 
@@ -75,10 +77,12 @@ public class NewProductController implements Initializable {
     }
 
     public boolean inputsAreEmpty() {
-        return (this.product_name.getText().isEmpty()
-                || this.product_quantity.getText().isEmpty()
-                || this.mesure_unit_combo.getValue() == null
-                || this.product_type_combo.getValue() == null);
+        return (
+            this.product_name.getText().isEmpty() ||
+            this.product_quantity.getText().isEmpty() ||
+            this.mesure_unit_combo.getValue() == null ||
+            this.product_type_combo.getValue() == null
+        );
     }
 
     public void clearInputs() {

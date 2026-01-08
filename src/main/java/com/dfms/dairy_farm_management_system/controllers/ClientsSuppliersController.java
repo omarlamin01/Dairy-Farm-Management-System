@@ -1,5 +1,7 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.*;
@@ -12,6 +14,14 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.*;
+import java.util.Date;
+import java.util.Optional;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -37,17 +47,6 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xslf.util.PDFFontMapper;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.sql.*;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class ClientsSuppliersController implements Initializable {
 
     @FXML
@@ -70,13 +69,15 @@ public class ClientsSuppliersController implements Initializable {
 
     @FXML
     private TableColumn<Client, String> actionClient;
+
     @FXML
     private ComboBox<String> export_combo;
+
     @FXML
     private TextField search_input_client;
+
     @FXML
     private TextField search_input_supplier;
-
 
     @FXML
     private ComboBox<String> export_combo_sup;
@@ -101,6 +102,7 @@ public class ClientsSuppliersController implements Initializable {
 
     @FXML
     private TableColumn<Supplier, String> colactionSupplier;
+
     PreparedStatement statement = null;
     ResultSet resultSet = null;
     Connection connection = DBConfig.getConnection();
@@ -108,7 +110,6 @@ public class ClientsSuppliersController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         export_combo.setItems(list);
         export_combo_sup.setItems(list);
         try {
@@ -119,25 +120,29 @@ public class ClientsSuppliersController implements Initializable {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-            String query = "SELECT * FROM `clients`";
-            if (t1.equals("PDF")) {
-                exportToPDF("Clients List", query);
-            } else {
-                exportToExcel("Clients", query, "Clients List");
-            }
-        });
+        export_combo
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((observableValue, s, t1) -> {
+                String query = "SELECT * FROM `clients`";
+                if (t1.equals("PDF")) {
+                    exportToPDF("Clients List", query);
+                } else {
+                    exportToExcel("Clients", query, "Clients List");
+                }
+            });
 
-        export_combo_sup.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-            String query = "SELECT * FROM `suppliers`";
-            if (t1.equals("PDF")) {
-                exportToPDF("Suppliers list", query);
-            } else {
-                exportToExcel("Suppliers", query, "Suppliers List");
-            }
-        });
-
-
+        export_combo_sup
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((observableValue, s, t1) -> {
+                String query = "SELECT * FROM `suppliers`";
+                if (t1.equals("PDF")) {
+                    exportToPDF("Suppliers list", query);
+                } else {
+                    exportToExcel("Suppliers", query, "Suppliers List");
+                }
+            });
     }
 
     @FXML
@@ -173,7 +178,6 @@ public class ClientsSuppliersController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
         return listClient;
     }
@@ -186,10 +190,12 @@ public class ClientsSuppliersController implements Initializable {
         colemailClient.setCellValueFactory(new PropertyValueFactory<Client, String>("email"));
         colphoneClient.setCellValueFactory(new PropertyValueFactory<Client, String>("phone"));
 
-        Callback<TableColumn<Client, String>, TableCell<Client, String>> cellFoctory = (TableColumn<Client, String> param) -> {
+        Callback<TableColumn<Client, String>, TableCell<Client, String>> cellFoctory = (TableColumn<
+            Client,
+            String
+        > param) -> {
             // make cell containing buttons
             final TableCell<Client, String> cell = new TableCell<Client, String>() {
-
                 Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 final Button btnEdit = new Button();
                 Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
@@ -204,7 +210,6 @@ public class ClientsSuppliersController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                         setText(null);
-
                     } else {
                         ImageView iv_viewDetail = new ImageView();
                         iv_viewDetail.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
@@ -248,7 +253,6 @@ public class ClientsSuppliersController implements Initializable {
                         setText(null);
 
                         iv_delete.setOnMouseClicked((MouseEvent event) -> {
-
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete Confirmation");
                             alert.setHeaderText("Are you sure you want to delete this Cow?");
@@ -262,12 +266,15 @@ public class ClientsSuppliersController implements Initializable {
                                 alertInfo.setHeaderText("Cow deleted successfully");
                                 alertInfo.showAndWait();
                             }
-
                         });
 
                         iv_viewDetail.setOnMouseClicked((MouseEvent event) -> {
                             Client client = TableClient.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/client_details.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(
+                                Main.class.getResource(
+                                    "/com/dfms/dairy_farm_management_system/popups/client_details.fxml"
+                                )
+                            );
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
@@ -288,7 +295,11 @@ public class ClientsSuppliersController implements Initializable {
 
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
                             Client client = TableClient.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_client.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(
+                                Main.class.getResource(
+                                    "/com/dfms/dairy_farm_management_system/popups/add_new_client.fxml"
+                                )
+                            );
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
@@ -298,7 +309,13 @@ public class ClientsSuppliersController implements Initializable {
                             }
                             NewClientController newClientController = fxmlLoader.getController();
                             newClientController.setUpdate(true);
-                            newClientController.fetchClient(client.getId(), client.getName(), client.getEmail(), client.getPhone(), client.getType());
+                            newClientController.fetchClient(
+                                client.getId(),
+                                client.getName(),
+                                client.getEmail(),
+                                client.getPhone(),
+                                client.getType()
+                            );
                             Stage stage = new Stage();
                             stage.getIcons().add(new Image("file:src/main/resources/images/logo.png"));
                             stage.setTitle("Update Client");
@@ -332,20 +349,22 @@ public class ClientsSuppliersController implements Initializable {
         FilteredList<Client> filteredData = new FilteredList<>(listClient, p -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
-        search_input_client.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(client -> {
-                // If filter text is empty, display all clients.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
-                if (client.getName().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches first name.
-                }
-                return false;
+        search_input_client
+            .textProperty()
+            .addListener((observable, oldValue, newValue) -> {
+                filteredData.setPredicate(client -> {
+                    // If filter text is empty, display all clients.
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+                    // Compare first name and last name of every person with filter text.
+                    String lowerCaseFilter = newValue.toLowerCase();
+                    if (client.getName().toLowerCase().contains(lowerCaseFilter)) {
+                        return true; // Filter matches first name.
+                    }
+                    return false;
+                });
             });
-        });
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<Client> sortedData = new SortedList<>(filteredData);
 
@@ -361,20 +380,22 @@ public class ClientsSuppliersController implements Initializable {
         FilteredList<Supplier> filteredData = new FilteredList<>(listSupplier, p -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
-        search_input_supplier.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(supplier -> {
-                // If filter text is empty, display all clients.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
-                if (supplier.getNameSupplier().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter matches first name.
-                }
-                return false;
+        search_input_supplier
+            .textProperty()
+            .addListener((observable, oldValue, newValue) -> {
+                filteredData.setPredicate(supplier -> {
+                    // If filter text is empty, display all clients.
+                    if (newValue == null || newValue.isEmpty()) {
+                        return true;
+                    }
+                    // Compare first name and last name of every person with filter text.
+                    String lowerCaseFilter = newValue.toLowerCase();
+                    if (supplier.getNameSupplier().toLowerCase().contains(lowerCaseFilter)) {
+                        return true; // Filter matches first name.
+                    }
+                    return false;
+                });
             });
-        });
         // 3. Wrap the FilteredList in a SortedList.
         SortedList<Supplier> sortedData = new SortedList<>(filteredData);
 
@@ -417,7 +438,6 @@ public class ClientsSuppliersController implements Initializable {
                     paragraph.setFont(font);
                     document.add(paragraph);
                     document.add(new Paragraph(" "));
-
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
@@ -439,17 +459,16 @@ public class ClientsSuppliersController implements Initializable {
                 table_cell.setBackgroundColor(cell_background_color.LIGHT_GRAY);
                 table.addCell(table_cell);
 
-
                 //get all clients from database
-//                String query = "SELECT * FROM `clients`";
-//                for (Supplier client:listSupplier) {
-//                    table.addCell(client.getId()+"");
-//                    table.addCell(client.getNameSupplier());
-//                    table.addCell(client.getTypeSupplier());
-//                    table.addCell(client.getPhoneSupplier());
-//                    table.addCell(client.getEmailSupplier());
-//
-//                }
+                //                String query = "SELECT * FROM `clients`";
+                //                for (Supplier client:listSupplier) {
+                //                    table.addCell(client.getId()+"");
+                //                    table.addCell(client.getNameSupplier());
+                //                    table.addCell(client.getTypeSupplier());
+                //                    table.addCell(client.getPhoneSupplier());
+                //                    table.addCell(client.getEmailSupplier());
+                //
+                //                }
                 try {
                     Statement statement = connection.createStatement();
                     ResultSet rs = statement.executeQuery(query);
@@ -459,8 +478,6 @@ public class ClientsSuppliersController implements Initializable {
                         table.addCell(rs.getString("type"));
                         table.addCell(rs.getString("phone"));
                         table.addCell(rs.getString("email"));
-
-
                     }
 
                     document.add(table);
@@ -478,7 +495,12 @@ public class ClientsSuppliersController implements Initializable {
     void exportToExcel(String NameSheet, String query, String typeList) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser
+            .getExtensionFilters()
+            .addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+            );
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
@@ -504,13 +526,10 @@ public class ClientsSuppliersController implements Initializable {
                         row.createCell(2).setCellValue(rs.getString("type"));
                         row.createCell(3).setCellValue(rs.getString("phone"));
                         row.createCell(4).setCellValue(rs.getString("email"));
-
-
                     }
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
-
 
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 workbook.write(fileOutputStream);
@@ -545,7 +564,6 @@ public class ClientsSuppliersController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
         return listSupplier;
     }
@@ -558,10 +576,12 @@ public class ClientsSuppliersController implements Initializable {
         colemailSupplier.setCellValueFactory(new PropertyValueFactory<Supplier, String>("emailSupplier"));
         colphoneSupplier.setCellValueFactory(new PropertyValueFactory<Supplier, String>("phoneSupplier"));
 
-        Callback<TableColumn<Supplier, String>, TableCell<Supplier, String>> cellFoctory = (TableColumn<Supplier, String> param) -> {
+        Callback<TableColumn<Supplier, String>, TableCell<Supplier, String>> cellFoctory = (TableColumn<
+            Supplier,
+            String
+        > param) -> {
             // make cell containing buttons
             final TableCell<Supplier, String> cell = new TableCell<Supplier, String>() {
-
                 Image imgEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 final Button btnEdit = new Button();
                 Image imgDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
@@ -576,7 +596,6 @@ public class ClientsSuppliersController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                         setText(null);
-
                     } else {
                         ImageView iv_viewDetail = new ImageView();
                         iv_viewDetail.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
@@ -620,7 +639,6 @@ public class ClientsSuppliersController implements Initializable {
                         setText(null);
 
                         iv_delete.setOnMouseClicked((MouseEvent event) -> {
-
                             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                             alert.setTitle("Delete Confirmation");
                             alert.setHeaderText("Are you sure you want to delete this supplier?");
@@ -634,11 +652,14 @@ public class ClientsSuppliersController implements Initializable {
                                 alertInfo.setHeaderText("supplier deleted successfully");
                                 alertInfo.showAndWait();
                             }
-
                         });
                         iv_viewDetail.setOnMouseClicked((MouseEvent event) -> {
                             Supplier supplier = TableSupplier.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/supplier_details.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(
+                                Main.class.getResource(
+                                    "/com/dfms/dairy_farm_management_system/popups/supplier_details.fxml"
+                                )
+                            );
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
@@ -659,7 +680,11 @@ public class ClientsSuppliersController implements Initializable {
 
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
                             Supplier supplier = TableSupplier.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_supplier.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(
+                                Main.class.getResource(
+                                    "/com/dfms/dairy_farm_management_system/popups/add_new_supplier.fxml"
+                                )
+                            );
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());

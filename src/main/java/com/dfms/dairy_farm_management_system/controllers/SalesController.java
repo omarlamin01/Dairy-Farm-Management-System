@@ -1,5 +1,9 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.*;
@@ -9,6 +13,14 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,40 +43,34 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class SalesController implements Initializable {
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         BasicConfigurator.configure();
         combo.setItems(list);
         combo1.setItems(list);
 
-        combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-            if (t1.equals("PDF")) {
-                exportToPDF();
-            } else {
-                exportToExcel();
-            }
-        });
-        combo1.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-            if (t1.equals("PDF")) {
-                exportToPDF2();
-            } else {
-                exportToExcel2();
-            }
-        });
+        combo
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((observableValue, s, t1) -> {
+                if (t1.equals("PDF")) {
+                    exportToPDF();
+                } else {
+                    exportToExcel();
+                }
+            });
+        combo1
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((observableValue, s, t1) -> {
+                if (t1.equals("PDF")) {
+                    exportToPDF2();
+                } else {
+                    exportToExcel2();
+                }
+            });
         liveSearch(search_input, AnimalSalesTable);
         try {
             afficher();
@@ -102,14 +108,15 @@ public class SalesController implements Initializable {
 
     @FXML
     private Button search_btn;
+
     @FXML
     private Button refresh_table_btn;
 
     @FXML
     private Button refresh_table_btn1;
+
     @FXML
     private TextField search_inpu;
-
 
     @FXML
     private ComboBox<String> combo;
@@ -191,11 +198,12 @@ public class SalesController implements Initializable {
         client_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, String>("clientName"));
         operationdate_col.setCellValueFactory(new PropertyValueFactory<AnimalSale, Date>("sale_date"));
 
-
-        Callback<TableColumn<AnimalSale, String>, TableCell<AnimalSale, String>> cellFoctory = (TableColumn<AnimalSale, String> param) -> {
+        Callback<TableColumn<AnimalSale, String>, TableCell<AnimalSale, String>> cellFoctory = (TableColumn<
+            AnimalSale,
+            String
+        > param) -> {
             // make cell containing buttons
             final TableCell<AnimalSale, String> cell = new TableCell<AnimalSale, String>() {
-
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
                 Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
@@ -207,7 +215,6 @@ public class SalesController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                         setText(null);
-
                     } else {
                         ImageView iv_view_details = new ImageView();
                         iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
@@ -215,7 +222,6 @@ public class SalesController implements Initializable {
                         iv_view_details.setPreserveRatio(true);
                         iv_view_details.setSmooth(true);
                         iv_view_details.setCache(true);
-
 
                         ImageView iv_edit = new ImageView();
                         iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
@@ -249,7 +255,11 @@ public class SalesController implements Initializable {
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     if (mc.delete()) {
-                                        displayAlert("success", "Animal Sale deleted successfully", Alert.AlertType.INFORMATION);
+                                        displayAlert(
+                                            "success",
+                                            "Animal Sale deleted successfully",
+                                            Alert.AlertType.INFORMATION
+                                        );
                                         refreshTableAnimalSales();
                                     } else {
                                         displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
@@ -261,9 +271,12 @@ public class SalesController implements Initializable {
                         });
 
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
-
                             AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_cow_sale.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(
+                                Main.class.getResource(
+                                    "/com/dfms/dairy_farm_management_system/popups/add_new_cow_sale.fxml"
+                                )
+                            );
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
@@ -284,12 +297,22 @@ public class SalesController implements Initializable {
                         });
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
                             AnimalSale animalSale = AnimalSalesTable.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/animal_sale_details.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(
+                                Main.class.getResource(
+                                    "/com/dfms/dairy_farm_management_system/popups/animal_sale_details.fxml"
+                                )
+                            );
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 AnimalSaleDetailsController controller = fxmlLoader.getController();
-                                controller.fetchAnimalSale(animalSale.getId(), animalSale.getAnimalId(), animalSale.getPrice(), animalSale.getClientName(), animalSale.getSale_date());
+                                controller.fetchAnimalSale(
+                                    animalSale.getId(),
+                                    animalSale.getAnimalId(),
+                                    animalSale.getPrice(),
+                                    animalSale.getClientName(),
+                                    animalSale.getSale_date()
+                                );
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -304,43 +327,45 @@ public class SalesController implements Initializable {
                         });
                     }
                 }
-
-
             };
             return cell;
         };
 
         action_col.setCellFactory(cellFoctory);
         AnimalSalesTable.setItems(list);
-
     }
 
     public void liveSearch(TextField search_input, TableView table) {
-        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty()) {
-                try {
-                    refreshTableAnimalSales();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                ObservableList<AnimalSale> filteredList = FXCollections.observableArrayList();
-                ObservableList<AnimalSale> animalSale = null;
-                try {
-                    animalSale = getAnimalSale();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                for (AnimalSale Animal : animalSale) {
-                    if (Animal.getClientName().toLowerCase().contains(newValue.toLowerCase()) || Animal.getAnimalId().toLowerCase().contains(newValue.toLowerCase())) {
-                        filteredList.add(Animal);
+        search_input
+            .textProperty()
+            .addListener((observable, oldValue, newValue) -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    try {
+                        refreshTableAnimalSales();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
                     }
+                } else {
+                    ObservableList<AnimalSale> filteredList = FXCollections.observableArrayList();
+                    ObservableList<AnimalSale> animalSale = null;
+                    try {
+                        animalSale = getAnimalSale();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    for (AnimalSale Animal : animalSale) {
+                        if (
+                            Animal.getClientName().toLowerCase().contains(newValue.toLowerCase()) ||
+                            Animal.getAnimalId().toLowerCase().contains(newValue.toLowerCase())
+                        ) {
+                            filteredList.add(Animal);
+                        }
+                    }
+                    AnimalSalesTable.setItems(filteredList);
                 }
-                AnimalSalesTable.setItems(filteredList);
-            }
-        });
+            });
     }
 
     public ObservableList<MilkSale> getMilkSale() throws SQLException {
@@ -372,11 +397,12 @@ public class SalesController implements Initializable {
         client_c.setCellValueFactory(new PropertyValueFactory<MilkSale, String>("clientName"));
         date_c.setCellValueFactory(new PropertyValueFactory<MilkSale, LocalDate>("sale_date"));
 
-
-        Callback<TableColumn<MilkSale, String>, TableCell<MilkSale, String>> cellFoctory = (TableColumn<MilkSale, String> param) -> {
+        Callback<TableColumn<MilkSale, String>, TableCell<MilkSale, String>> cellFoctory = (TableColumn<
+            MilkSale,
+            String
+        > param) -> {
             // make cell containing buttons
             final TableCell<MilkSale, String> cell = new TableCell<MilkSale, String>() {
-
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
                 Image view_details_img = new Image(getClass().getResourceAsStream("/images/eye.png"));
@@ -388,7 +414,6 @@ public class SalesController implements Initializable {
                     if (empty) {
                         setGraphic(null);
                         setText(null);
-
                     } else {
                         ImageView iv_view_details = new ImageView();
                         iv_view_details.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
@@ -396,7 +421,6 @@ public class SalesController implements Initializable {
                         iv_view_details.setPreserveRatio(true);
                         iv_view_details.setSmooth(true);
                         iv_view_details.setCache(true);
-
 
                         ImageView iv_edit = new ImageView();
                         iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
@@ -431,27 +455,30 @@ public class SalesController implements Initializable {
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     if (mc.delete()) {
-
-                                        displayAlert("success", "Milk Sale deleted successfully", Alert.AlertType.INFORMATION);
+                                        displayAlert(
+                                            "success",
+                                            "Milk Sale deleted successfully",
+                                            Alert.AlertType.INFORMATION
+                                        );
                                         refreshTableMilkSales();
                                     } else {
                                         displayAlert("Error", "Error while deleting!!!", Alert.AlertType.ERROR);
-
                                     }
                                 } catch (Exception e) {
                                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 }
-
                             }
 
-
                             //displayAlert("Success", "Milk Collection deleted successfully", Alert.AlertType.INFORMATION);
-
                         });
 
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
                             MilkSale milkSale = MilkSaleTable.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/add_new_milk_sale.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(
+                                Main.class.getResource(
+                                    "/com/dfms/dairy_farm_management_system/popups/add_new_milk_sale.fxml"
+                                )
+                            );
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
@@ -472,12 +499,22 @@ public class SalesController implements Initializable {
                         });
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
                             MilkSale milkSale = MilkSaleTable.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/milk_sale_details.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(
+                                Main.class.getResource(
+                                    "/com/dfms/dairy_farm_management_system/popups/milk_sale_details.fxml"
+                                )
+                            );
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
                                 MilkSaleDetailsController controller = fxmlLoader.getController();
-                                controller.fetchMilkSale(milkSale.getId(), milkSale.getQuantity(), milkSale.getPrice(), milkSale.getClientName(), milkSale.getSale_date());
+                                controller.fetchMilkSale(
+                                    milkSale.getId(),
+                                    milkSale.getQuantity(),
+                                    milkSale.getPrice(),
+                                    milkSale.getClientName(),
+                                    milkSale.getSale_date()
+                                );
                             } catch (IOException e) {
                                 displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                                 e.printStackTrace();
@@ -492,15 +529,12 @@ public class SalesController implements Initializable {
                         });
                     }
                 }
-
-
             };
             return cell;
         };
 
         action_c.setCellFactory(cellFoctory);
         MilkSaleTable.setItems(list);
-
     }
 
     private void refreshTableMilkSales() {
@@ -518,7 +552,12 @@ public class SalesController implements Initializable {
     void exportToExcel() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser
+            .getExtensionFilters()
+            .addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+            );
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
@@ -531,11 +570,10 @@ public class SalesController implements Initializable {
                 header.createCell(3).setCellValue("Client");
                 header.createCell(4).setCellValue("Date");
 
-
                 //get all employees from database
-                String query = "SELECT ms.id,ms.animal_id,ms.price,c.name,ms.sale_date FROM `animals_sales` ms ,`clients` c where ms.client_id=c.id ";
+                String query =
+                    "SELECT ms.id,ms.animal_id,ms.price,c.name,ms.sale_date FROM `animals_sales` ms ,`clients` c where ms.client_id=c.id ";
                 try {
-
                     statemeent = connection.createStatement();
                     ResultSet rs = statemeent.executeQuery(query);
                     while (rs.next()) {
@@ -546,12 +584,10 @@ public class SalesController implements Initializable {
                         row.createCell(2).setCellValue(rs.getString("ms.price"));
                         row.createCell(3).setCellValue(rs.getString("c.name"));
                         row.createCell(4).setCellValue(rs.getString("ms.sale_date"));
-
                     }
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
-
 
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 workbook.write(fileOutputStream);
@@ -567,61 +603,61 @@ public class SalesController implements Initializable {
     private static int COLUMNS_COUNT = 4;
 
     void exportToPDF() {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Save As");
-//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-//        File file = fileChooser.showSaveDialog(null);
-//        if (file != null) {
-//            try {
-//                Document document = new Document();
-//                PdfWriter.getInstance(document, new FileOutputStream(file));
-//                document.open();
-//                try {
-//                    document.add(new Paragraph(Element.ALIGN_CENTER, "Stock Report", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
-//                    document.add(new Paragraph(" "));
-//                } catch (Exception e) {
-//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                }
-//                PdfPTable table = new PdfPTable(9);
-//                table.addCell("Product ID");
-//                table.addCell("Product Name");
-//                table.addCell("Product Type");
-//                table.addCell("Quantity");
-//                table.addCell("Availability");
-//                table.addCell("Unit");
-//                table.addCell("Added Date");
-//
-//                //make pdf page width bigger
-//                table.setWidthPercentage(100);
-//                table.setSpacingBefore(10f);
-//                table.setSpacingAfter(10f);
-//
-//                //get all employees from database
-//                String query = "SELECT * FROM `stocks`";
-//                try {
-//                    statement = connection.createStatement();
-//                    ResultSet rs = statement.executeQuery(query);
-//                    while (rs.next()) {
-//                        table.addCell(rs.getString("id"));
-//                        table.addCell(rs.getString("name"));
-//                        table.addCell(rs.getString("type"));
-//                        table.addCell(rs.getString("quantity"));
-//                        table.addCell(rs.getString("availability"));
-//                        table.addCell(rs.getString("unit"));
-//                        table.addCell(rs.getString("created_at"));
-//                    }
-//
-//                    document.add(table);
-//                    document.close();
-//                    displayAlert("Success", "Stcok exported successfully", Alert.AlertType.INFORMATION);
-//                } catch (Exception e) {
-//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                }
-//            } catch (Exception e) {
-//                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//            }
-//        }
-//    }
+        //        FileChooser fileChooser = new FileChooser();
+        //        fileChooser.setTitle("Save As");
+        //        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        //        File file = fileChooser.showSaveDialog(null);
+        //        if (file != null) {
+        //            try {
+        //                Document document = new Document();
+        //                PdfWriter.getInstance(document, new FileOutputStream(file));
+        //                document.open();
+        //                try {
+        //                    document.add(new Paragraph(Element.ALIGN_CENTER, "Stock Report", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
+        //                    document.add(new Paragraph(" "));
+        //                } catch (Exception e) {
+        //                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        //                }
+        //                PdfPTable table = new PdfPTable(9);
+        //                table.addCell("Product ID");
+        //                table.addCell("Product Name");
+        //                table.addCell("Product Type");
+        //                table.addCell("Quantity");
+        //                table.addCell("Availability");
+        //                table.addCell("Unit");
+        //                table.addCell("Added Date");
+        //
+        //                //make pdf page width bigger
+        //                table.setWidthPercentage(100);
+        //                table.setSpacingBefore(10f);
+        //                table.setSpacingAfter(10f);
+        //
+        //                //get all employees from database
+        //                String query = "SELECT * FROM `stocks`";
+        //                try {
+        //                    statement = connection.createStatement();
+        //                    ResultSet rs = statement.executeQuery(query);
+        //                    while (rs.next()) {
+        //                        table.addCell(rs.getString("id"));
+        //                        table.addCell(rs.getString("name"));
+        //                        table.addCell(rs.getString("type"));
+        //                        table.addCell(rs.getString("quantity"));
+        //                        table.addCell(rs.getString("availability"));
+        //                        table.addCell(rs.getString("unit"));
+        //                        table.addCell(rs.getString("created_at"));
+        //                    }
+        //
+        //                    document.add(table);
+        //                    document.close();
+        //                    displayAlert("Success", "Stcok exported successfully", Alert.AlertType.INFORMATION);
+        //                } catch (Exception e) {
+        //                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        //                }
+        //            } catch (Exception e) {
+        //                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        //            }
+        //        }
+        //    }
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
@@ -636,8 +672,14 @@ public class SalesController implements Initializable {
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    Paragraph title = new Paragraph("Animal Sales List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-                    Paragraph text = new Paragraph("This is the list of the animal sales", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    Paragraph title = new Paragraph(
+                        "Animal Sales List",
+                        FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK)
+                    );
+                    Paragraph text = new Paragraph(
+                        "This is the list of the animal sales",
+                        FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK)
+                    );
 
                     //center paragraph
                     title.setAlignment(Element.ALIGN_CENTER);
@@ -663,16 +705,45 @@ public class SalesController implements Initializable {
                 }
 
                 //add table header
-                table.addCell(new PdfPCell(new Paragraph("Animal ID", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Client", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Sale's date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Animal ID",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Client", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Sale's date",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
 
                 //add padding to cells
                 table.getDefaultCell().setPadding(3);
                 table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
                 table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
-
 
                 //get employees displayed in table
                 ObservableList<AnimalSale> animalsales = AnimalSalesTable.getItems();
@@ -688,7 +759,6 @@ public class SalesController implements Initializable {
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(animalsa.getPrice())))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(animalsa.getClientName()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(animalsa.getSale_date())))).setPadding(5);
-
                 }
 
                 document.add(table);
@@ -701,83 +771,85 @@ public class SalesController implements Initializable {
     }
 
     public void liveSearch2(TextField search_input, TableView table) {
-        search_inpu.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty()) {
-                refreshTableMilkSales();
-            } else {
-                ObservableList<MilkSale> filteredList = FXCollections.observableArrayList();
-                ObservableList<MilkSale> milkSale = null;
-                try {
-                    milkSale = getMilkSale();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                for (MilkSale milk : milkSale) {
-                    if (milk.getClientName().toLowerCase().contains(newValue.toLowerCase())) {
-                        filteredList.add(milk);
+        search_inpu
+            .textProperty()
+            .addListener((observable, oldValue, newValue) -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    refreshTableMilkSales();
+                } else {
+                    ObservableList<MilkSale> filteredList = FXCollections.observableArrayList();
+                    ObservableList<MilkSale> milkSale = null;
+                    try {
+                        milkSale = getMilkSale();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
                     }
+                    for (MilkSale milk : milkSale) {
+                        if (milk.getClientName().toLowerCase().contains(newValue.toLowerCase())) {
+                            filteredList.add(milk);
+                        }
+                    }
+                    MilkSaleTable.setItems(filteredList);
                 }
-                MilkSaleTable.setItems(filteredList);
-            }
-        });
+            });
     }
 
     void exportToPDF2() {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Save As");
-//        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
-//        File file = fileChooser.showSaveDialog(null);
-//        if (file != null) {
-//            try {
-//                Document document = new Document();
-//                PdfWriter.getInstance(document, new FileOutputStream(file));
-//                document.open();
-//                try {
-//                    document.add(new Paragraph(Element.ALIGN_CENTER, "Stock Report", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
-//                    document.add(new Paragraph(" "));
-//                } catch (Exception e) {
-//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                }
-//                PdfPTable table = new PdfPTable(9);
-//                table.addCell("Product ID");
-//                table.addCell("Product Name");
-//                table.addCell("Product Type");
-//                table.addCell("Quantity");
-//                table.addCell("Availability");
-//                table.addCell("Unit");
-//                table.addCell("Added Date");
-//
-//                //make pdf page width bigger
-//                table.setWidthPercentage(100);
-//                table.setSpacingBefore(10f);
-//                table.setSpacingAfter(10f);
-//
-//                //get all employees from database
-//                String query = "SELECT * FROM `stocks`";
-//                try {
-//                    statement = connection.createStatement();
-//                    ResultSet rs = statement.executeQuery(query);
-//                    while (rs.next()) {
-//                        table.addCell(rs.getString("id"));
-//                        table.addCell(rs.getString("name"));
-//                        table.addCell(rs.getString("type"));
-//                        table.addCell(rs.getString("quantity"));
-//                        table.addCell(rs.getString("availability"));
-//                        table.addCell(rs.getString("unit"));
-//                        table.addCell(rs.getString("created_at"));
-//                    }
-//
-//                    document.add(table);
-//                    document.close();
-//                    displayAlert("Success", "Stcok exported successfully", Alert.AlertType.INFORMATION);
-//                } catch (Exception e) {
-//                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//                }
-//            } catch (Exception e) {
-//                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
-//            }
-//        }
-//    }
+        //        FileChooser fileChooser = new FileChooser();
+        //        fileChooser.setTitle("Save As");
+        //        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        //        File file = fileChooser.showSaveDialog(null);
+        //        if (file != null) {
+        //            try {
+        //                Document document = new Document();
+        //                PdfWriter.getInstance(document, new FileOutputStream(file));
+        //                document.open();
+        //                try {
+        //                    document.add(new Paragraph(Element.ALIGN_CENTER, "Stock Report", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, Font.BOLD)));
+        //                    document.add(new Paragraph(" "));
+        //                } catch (Exception e) {
+        //                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        //                }
+        //                PdfPTable table = new PdfPTable(9);
+        //                table.addCell("Product ID");
+        //                table.addCell("Product Name");
+        //                table.addCell("Product Type");
+        //                table.addCell("Quantity");
+        //                table.addCell("Availability");
+        //                table.addCell("Unit");
+        //                table.addCell("Added Date");
+        //
+        //                //make pdf page width bigger
+        //                table.setWidthPercentage(100);
+        //                table.setSpacingBefore(10f);
+        //                table.setSpacingAfter(10f);
+        //
+        //                //get all employees from database
+        //                String query = "SELECT * FROM `stocks`";
+        //                try {
+        //                    statement = connection.createStatement();
+        //                    ResultSet rs = statement.executeQuery(query);
+        //                    while (rs.next()) {
+        //                        table.addCell(rs.getString("id"));
+        //                        table.addCell(rs.getString("name"));
+        //                        table.addCell(rs.getString("type"));
+        //                        table.addCell(rs.getString("quantity"));
+        //                        table.addCell(rs.getString("availability"));
+        //                        table.addCell(rs.getString("unit"));
+        //                        table.addCell(rs.getString("created_at"));
+        //                    }
+        //
+        //                    document.add(table);
+        //                    document.close();
+        //                    displayAlert("Success", "Stcok exported successfully", Alert.AlertType.INFORMATION);
+        //                } catch (Exception e) {
+        //                    displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        //                }
+        //            } catch (Exception e) {
+        //                displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
+        //            }
+        //        }
+        //    }
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
@@ -792,8 +864,14 @@ public class SalesController implements Initializable {
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    Paragraph title = new Paragraph("Milk Sales List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-                    Paragraph text = new Paragraph("This is the list of the milk sales", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    Paragraph title = new Paragraph(
+                        "Milk Sales List",
+                        FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK)
+                    );
+                    Paragraph text = new Paragraph(
+                        "This is the list of the milk sales",
+                        FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK)
+                    );
 
                     //center paragraph
                     title.setAlignment(Element.ALIGN_CENTER);
@@ -819,16 +897,45 @@ public class SalesController implements Initializable {
                 }
 
                 //add table header
-                table.addCell(new PdfPCell(new Paragraph("Quantity", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Client", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Sale's date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Quantity",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Price", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Client", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Sale's date",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
 
                 //add padding to cells
                 table.getDefaultCell().setPadding(3);
                 table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
                 table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
-
 
                 //get employees displayed in table
                 ObservableList<MilkSale> milkSales = MilkSaleTable.getItems();
@@ -844,7 +951,6 @@ public class SalesController implements Initializable {
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(milksa.getPrice())))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(milksa.getClientName()))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(String.valueOf(milksa.getSale_date())))).setPadding(5);
-
                 }
 
                 document.add(table);
@@ -859,7 +965,12 @@ public class SalesController implements Initializable {
     void exportToExcel2() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser
+            .getExtensionFilters()
+            .addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+            );
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
@@ -872,11 +983,10 @@ public class SalesController implements Initializable {
                 header.createCell(3).setCellValue("Client");
                 header.createCell(4).setCellValue("Date");
 
-
                 //get all employees from database
-                String query = "SELECT ms.id,ms.quantity,ms.price,c.name,ms.sale_date FROM `milk_sales` ms ,`clients` c where ms.client_id=c.id ";
+                String query =
+                    "SELECT ms.id,ms.quantity,ms.price,c.name,ms.sale_date FROM `milk_sales` ms ,`clients` c where ms.client_id=c.id ";
                 try {
-
                     statemeent = connection.createStatement();
                     ResultSet rs = statemeent.executeQuery(query);
                     while (rs.next()) {
@@ -887,12 +997,10 @@ public class SalesController implements Initializable {
                         row.createCell(2).setCellValue(rs.getString("ms.price"));
                         row.createCell(3).setCellValue(rs.getString("c.name"));
                         row.createCell(4).setCellValue(rs.getString("ms.sale_date"));
-
                     }
                 } catch (Exception e) {
                     displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
-
 
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
                 workbook.write(fileOutputStream);
@@ -913,12 +1021,5 @@ public class SalesController implements Initializable {
     @FXML
     void refreshTable2(MouseEvent event) {
         refreshTableMilkSales();
-
     }
-
 }
-
-
-
-
-

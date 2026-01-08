@@ -1,21 +1,19 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import java.util.Date;
-
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 public class MilkCollection implements Model {
+
     private int id;
     private String cow_id;
     private float quantity;
@@ -26,7 +24,6 @@ public class MilkCollection implements Model {
     public MilkCollection() {
         this.created_at = Timestamp.valueOf(LocalDateTime.now());
         this.updated_at = Timestamp.valueOf(LocalDateTime.now());
-
     }
 
     public Timestamp getCreated_at() {
@@ -53,7 +50,6 @@ public class MilkCollection implements Model {
         this.period = period;
     }
 
-
     public void setId(int id) {
         this.id = id;
     }
@@ -65,7 +61,6 @@ public class MilkCollection implements Model {
     public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
-
 
     public int getId() {
         return id;
@@ -79,13 +74,13 @@ public class MilkCollection implements Model {
         return quantity;
     }
 
-
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO milk_collections (period,quantity,cow_id,created_at, updated_at) VALUES (?,?,?,?,?)";
+        String insertQuery =
+            "INSERT INTO milk_collections (period,quantity,cow_id,created_at, updated_at) VALUES (?,?,?,?,?)";
         try {
             Connection connection = DBConfig.getConnection();
-            try(PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                 preparedStatement.setString(1, period);
                 preparedStatement.setFloat(2, quantity);
                 preparedStatement.setString(3, cow_id);
@@ -104,7 +99,7 @@ public class MilkCollection implements Model {
     @Override
     public boolean update() {
         String updateQuery =
-                "UPDATE milk_collections SET cow_id = ?, period = ?, quantity = ?, updated_at = ? WHERE id = ?";
+            "UPDATE milk_collections SET cow_id = ?, period = ?, quantity = ?, updated_at = ? WHERE id = ?";
         try {
             Connection connection = DBConfig.getConnection();
             try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
@@ -124,7 +119,6 @@ public class MilkCollection implements Model {
         }
     }
 
-
     @Override
     public boolean delete() {
         String deleteQuery = "DELETE FROM milk_collections WHERE id = ?";
@@ -141,6 +135,4 @@ public class MilkCollection implements Model {
             disconnect();
         }
     }
-
-
 }

@@ -1,9 +1,19 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
 import com.dfms.dairy_farm_management_system.models.Purchase;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,18 +21,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class NewPurchaseController implements Initializable {
+
     @FXML
     private Button add_update;
 
@@ -43,13 +43,17 @@ public class NewPurchaseController implements Initializable {
 
     @FXML
     private ComboBox<String> suppliersCombo;
+
     private int Purchase_ID;
     HashMap<String, Integer> suppliers = new HashMap<>();
     HashMap<String, Integer> stocks = new HashMap<>();
+
     @FXML
     private ComboBox<String> stockCombo;
+
     @FXML
     private Button openAddNewProduct;
+
     PreparedStatement statement = null;
     ResultSet resultSet = null;
 
@@ -57,10 +61,14 @@ public class NewPurchaseController implements Initializable {
     void addPurchase(MouseEvent event) {
         Purchase purchase = new Purchase();
         if (this.update) {
-
             if (purchase.update()) {
-
-                if (suppliersCombo.getValue() == null || stockCombo.getValue() == null || priceOfSale.getText().isEmpty() || quantityInput.getText().isEmpty() || operationDate.getValue() == null) {
+                if (
+                    suppliersCombo.getValue() == null ||
+                    stockCombo.getValue() == null ||
+                    priceOfSale.getText().isEmpty() ||
+                    quantityInput.getText().isEmpty() ||
+                    operationDate.getValue() == null
+                ) {
                     displayAlert("Error", "Please Fill all fields ", Alert.AlertType.ERROR);
                 } else if (Float.parseFloat(priceOfSale.getText()) == 0) {
                     displayAlert("Error", "Price can't be null ", Alert.AlertType.ERROR);
@@ -76,19 +84,22 @@ public class NewPurchaseController implements Initializable {
                     clear();
                     closePopUp(event);
                     displayAlert("success", "Purchase  Updated successfully", Alert.AlertType.INFORMATION);
-
                 }
             }
         } else {
-
-            if (suppliersCombo.getValue() == null || suppliersCombo.getValue() == null || priceOfSale.getText().isEmpty() || quantityInput.getText().isEmpty() || operationDate.getValue() == null) {
+            if (
+                suppliersCombo.getValue() == null ||
+                suppliersCombo.getValue() == null ||
+                priceOfSale.getText().isEmpty() ||
+                quantityInput.getText().isEmpty() ||
+                operationDate.getValue() == null
+            ) {
                 displayAlert("Error", "Please Fill all fields ", Alert.AlertType.ERROR);
             } else if (Float.parseFloat(priceOfSale.getText()) == 0) {
                 displayAlert("Error", "Price can't be null ", Alert.AlertType.ERROR);
             } else if (Float.parseFloat(quantityInput.getText()) == 0) {
                 displayAlert("Error", "Quantity can't be null ", Alert.AlertType.ERROR);
             } else {
-
                 purchase.setStock_id(stocks.get(stockCombo.getValue()));
                 purchase.setPrice(Float.parseFloat(priceOfSale.getText()));
                 purchase.setQuantity(Float.parseFloat(quantityInput.getText()));
@@ -97,11 +108,9 @@ public class NewPurchaseController implements Initializable {
                 if (purchase.save()) {
                     closePopUp(event);
                     displayAlert("success", "Purchase added successfully", Alert.AlertType.INFORMATION);
-
                 } else {
                     displayAlert("Error", "Error while saving!!!", Alert.AlertType.ERROR);
                 }
-
             }
         }
     }
@@ -117,7 +126,6 @@ public class NewPurchaseController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         try {
             this.setSupplierList();
         } catch (SQLException e) {
@@ -155,7 +163,6 @@ public class NewPurchaseController implements Initializable {
         statement = DBConfig.getConnection().prepareStatement(select_query);
         resultSet = statement.executeQuery();
         while (resultSet.next()) {
-
             stocks.put(resultSet.getString("name"), resultSet.getInt("id"));
             products.add(resultSet.getString("name"));
         }
@@ -193,17 +200,18 @@ public class NewPurchaseController implements Initializable {
             }
         });
     }
-////        animal = getAnimal(AnimalDetailsController.id_animal);
-//        this.Purchase_ID = ID;
-//        header.setText("Update Purchase num :  " + ID);
-//        stockCombo.setValue(typeProduct + "");
-//        suppliersCombo.setValue(supplier + "");
-//        priceOfSale.setText(price + "");
-//        quantityInput.setText(quantity + "");
-//        operationDate.setValue(LocalDate.parse(operationdate + ""));
-//        key.setText("Update");
-//        add_update.setText("Update");
-//    }
+
+    ////        animal = getAnimal(AnimalDetailsController.id_animal);
+    //        this.Purchase_ID = ID;
+    //        header.setText("Update Purchase num :  " + ID);
+    //        stockCombo.setValue(typeProduct + "");
+    //        suppliersCombo.setValue(supplier + "");
+    //        priceOfSale.setText(price + "");
+    //        quantityInput.setText(quantity + "");
+    //        operationDate.setValue(LocalDate.parse(operationdate + ""));
+    //        key.setText("Update");
+    //        add_update.setText("Update");
+    //    }
 
     @FXML
     void openAddProduct(MouseEvent event) throws IOException {
@@ -229,8 +237,6 @@ public class NewPurchaseController implements Initializable {
                 purchase.setSupplier_id(rs.getInt("supplier_id"));
                 purchase.setPrice(rs.getInt("price"));
                 purchase.setPurchase_date(rs.getDate("purchase_date"));
-
-
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);

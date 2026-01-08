@@ -1,5 +1,8 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.Main;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.EmployeeDetailsController;
 import com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers.UpdateEmployeeController;
@@ -9,6 +12,17 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.NumberFormat;
+import java.util.Optional;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,22 +45,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.text.NumberFormat;
-import java.util.Optional;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class EmployeesController implements Initializable {
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //this line of code is so important for the export !!!!
@@ -58,13 +58,16 @@ public class EmployeesController implements Initializable {
         liveSearch(search_employee_input, employees_table);
 
         //check what user select in the combo box
-        export_combo.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
-            if (t1.equals("PDF")) {
-                exportToPDF();
-            } else {
-                exportToExcel();
-            }
-        });
+        export_combo
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener((observableValue, s, t1) -> {
+                if (t1.equals("PDF")) {
+                    exportToPDF();
+                } else {
+                    exportToExcel();
+                }
+            });
     }
 
     private static int COLUMNS_COUNT = 9;
@@ -157,7 +160,10 @@ public class EmployeesController implements Initializable {
         email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
         salary_col.setCellValueFactory(new PropertyValueFactory<>("salary"));
 
-        Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<Employee, String> param) -> {
+        Callback<TableColumn<Employee, String>, TableCell<Employee, String>> cellFoctory = (TableColumn<
+            Employee,
+            String
+        > param) -> {
             final TableCell<Employee, String> cell = new TableCell<Employee, String>() {
                 Image edit_img = new Image(getClass().getResourceAsStream("/images/edit.png"));
                 Image delete_img = new Image(getClass().getResourceAsStream("/images/delete.png"));
@@ -177,7 +183,6 @@ public class EmployeesController implements Initializable {
                         iv_view_details.setPreserveRatio(true);
                         iv_view_details.setSmooth(true);
                         iv_view_details.setCache(true);
-
 
                         ImageView iv_edit = new ImageView();
                         iv_edit.setStyle("-fx-background-color: transparent;-fx-cursor: hand;-fx-size:15px;");
@@ -212,7 +217,11 @@ public class EmployeesController implements Initializable {
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     if (employee.delete()) {
-                                        displayAlert("Success", "Employee deleted successfully", Alert.AlertType.INFORMATION);
+                                        displayAlert(
+                                            "Success",
+                                            "Employee deleted successfully",
+                                            Alert.AlertType.INFORMATION
+                                        );
                                         displayEmployees();
                                     }
                                 } catch (Exception e) {
@@ -224,7 +233,11 @@ public class EmployeesController implements Initializable {
                         //update employee
                         iv_edit.setOnMouseClicked((MouseEvent event) -> {
                             Employee employee = employees_table.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/update_employee.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(
+                                Main.class.getResource(
+                                    "/com/dfms/dairy_farm_management_system/popups/update_employee.fxml"
+                                )
+                            );
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
@@ -246,7 +259,11 @@ public class EmployeesController implements Initializable {
                         //view employee details
                         iv_view_details.setOnMouseClicked((MouseEvent event) -> {
                             Employee employee = employees_table.getSelectionModel().getSelectedItem();
-                            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"));
+                            FXMLLoader fxmlLoader = new FXMLLoader(
+                                Main.class.getResource(
+                                    "/com/dfms/dairy_farm_management_system/popups/employee_details.fxml"
+                                )
+                            );
                             Scene scene = null;
                             try {
                                 scene = new Scene(fxmlLoader.load());
@@ -286,20 +303,25 @@ public class EmployeesController implements Initializable {
     }
 
     public void liveSearch(TextField search_input, TableView table) {
-        search_input.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.isEmpty()) {
-                refreshTable();
-            } else {
-                ObservableList<Employee> filteredList = FXCollections.observableArrayList();
-                ObservableList<Employee> employees = getEmployees();
-                for (Employee employee : employees) {
-                    if (employee.getFirstName().toLowerCase().contains(newValue.toLowerCase()) || employee.getLastName().toLowerCase().contains(newValue.toLowerCase())) {
-                        filteredList.add(employee);
+        search_input
+            .textProperty()
+            .addListener((observable, oldValue, newValue) -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    refreshTable();
+                } else {
+                    ObservableList<Employee> filteredList = FXCollections.observableArrayList();
+                    ObservableList<Employee> employees = getEmployees();
+                    for (Employee employee : employees) {
+                        if (
+                            employee.getFirstName().toLowerCase().contains(newValue.toLowerCase()) ||
+                            employee.getLastName().toLowerCase().contains(newValue.toLowerCase())
+                        ) {
+                            filteredList.add(employee);
+                        }
                     }
+                    table.setItems(filteredList);
                 }
-                table.setItems(filteredList);
-            }
-        });
+            });
     }
 
     @FXML
@@ -310,7 +332,12 @@ public class EmployeesController implements Initializable {
     void exportToExcel() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save As");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"), new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        fileChooser
+            .getExtensionFilters()
+            .addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"),
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+            );
         File file = fileChooser.showSaveDialog(null);
         if (file != null) {
             try {
@@ -343,11 +370,10 @@ public class EmployeesController implements Initializable {
                     String phone = emp.getPhone() != null ? emp.getPhone() : "-";
                     String address = emp.getAddress() != null ? emp.getAddress() : "-";
                     String cin = emp.getCin() != null ? emp.getCin() : "-";
-                    String gender = emp.getGender() != null
-                            ? emp.getGender().equals("M") ? "Male" : "Female"
-                            : "-";
+                    String gender = emp.getGender() != null ? emp.getGender().equals("M") ? "Male" : "Female" : "-";
                     String hireDate = emp.getHireDate() != null ? emp.getHireDate().toString() : "-";
-                    String salary = emp.getSalary() != 0 ? NumberFormat.getNumberInstance().format(emp.getSalary()) : "-";
+                    String salary =
+                        emp.getSalary() != 0 ? NumberFormat.getNumberInstance().format(emp.getSalary()) : "-";
 
                     Row row = sheet.createRow(sheet.getLastRowNum() + 1);
                     row.createCell(0).setCellValue(firstName);
@@ -386,8 +412,14 @@ public class EmployeesController implements Initializable {
                 PdfWriter.getInstance(document, new FileOutputStream(file));
                 document.open();
                 try {
-                    Paragraph title = new Paragraph("Employees List", FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK));
-                    Paragraph text = new Paragraph("This is the list of the employees", FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK));
+                    Paragraph title = new Paragraph(
+                        "Employees List",
+                        FontFactory.getFont(FontFactory.COURIER_BOLD, 20, BaseColor.BLACK)
+                    );
+                    Paragraph text = new Paragraph(
+                        "This is the list of the employees",
+                        FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK)
+                    );
 
                     //center paragraph
                     title.setAlignment(Element.ALIGN_CENTER);
@@ -413,21 +445,83 @@ public class EmployeesController implements Initializable {
                 }
 
                 //add table header
-                table.addCell(new PdfPCell(new Paragraph("First Name", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Last Name", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Email", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Phone", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Address", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("CIN", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Gender", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Hire Date", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
-                table.addCell(new PdfPCell(new Paragraph("Salary", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)))).setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "First Name",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Last Name",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Email", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Phone", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Address", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("CIN", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Gender", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph(
+                                "Hire Date",
+                                FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK)
+                            )
+                        )
+                    )
+                    .setPadding(5);
+                table
+                    .addCell(
+                        new PdfPCell(
+                            new Paragraph("Salary", FontFactory.getFont(FontFactory.COURIER_BOLD, 12, BaseColor.BLACK))
+                        )
+                    )
+                    .setPadding(5);
 
                 //add padding to cells
                 table.getDefaultCell().setPadding(3);
                 table.getDefaultCell().setHorizontalAlignment(Element.ALIGN_LEFT);
                 table.getDefaultCell().setVerticalAlignment(Element.ALIGN_MIDDLE);
-
 
                 //get employees displayed in table
                 ObservableList<Employee> employees = employees_table.getItems();
@@ -445,11 +539,10 @@ public class EmployeesController implements Initializable {
                     String phone = emp.getPhone() != null ? emp.getPhone() : "-";
                     String address = emp.getAddress() != null ? emp.getAddress() : "-";
                     String cin = emp.getCin() != null ? emp.getCin() : "-";
-                    String gender = emp.getGender() != null
-                            ? emp.getGender().equals("M") ? "Male" : "Female"
-                            : "-";
+                    String gender = emp.getGender() != null ? emp.getGender().equals("M") ? "Male" : "Female" : "-";
                     String hireDate = emp.getHireDate() != null ? emp.getHireDate().toString() : "-";
-                    String salary = emp.getSalary() != 0 ? NumberFormat.getNumberInstance().format(emp.getSalary()) : "-";
+                    String salary =
+                        emp.getSalary() != 0 ? NumberFormat.getNumberInstance().format(emp.getSalary()) : "-";
 
                     table.addCell(new PdfPCell(new Paragraph(firstName))).setPadding(5);
                     table.addCell(new PdfPCell(new Paragraph(lastName))).setPadding(5);

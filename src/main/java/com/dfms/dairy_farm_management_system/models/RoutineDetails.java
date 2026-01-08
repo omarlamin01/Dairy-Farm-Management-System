@@ -1,5 +1,8 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,10 +10,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-
 public class RoutineDetails implements Model {
+
     private int id;
     private int stock_id;
     private String stock_name;
@@ -26,12 +27,9 @@ public class RoutineDetails implements Model {
     }
 
     private boolean executeUpdate(String sql, StatementBinder binder) {
-        try (Connection connection = getConnection();
-             PreparedStatement st = connection.prepareStatement(sql)) {
-
+        try (Connection connection = getConnection(); PreparedStatement st = connection.prepareStatement(sql)) {
             binder.bind(st);
             return st.executeUpdate() != 0;
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -42,8 +40,7 @@ public class RoutineDetails implements Model {
 
     public static int getLastId() {
         String query = "SELECT id FROM routine_has_feeds ORDER BY created_at DESC LIMIT 1";
-        try (PreparedStatement ps = getConnection().prepareStatement(query);
-             ResultSet resultSet = ps.executeQuery()) {
+        try (PreparedStatement ps = getConnection().prepareStatement(query); ResultSet resultSet = ps.executeQuery()) {
             if (resultSet.next()) {
                 return resultSet.getInt("id");
             }
@@ -71,9 +68,10 @@ public class RoutineDetails implements Model {
         this.stock_id = stock_id;
 
         String query = "SELECT name FROM stocks WHERE id = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
+        try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)
+        ) {
             statement.setInt(1, stock_id);
 
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -141,9 +139,10 @@ public class RoutineDetails implements Model {
         created_at = Timestamp.valueOf(LocalDateTime.now());
         updated_at = Timestamp.valueOf(LocalDateTime.now());
 
-        String sql = "INSERT INTO routine_has_feeds " +
-                "(stock_id, routine_id, quantity, feeding_time, created_at, updated_at) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql =
+            "INSERT INTO routine_has_feeds " +
+            "(stock_id, routine_id, quantity, feeding_time, created_at, updated_at) " +
+            "VALUES (?, ?, ?, ?, ?, ?)";
 
         return executeUpdate(sql, st -> {
             st.setInt(1, stock_id);
@@ -159,9 +158,10 @@ public class RoutineDetails implements Model {
     public boolean update() {
         updated_at = Timestamp.valueOf(LocalDateTime.now());
 
-        String sql = "UPDATE routine_has_feeds " +
-                "SET stock_id = ?, routine_id = ?, quantity = ?, feeding_time = ?, updated_at = ? " +
-                "WHERE id = ?";
+        String sql =
+            "UPDATE routine_has_feeds " +
+            "SET stock_id = ?, routine_id = ?, quantity = ?, feeding_time = ?, updated_at = ? " +
+            "WHERE id = ?";
         return executeUpdate(sql, st -> {
             st.setInt(1, stock_id);
             st.setInt(2, routine_id);
@@ -171,6 +171,7 @@ public class RoutineDetails implements Model {
             st.setInt(6, id);
         });
     }
+
     @Override
     public boolean delete() {
         String sql = "DELETE FROM routine_has_feeds WHERE id = ?";

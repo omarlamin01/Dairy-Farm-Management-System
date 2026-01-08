@@ -1,9 +1,18 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.MilkCollection;
+import java.net.URL;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,17 +20,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
-import java.net.URL;
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-
 public class CowSalesController implements Initializable {
+
     private static final String ALERT_ERROR = "Error";
     private static final String ALERT_SUCCESS = "success";
 
@@ -42,24 +42,31 @@ public class CowSalesController implements Initializable {
 
     @FXML
     ComboBox<String> clientsCombo;
+
     @FXML
     DatePicker operationDate;
+
     @FXML
     ComboBox<String> animalsCombo;
+
     @FXML
     TextField priceOfSale;
 
     HashMap<String, Integer> clients = new HashMap<>();
     PreparedStatement statement = null;
     ResultSet resultSet = null;
+
     @FXML
     private Label header;
 
     @FXML
     private Label key;
+
     @FXML
     private Button add_update;
-    private  int AnimalSale_ID;
+
+    private int AnimalSale_ID;
+
     public void setClientsList() throws SQLException {
         ObservableList<String> clientNames = FXCollections.observableArrayList();
 
@@ -82,24 +89,29 @@ public class CowSalesController implements Initializable {
         statement = DBConfig.getConnection().prepareStatement(select_query);
         resultSet = statement.executeQuery();
         while (resultSet.next()) {
-
             animals.add(resultSet.getString("id"));
         }
 
         animalsCombo.setItems(animals);
     }
+
     private boolean update;
+
     public void setUpdate(boolean b) {
         this.update = b;
     }
+
     @FXML
     public void addCowSale(MouseEvent mouseEvent) {
         AnimalSale animalSale = new AnimalSale();
         if (this.update) {
-
             if (animalSale.update()) {
-
-                if (clientsCombo.getValue() == null || animalsCombo.getValue() == null || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
+                if (
+                    clientsCombo.getValue() == null ||
+                    animalsCombo.getValue() == null ||
+                    priceOfSale.getText().isEmpty() ||
+                    operationDate.getValue() == null
+                ) {
                     displayAlert(ALERT_ERROR, "Please Fill all fields ", Alert.AlertType.ERROR);
                 } else if (Float.parseFloat(priceOfSale.getText()) == 0) {
                     displayAlert(ALERT_ERROR, "Price can't be null ", Alert.AlertType.ERROR);
@@ -112,15 +124,19 @@ public class CowSalesController implements Initializable {
                     clear();
                     closePopUp(mouseEvent);
                     displayAlert(ALERT_SUCCESS, "Animal Sale Updated successfully", Alert.AlertType.INFORMATION);
-
-                } }}else {
-
-            if (clientsCombo.getValue() == null || animalsCombo.getValue() == null || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
+                }
+            }
+        } else {
+            if (
+                clientsCombo.getValue() == null ||
+                animalsCombo.getValue() == null ||
+                priceOfSale.getText().isEmpty() ||
+                operationDate.getValue() == null
+            ) {
                 displayAlert(ALERT_ERROR, "Please Fill all fields ", Alert.AlertType.ERROR);
             } else if (Float.parseFloat(priceOfSale.getText()) == 0) {
                 displayAlert(ALERT_ERROR, "Price can't be null ", Alert.AlertType.ERROR);
             } else {
-
                 animalSale.setAnimalId(animalsCombo.getValue());
                 animalSale.setPrice(Float.parseFloat(priceOfSale.getText()));
                 animalSale.setClientId(clients.get(clientsCombo.getValue()));
@@ -128,15 +144,14 @@ public class CowSalesController implements Initializable {
                 if (animalSale.save()) {
                     closePopUp(mouseEvent);
                     displayAlert(ALERT_SUCCESS, "Sale added successfully", Alert.AlertType.INFORMATION);
-
                 } else {
                     displayAlert(ALERT_ERROR, "Error while saving!!!", Alert.AlertType.ERROR);
                 }
-
             }
         }
     }
-    public  void fetchAnimalSale(AnimalSale animalSale){
+
+    public void fetchAnimalSale(AnimalSale animalSale) {
         this.AnimalSale_ID = animalSale.getId();
         header.setText("Update Animal Sale");
         this.animalsCombo.setValue(animalSale.getAnimalId());
@@ -153,38 +168,37 @@ public class CowSalesController implements Initializable {
             if (animalSale.update()) {
                 closePopUp(mouseEvent);
                 displayAlert(ALERT_SUCCESS, "Animal Sale Updated successfully", Alert.AlertType.INFORMATION);
-
             } else {
                 displayAlert(ALERT_ERROR, "Error while updating!!!", Alert.AlertType.ERROR);
             }
         });
     }
+
     //        animal = getAnimal(AnimalDetailsController.id_animal);
-//        this.AnimalSale_ID = ID;
-//        header.setText("Update Animal Sale num :  " + ID);
-//        animalsCombo.setValue(animal + "");
-//        clientsCombo.setValue(client + "");
-//        priceOfSale.setText(price + "");
-//        operationDate.setValue(LocalDate.parse(operationdate + ""));
-//        key.setText("Update");
-//        add_update.setText("Update");
-//
-//
-//    }
-    private void clear () {
+    //        this.AnimalSale_ID = ID;
+    //        header.setText("Update Animal Sale num :  " + ID);
+    //        animalsCombo.setValue(animal + "");
+    //        clientsCombo.setValue(client + "");
+    //        priceOfSale.setText(price + "");
+    //        operationDate.setValue(LocalDate.parse(operationdate + ""));
+    //        key.setText("Update");
+    //        add_update.setText("Update");
+    //
+    //
+    //    }
+    private void clear() {
         animalsCombo.getSelectionModel().clearSelection();
         clientsCombo.getSelectionModel().clearSelection();
         priceOfSale.clear();
         operationDate.setValue(null);
         add_update.setDisable(false);
     }
+
     public AnimalSale getSale(int animalSale_ID) {
         AnimalSale animalSale = new AnimalSale();
         String query = "SELECT * FROM animals_sales WHERE id = ? LIMIT 1";
 
-        try (Connection con = getConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
-
+        try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, animalSale_ID);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -196,7 +210,6 @@ public class CowSalesController implements Initializable {
                     animalSale.setSale_date(rs.getDate("sale_date"));
                 }
             }
-
         } catch (SQLException e) {
             displayAlert(ALERT_ERROR, e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
@@ -204,5 +217,4 @@ public class CowSalesController implements Initializable {
 
         return animalSale;
     }
-
 }

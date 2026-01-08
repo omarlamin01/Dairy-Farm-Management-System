@@ -1,7 +1,8 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -10,9 +11,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
-
 public class Stock implements Model {
+
     private int id;
     private String name;
     private String type;
@@ -22,10 +22,18 @@ public class Stock implements Model {
     private Timestamp created_at;
     private Timestamp updated_at;
 
-    public Stock() {
-    }
+    public Stock() {}
 
-    public Stock(int id, String name, String type, float quantity, boolean availability, String unit, Timestamp created_at, Timestamp updated_at) {
+    public Stock(
+        int id,
+        String name,
+        String type,
+        float quantity,
+        boolean availability,
+        String unit,
+        Timestamp created_at,
+        Timestamp updated_at
+    ) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -126,18 +134,25 @@ public class Stock implements Model {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
-        String updateQuery = "UPDATE `stocks` SET `name` = '" + name +
-                "', `type` = '" + type +
-                "', `quantity` = '" + quantity +
-                "', `availability` = '" + (availability ? 1 : 0) +
-                "', `unit` = '" + unit +
-                "', `updated_at` = '" + dtf.format(now) +
-                "' WHERE `stocks`.`id` = " + id;
+        String updateQuery =
+            "UPDATE `stocks` SET `name` = '" +
+            name +
+            "', `type` = '" +
+            type +
+            "', `quantity` = '" +
+            quantity +
+            "', `availability` = '" +
+            (availability ? 1 : 0) +
+            "', `unit` = '" +
+            unit +
+            "', `updated_at` = '" +
+            dtf.format(now) +
+            "' WHERE `stocks`.`id` = " +
+            id;
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
             return preparedStatement.executeUpdate() != 0;
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -163,15 +178,28 @@ public class Stock implements Model {
 
     @Override
     public String toString() {
-        return "Stock{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", quantity=" + quantity +
-                ", availability=" + availability +
-                ", unit='" + unit + '\'' +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
-                '}';
+        return (
+            "Stock{" +
+            "id=" +
+            id +
+            ", name='" +
+            name +
+            '\'' +
+            ", type='" +
+            type +
+            '\'' +
+            ", quantity=" +
+            quantity +
+            ", availability=" +
+            availability +
+            ", unit='" +
+            unit +
+            '\'' +
+            ", created_at=" +
+            created_at +
+            ", updated_at=" +
+            updated_at +
+            '}'
+        );
     }
 }

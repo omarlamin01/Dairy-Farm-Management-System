@@ -1,0 +1,26 @@
+{
+  "name": "dairy-farm-management-system",
+  "version": "1.0.0",
+  "description": "A comprehensive and high-performance desktop management suite designed to modernize dairy farm operations. This system replaces traditional paper-based tracking with a secure, digital platform that provides real-time visibility into animal health, production metrics, and financial performance.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"**/*.java\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omarlamin01/Dairy-Farm-Management-System.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/omarlamin01/Dairy-Farm-Management-System/issues"
+  },
+  "homepage": "https://github.com/omarlamin01/Dairy-Farm-Management-System#readme",
+  "devDependencies": {
+    "prettier": "3.7.4",
+    "prettier-plugin-java": "2.8.1"
+  }
+}

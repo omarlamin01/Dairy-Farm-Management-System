@@ -1,7 +1,6 @@
 package com.dfms.dairy_farm_management_system.connection;
 
 import com.dfms.dairy_farm_management_system.models.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +8,7 @@ import java.sql.Statement;
 import java.util.Date;
 
 public class Session {
+
     private Statement st;
     private static final Connection con = DBConfig.getConnection();
     private static User current_user;

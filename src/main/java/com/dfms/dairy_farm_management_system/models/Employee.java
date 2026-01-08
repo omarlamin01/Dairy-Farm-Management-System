@@ -1,15 +1,15 @@
 package com.dfms.dairy_farm_management_system.models;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
-
-import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.sql.Date;
-
 import static com.dfms.dairy_farm_management_system.connection.DBConfig.disconnect;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
+import java.sql.*;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Employee implements Model {
+
     private String first_name;
     private String last_name;
     private String gender;
@@ -126,7 +126,8 @@ public class Employee implements Model {
 
     @Override
     public boolean save() {
-        String insertQuery = "INSERT INTO `employees` (first_name, last_name, gender, cin, email, phone, address, salary, hire_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery =
+            "INSERT INTO `employees` (first_name, last_name, gender, cin, email, phone, address, salary, hire_date, contract_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
@@ -163,18 +164,32 @@ public class Employee implements Model {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
 
-        String updateQuery = "UPDATE `employees` SET " +
-                "`first_name` = '" + first_name +
-                "', `last_name` = '" + last_name +
-                "', `gender` = '" + (gender.equalsIgnoreCase("Male") ? 'M' : 'F') +
-                "', `cin` = '" + cin +
-                "', `email` = '" + email +
-                "', `phone` = '" + phone +
-                "', `address` = '" + adress +
-                "', `salary` = '" + salary +
-                "', `contract_type` = '" + contract_type +
-                "', `updated_at` = '" + dtf.format(now) + "' " +
-                "WHERE `employees`.`cin` = '" + cin.toUpperCase() + "'";
+        String updateQuery =
+            "UPDATE `employees` SET " +
+            "`first_name` = '" +
+            first_name +
+            "', `last_name` = '" +
+            last_name +
+            "', `gender` = '" +
+            (gender.equalsIgnoreCase("Male") ? 'M' : 'F') +
+            "', `cin` = '" +
+            cin +
+            "', `email` = '" +
+            email +
+            "', `phone` = '" +
+            phone +
+            "', `address` = '" +
+            adress +
+            "', `salary` = '" +
+            salary +
+            "', `contract_type` = '" +
+            contract_type +
+            "', `updated_at` = '" +
+            dtf.format(now) +
+            "' " +
+            "WHERE `employees`.`cin` = '" +
+            cin.toUpperCase() +
+            "'";
         try {
             Connection connection = DBConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
@@ -204,19 +219,41 @@ public class Employee implements Model {
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "first_name='" + first_name + '\'' +
-                ", last_name='" + last_name + '\'' +
-                ", gender='" + gender + '\'' +
-                ", cin='" + cin + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", adress='" + adress + '\'' +
-                ", salary=" + salary +
-                ", hire_date=" + hire_date +
-                ", contract_type='" + contract_type + '\'' +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
-                '}';
+        return (
+            "Employee{" +
+            "first_name='" +
+            first_name +
+            '\'' +
+            ", last_name='" +
+            last_name +
+            '\'' +
+            ", gender='" +
+            gender +
+            '\'' +
+            ", cin='" +
+            cin +
+            '\'' +
+            ", email='" +
+            email +
+            '\'' +
+            ", phone='" +
+            phone +
+            '\'' +
+            ", adress='" +
+            adress +
+            '\'' +
+            ", salary=" +
+            salary +
+            ", hire_date=" +
+            hire_date +
+            ", contract_type='" +
+            contract_type +
+            '\'' +
+            ", created_at=" +
+            created_at +
+            ", updated_at=" +
+            updated_at +
+            '}'
+        );
     }
 }

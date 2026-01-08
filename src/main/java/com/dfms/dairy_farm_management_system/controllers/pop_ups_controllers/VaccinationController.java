@@ -1,6 +1,16 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.connection.Session.getCurrentUser;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+
 import com.dfms.dairy_farm_management_system.models.Vaccination;
+import java.net.URL;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,26 +19,20 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.connection.Session.getCurrentUser;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-
 public class VaccinationController implements Initializable {
+
     @FXML
     ComboBox<String> animalVaccine;
+
     @FXML
     ComboBox<String> vaccineId;
+
     @FXML
     DatePicker vaccinationDate;
+
     @FXML
     TextArea vaccineNotes;
+
     @FXML
     Button vaccinationBtn;
 
@@ -48,8 +52,7 @@ public class VaccinationController implements Initializable {
             if (vaccination.save()) {
                 displayAlert("SUCCESS", "vaccination saved successfully.", Alert.AlertType.INFORMATION);
                 closePopUp(mouseEvent);
-            } else
-                displayAlert("ERROR", "some error happened while saving!", Alert.AlertType.ERROR);
+            } else displayAlert("ERROR", "some error happened while saving!", Alert.AlertType.ERROR);
         });
     }
 
@@ -66,8 +69,7 @@ public class VaccinationController implements Initializable {
             if (vaccination.update()) {
                 displayAlert("SUCCESS", "vaccination updated successfully.", Alert.AlertType.INFORMATION);
                 closePopUp(mouseEvent);
-            } else
-                displayAlert("ERROR", "some error happened while updating!", Alert.AlertType.ERROR);
+            } else displayAlert("ERROR", "some error happened while updating!", Alert.AlertType.ERROR);
         });
     }
 

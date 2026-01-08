@@ -1,8 +1,17 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.Employee;
 import com.dfms.dairy_farm_management_system.models.User;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,17 +19,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class UpdateUserController implements Initializable {
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setRoleComboItems();
@@ -125,7 +125,9 @@ public class UpdateUserController implements Initializable {
         String roleName = "";
         try {
             statement = connection.createStatement();
-            ResultSet resultSet = connection.prepareStatement("SELECT * FROM `roles` WHERE `id` = '" + id + "' LIMIT 1").executeQuery();
+            ResultSet resultSet = connection
+                .prepareStatement("SELECT * FROM `roles` WHERE `id` = '" + id + "' LIMIT 1")
+                .executeQuery();
             if (resultSet.next()) {
                 roleName = resultSet.getString("name");
             }
@@ -145,13 +147,14 @@ public class UpdateUserController implements Initializable {
     }
 
     public boolean inputsAreEmpty() {
-        if (this.firstNameInput.getText().isEmpty()
-                || this.lastNameInput.getText().isEmpty()
-                || this.emailInput.getText().isEmpty()
-                || this.phoneNumberInput.getText().isEmpty()
-                || this.addressInput.getText().isEmpty()
-                || this.cinInput.getText().isEmpty())
-            return true;
+        if (
+            this.firstNameInput.getText().isEmpty() ||
+            this.lastNameInput.getText().isEmpty() ||
+            this.emailInput.getText().isEmpty() ||
+            this.phoneNumberInput.getText().isEmpty() ||
+            this.addressInput.getText().isEmpty() ||
+            this.cinInput.getText().isEmpty()
+        ) return true;
         return false;
     }
 }

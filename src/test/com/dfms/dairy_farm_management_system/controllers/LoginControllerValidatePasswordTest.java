@@ -1,13 +1,12 @@
 package com.dfms.dairy_farm_management_system.controllers;
 
-import com.dfms.dairy_farm_management_system.connection.DBConfig;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
+import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import java.sql.Connection;
 import java.sql.Statement;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class LoginControllerValidatePasswordTest {
 
@@ -22,14 +21,15 @@ class LoginControllerValidatePasswordTest {
 
         statement.execute("DELETE FROM users");
 
-        statement.execute("""
-        INSERT INTO users (id, role, password, gender, cin, phone, salary, email)
-        VALUES (1, 1, '5f4dcc3b5aa765d61d8327deb882cf99', 'M', 'CIN001', '0000000000', 1000, 'test@example.com')
-    """); // hash for "password"
+        statement.execute(
+            """
+                INSERT INTO users (id, role, password, gender, cin, phone, salary, email)
+                VALUES (1, 1, '5f4dcc3b5aa765d61d8327deb882cf99', 'M', 'CIN001', '0000000000', 1000, 'test@example.com')
+            """
+        ); // hash for "password"
 
         DBConfig.disconnect();
     }
-
 
     @Test
     void testValidEmailAndCorrectPassword() throws Exception {

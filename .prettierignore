@@ -1,0 +1,11 @@
+node_modules
+target
+.idea
+.settings
+*.jar
+*.sql
+*.yml
+Dockerfile
+LICENSE
+pom.xml
+README.md

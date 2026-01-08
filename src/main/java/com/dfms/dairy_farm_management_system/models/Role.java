@@ -1,5 +1,7 @@
 package com.dfms.dairy_farm_management_system.models;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -7,14 +9,12 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-
 public class Role implements Model {
+
     private int id;
     private String name;
 
-    public Role() {
-    }
+    public Role() {}
 
     public Role(int id, String role_name) {
         this.id = id;
@@ -36,7 +36,6 @@ public class Role implements Model {
     public void setName(String role_name) {
         this.name = role_name;
     }
-
 
     @Override
     public boolean save() {

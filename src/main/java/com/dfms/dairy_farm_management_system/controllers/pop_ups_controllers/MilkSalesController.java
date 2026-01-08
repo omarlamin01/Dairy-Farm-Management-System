@@ -1,8 +1,17 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.AnimalSale;
 import com.dfms.dairy_farm_management_system.models.MilkSale;
+import java.net.URL;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,17 +19,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
-import java.net.URL;
-import java.sql.*;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-
 public class MilkSalesController implements Initializable {
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -34,10 +34,13 @@ public class MilkSalesController implements Initializable {
 
     @FXML
     ComboBox<String> clientsCombo;
+
     @FXML
     DatePicker operationDate;
+
     @FXML
     TextField quantityInput;
+
     @FXML
     TextField priceOfSale;
 
@@ -56,6 +59,7 @@ public class MilkSalesController implements Initializable {
 
     @FXML
     private Label key;
+
     private int MilkSale_ID;
 
     public void setClientsList() throws SQLException {
@@ -83,10 +87,13 @@ public class MilkSalesController implements Initializable {
     public void addMilkSale(MouseEvent mouseEvent) {
         MilkSale milkSale = new MilkSale();
         if (this.update) {
-
             if (milkSale.update()) {
-
-                if (clientsCombo.getValue() == null || quantityInput.getText().isEmpty() || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
+                if (
+                    clientsCombo.getValue() == null ||
+                    quantityInput.getText().isEmpty() ||
+                    priceOfSale.getText().isEmpty() ||
+                    operationDate.getValue() == null
+                ) {
                     displayAlert("Error", "Please Fill all fields ", Alert.AlertType.ERROR);
                 } else if (Float.parseFloat(priceOfSale.getText()) == 0) {
                     displayAlert("Error", "Price can't be null ", Alert.AlertType.ERROR);
@@ -99,17 +106,19 @@ public class MilkSalesController implements Initializable {
                     clear();
                     closePopUp(mouseEvent);
                     displayAlert("success", "Milk Sale Updated successfully", Alert.AlertType.INFORMATION);
-
                 }
             }
         } else {
-
-            if (clientsCombo.getValue() == null || quantityInput.getText().isEmpty() || priceOfSale.getText().isEmpty() || operationDate.getValue() == null) {
+            if (
+                clientsCombo.getValue() == null ||
+                quantityInput.getText().isEmpty() ||
+                priceOfSale.getText().isEmpty() ||
+                operationDate.getValue() == null
+            ) {
                 displayAlert("Error", "Please Fill all fields ", Alert.AlertType.ERROR);
             } else if (Float.parseFloat(priceOfSale.getText()) == 0 || Float.parseFloat(quantityInput.getText()) == 0) {
                 displayAlert("Error", "Price or quantity can not  be null ", Alert.AlertType.ERROR);
             } else {
-
                 milkSale.setQuantity(Float.parseFloat(quantityInput.getText()));
                 milkSale.setPrice(Float.parseFloat(priceOfSale.getText()));
                 milkSale.setClientId(clients.get(clientsCombo.getValue()));
@@ -146,15 +155,15 @@ public class MilkSalesController implements Initializable {
             }
         });
 
-//        animal = getAnimal(AnimalDetailsController.id_animal);
-//        this.MilkSale_ID = ID;
-//        header.setText("Update Milk Sale num :  " + ID);
-//        quantityInput.setText(Quantity + "");
-//        clientsCombo.setValue(client + "");
-//        priceOfSale.setText(price + "");
-//        operationDate.setValue(LocalDate.parse(operationdate + ""));
-//        key.setText("Update");
-//        add_update.setText("Update");
+        //        animal = getAnimal(AnimalDetailsController.id_animal);
+        //        this.MilkSale_ID = ID;
+        //        header.setText("Update Milk Sale num :  " + ID);
+        //        quantityInput.setText(Quantity + "");
+        //        clientsCombo.setValue(client + "");
+        //        priceOfSale.setText(price + "");
+        //        operationDate.setValue(LocalDate.parse(operationdate + ""));
+        //        key.setText("Update");
+        //        add_update.setText("Update");
     }
 
     private void clear() {
@@ -178,8 +187,6 @@ public class MilkSalesController implements Initializable {
                 milkSale.setPrice(rs.getFloat("price"));
                 milkSale.setClientId(rs.getInt("client_id"));
                 milkSale.setSale_date(rs.getDate("sale_date"));
-
-
             }
         } catch (Exception e) {
             displayAlert("Error", e.getMessage(), Alert.AlertType.ERROR);

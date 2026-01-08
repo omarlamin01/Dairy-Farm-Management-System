@@ -1,7 +1,19 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
+import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
+
 import com.dfms.dairy_farm_management_system.models.Routine;
 import com.dfms.dairy_farm_management_system.models.RoutineDetails;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,26 +25,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.connection.DBConfig.getConnection;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.closePopUp;
-import static com.dfms.dairy_farm_management_system.helpers.Helper.displayAlert;
-
 public class UpdateRoutineController {
+
     @FXML
     TextField routineName;
+
     @FXML
     TextArea routineNotes;
+
     @FXML
     VBox foodList;
+
     @FXML
     Button routineBtn;
 
@@ -53,12 +56,16 @@ public class UpdateRoutineController {
                     CheckBox checkBox = (CheckBox) ((VBox) ((HBox) box).getChildren().get(0)).getChildren().get(1);
                     if (checkBox.isSelected()) {
                         String foodName = checkBox.getText();
-                        String foodQuantity = ((TextField) (((VBox) ((HBox) box).getChildren().get(1)).getChildren().get(1))).getText();
-                        String foodPeriod = ((ComboBox<String>) (((VBox) ((HBox) box).getChildren().get(2)).getChildren().get(1))).getValue();
+                        String foodQuantity = (
+                            (TextField) (((VBox) ((HBox) box).getChildren().get(1)).getChildren().get(1))
+                        ).getText();
+                        String foodPeriod = (
+                            (ComboBox<String>) (((VBox) ((HBox) box).getChildren().get(2)).getChildren().get(1))
+                        ).getValue();
 
                         RoutineDetails routineDetails1 = new RoutineDetails();
 
-//                        routineDetails1.setStock_id(getFoods().get(foodName));
+                        //                        routineDetails1.setStock_id(getFoods().get(foodName));
                         routineDetails1.setRoutine_id(routine.getId());
                         routineDetails1.setQuantity(Float.parseFloat(foodQuantity));
                         routineDetails1.setFeeding_time(foodPeriod);
@@ -94,7 +101,7 @@ public class UpdateRoutineController {
                 HashMap<String, RoutineDetails> detailsHashMap = new HashMap<>();
                 ArrayList<String> routinesFeedsNames = new ArrayList<>();
 
-                for (RoutineDetails routineDetails: details) {
+                for (RoutineDetails routineDetails : details) {
                     detailsHashMap.put(routineDetails.getStock_name(), routineDetails);
                     routinesFeedsNames.add(routineDetails.getStock_name());
                 }
@@ -103,7 +110,7 @@ public class UpdateRoutineController {
                 System.out.println(routinesFeedsNames);
                 System.out.println(getFoods());
 
-                for (String foodName: getFoods()) {
+                for (String foodName : getFoods()) {
                     if (routinesFeedsNames.contains(foodName)) {
                         System.out.println("routine feeds contains " + foodName);
                         addSelectedItem(foodName, detailsHashMap.get(foodName));
@@ -112,9 +119,8 @@ public class UpdateRoutineController {
                     }
                 }
             }
-        }
-        else {
-            for (String foodName: getFoods()) {
+        } else {
+            for (String foodName : getFoods()) {
                 addItem(foodName);
             }
         }

@@ -25,5 +25,4 @@ module com.dfms.dairy_farm_management_system {
 
     opens com.dfms.dairy_farm_management_system.models to javafx.base;
     exports com.dfms.dairy_farm_management_system.models;
-
 }

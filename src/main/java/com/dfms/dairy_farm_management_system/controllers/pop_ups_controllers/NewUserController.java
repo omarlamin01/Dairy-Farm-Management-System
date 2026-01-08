@@ -1,7 +1,13 @@
 package com.dfms.dairy_farm_management_system.controllers.pop_ups_controllers;
 
+import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
+
 import com.dfms.dairy_farm_management_system.connection.DBConfig;
 import com.dfms.dairy_farm_management_system.models.User;
+import java.net.URL;
+import java.sql.*;
+import java.util.Collections;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,14 +18,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-import java.net.URL;
-import java.sql.*;
-import java.util.Collections;
-import java.util.ResourceBundle;
-
-import static com.dfms.dairy_farm_management_system.helpers.Helper.*;
-
 public class NewUserController implements Initializable {
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.setGenderComboItems();
@@ -34,20 +34,27 @@ public class NewUserController implements Initializable {
 
     @FXML
     TextField lastNameInput;
+
     @FXML
     TextField firstNameInput;
+
     @FXML
     TextField adressInput;
+
     @FXML
     TextField emailInput;
+
     @FXML
     TextField phoneNumberInput;
+
     @FXML
     ComboBox<String> genderCombo;
+
     @FXML
     ComboBox<String> roleCombo;
 
     ObservableList<String> rolesList;
+
     @FXML
     private TextField cininput;
 
@@ -120,21 +127,23 @@ public class NewUserController implements Initializable {
 
     //check if all inputs are filled
     public boolean inputesAreEmpty() {
-        if (this.firstNameInput.getText().isEmpty()
-                || this.lastNameInput.getText().isEmpty()
-                || this.emailInput.getText().isEmpty()
-                || this.phoneNumberInput.getText().isEmpty()
-                || this.adressInput.getText().isEmpty()
-                || this.cininput.getText().isEmpty()
-                || this.genderCombo.getValue() == null
-                || this.roleCombo.getValue() == null)
-            return true;
+        if (
+            this.firstNameInput.getText().isEmpty() ||
+            this.lastNameInput.getText().isEmpty() ||
+            this.emailInput.getText().isEmpty() ||
+            this.phoneNumberInput.getText().isEmpty() ||
+            this.adressInput.getText().isEmpty() ||
+            this.cininput.getText().isEmpty() ||
+            this.genderCombo.getValue() == null ||
+            this.roleCombo.getValue() == null
+        ) return true;
         return false;
     }
 
     //check if email, cin and phone are unique
     public boolean isUnique(String email, String cin, String phone) {
-        String query = "SELECT * FROM `users` WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
+        String query =
+            "SELECT * FROM `users` WHERE email = '" + email + "' OR cin = '" + cin + "' OR phone = '" + phone + "'";
         try {
             statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
